@@ -1,5 +1,4 @@
 # Inizializzo e creo il database del GDPR
-
 import sqlite3
 
 connesione = sqlite3.connect('POSD_Knowledge_Base.db')
