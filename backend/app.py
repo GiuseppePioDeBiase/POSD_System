@@ -19,11 +19,12 @@ def get_posd_knowledge_base():
 @app.route('/api/posd-knowledge-base/strategies=<string:strategies>', methods=['GET'])
 def get_article_strategies(strategies):
     connessione = utils.getConnssione()
-    query = 'SELECT * FROM GDPR_Patterns WHERE Strategies LIKE  ?'
+    query = 'SELECT * FROM GDPR_Patterns WHERE Strategies LIKE  ?' #rivedere la query
     table = connessione.execute(query, (strategies,)).fetchall()
     connessione.close()
 
     results = utils.process_query_results(table)
+
     return jsonify(results)
 
 if __name__ == '__main__':
