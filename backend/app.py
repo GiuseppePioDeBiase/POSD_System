@@ -13,12 +13,17 @@ def get_posd_knowledge_base():
     table = connessione.execute('SELECT * FROM GDPR_Patterns').fetchall()
     connessione.close()
 
-    results = []
-    for row in table:
-        result_row = [value for value in row]
-        results.append(result_row)
+    results = utils.process_query_results(table)
+    return jsonify(results)
 
-    # Restituire i risultati come JSON
+@app.route('/api/posd-knowledge-base/strategies=<string:strategies>', methods=['GET'])
+def get_article_strategies(strategies):
+    connessione = utils.getConnssione()
+    query = 'SELECT * FROM GDPR_Patterns WHERE Strategies LIKE  ?'
+    table = connessione.execute(query, (strategies,)).fetchall()
+    connessione.close()
+
+    results = utils.process_query_results(table)
     return jsonify(results)
 
 if __name__ == '__main__':

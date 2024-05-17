@@ -7,3 +7,9 @@ def getConnssione():
     connessione = sqlite3.connect(db_path)
     connessione.row_factory = sqlite3.Row
     return connessione
+def process_query_results(table):
+    results = []
+    for row in table:
+        result_row = [value for value in row]
+        results.append(result_row)
+    return results
