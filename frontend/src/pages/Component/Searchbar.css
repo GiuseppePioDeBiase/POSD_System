@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centra verticalmente */
+}
+
+.logo {
+  border-top-left-radius: 32px !important;
+  border-bottom-left-radius: 32px !important;
+  background-color: #ffffff;
+}
+
+.logo img {
+  width: 50px;
+  height: auto;
+}
+
+.input-group-prepend {
+  margin-right: -2px !important;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #ced4da;
+  outline: 0;
+  box-shadow: 0 0 0 0 !important;
+}
+
+.form-control {
+  height: 70px;
+  font-size: 14px;
+}
+
+.input-group-append {
+  margin-left: -2px !important;
+}
