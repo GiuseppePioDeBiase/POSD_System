@@ -1,2 +1,3 @@
-vite + react
-bootstrap
+React + Vite
+Bootstrap
+Tailwind CSS
