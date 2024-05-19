@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const News = () => {
@@ -18,7 +18,7 @@ const News = () => {
     fetchNews();
 
     // Imposta un intervallo per aggiornare le notizie ogni tot secondi (ad esempio ogni 5 minuti)
-    const intervalId = setInterval(fetchNews, 300000); // 300000 millisecondi = 5 minuti
+    const intervalId = setInterval(fetchNews, 300000); // 300000 millisecondi = 5 minuti  //{newsItem.content} occhio
 
     // Pulisci l'intervallo quando il componente viene smontato
     return () => clearInterval(intervalId);
@@ -28,10 +28,10 @@ const News = () => {
     <div>
       <h2 className=' text-right text-xl font-bold text-black bg-white shadow-md rounded-lg p-4 mt-4'>Ultime Notizie</h2>
       {news.map(newsItem => (
-        <div key={newsItem.id}>
-          <h3>{newsItem.title}</h3>
-          <p>{newsItem.content}</p>
-          {newsItem.imageUrl && <img src={newsItem.imageUrl} alt={newsItem.title} />}
+        <div  key={newsItem.id}>
+
+          <h3 className='bg-black '>{newsItem.title}</h3>
+          <p className=' text-right text-xl font-bold text-black bg-white shadow-md rounded-lg p-4 mt-4'> palle</p>
         </div>
       ))}
     </div>

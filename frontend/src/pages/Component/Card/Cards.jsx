@@ -1,5 +1,5 @@
 /* Cards.jsx */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Card from './Card';
 import axios from 'axios';
 
@@ -20,7 +20,7 @@ function Cards() {
     fetchData();
   }, []);
 
-  if (error) {
+  if (error) {  
     // Print errors if any
     return <div>An error occurred: {error.message}</div>;
   }

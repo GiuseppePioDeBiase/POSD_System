@@ -1,6 +1,7 @@
 /*NavBar.jsx*/
 import React, { useState } from 'react';
 import './NavBar.css';
+import {Link} from "react-router-dom";
 
 
 function NavBar() {
@@ -33,50 +34,50 @@ function NavBar() {
               className={activeMenuItem === 0 ? 'active' : ''}
               onClick={() => handleMenuItemClick(0)}
             >
-              <a href="#">
+              <Link to="/Home">
                 <div className="icon"><ion-icon name="home-outline"></ion-icon></div>
                 <div className="text">Home</div>
-              </a>
+              </Link>
             </li>
             <li
               style={{ '--bg': '#f44336' }}
               className={activeMenuItem === 1 ? 'active' : ''}
               onClick={() => handleMenuItemClick(1)}
             >
-              <a href="#">
+              <Link to="/POSD">
                 <div className="icon"><ion-icon name="eye-outline"></ion-icon></div>
                 <div className="text">POSD</div>
-              </a>
+              </Link>
             </li>
             <li
               style={{ '--bg': '#e91e63' }}
               className={activeMenuItem === 2 ? 'active' : ''}
               onClick={() => handleMenuItemClick(2)}
             >
-              <a href="#">
+              <Link to="/Contatti">
                 <div className="icon"><ion-icon name="mail-outline"></ion-icon></div>
                 <div className="text">Contatti</div>
-              </a>
+              </Link>
             </li>
             <li
               style={{ '--bg': '#0fc70f' }}
               className={activeMenuItem === 3 ? 'active' : ''}
               onClick={() => handleMenuItemClick(3)}
             >
-              <a href="#">
+              <Link to="/Partecipa">
                 <div className="icon"><ion-icon name="hand-right-outline"></ion-icon></div>
                 <div className="text">Partecipa</div>
-              </a>
+              </Link>
             </li>
             <li
               style={{ '--bg': '#b145e9' }}
               className={activeMenuItem === 4 ? 'active' : ''}
               onClick={() => handleMenuItemClick(4)}
             >
-              <a href="#">
+              <Link to="Feedback">
                 <div className="icon"><ion-icon name="clipboard-outline"></ion-icon></div>
                 <div className="text">Feedback</div>
-              </a>
+              </Link>
             </li>
           </div>
           <div className="bottom">
