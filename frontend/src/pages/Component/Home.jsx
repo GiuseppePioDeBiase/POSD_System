@@ -1,10 +1,9 @@
 /*Home.jsx */
-import Cards from './Cards';
+import Cards from './Card/Cards';
 
 function Home (){
     return( 
-        <Cards />
-
+        <Cards/>
 );
 }
 export default Home;

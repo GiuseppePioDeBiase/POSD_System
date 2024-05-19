@@ -84,7 +84,7 @@ function NavBar() {
               <a href="#">
                 <div className="icon">
                   <div className="imgBx">
-                    <img src="Images\totti.jpeg" alt="Francesco Totti" />
+                    <img src="images\totti.jpeg" alt="Francesco Totti" />
                   </div>
                 </div>
                 <div className="text">Francesco Totti</div>

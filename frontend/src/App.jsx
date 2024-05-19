@@ -1,10 +1,10 @@
 /*App.jsx*/
 import React from 'react';
-import NavBar from './pages/Component/NavBar';
-import Searchbar from './pages/Component/Searchbar';
+import NavBar from './pages/Component/NavBar/NavBar.jsx';
+import Searchbar from './pages/Component/Searchbar/Searchbar.jsx';
 import Home from './pages/Component/Home';
 import News from './pages/Component/News';
-import './App.css'; // Assicurati di importare il CSS
+import './App.css';
 
 function App() {
   return (
