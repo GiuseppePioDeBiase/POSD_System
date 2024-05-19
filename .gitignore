@@ -3,3 +3,6 @@
 
 # Ignora la cartella di configurazione di IntelliJ IDEA
 .idea/
+
+# Ignora la cache di Python
+__pycache__/ 
