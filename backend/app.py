@@ -1,23 +1,19 @@
-from flask import Flask, jsonify
-from db import patternCollection
+from flask import Flask, request
+import db
 
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
-    collection = list(patternCollection.find({}, {'_id': False, 'Pattern': True, 'Description Pattern': True}).limit(7))
-    return jsonify(collection)
+def homePage():
+    return db.get_unique_PrivacyByDesign()
 
 @app.route('/api/posd-knowledge-base')
-def get_posd_knowledge_base():
-    collection = list(patternCollection.find({}, {'_id': False}))
-    return jsonify(collection) # da ordinare
+def showDB():
+    return db.get_posd_knowledge_base()
 
 @app.route('/api/posd-knowledge-base/strategies=<string:strategies>', methods=['GET'])
-def get_article_strategies(strategies):
-    query = {"Strategies": {"$regex": strategies, "$options": "i"}}  # Ricerca regex case-insensitive
-    collection = list(patternCollection.find(query, {'_id': False}))
-    return jsonify(collection) # da ordinare
+def patternsByStrategies(strategies):
+    return db.get_article_strategies(strategies)
 
 if __name__ == '__main__':
     app.run()
