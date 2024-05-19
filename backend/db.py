@@ -6,7 +6,6 @@ client = MongoClient('localhost', 27017)
 db = client['GDPR_Patterns']  # Nome del database
 patternCollection = db['Pattern']  # Uso della collezione Pattern
 
-
 def getPosdKnowledgeBase():
     collection = (patternCollection.find({}, {'_id': False}))
     return jsonify(list(collection))
