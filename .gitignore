@@ -1,0 +1,5 @@
+# Ignora la cartella virtuale .venv
+.venv/
+
+# Ignora la cache di Python
+__pycache__/
