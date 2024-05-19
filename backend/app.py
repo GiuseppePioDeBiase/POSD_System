@@ -1,19 +1,20 @@
-from flask import Flask, request
+from flask import Flask
 import db
 
 app = Flask(__name__)
 
 @app.route('/')
 def homePage():
-    return db.get_unique_PrivacyByDesign()
+    return db.getUniquePrivacyByDesign()
 
 @app.route('/api/posd-knowledge-base')
 def showDB():
-    return db.get_posd_knowledge_base()
+    return db.getPosdKnowledgeBase()
 
 @app.route('/api/posd-knowledge-base/strategies=<string:strategies>', methods=['GET'])
 def patternsByStrategies(strategies):
-    return db.get_article_strategies(strategies)
+    return db.getArticleStrategies(strategies)
 
 if __name__ == '__main__':
     app.run()
+    

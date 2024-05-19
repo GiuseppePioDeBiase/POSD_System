@@ -7,16 +7,16 @@ db = client['GDPR_Patterns']  # Nome del database
 patternCollection = db['Pattern']  # Uso della collezione Pattern
 
 
-def get_posd_knowledge_base():
+def getPosdKnowledgeBase():
     collection = (patternCollection.find({}, {'_id': False}))
     return jsonify(list(collection))
 
-def get_article_strategies(strategies):
+def getArticleStrategies(strategies):
     query = {"Strategies": {"$regex": strategies, "$options": "i"}}  # Ricerca regex case-insensitive
     collection = (patternCollection.find(query, {'_id': False}))
     return jsonify(list(collection))
 
-def get_unique_PrivacyByDesign():
+def getUniquePrivacyByDesign():
     unique_principles = {}
     all_documents = patternCollection.find({}, {'_id': False, 'Privacy By Design Principles': True})
 
