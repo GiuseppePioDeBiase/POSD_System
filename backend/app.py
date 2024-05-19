@@ -5,7 +5,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    collection = list(patternCollection.find({}, {'_id': False, 'Pattern': True, 'Description Pattern': True}).limit(7))
+    return jsonify(collection)
 
 @app.route('/api/posd-knowledge-base')
 def get_posd_knowledge_base():
