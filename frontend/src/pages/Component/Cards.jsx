@@ -1,9 +1,11 @@
 /*Cards.jsx */
-import React from 'react';
+import React, { useEffect } from 'react';
 import Card from './Card';
 import CardTransp from './CardTransp';
+import axios from 'axios';
 
 function Cards() {
+
   const cards = [
     { title: 'Card 1', description: 'Description for Card 1' },
     { title: 'Card 2', description: 'Description for Card 2' },
@@ -11,7 +13,6 @@ function Cards() {
     { title: 'Card 4', description: 'Description for Card 4' },
     { title: 'Card 5', description: 'Description for Card 5' },
     { title: 'Card 6', description: 'Description for Card 6' },
-    { title: 'Card 7', description: 'Description for Card 7' },
   ];
 
   return (
@@ -37,4 +38,6 @@ function Cards() {
   );
 }
 
+
 export default Cards;
+

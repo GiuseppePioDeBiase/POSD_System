@@ -22,6 +22,6 @@ def getUniquePrivacyByDesign():
     for document in all_documents:
         principles = document['Privacy By Design Principles'].split(', ')
         for principle in principles:
-            unique_principles[principle] = True
+            unique_principles[principle] = principle
 
     return jsonify(list(unique_principles.keys()))
