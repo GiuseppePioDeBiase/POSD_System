@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from flask import jsonify
+from bson.objectid import ObjectId
 
 # Variabili di inizializzazione di MongoDB
 client = MongoClient('localhost', 27017)
@@ -14,8 +15,6 @@ def getArticleStrategies(strategies):
     query = {"Strategies": {"$regex": strategies, "$options": "i"}}  # Ricerca regex case-insensitive
     collection = (patternCollection.find(query, {'_id': False}))
     return jsonify(list(collection))
-
-from bson.objectid import ObjectId
 
 def getUniquePrivacyByDesign():
     unique_principles = {}
@@ -34,5 +33,8 @@ def getUniquePrivacyByDesign():
             'principle': principle
         })
 
-    return jsonify(results)
+    # Restituisce i risultati e imposta la politica CORS
+    response = jsonify(results)
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5000')
 
+    return response
