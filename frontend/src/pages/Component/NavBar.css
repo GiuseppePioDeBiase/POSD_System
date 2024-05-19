@@ -1,4 +1,4 @@
-/*NavBar.css*/
+/* NavBar.css */
 @import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
 
 * {
@@ -9,7 +9,7 @@
 }
 
 :root {
-  --clr: #14161e;
+  --clr: #e4f1fe;
 }
 
 body {
@@ -27,27 +27,27 @@ body {
   overflow: hidden;
 }
 
-.sidebar.active{
+.sidebar.active {
   width: 300px;
 }
 
-.sidebar ul{
+.sidebar ul {
   position: relative;
   height: 100vh;
 }
 
-.sidebar ul li{
+.sidebar ul li {
   position: relative;
   list-style: none;
 }
 
-.sidebar ul li.active{
+.sidebar ul li.active {
   background: var(--clr);
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
 }
 
-.sidebar ul li.active::before{
+.sidebar ul li.active::before {
   content: '';
   top: -20px;
   right: 0;
@@ -59,7 +59,7 @@ body {
   background: transparent;
 }
 
-.sidebar ul li.active::after{
+.sidebar ul li.active::after {
   content: '';
   bottom: -20px;
   right: 0;
@@ -71,29 +71,29 @@ body {
   background: transparent;
 }
 
-.sidebar ul li.logo{
+.sidebar ul li.logo {
   margin-bottom: 50px;
 }
 
-.sidebar ul li.logo .icon{
+.sidebar ul li.logo .icon {
   font-size: 4em;
-  color: var(--clr)
+  color: var(--clr);
 }
 
-.sidebar ul li.logo .text{
+.sidebar ul li.logo .text {
   font: size 1.2em;
   font-weight: 500;
-  color: var(--clr)
+  color: var(--clr);
 }
 
-.sidebar ul li a{
+.sidebar ul li a {
   position: relative;
   display: flex;
   white-space: nowrap;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
-.sidebar ul li a .icon{
+.sidebar ul li a .icon {
   position: relative;
   display: flex;
   justify-content: center;
@@ -106,7 +106,7 @@ body {
   transition: 0.5s;
 }
 
-.sidebar ul li a .text{
+.sidebar ul li a .text {
   position: relative;
   height: 70px;
   display: flex;
@@ -119,20 +119,20 @@ body {
   transition: 0.5s;
 }
 
-.sidebar ul li.active a .icon{
+.sidebar ul li.active a .icon {
   color: #fff;
 }
 
-.sidebar ul li.active a .text{
+.sidebar ul li.active a .text {
   color: var(--bg);
 }
 
 .sidebar ul li:hover a .icon,
-.sidebar ul li:hover a .text{
-  color: var(--bg)
+.sidebar ul li:hover a .text {
+  color: var(--bg);
 }
 
-.sidebar ul li.active a .icon::before{
+.sidebar ul li.active a .icon::before {
   content: '';
   position: absolute;
   inset: 5px;
@@ -142,17 +142,17 @@ body {
   transition: 0.5;
 }
 
-.sidebar ul li:hover.active a .icon::before{
+.sidebar ul li:hover.active a .icon::before {
   background: #fff;
 }
 
-.bottom{
+.bottom {
   position: absolute;
   bottom: 0;
-  width: 100%
+  width: 100%;
 }
 
-.imgBx{
+.imgBx {
   position: relative;
   width: 40px;
   height: 40px;
@@ -160,7 +160,7 @@ body {
   overflow: hidden;
 }
 
-.imgBx img{
+.imgBx img {
   position: absolute;
   top: 0;
   left: 0;
@@ -169,7 +169,7 @@ body {
   object-fit: cover;
 }
 
-.menuToggle{
+.menuToggle {
   position: absolute;
   top: 20px;
   left: 10px;
@@ -183,11 +183,11 @@ body {
   align-items: center;
 }
 
-.textpointer
-{
-  color:#fff;
+.textpointer {
+  color: #fff;
 }
-.menuToggle::before{
+
+.menuToggle::before {
   content: '';
   position: absolute;
   width: 30px;
@@ -198,7 +198,7 @@ body {
   box-shadow: 0 9px 0 #000000;
 }
 
-.menuToggle::after{
+.menuToggle::after {
   content: '';
   position: absolute;
   width: 30px;
@@ -208,24 +208,24 @@ body {
   transition: 0.5s;
 }
 
-.menuToggle.active::before
-{
+.menuToggle.active::before {
   transform: translateY(0px) rotate(45deg);
   box-shadow: 0 0 0 #ffffff;
 }
 
-.menuToggle.active::after
-{
+.menuToggle.active::after {
   transform: translateY(0px) rotate(315deg);
 }
 
 .container {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .input-group {
-  margin-top: 20px; 
+  margin-top: 20px;
+  margin-left: 15%; /* Sposta l'input group a destra */
 }
 
 .logo {
@@ -235,8 +235,8 @@ body {
 }
 
 .logo img {
-  width: 50px; 
-  height: auto; 
+  width: 50px;
+  height: auto;
 }
 
 .input-group-prepend {
@@ -244,7 +244,7 @@ body {
 }
 
 .form-control:focus {
-  color: #495057; 
+  color: #495057;
   background-color: #fff;
   border-color: #ced4da;
   outline: 0;
@@ -252,9 +252,8 @@ body {
 }
 
 .form-control {
- 
-  height: 70px; /* Imposta l'altezza desiderata */
-  font-size: 14px; /* Imposta la dimensione del testo desiderata */
+  height: 70px;
+  font-size: 14px;
 }
 
 .searchbar {
@@ -262,4 +261,3 @@ body {
   border-bottom-right-radius: 32px !important;
   background-color: #fff;
 }
-
