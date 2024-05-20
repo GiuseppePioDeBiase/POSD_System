@@ -1,50 +1,19 @@
-import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import Card from './Card';
-import axios from 'axios';
+/*Card.jsx */
+import PropTypes from 'prop-types';
 
-function Cards() {
-  const [error, setError] = useState(null);
-  const [titolo, setTitolo] = useState([]);
-  const history = useHistory();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:5000');
-        setTitolo(response.data); // Assuming your data property is "data"
-      } catch (error) {
-        setError(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const handleCardClick = (title) => {
-    history.push(`/detail?title=${encodeURIComponent(title)}`);
-  };
-
-  if (error) {
-    // Print errors if any
-    return <div>An error occurred: {error.message}</div>;
-  }
-
+const Card = ({ title, description, className }) => {
   return (
-    <div className="container mx-auto mt-5 p-6 flex justify-center">
-      <div className="grid grid-cols-3 gap-6">
-        {titolo.map((card, index) => (
-          <div key={index} onClick={() => handleCardClick(card.principle)}>
-            <Card
-              title={card.principle}
-              description=""
-              className="w-full h-40 cursor-pointer"
-            />
-          </div>
-        ))}
-      </div>
+    <div className={`bg-white shadow-md rounded-lg p-4 hover:bg-gray-100 cursor-pointer ${className}`}>
+      <h2 className="text-xl font-bold">{title}</h2>
+      <p className="mt-2">{description}</p>
     </div>
   );
-}
+};
 
-export default Cards;
+Card.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  className: PropTypes.string
+};
+
+export default Card;
