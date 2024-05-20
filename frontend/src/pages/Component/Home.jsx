@@ -1,5 +1,5 @@
 /*Home.jsx */
-import Cards from '../Card/Cards.jsx';
+import Cards from './Card/Cards';
 
 
 function Home (){
