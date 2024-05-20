@@ -19,7 +19,7 @@ function App() {
       <News/>
       </div>
         <Routes>
-            <Route path="/Home" element={<Home />}/>
+            <Route path="/" element={<Home />}/>
             <Route path="/Feedback" element={<Feedback/>}/>
             <Route path="/Contatti" element={<Contatti />}/>
             <Route path="/POSD" element={<POSD/>}/>

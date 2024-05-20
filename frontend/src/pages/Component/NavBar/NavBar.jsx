@@ -34,7 +34,7 @@ function NavBar() {
               className={activeMenuItem === 0 ? 'active' : ''}
               onClick={() => handleMenuItemClick(0)}
             >
-              <Link to="/Home">
+              <Link to="/">
                 <div className="icon"><ion-icon name="home-outline"></ion-icon></div>
                 <div className="text">Home</div>
               </Link>
