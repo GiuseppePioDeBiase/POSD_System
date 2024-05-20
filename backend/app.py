@@ -5,11 +5,9 @@ import db
 app = Flask(__name__)
 CORS(app)
 
-
-@app.route('/', methods=['GET'])
+@app.route('/api/privacybydesign', methods=['GET'])
 def homePage():
-    return db.getUniquePrivacyByDesign()
-
+    return db.getPrivacyByDesign()
 
 @app.route('/api/posd-knowledge-base')
 def showDB():

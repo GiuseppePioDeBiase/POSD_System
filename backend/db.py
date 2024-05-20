@@ -6,6 +6,7 @@ from bson.objectid import ObjectId
 client = MongoClient('localhost', 27017)
 db = client['GDPR_Patterns']  # Nome del database
 patternCollection = db['Pattern']  # Uso della collezione Pattern
+privacyByDesign = db['PrivacyByDesign']
 
 def getPosdKnowledgeBase():
     collection = (patternCollection.find({}, {'_id': False}))
@@ -16,21 +17,6 @@ def getArticleStrategies(strategies):
     collection = (patternCollection.find(query, {'_id': False}))
     return jsonify(list(collection))
 
-def getUniquePrivacyByDesign():
-    unique_principles = {}
-    all_documents = patternCollection.find({}, {'_id': True, 'Privacy By Design Principles': True})
-
-    for document in all_documents:
-        doc_id = str(document['_id'])
-        principles = document['Privacy By Design Principles'].split(', ')
-        for principle in principles:
-            unique_principles[principle] = str(unique_principles.get(principle, ObjectId()))
-
-    results = []
-    for principle, unique_id in unique_principles.items():
-        results.append({
-            '_id': unique_id,
-            'principle': principle
-        })
-
-    return jsonify(list(results))
+def getPrivacyByDesign():
+    collection = (privacyByDesign.find({}, {'_id': False}))
+    return jsonify(list(collection))
