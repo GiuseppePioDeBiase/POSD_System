@@ -12,11 +12,7 @@ function Cards() {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://127.0.0.1:5000');
-<<<<<<< Updated upstream
         setPrivacyByDesign(response.data);
-=======
-        setTitolo(response.title); 
->>>>>>> Stashed changes
       } catch (error) {
         setError(error);
       }
@@ -35,15 +31,9 @@ function Cards() {
         {PrivacyByDesigns.slice(0, 6).map((card, index) => (
           <Card
             key={index}
-<<<<<<< Updated upstream
             title={PrivacyByDesigns[index].title}
             description={PrivacyByDesigns[index].description}
             className="w-full h-full"
-=======
-            title={card.titolo}
-            description=""
-            className="w-full h-40"
->>>>>>> Stashed changes
           />
         ))}
         {PrivacyByDesigns[6] && (

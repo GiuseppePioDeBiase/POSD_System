@@ -1,10 +1,10 @@
 from pymongo import MongoClient
 from flask import jsonify
+from bson.objectid import ObjectId
 
 # Variabili di inizializzazione di MongoDB
 client = MongoClient('localhost', 27017)
 db = client['GDPR_Patterns']  # Nome del database
-
 patternCollection = db['Pattern']  # Uso della collezione Pattern
 privacyByDesign = db['PrivacyByDesign']
 
