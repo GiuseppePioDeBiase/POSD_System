@@ -5,7 +5,7 @@ import db
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/api/privacybydesign', methods=['GET'])
+@app.route('/', methods=['GET'])
 def homePage():
     return db.getPrivacyByDesign()
 
