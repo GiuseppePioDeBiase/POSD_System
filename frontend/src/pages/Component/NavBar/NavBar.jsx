@@ -34,7 +34,7 @@ function NavBar() {
               className={activeMenuItem === 0 ? 'active' : ''}
               onClick={() => handleMenuItemClick(0)}
             >
-              <Link to="/Home">
+              <Link to="/">
                 <div className="icon"><ion-icon name="home-outline"></ion-icon></div>
                 <div className="text">Home</div>
               </Link>
@@ -92,10 +92,10 @@ function NavBar() {
               </a>
             </li>
             <li style={{ '--bg': '#333' }}>
-              <a href="#">
+              <Link to="/Login">
                 <div className="icon"><ion-icon name="log-in-outline"></ion-icon></div>
                 <div className="text">Login</div>
-              </a>
+              </Link>
             </li>
           </div>
         </ul>
