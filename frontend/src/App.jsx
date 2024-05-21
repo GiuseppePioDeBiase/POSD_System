@@ -11,6 +11,12 @@ import POSD from "./pages/Component/POSD.jsx";
 //import Login from "./pages/Component/PagineMenu/Login.jsx"
 //import Registrazione from "./pages/Component/PagineMenu/Registrazione.jsx";
 import Registrazione from "./pages/Component/PagineMenu/Registrazione.jsx";
+import Full from "./pages/Component/Full.jsx";
+
+
+
+
+
 function App() {
   return (
 
@@ -27,6 +33,7 @@ function App() {
             <Route path="/Contatti" element={<Contatti />}/>
             <Route path="/POSD" element={<POSD/>}/>
             <Route path="/Registrazione" element={<Registrazione/>}/>
+            <Route path="/Full=:title"  element={<Full />}/>
         </Routes>
 
     </div>
