@@ -3,7 +3,7 @@ from flask import jsonify
 
 # Variabili di inizializzazione di MongoDB
 client = MongoClient('localhost', 27017)
-db = client['GDPR_Patterns']  # Nome del database
+db = client['POSD_System']  # Nome del database
 
 patternCollection = db['Pattern']  # Uso della collezione Pattern
 privacyByDesign = db['PrivacyByDesign']
@@ -19,4 +19,9 @@ def getArticleStrategies(strategies):
 
 def getPrivacyByDesign():
     collection = (privacyByDesign.find({}, {'_id': False}))
+    return jsonify(list(collection))
+
+def getPatternByPrivacyByDesign(privacyByDesign):
+    query = {"Privacy By Design Principles": {"$regex": privacyByDesign, "$options": "i"}}
+    collection = (patternCollection.find(query, {'_id': False}))
     return jsonify(list(collection))
