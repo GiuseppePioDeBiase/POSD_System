@@ -6,8 +6,11 @@ import Home from './pages/Component/Home';
 import News from './pages/Component/News';
 import './App.css';
 import Feedback from "./pages/Component/Feedback.jsx";
-import Contatti from "./pages/Component/Contatti.jsx"
-import POSD from "./pages/Component/POSD.jsx"
+import Contatti from "./pages/Component/Contatti.jsx";
+import POSD from "./pages/Component/POSD.jsx";
+//import Login from "./pages/Component/PagineMenu/Login.jsx"
+//import Registrazione from "./pages/Component/PagineMenu/Registrazione.jsx";
+import Registrazione from "./pages/Component/PagineMenu/Registrazione.jsx";
 function App() {
   return (
 
@@ -23,6 +26,7 @@ function App() {
             <Route path="/Feedback" element={<Feedback/>}/>
             <Route path="/Contatti" element={<Contatti />}/>
             <Route path="/POSD" element={<POSD/>}/>
+            <Route path="/Registrazione" element={<Registrazione/>}/>
         </Routes>
 
     </div>

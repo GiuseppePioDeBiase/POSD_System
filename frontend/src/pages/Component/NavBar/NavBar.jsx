@@ -1,8 +1,7 @@
 /*NavBar.jsx*/
 import React, { useState } from 'react';
 import './NavBar.css';
-import {Link} from "react-router-dom";
-
+import { Link } from "react-router-dom";
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -85,22 +84,21 @@ function NavBar() {
               <a href="#">
                 <div className="icon">
                   <div className="imgBx">
-                    <img src="images\totti.jpeg" alt="Francesco Totti" />
+                    <img src="images/totti.jpeg" alt="Francesco Totti" />
                   </div>
                 </div>
                 <div className="text">Francesco Totti</div>
               </a>
             </li>
             <li style={{ '--bg': '#333' }}>
-              <a href="#">
+              <Link to="/Registrazione">
                 <div className="icon"><ion-icon name="log-in-outline"></ion-icon></div>
-                <div className="text">Login</div>
-              </a>
+                <div className="text">Registrazione</div>
+              </Link>
             </li>
           </div>
         </ul>
       </div>
-  
     </React.Fragment>
   );
 }
