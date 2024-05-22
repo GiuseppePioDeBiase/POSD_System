@@ -10,9 +10,7 @@ const Card = ({title, description, className}) => {
        <Link to={title}/>;
     };
 
-
     return (
-
         <div className={`bg-white shadow-md rounded-lg p-4 hover:bg-gray-100 cursor-pointer ${className}`}
              onClick={handleCardClick}>
             <h2 className="text-xl font-bold">{title}</h2>

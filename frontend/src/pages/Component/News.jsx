@@ -31,7 +31,7 @@ const News = () => {
         <div  key={newsItem.id}>
 
           <h3 className='bg-black '>{newsItem.title}</h3>
-          <p className=' text-right text-xl font-bold text-black bg-white shadow-md rounded-lg p-4 mt-4'> palle</p>
+          <p className=' text-right text-xl font-bold text-black bg-white shadow-md rounded-lg p-4 mt-4'></p>
         </div>
       ))}
     </div>

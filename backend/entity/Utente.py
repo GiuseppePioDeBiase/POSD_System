@@ -4,8 +4,8 @@ from flask import request, jsonify
 import re
 
 # Variabili di inizializzazione di MongoDB
-client = MongoClient('localhost', 27017)
-db = client['POSD_System']  # Nome del database
+conn = MongoClient('localhost', 27017)
+db = conn['POSD_System']  # Nome del database
 utenti = db['Utenti'] # Nome della collezione
 
 class Utente:
@@ -16,16 +16,16 @@ class Utente:
         self.email = email
         self.password = generate_password_hash(password)  # Hash della password per la sicurezza
 
-    # La funzione to_json è un metodo che converte l'istanza di un oggetto in un dizionario utile per serializzare un JSON
-    def to_json(self):
-        return {
-            "id": self.id,
-            "nome": self.nome,
-            "cognome": self.cognome,
-            "email": self.email,
-            "password": self.password
-        }
 
+# La funzione to_json è un metodo che converte l'istanza di un oggetto in un dizionario utile per serializzare un JSON
+def to_json(self):
+    return {
+        "id": self.id,
+        "nome": self.nome,
+        "cognome": self.cognome,
+        "email": self.email,
+        "password": self.password
+    }
 def registrati():
     data = request.get_json()  # Ottieni i dati dal corpo della richiesta
     nome = data.get('nome')
@@ -76,3 +76,5 @@ def valida_password(password):
     if not re.search(r"[0-9]", password):
         return "La password deve contenere almeno un numero"
     return password  # La password è valida
+
+

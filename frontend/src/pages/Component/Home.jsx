@@ -7,9 +7,6 @@ function Home() {
   const [error, setError] = useState(null);
   const [PrivacyByDesigns, setPrivacyByDesign] = useState([]);
 
-
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,14 +30,12 @@ function Home() {
       <div className="grid grid-cols-3 gap-6">
         {PrivacyByDesigns.slice(0, 6).map((card, index) => {
 
-
           return (
             <Card
               key={index}
               title={PrivacyByDesigns[index].title}
               description={PrivacyByDesigns[index].description}
               className="w-full h-full"
-
             />
           );
         })}
@@ -56,10 +51,8 @@ function Home() {
             <div className="w-full h-40"></div>
           </>
         )}
-
       </div>
     </div >
-
   );
 }
 

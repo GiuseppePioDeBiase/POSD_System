@@ -1,7 +1,7 @@
 function POSD(){
     return(
         <div>
-            <p className='bg-black text-white'>DIO</p>
+            <p className='bg-black text-white'></p>
         </div>
     );
 }
