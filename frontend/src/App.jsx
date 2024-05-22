@@ -33,7 +33,7 @@ function App() {
             <Route path="/Contatti" element={<Contatti />}/>
             <Route path="/POSD" element={<POSD/>}/>
             <Route path="/Registrazione" element={<Registrazione/>}/>
-            <Route path="/Full=:title"  element={<Full />}/>
+            <Route path="/Full=:variable"  element={<Full />}/>
         </Routes>
 
     </div>

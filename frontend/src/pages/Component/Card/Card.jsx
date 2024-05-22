@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 
 
+
 // eslint-disable-next-line react/prop-types
-const Card = ({title, description, className}) => {
+const Card = ({title, description, className,}) => {
 
     const handleCardClick = () => {
-       <Link to={title}/>;
+       alert(title)
     };
 
     return (

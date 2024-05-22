@@ -21,10 +21,10 @@ function NavBar() {
       <div className={`sidebar ${menuOpen ? 'active' : ''}`}>
         <ul>
           {/* Sidebar content */}
-          <li className="logo" style={{ '--bg': '#333' }}>
-            <a href="#">
+          <li className="logo bg-transparent">
+
               <div className="icon">.</div>
-            </a>
+
           </li>
 
           <div className="Menulist">
@@ -81,14 +81,14 @@ function NavBar() {
           </div>
           <div className="bottom">
             <li style={{ '--bg': '#333' }}>
-              <a href="#">
+              <Link to={"/Profilo"}>
                 <div className="icon">
                   <div className="imgBx">
-                    <img src="images/totti.jpeg" alt="Francesco Totti" />
+                      <img src="images/totti.jpeg" alt="Francesco Totti"/>
                   </div>
                 </div>
                 <div className="text">Francesco Totti</div>
-              </a>
+               </Link>
             </li>
             <li style={{ '--bg': '#333' }}>
               <Link to="/Registrazione">
