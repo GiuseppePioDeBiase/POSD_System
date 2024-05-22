@@ -1,19 +1,23 @@
-/*Card.jsx */
+
 import PropTypes from 'prop-types';
-import {Link} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-
-
-// eslint-disable-next-line react/prop-types
-const Card = ({title, description, className,}) => {
+const Card = ({ ID, title, description, className, onClick }) => {
+    const navigate = useNavigate();
 
     const handleCardClick = () => {
-       alert(title)
+        if (onClick) {
+            onClick();
+        } else {
+            navigate(`/Full/${ID}`, { state: { title, description } });
+        }
     };
 
     return (
-        <div className={`bg-white shadow-md rounded-lg p-4 hover:bg-gray-100 cursor-pointer ${className}`}
-             onClick={handleCardClick}>
+        <div
+            className={`bg-white shadow-md rounded-lg p-4 hover:bg-gray-100 cursor-pointer ${className}`}
+            onClick={handleCardClick}
+        >
             <h2 className="text-xl font-bold">{title}</h2>
             <p className="mt-2">{description}</p>
         </div>
@@ -21,9 +25,11 @@ const Card = ({title, description, className,}) => {
 };
 
 Card.propTypes = {
+    ID: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    onClick: PropTypes.func,
 };
 
 export default Card;
