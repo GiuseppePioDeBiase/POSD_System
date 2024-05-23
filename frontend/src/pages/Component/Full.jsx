@@ -6,22 +6,21 @@ import Card from './Card/Card.jsx';
 const Full = () => {
     const location = useLocation();
     const { title } = location.state || {};
-    const [patternTitles, setPatternTitles] = useState([]);
+    const [patternDetails, setPatternDetails] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         if (title) {
-            const fetchPatternTitles = async () => {
+            const fetchPatternDetails = async () => {
                 try {
                     const response = await axios.get(`http://localhost:5000/api/pattern/privacybydesign=${encodeURIComponent(title)}`);
-                    const titles = response.data.map(pattern => pattern.Pattern);
-                    setPatternTitles(titles);
+                    setPatternDetails(response.data);
                 } catch (error) {
                     setError(error);
                 }
             };
 
-            fetchPatternTitles();
+            fetchPatternDetails();
         }
     }, [title]);
 
@@ -37,11 +36,11 @@ const Full = () => {
                 </div>
             )}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {patternTitles.map((patternTitle, index) => (
+                {patternDetails.map((pattern, index) => (
                     <Card
                         key={index}
-                        title={patternTitle}
-                        description=""
+                        title={pattern.Pattern}
+                        description={pattern['Description Pattern']}
                         className="w-full h-full"
                     />
                 ))}

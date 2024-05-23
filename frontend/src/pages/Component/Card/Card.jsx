@@ -8,7 +8,7 @@ const Card = ({ ID, title, description, className, onClick }) => {
         if (onClick) {
             onClick();
         } else {
-            navigate(`/Full/${ID}`, { state: { title, description } });
+            navigate(`/Full/${title}`, { state: { title, description } });
         }
     };
 
