@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Card from './Card.jsx';
 
 const Full = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const { title } = location.state || {};
     const [patternDetails, setPatternDetails] = useState([]);
     const [error, setError] = useState(null);
@@ -24,6 +25,10 @@ const Full = () => {
         }
     }, [title]);
 
+    const handleCardClick = (pattern) => {
+        navigate(`/Information/${pattern.Pattern}`, { state: { ...pattern } });
+    };
+
     if (error) {
         return <div>An error occurred: {error.message}</div>;
     }
@@ -42,6 +47,7 @@ const Full = () => {
                         title={pattern.Pattern}
                         description={pattern['Description Pattern']}
                         className="w-full h-full"
+                        onClick={() => handleCardClick(pattern)}
                     />
                 ))}
             </div>
