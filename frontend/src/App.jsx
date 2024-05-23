@@ -14,19 +14,9 @@ function App() {
   const [patterns, setPatterns] = useState([]);
 
   useEffect(() => {
-    const fetchPatterns = async () => {
-      const data = [
-        { title: 'Pattern 1', description: 'Description 1' },
-        { title: 'Pattern 2', description: 'Description 2' },
-        { title: 'Pattern 3', description: 'Description 3' },
-        { title: 'Pattern 4', description: 'Description 4' },
-        { title: 'Pattern 5', description: 'Description 5' },
-      ];
-      setPatterns(data);
-    };
-
-    fetchPatterns();
-  }, []);
+    const initialPatterns = [];
+    setPatterns(initialPatterns);
+  },[]);
 
   return (
     <Router>

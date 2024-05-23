@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
-const Card = ({ ID, title, description, className, onClick }) => {
+const Card = ({title, description, className, onClick }) => {
     const navigate = useNavigate();
 
     const handleCardClick = () => {

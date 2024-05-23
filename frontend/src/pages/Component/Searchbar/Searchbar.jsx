@@ -8,7 +8,7 @@ function Searchbar() {
         <div className="input-group-prepend">
           <span className="input-group-text logo">
             <Link to={"/"}>
-               <img src="Images/logo.png" alt="Logo"/>
+               <img src="images/logo.png" alt="Logo"/>
             </Link>
 
           </span>
