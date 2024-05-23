@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './pages/Component/NavBar/NavBar.jsx';
 import Searchbar from './pages/Component/Searchbar.jsx';
-import Home from './pages/Component/Home';
+import Home from './pages/Component/PagineMenu/Home.jsx';
 import './App.css';
-import Feedback from "./pages/Component/Feedback.jsx";
-import Contatti from "./pages/Component/Contatti.jsx";
-import POSD from "./pages/Component/POSD.jsx";
+import Feedback from "./pages/Component/PagineMenu/Feedback.jsx";
+import Contatti from "./pages/Component/PagineMenu/Contatti.jsx";
+import POSD from "./pages/Component/PagineMenu/POSD.jsx";
 import Registrazione from "./pages/Component/PagineMenu/Registrazione.jsx";
 import Full from "./pages/Component/Full.jsx";
 import { useState, useEffect } from 'react';
