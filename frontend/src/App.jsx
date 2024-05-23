@@ -8,6 +8,7 @@ import Contatti from "./pages/Component/PagineMenu/Contatti.jsx";
 import POSD from "./pages/Component/PagineMenu/POSD.jsx";
 import Registrazione from "./pages/Component/PagineMenu/Registrazione.jsx";
 import Full from "./pages/Component/Full.jsx";
+import Information from "./pages/Component/Information.jsx";
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
   useEffect(() => {
     const initialPatterns = [];
     setPatterns(initialPatterns);
-  },[]);
+  }, []);
 
   return (
     <Router>
@@ -32,6 +33,7 @@ function App() {
           <Route path="/POSD" element={<POSD />} />
           <Route path="/Registrazione" element={<Registrazione />} />
           <Route path="/Full/:title" element={<Full patterns={patterns} />} />
+          <Route path="/Information/:title" element={<Information />} />
         </Routes>
       </div>
     </Router>
