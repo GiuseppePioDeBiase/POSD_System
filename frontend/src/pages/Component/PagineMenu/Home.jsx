@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import Card from '../Card.jsx';
+import Card from '../Risultati/Card.jsx';
 import axios from 'axios';
+import {Link} from "react-router-dom";
 
 
 function Home() {
@@ -22,7 +23,7 @@ function Home() {
 
   if (error) {  
     // Print errors if any
-    return <div>An error occurred: {error.message}</div>;
+    <Link to="/Error"/>
   }
 
   return (
