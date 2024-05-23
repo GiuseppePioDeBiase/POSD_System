@@ -10,3 +10,4 @@ __pycache__/
 
 # Ignora lo start server
 start React.bat
+frontend/node_modules/.vite/deps/_metadata.json
