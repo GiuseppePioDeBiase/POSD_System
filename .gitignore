@@ -7,8 +7,3 @@
 # Ignora la cache di Python
 .pyc
 __pycache__/
-
-# Ignora lo start server
-start React.bat
-frontend/node_modules/.vite/deps/_metadata.json
-frontend/node_modules/.vite/deps/_metadata.json
