@@ -8,10 +8,6 @@ app = Flask(__name__)
 CORS(app) # Visibilità API
 
 @app.route('/', methods=['GET'])
-def start():
-    return 'Bella brò'
-
-@app.route('/api/privacybydesign', methods=['GET'])
 def homePage():
     return PrivacyByDesign.getPrivacyByDesign()
 
