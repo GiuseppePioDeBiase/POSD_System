@@ -33,3 +33,9 @@ class Pattern:
         query = {"Privacy By Design Principles": {"$regex": privacybydesign, "$options": "i"}}
         collection = patternCollection.find(query, {'_id': False})
         return jsonify(list(collection))
+
+    @staticmethod
+    def getPatternByName(namepattern):
+        query = {"Pattern": {"$regex": namepattern, "$options": "i"}}
+        collection = patternCollection.find(query, {'_id': False, 'ID':False})
+        return jsonify(list(collection))

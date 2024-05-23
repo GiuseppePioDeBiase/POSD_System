@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import Card from './Card/Card.jsx';
+import Card from './Card.jsx';
 
 const Full = () => {
     const location = useLocation();

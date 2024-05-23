@@ -53,5 +53,9 @@ def patternsByStrategies(strategies):
 def privacyByDesign(privacybydesign):
     return Pattern.getPatternByPrivacyByDesign(urllib.parse.unquote(privacybydesign))
 
+@app.route('/api/pattern/namepattern=<string:namepattern>', methods=['GET'])
+def patternsByName(namepattern):
+    return Pattern.getPatternByName(urllib.parse.unquote(namepattern))
+
 if __name__ == '__main__':
     app.run()
