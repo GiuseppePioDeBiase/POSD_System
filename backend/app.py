@@ -7,7 +7,7 @@ from entity.PrivacyByDesign import PrivacyByDesign
 app = Flask(__name__)
 CORS(app) # Visibilità API
 
-@app.route('/', methods=['GET'])
+@app.route('/api/privacybydesign', methods=['GET'])
 def homePage():
     return PrivacyByDesign.getPrivacyByDesign()
 
