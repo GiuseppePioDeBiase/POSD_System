@@ -5,3 +5,4 @@ datatime
 urllib.parse
 platform
 socket
+re

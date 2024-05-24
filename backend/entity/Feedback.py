@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 from flask import request, jsonify
 from backend.db import conn_db
@@ -33,6 +34,18 @@ class Feedback:
     @staticmethod
     def insertFeedback():
         data = request.json
+
+        invalidString = re.compile(
+            r'^\s*$'  # solo spazi bianchi
+            r'|^(.)\1*$'  # singolo carattere ripetuto
+            r'|^[0-9]+$'  # solo numeri
+            r'|^[^\w\s]+$'  # solo caratteri speciali
+            r'|^[^\w\s].*[^\w\s]$'  # inizia e termina con caratteri non alfanumerici o spazi
+        )
+
+        if invalidString.match(data.get('oggetto', '')) or invalidString.match(data.get('messaggio', '')):
+            return jsonify({"success": False,
+                            "message": "Feedback non valido!"}), 400
 
         feedback = Feedback(
             oggetto=data['oggetto'],
