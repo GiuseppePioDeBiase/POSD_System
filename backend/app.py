@@ -7,7 +7,6 @@ from datetime import datetime
 import urllib.parse
 import platform
 import socket
-import logging
 
 app = Flask(__name__)
 CORS(app) # Visibilità API
@@ -60,7 +59,7 @@ def patternsByName(namepattern):
     return Pattern.getPatternByName(urllib.parse.unquote(namepattern))
 
 @app.route('/api/feedback', methods=['POST'])
-def handle_feedback():
+def insertFeedback():
     return Feedback.insertFeedback()
 
 if __name__ == '__main__':
