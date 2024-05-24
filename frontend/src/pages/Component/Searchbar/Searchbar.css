@@ -2,17 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center; /* Centra verticalmente */
-}
-
-.logo {
-  border-top-left-radius: 32px !important;
-  border-bottom-left-radius: 32px !important;
-  background-color: #ffffff;
-}
-
-.logo img {
-  width: 50px;
-  height: auto;
+  text-align: center; /* Centra orizzontalmente */
 }
 
 .input-group-prepend {
@@ -35,3 +25,4 @@
 .input-group-append {
   margin-left: 2px !important;
 }
+
