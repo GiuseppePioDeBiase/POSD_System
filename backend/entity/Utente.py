@@ -17,7 +17,6 @@ class Utente:
         self.password = generate_password_hash(password)  # Hash della password per la sicurezza
 
 
-    # La funzione to_json è un metodo che converte l'istanza di un oggetto in un dizionario utile per serializzare un JSON
     def to_json(self):
         return {
             "id": self.id,

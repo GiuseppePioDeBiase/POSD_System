@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 function Feedback() {
@@ -6,28 +6,28 @@ function Feedback() {
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState(null);
 
-  const validateForm = () => {    //Questa funzione controlla che i campi subject e message non siano vuoti.
+  const validateForm = () => {
     if (subject.trim() === '' || message.trim() === '') {
-      setStatus('Oggetto e Messaggio non possono essere vuoti');//Se uno dei campi è vuoto, imposta status con un messaggio di errore e ritorna false.
+      setStatus('Oggetto e messaggio non possono essere vuoti!');
       return false;
     }
-    setStatus(null);//Se entrambi i campi sono pieni, pulisce status e ritorna true.
+    setStatus(null);
     return true;
   };
 
-  const handleSubmit = async (e) => {//Prima di procedere con l'invio dei dati, handleSubmit chiama validateForm..
-    e.preventDefault();//impedisce  di inviare il form e ricaricare la pagina, permettendo di gestire l'invio del form tramite JavaScript e quindi validare il messaggio
-    if (!validateForm()) {//Se la validazione fallisce, handleSubmit termina senza inviare i dati
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) {
       return;
     }
     try {
       const response = await axios.post('http://localhost:5000/api/feedback', {
-        subject,
-        message
+        oggetto: subject,
+        messaggio: message
       });
       setStatus(response.data.message);
-      setSubject('');//setta il campo Subject di nuovo vuoto per il prossimo feedback
-      setMessage('');//setta il campo Massage di nuovo vuoto per il prossimo feedback
+      setSubject('');
+      setMessage('');
     } catch (error) {
       setStatus('Errore nell\'invio del feedback');
     }

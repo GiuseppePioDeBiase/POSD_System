@@ -1,11 +1,13 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-import urllib.parse
+from entity.Feedback import Feedback
 from entity.Pattern import Pattern
 from entity.PrivacyByDesign import PrivacyByDesign
 from datetime import datetime
+import urllib.parse
 import platform
 import socket
+import logging
 
 app = Flask(__name__)
 CORS(app) # Visibilità API
@@ -56,6 +58,10 @@ def privacyByDesign(privacybydesign):
 @app.route('/api/pattern/namepattern=<string:namepattern>', methods=['GET'])
 def patternsByName(namepattern):
     return Pattern.getPatternByName(urllib.parse.unquote(namepattern))
+
+@app.route('/api/feedback', methods=['POST'])
+def handle_feedback():
+    return Feedback.insertFeedback()
 
 if __name__ == '__main__':
     app.run()
