@@ -26,7 +26,7 @@ const Full = () => {
     }, [title]);
 
     const handleCardClick = (pattern) => {
-        navigate(`/Information/${pattern.Pattern}`, { state: { ...pattern } });
+        navigate(`/Information/${pattern.Pattern}`, { state: { ...pattern, title } });
     };
 
     if (error) {

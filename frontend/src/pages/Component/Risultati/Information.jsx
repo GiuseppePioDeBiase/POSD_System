@@ -1,21 +1,27 @@
-
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Information = () => {
     const location = useLocation();
     const pattern = location.state || {};
+    const navigate = useNavigate();
+
+    const handleBackClick = () => {
+        navigate(`/Full/${encodeURIComponent(pattern.title)}`, { state: { title: pattern.title } });
+    };
 
     return (
         <div className="max-w-7xl mx-auto p-4">
             {pattern.Pattern && (
                 <div className="bg-white shadow-md rounded-lg p-4 mb-4">
-                <div className="flex items-center mb-4">
-                    {/*da mettere il link della pagina precedente con il PBD*/}
-                    <Link to="/Full" className="text-black font-bold">
-                        {"< Back"}
-                    </Link>
-                    <h1 className="text-2xl font-bold text-center flex-grow">{pattern.Pattern}</h1>
-                </div>
+                    <div className="flex items-center mb-4">
+                        <button
+                            onClick={handleBackClick}
+                            className="text-black font-bold bg-transparent border-none"
+                        >
+                            {"< Back"}
+                        </button>
+                        <h1 className="text-2xl font-bold text-center flex-grow">{pattern.Pattern}</h1>
+                    </div>
                 </div>
             )}
 
