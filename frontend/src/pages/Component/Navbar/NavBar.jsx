@@ -1,7 +1,8 @@
-/*NavBar & SearchBar.jsx*/
+/*NavBar.jsx*/
 import React, { useState } from 'react';
 import './NavBar.css';
 import { Link } from "react-router-dom";
+
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState(0);
@@ -83,7 +84,7 @@ function NavBar() {
               <Link to={"/Profilo"}>
                 <div className="icon">
                   <div className="imgBx">
-                      <img src="/frontend/images/totti.jpeg" alt="Francesco Totti"/>
+                      <img src="images/totti.jpeg" alt="Francesco Totti"/>
                   </div>
                 </div>
                 <div className="text">Francesco Totti</div>
