@@ -36,7 +36,7 @@ const Full = () => {
     return (
         <div className="max-w-7xl mx-auto p-4">
             {title && (
-                <div className="bg-white shadow-md rounded-lg p-4 mb-4">
+                <div className="bg-white shadow-md rounded-lg p-4 mb-4 mx-auto">
                     <div className="flex items-center mb-4">
                         <Link to="/" className="text-black font-bold">
                             {"< Back"}

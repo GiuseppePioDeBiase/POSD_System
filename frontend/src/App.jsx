@@ -10,7 +10,7 @@ import Registrazione from "./pages/Component/PagineMenu/Registrazione.jsx";
 import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
 import { useState, useEffect } from 'react';
-import Error from "./pages/Component/PagineMenu/Error.jsx"
+import NotFound from "./pages/NotFound/NotFound.jsx";
 
 function App() {
   const [patterns, setPatterns] = useState([]);
@@ -22,23 +22,72 @@ function App() {
 
   return (
     <Router>
-      <div>
-        <NavBar />
-        <div className='flex items-center'>
-          <Searchbar />
-        </div>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Feedback" element={<Feedback />} />
-          <Route path="/Contatti" element={<Contatti />} />
-          <Route path="/POSD" element={<POSD />} />
-          <Route path="/Registrazione" element={<Registrazione />} />
-          <Route path="/Full/:title" element={<Full patterns={patterns} />} />
-          <Route path="/Information/:title" element={<Information />} />
-          <Route path="*" element={<Error/>}/>
-        </Routes>
-
-      </div>
+      <Routes>
+        <Route path="/" element={
+          <div>
+            <NavBar />
+            <div className='flex items-center'>
+              <Searchbar />
+            </div>
+            <Home />
+          </div>
+        } />
+        <Route path="/Feedback" element={
+          <div>
+            <NavBar />
+            <div className='flex items-center'>
+              <Searchbar />
+            </div>
+            <Feedback />
+          </div>
+        } />
+        <Route path="/Contatti" element={
+          <div>
+            <NavBar />
+            <div className='flex items-center'>
+              <Searchbar />
+            </div>
+            <Contatti />
+          </div>
+        } />
+        <Route path="/POSD" element={
+          <div>
+            <NavBar />
+            <div className='flex items-center'>
+              <Searchbar />
+            </div>
+            <POSD />
+          </div>
+        } />
+        <Route path="/Registrazione" element={
+          <div>
+            <NavBar />
+            <div className='flex items-center'>
+              <Searchbar />
+            </div>
+            <Registrazione />
+          </div>
+        } />
+        <Route path="/Full/:title" element={
+          <div>
+            <NavBar />
+            <div className='flex items-center'>
+              <Searchbar />
+            </div>
+            <Full patterns={patterns} />
+          </div>
+        } />
+        <Route path="/Information/:title" element={
+          <div>
+            <NavBar />
+            <div className='flex items-center'>
+              <Searchbar />
+            </div>
+            <Information />
+          </div>
+        } />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </Router>
   );
 }
