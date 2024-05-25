@@ -10,7 +10,7 @@ import Registrazione from "./pages/Component/PagineMenu/Registrazione.jsx";
 import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
 import { useState, useEffect } from 'react';
-import Error from "./pages/Component/Error.jsx"
+import Error from "./pages/Component/PagineMenu/Error.jsx"
 
 function App() {
   const [patterns, setPatterns] = useState([]);
@@ -24,7 +24,7 @@ function App() {
     <Router>
       <div>
         <NavBar />
-        <div className='flex justify-between items-center'>
+        <div className='flex items-center'>
           <Searchbar />
         </div>
         <Routes>
@@ -35,8 +35,9 @@ function App() {
           <Route path="/Registrazione" element={<Registrazione />} />
           <Route path="/Full/:title" element={<Full patterns={patterns} />} />
           <Route path="/Information/:title" element={<Information />} />
-          <Route path="/Error" element={<Error/>}/>
+          <Route path="*" element={<Error/>}/>
         </Routes>
+
       </div>
     </Router>
   );
