@@ -1,16 +1,4 @@
-.container {
-    text-align: center;
-}
-
-#bigNumber {
-    font-size: 10rem;
-}
-
-#notFoundText {
-    font-size: 3rem;
-}
-
-.container h1 .svg-inline--fa {
+.icon-spin {
     animation: spin 8s linear infinite;
 }
 
