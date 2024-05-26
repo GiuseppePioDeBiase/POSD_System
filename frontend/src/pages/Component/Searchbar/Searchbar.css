@@ -26,3 +26,14 @@
   margin-left: 2px !important;
 }
 
+
+.logo img {
+  width: 50px; /* Regola la dimensione dell'immagine secondo necessità */
+  height: auto;
+}
+
+.input-group-text {
+  background-color: #fff;
+  border: none;
+}
+
