@@ -7,6 +7,3 @@
 # Ignora la cache di Python
 .pyc
 __pycache__/
-
-# Ignora frontend/node_modules
-frontend/node_modules/

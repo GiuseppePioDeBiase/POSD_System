@@ -10,7 +10,7 @@ import Registrazione from "./pages/Component/PagineMenu/Registrazione.jsx";
 import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
 import { useState, useEffect } from 'react';
-import NotFound from "./pages/NotFound/NotFound.jsx";
+import NotFound from "./pages/Component/NotFound/NotFound.jsx";
 
 function App() {
   const [patterns, setPatterns] = useState([]);
