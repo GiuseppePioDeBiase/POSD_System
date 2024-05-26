@@ -51,7 +51,7 @@ const Full = () => {
                         key={index}
                         title={pattern.Pattern}
                         description={pattern['Description Pattern']}
-                        className="w-full h-full"
+                        className="w-auto h-auto"
                         onClick={() => handleCardClick(pattern)}
                     />
                 ))}

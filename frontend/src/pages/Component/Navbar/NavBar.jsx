@@ -19,11 +19,11 @@ function NavBar() {
     { to: "/POSD", icon: "eye-outline", text: "POSD", bg: "#f44336" },
     { to: "/Contatti", icon: "mail-outline", text: "Contatti", bg: "#e91e63" },
     { to: "/Partecipa", icon: "hand-right-outline", text: "Partecipa", bg: "#0fc70f" },
-    { to: "Feedback", icon: "clipboard-outline", text: "Feedback", bg: "#b145e9" },
+    { to: "/Feedback", icon: "clipboard-outline", text: "Feedback", bg: "#b145e9" },
   ];
 
   const bottomItems = [
-    { to: "/Profilo", icon: "img", imgSrc: "images/totti.jpeg", alt: "Francesco Totti", text: "Francesco Totti" },
+    { to: "/Profilo", icon: "img", imgSrc: "/frontend/images/totti.jpeg", alt: "Francesco Totti", text: "Francesco Totti" },
     { to: "/Registrazione", icon: "log-in-outline", text: "Registrazione" },
   ];
 

@@ -18,13 +18,14 @@ body {
 }
 
 .sidebar {
-  position: absolute;
+  position: fixed;
   width: 80px;
   height: 100vh;
   background: #fff;
   transition: 0.5s;
   padding: 0;
   overflow: hidden;
+  z-index: 100; /* Mantiene la sidebar sopra gli altri contenuti */
 }
 
 .sidebar.active {
@@ -170,7 +171,7 @@ body {
 }
 
 .menuToggle {
-  position: absolute;
+  position: fixed;
   top: 20px;
   left: 10px;
   width: 50px;
@@ -181,10 +182,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.textpointer {
-  color: #fff;
 }
 
 .menuToggle::before {
@@ -217,7 +214,6 @@ body {
   transform: translateY(0px) rotate(315deg);
 }
 
-
 .input-group {
   margin-top: 20px;
   margin-left: 15%; /* Sposta l'input group a destra */
@@ -239,4 +235,3 @@ body {
   border-bottom-right-radius: 32px !important;
   background-color: #fff;
 }
-
