@@ -12,6 +12,7 @@ function NavBar() {
 
   const handleMenuItemClick = (index) => {
     setActiveMenuItem(index);
+    setMenuOpen(false); // Close menu on item click for better UX on mobile
   };
 
   const menuItems = [
