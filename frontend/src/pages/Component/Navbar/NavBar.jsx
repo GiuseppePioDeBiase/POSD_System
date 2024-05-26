@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import './NavBar.css';
+import  { useState } from 'react';
 import { Link } from "react-router-dom";
+import './NavBar.css'; // Importa lo stile CSS
 
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,7 +12,7 @@ function NavBar() {
 
   const handleMenuItemClick = (index) => {
     setActiveMenuItem(index);
-    setMenuOpen(false); // Close menu on item click for better UX on mobile
+    setMenuOpen(false);
   };
 
   const menuItems = [
@@ -29,10 +29,10 @@ function NavBar() {
   ];
 
   return (
-    <React.Fragment>
+    <>
       <div className={`menuToggle ${menuOpen ? 'active' : ''}`} onClick={handleMenuToggle}></div>
       <div className={`sidebar ${menuOpen ? 'active' : ''}`}>
-        <ul>
+        <ul className="relative h-screen">
           <li className="logo bg-transparent pointer-events-none select-none">
             <div className="icon">.</div>
           </li>
@@ -44,36 +44,36 @@ function NavBar() {
                 className={activeMenuItem === index ? 'active' : ''}
                 onClick={() => handleMenuItemClick(index)}
               >
-                <Link to={item.to}>
-                  <div className="icon">
+                <Link to={item.to} className="flex items-center">
+                  <div className="icon flex justify-center items-center min-w-16 h-20">
                     <ion-icon name={item.icon}></ion-icon>
                   </div>
-                  <div className="text">{item.text}</div>
+                  <div className="text text-lg">{item.text}</div>
                 </Link>
               </li>
             ))}
           </div>
-          <div className="bottom">
+          <div className="bottom absolute bottom-0 w-full">
             {bottomItems.map((item, index) => (
-              <li key={index} style={{ '--bg': '#333' }}>
-                <Link to={item.to}>
-                  <div className="icon">
+              <li key={index} className="bottom-item" style={{ '--bg': '#100' }}>
+                <Link to={item.to} className="flex items-center">
+                  <div className="icon flex justify-center items-center min-w-16 h-20">
                     {item.icon === "img" ? (
-                      <div className="imgBx">
-                        <img src={item.imgSrc} alt={item.alt} />
+                      <div className="imgBx w-10 h-10 rounded-full overflow-hidden">
+                        <img src={item.imgSrc} alt={item.alt} className="w-full h-full object-cover" />
                       </div>
                     ) : (
                       <ion-icon name={item.icon}></ion-icon>
                     )}
                   </div>
-                  <div className="text">{item.text}</div>
+                  <div className="text text-lg">{item.text}</div>
                 </Link>
               </li>
             ))}
           </div>
         </ul>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

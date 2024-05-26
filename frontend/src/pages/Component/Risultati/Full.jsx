@@ -41,7 +41,7 @@ const Full = () => {
                         <Link to="/" className="text-black font-bold">
                             {"< Back"}
                         </Link>
-                        <h1 className="text-2xl font-bold text-center flex-grow">{title}</h1>
+                        <h1 className="text-2xl text-center flex-grow">{title}</h1>
                     </div>
                 </div>
             )}

@@ -17,7 +17,7 @@ const Card = ({ title, description, className, onClick }) => {
             className={`bg-white shadow-md rounded-lg p-4 hover:bg-gray-100 cursor-pointer ${className} h-auto`}
             onClick={handleCardClick}
         >
-            <h2 className="text-xl font-bold">{title}</h2>
+            <h1 className="text-xl">{title}</h1>
             {description && <p className="mt-2 h-auto">{description}</p>}
         </div>
     );
