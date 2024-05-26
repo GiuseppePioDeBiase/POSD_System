@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { Link } from 'react-router-dom';
 import './NotFound.css';
 
 // Aggiungi l'icona al registro di libreria
@@ -17,6 +18,11 @@ const NotFound = () => {
       <h2 id="notFoundText" className="text-3xl font-bold mt-8">
         <span className="text-xl-center">Page Not Found</span>
       </h2>
+      <Link to="/">
+        <button className="mt-8 px-4 py-2 bg-blue-500 text-white rounded hover:bg-black-700">
+          Torna alla Home
+        </button>
+      </Link>
     </div>
   );
 }
