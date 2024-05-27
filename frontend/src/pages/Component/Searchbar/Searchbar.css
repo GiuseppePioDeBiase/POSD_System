@@ -1,8 +1,9 @@
 .container {
   display: flex;
   justify-content: center;
-  align-items: center; /* Centra verticalmente */
-  text-align: center; /* Centra orizzontalmente */
+  align-items: center;
+  text-align: center;
+  height: 100vh; /* Assicurati che prenda l'altezza completa della viewport */
 }
 
 .input-group-prepend {
@@ -14,7 +15,7 @@
   background-color: #fff;
   border-color: #ced4da;
   outline: 0;
-  box-shadow: 0 0 0 0 !important;
+  box-shadow: none !important;
 }
 
 .form-control {
@@ -26,16 +27,12 @@
   margin-left: 2px !important;
 }
 
-
 .logo img {
-  width: auto; /* Regola la dimensione dell'immagine secondo necessità */
-  height: auto;
-
+  width: 50px; /* Puoi regolare la dimensione come desideri */
+  height: 50px; /* Assicurati che l'altezza e la larghezza siano appropriate */
 }
 
 .input-group-text {
   background-color: #fff;
   border: none;
 }
-
-
