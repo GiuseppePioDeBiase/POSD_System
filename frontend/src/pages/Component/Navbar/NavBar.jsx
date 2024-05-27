@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { Link } from "react-router-dom";
 import './NavBar.css'; // Importa lo stile CSS
 
@@ -12,7 +12,9 @@ function NavBar() {
 
   const handleMenuItemClick = (index) => {
     setActiveMenuItem(index);
-    setMenuOpen(false);
+    if (window.innerWidth <= 2230) { // Controlla se la larghezza della finestra è inferiore o uguale a 768px (dispositivi mobili)
+      setMenuOpen(false); // Chiudi la navbar solo se la larghezza della finestra è inferiore o uguale a 768px
+    }
   };
 
   const menuItems = [
@@ -42,7 +44,7 @@ function NavBar() {
                 key={index}
                 style={{ '--bg': item.bg }}
                 className={activeMenuItem === index ? 'active' : ''}
-                onClick={() => handleMenuItemClick(index)}
+                onClick={() => handleMenuItemClick(index)} // Aggiungi l'evento onClick per gestire il clic su un elemento del menu
               >
                 <Link to={item.to} className="flex items-center">
                   <div className="icon flex justify-center items-center min-w-16 h-20">

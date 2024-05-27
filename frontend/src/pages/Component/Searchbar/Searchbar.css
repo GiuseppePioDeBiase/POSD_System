@@ -1,38 +1,17 @@
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  height: 100vh; /* Assicurati che prenda l'altezza completa della viewport */
+/* Aggiungi queste regole di stile al tuo foglio di stile CSS */
+
+@media (max-width: 767px) { /* per dispositivi mobili */
+  .input-group {
+    width: 70%; /* Utilizza il 70% della larghezza disponibile */
+    max-width: 300px; /* Imposta una larghezza massima per evitare che diventi troppo larga */
+    margin: 20px auto 0; /* Centra la barra di ricerca e aggiunge 20px di spazio sopra */
+  }
 }
 
-.input-group-prepend {
-  margin-right: -2px !important;
-}
-
-.form-control:focus {
-  color: #495057;
-  background-color: #fff;
-  border-color: #ced4da;
-  outline: 0;
-  box-shadow: none !important;
-}
-
-.form-control {
-  height: 70px;
-  font-size: 14px;
-}
-
-.input-group-append {
-  margin-left: 2px !important;
-}
-
-.logo img {
-  width: 50px; /* Puoi regolare la dimensione come desideri */
-  height: 50px; /* Assicurati che l'altezza e la larghezza siano appropriate */
-}
-
-.input-group-text {
-  background-color: #fff;
-  border: none;
+@media (min-width: 768px) and (max-width: 1024px) { /* per iPad */
+  .input-group {
+    width: 90%; /* Utilizza il 90% della larghezza disponibile */
+    max-width: 400px; /* Imposta una larghezza massima */
+    margin: 20px auto 0; /* Centra la barra di ricerca e aggiunge 20px di spazio sopra */
+  }
 }
