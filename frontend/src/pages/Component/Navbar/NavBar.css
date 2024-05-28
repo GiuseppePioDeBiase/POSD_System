@@ -232,7 +232,10 @@
     left: -100%; /* Nasconde la sidebar */
   }
 
-  .sidebar.active {
+
+
+   .sidebar.active {
+    width: 100%; /* Modifica la larghezza per riempire tutto lo schermo */
     left: 0; /* Mostra la sidebar quando è attiva */
   }
 
