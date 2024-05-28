@@ -1,5 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
+
+from entity.Utente import Utente
 from entity.Feedback import Feedback
 from entity.Pattern import Pattern
 from entity.PrivacyByDesign import PrivacyByDesign
@@ -61,6 +63,10 @@ def patternsByName(namepattern):
 @app.route('/api/feedback', methods=['POST'])
 def insertFeedback():
     return Feedback.insertFeedback()
+
+@app.route('/api/register', methods=['POST'])
+def registerUser():
+    return Utente.registrati()
 
 if __name__ == '__main__':
     app.run()

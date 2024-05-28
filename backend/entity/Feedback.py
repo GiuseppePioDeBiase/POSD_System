@@ -12,10 +12,10 @@ class Feedback:
         if id:
             self.id = id
         else:
-            # Se non viene passato nessun id legge l'ultimo del db se il db è vuoto l'id è 1
-            last_feedback = feedbackCollection.find_one(sort=[("id", -1)])
-            last_id = last_feedback["id"] if last_feedback else 0
-            self.id = last_id + 1
+            # Se non viene passato nessun id, legge l'ultimo del db; se il db è vuoto, l'id è 1
+            ultimo_feedback = feedbackCollection.find_one(sort=[("id", -1)])
+            ultimo_id = ultimo_feedback["id"] if ultimo_feedback else 0
+            self.id = ultimo_id + 1
 
         self.oggetto = oggetto
         self.messaggio = messaggio
@@ -31,11 +31,11 @@ class Feedback:
             "ip_pubblico": self.ip_pubblico
         }
 
-    @staticmethod
-    def insertFeedback():
-        data = request.json
+    @classmethod
+    def insertFeedback(cls):
+        dati = request.json
 
-        invalidString = re.compile(
+        stringa_non_valida = re.compile(
             r'^\s*$'  # solo spazi bianchi
             r'|^(.)\1*$'  # singolo carattere ripetuto
             r'|^[0-9]+$'  # solo numeri
@@ -43,15 +43,15 @@ class Feedback:
             r'|^[^\w\s].*[^\w\s]$'  # inizia e termina con caratteri non alfanumerici o spazi
         )
 
-        if invalidString.match(data.get('oggetto', '')) or invalidString.match(data.get('messaggio', '')):
-            return jsonify({"success": False,
-                            "message": "Feedback non valido!"}), 400
+        if stringa_non_valida.match(dati.get('oggetto', '')) or stringa_non_valida.match(dati.get('messaggio', '')):
+            return jsonify({"successo": False,
+                            "messaggio": "Feedback non valido!"}), 400
 
-        feedback = Feedback(
-            oggetto=data['oggetto'],
-            messaggio=data['messaggio'],
+        feedback = cls(
+            oggetto=dati['oggetto'],
+            messaggio=dati['messaggio'],
             ip_pubblico=request.remote_addr
         )
 
         feedbackCollection.insert_one(feedback.to_json())
-        return jsonify({"success": True, "message": "Feedback ricevuto!"}), 201
+        return jsonify({"successo": True, "messaggio": "Feedback ricevuto!"}), 201

@@ -27,7 +27,7 @@ function NavBar() {
 
   const bottomItems = [
     { to: "/Profilo", icon: "img", imgSrc: "totti.jpeg", alt: "Francesco Totti", text: "Francesco Totti" },
-    { to: "/Registrazione", icon: "log-in-outline", text: "Registrazione" },
+    { to: "/Login", icon: "log-in-outline", text: "Login" },
   ];
 
   return (

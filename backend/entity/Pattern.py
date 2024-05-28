@@ -22,20 +22,20 @@ class Pattern:
         self.cwe_top_25 = cwe_top_25
         self.examples = examples
 
-    @staticmethod
-    def getPatternStrategies(strategies):
+    @classmethod
+    def getPatternStrategies(cls, strategies):
         query = {"Strategies": {"$regex": strategies, "$options": "i"}}
         collection = patternCollection.find(query, {'_id': False})
         return jsonify(list(collection))
 
-    @staticmethod
-    def getPatternByPrivacyByDesign(privacybydesign):
-        query = {"Privacy By Design Principles": {"$regex": privacybydesign, "$options": "i"}}
+    @classmethod
+    def getPatternByPrivacyByDesign(cls, privacy_by_design):
+        query = {"Privacy By Design Principles": {"$regex": privacy_by_design, "$options": "i"}}
         collection = patternCollection.find(query, {'_id': False})
         return jsonify(list(collection))
 
-    @staticmethod
-    def getPatternByName(namepattern):
-        query = {"Pattern": {"$regex": namepattern, "$options": "i"}}
+    @classmethod
+    def getPatternByName(cls, name_pattern):
+        query = {"Pattern": {"$regex": name_pattern, "$options": "i"}}
         collection = patternCollection.find(query, {'_id': False, 'ID':False})
         return jsonify(list(collection))

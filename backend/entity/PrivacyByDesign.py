@@ -11,7 +11,7 @@ class PrivacyByDesign:
         self.title = title
         self.description = description
 
-    @staticmethod
-    def getPrivacyByDesign():
-        collection = privacyByDesignCollection.find({}, {'_id': False})
-        return jsonify(list(collection))
+    @classmethod
+    def getPrivacyByDesign(cls):
+        query_result = privacyByDesignCollection.find({}, {'_id': False})
+        return jsonify(list(query_result))

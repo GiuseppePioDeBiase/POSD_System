@@ -7,6 +7,7 @@ import Feedback from "./pages/Component/PagineMenu/Feedback.jsx";
 import Contatti from "./pages/Component/PagineMenu/Contatti.jsx";
 import POSD from "./pages/Component/PagineMenu/POSD.jsx";
 import Registrazione from "./pages/Component/PagineMenu/Registrazione.jsx";
+import Login from "./pages/Component/PagineMenu/Login.jsx";
 import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
 import { useState, useEffect } from 'react';
@@ -59,13 +60,13 @@ function App() {
             <POSD />
           </div>
         } />
-        <Route path="/Registrazione" element={
+        <Route path="/Login" element={
           <div>
             <NavBar />
             <div className='flex items-center'>
               <Searchbar />
             </div>
-            <Registrazione />
+            <Login />
           </div>
         } />
         <Route path="/Full/:title" element={
