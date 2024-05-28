@@ -32,8 +32,15 @@ class Utente:
     @staticmethod
     def valida_password(password):
         # La password deve avere almeno 8 caratteri, una lettera maiuscola, una minuscola e un numero
-        regex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$'
-        return re.match(regex, password) is not None
+        if len(password) < 8:
+            return False
+        if not re.search(r'[A-Z]', password):
+            return False
+        if not re.search(r'[a-z]', password):
+            return False
+        if not re.search(r'\d', password): # Verifica che la password contenga almeno un numero.
+            return False
+        return True
 
     @staticmethod
     def valida_nome_cognome(nome_cognome):
@@ -67,6 +74,9 @@ class Utente:
         # Verifica la validità del cognome
         if not cls.valida_nome_cognome(cognome):
             return jsonify({"errore": "Cognome non valido! Deve contenere solo lettere, apostrofi, trattini e spazi."}), 400
+
+        if not cls.valida_password(password):
+            return jsonify({"errore": "Password non valida!"}), 400
 
         # Controlla se l'utente esiste già
         if utenti.find_one({"email": email}):
