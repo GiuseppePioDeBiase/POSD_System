@@ -26,8 +26,6 @@ function Feedback() {
         messaggio: message
       });
       setStatus(response.data.message);
-      setSubject('');
-      setMessage('');
     } catch (error) {
       setStatus('Errore nell\'invio del feedback');
     }

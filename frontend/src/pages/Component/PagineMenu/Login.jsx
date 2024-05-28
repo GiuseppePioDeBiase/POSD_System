@@ -19,6 +19,7 @@ function Login() {
     // Funzione per la registrazione
     const handleRegister = async (e) => {
         e.preventDefault();
+
         if (password !== confirmPassword) {
             setStatus("Le password non corrispondono");
             return;
@@ -33,8 +34,7 @@ function Login() {
             });
             setStatus(response.data.message);
         } catch (error) {
-            console.log(error)
-            setStatus("Errore durante la registrazione");
+            setStatus(error)
         }
     };
 

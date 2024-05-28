@@ -38,7 +38,7 @@ class Utente:
             return False
         if not re.search(r'[a-z]', password):
             return False
-        if not re.search(r'\d', password): # Verifica che la password contenga almeno un numero.
+        if not re.search(r'\d', password):  # Verifica che la password contenga almeno un numero.
             return False
         return True
 
@@ -61,7 +61,7 @@ class Utente:
 
         # Controlla se tutti i campi sono presenti e non vuoti
         if not all([nome, cognome, email, password]):
-            return jsonify({"errore": "Tutti i campi sono obbligatori"}), 400
+            return jsonify({"errore": "Tutti i campi sono obbligatori!"}), 400
 
         # Verifica la validità dell'email
         if not cls.valida_email(email):
@@ -76,7 +76,7 @@ class Utente:
             return jsonify({"errore": "Cognome non valido! Deve contenere solo lettere, apostrofi, trattini e spazi."}), 400
 
         if not cls.valida_password(password):
-            return jsonify({"errore": "Password non valida!"}), 400
+            return jsonify({"errore": "Password non valida! Deve avere almeno 8 caratteri, una lettera maiuscola, una minuscola e un numero."}), 400
 
         # Controlla se l'utente esiste già
         if utenti.find_one({"email": email}):
