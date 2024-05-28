@@ -20,11 +20,6 @@ function Login() {
     const handleRegister = async (e) => {
         e.preventDefault();
 
-        if (password !== confirmPassword) {
-            setStatus("Le password non corrispondono");
-            return;
-        }
-
         try {
             const response = await axios.post('http://localhost:5000/api/register', {
                 nome: nome,
@@ -32,9 +27,12 @@ function Login() {
                 email: email,
                 password: password
             });
-            setStatus(response.data.message);
+            setStatus(response.data.messaggio);
         } catch (error) {
-            setStatus(error)
+            if (error.response) {
+                // Il backend ha restituito un errore con un messaggio
+                setStatus(error.response.data.messaggio);
+            }
         }
     };
 
@@ -47,9 +45,15 @@ function Login() {
                 email: email,
                 password: password
             });
-            setStatus(response.data.message);
+            setStatus(response.data.messaggio);
         } catch (error) {
-            setStatus("Errore durante il login");
+            if (error.response) {
+                // Il backend ha restituito un errore con un messaggio
+                setStatus(error.response.data.messaggio);
+            } else {
+                // Altri tipi di errori (es. errore di rete)
+                setStatus("Errore di rete");
+            }
         }
     };
 

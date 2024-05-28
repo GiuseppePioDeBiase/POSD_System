@@ -1,6 +1,5 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-
 from entity.Utente import Utente
 from entity.Feedback import Feedback
 from entity.Pattern import Pattern
@@ -11,7 +10,7 @@ import platform
 import socket
 
 app = Flask(__name__)
-CORS(app) # Visibilità API
+CORS(app)
 
 @app.route('/')
 def start():

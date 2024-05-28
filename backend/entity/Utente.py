@@ -7,6 +7,7 @@ import re
 db = conn_db()  # Connessione al database MongoDB
 utenti = db['Utenti']  # Nome della collezione
 
+
 class Utente:
     def __init__(self, nome, cognome, email, password):
         self.id = ObjectId()  # Genera un nuovo ObjectId
@@ -44,15 +45,15 @@ class Utente:
 
     @staticmethod
     def valida_nome_cognome(nome_cognome):
-        # Il nome e il cognome devono contenere solo lettere (comprese lettere accentate), apostrofi, trattini e spazi
-        regex = r"^[a-zA-Zà-ÿÀ-Ÿ' -]+$"
+        # Il nome e il cognome devono contenere lettere (comprese lettere accentate), numeri, apostrofi, trattini e spazi
+        regex = r"^[a-zA-Zà-ÿÀ-Ÿ0-9' -]+$"
         return re.match(regex, nome_cognome) is not None
 
     @classmethod
     def registrati(cls):
         dati = request.json
         if not dati:
-            return jsonify({"errore": "Nessun dato fornito!"}), 400
+            return jsonify({"successo": False, "messaggio": "Nessun dato fornito!"}), 400
 
         nome = dati.get('nome')
         cognome = dati.get('cognome')
@@ -61,26 +62,29 @@ class Utente:
 
         # Controlla se tutti i campi sono presenti e non vuoti
         if not all([nome, cognome, email, password]):
-            return jsonify({"errore": "Tutti i campi sono obbligatori!"}), 400
+            return jsonify({"successo": False, "messaggio": "Tutti i campi sono obbligatori!"}), 400
 
         # Verifica la validità dell'email
         if not cls.valida_email(email):
-            return jsonify({"errore": "Email non valida!"}), 400
+            return jsonify({"successo": False, "messaggio": "Email non valida!"}), 400
 
         # Verifica la validità del nome
         if not cls.valida_nome_cognome(nome):
-            return jsonify({"errore": "Nome non valido! Deve contenere solo lettere, apostrofi, trattini e spazi."}), 400
+            return jsonify({"successo": False,
+                            "messaggio": "Nome non valido! Deve contenere solo lettere, apostrofi, trattini e spazi."}), 400
 
         # Verifica la validità del cognome
         if not cls.valida_nome_cognome(cognome):
-            return jsonify({"errore": "Cognome non valido! Deve contenere solo lettere, apostrofi, trattini e spazi."}), 400
+            return jsonify({"successo": False,
+                            "messaggio": "Cognome non valido! Deve contenere solo lettere, apostrofi, trattini e spazi."}), 400
 
         if not cls.valida_password(password):
-            return jsonify({"errore": "Password non valida! Deve avere almeno 8 caratteri, una lettera maiuscola, una minuscola e un numero."}), 400
+            return jsonify({"successo": False,
+                            "messaggio": "Password non valida! Deve avere almeno 8 caratteri, una lettera maiuscola, una minuscola e un numero."}), 400
 
         # Controlla se l'utente esiste già
         if utenti.find_one({"email": email}):
-            return jsonify({"errore": "L'utente è già registrato!"}), 400
+            return jsonify({"successo": False, "messaggio": "L'utente è già registrato!"}), 400
 
         # Crea un'istanza della classe Utente
         try:
@@ -93,6 +97,7 @@ class Utente:
 
             utenti.insert_one(utente.to_json())
         except Exception as e:
-            return jsonify({"errore": f"Errore durante la registrazione dell'utente: {str(e)}"}), 500
+            return jsonify(
+                {"successo": False, "messaggio": f"Errore durante la registrazione dell'utente: {str(e)}"}), 500
 
-        return jsonify({"messaggio": "Utente registrato con successo!"}), 201
+        return jsonify({"successo": True, "messaggio": "Utente registrato con successo!"}), 201

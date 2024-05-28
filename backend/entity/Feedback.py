@@ -44,8 +44,7 @@ class Feedback:
         )
 
         if stringa_non_valida.match(dati.get('oggetto', '')) or stringa_non_valida.match(dati.get('messaggio', '')):
-            return jsonify({"successo": False,
-                            "messaggio": "Feedback non valido!"}), 400
+            return jsonify({"successo": False, "messaggio": "Feedback non valido!"}), 400
 
         feedback = cls(
             oggetto=dati['oggetto'],
