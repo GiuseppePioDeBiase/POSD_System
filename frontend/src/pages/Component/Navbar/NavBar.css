@@ -6,7 +6,7 @@
   transition: 0.5s;
   padding: 0;
   overflow: hidden;
-  z-index: 100; /* Mantiene la sidebar sopra gli altri contenuti */
+  z-index: 100;
 }
 
 .sidebar.active {
@@ -23,8 +23,10 @@
   list-style: none;
 }
 
+
+
 .sidebar ul li.active {
-  background: var(--clr);
+  background: var(--bg);
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
 }
@@ -37,7 +39,7 @@
   width: 20px;
   height: 20px;
   border-bottom-right-radius: 20px;
-  box-shadow: 5px 5px 0 5px var(--clr);
+  box-shadow: 5px 5px 0 5px var(--bg);
   background: transparent;
 }
 
@@ -49,7 +51,7 @@
   width: 20px;
   height: 20px;
   border-top-right-radius: 20px;
-  box-shadow: 5px -5px 0 5px var(--clr);
+  box-shadow: 5px -5px 0 5px var(--bg);
   background: transparent;
 }
 
@@ -59,20 +61,22 @@
 
 .sidebar ul li.logo .icon {
   font-size: 4em;
-  color: var(--clr);
+  color: var(--bg);
 }
 
 .sidebar ul li.logo .text {
   font-size: 1.2em;
   font-weight: 500;
-  color: var(--clr);
+  color: var(--bg);
 }
 
 .sidebar ul li a {
   position: relative;
   display: flex;
+  align-items: center; /* Centro verticale del testo */
   white-space: nowrap;
   text-decoration: none;
+  padding-left: 30px; /* Aggiungi padding per il testo */
 }
 
 .sidebar ul li a .icon {
@@ -80,9 +84,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 60px;
+  min-width: 50px; /* Riduci la larghezza per spostare le icone più a sinistra */
   height: 70px;
-  padding-left: 10px;
+  padding-right: 28px;
   font-size: 1.5em;
   color: #333;
   transition: 0.5s;
@@ -95,7 +99,6 @@
   align-items: center;
   font-size: 1em;
   color: #333;
-  padding-left: 20px;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   transition: 0.5s;
@@ -106,7 +109,7 @@
 }
 
 .sidebar ul li.active a .text {
-  color: var(--bg);
+  color: #fff; /* Colore del testo bianco per elementi attivi */
 }
 
 .sidebar ul li:hover a .icon,
@@ -114,14 +117,20 @@
   color: var(--bg);
 }
 
-.sidebar ul li.active a .icon::before {
+.sidebar ul li a:hover .icon::before {
   content: '';
   position: absolute;
-  inset: 5px;
-  width: 60px;
+  top: 10px; /* Sposta il pallino verso il centro verticale dell'icona */
+  right: 15px; /* Allinea il pallino più a sinistra rispetto all'icona */
+  width: 50px; /* Larghezza del pallino */
+  height: 50px; /* Altezza del pallino */
   background: var(--bg);
   border-radius: 50%;
   transition: 0.5s;
+}
+
+.sidebar ul li.active a .icon:hover::before {
+  background: #fff; /* Colore del pallino quando l'icona è attiva */
 }
 
 .sidebar ul li:hover.active a .icon::before {
@@ -195,9 +204,53 @@
   transform: translateY(0px) rotate(315deg);
 }
 
-.input-group {
-  margin-top: 20px;
-  margin-left: 15%; /* Sposta l'input group a destra */
+/* Aggiungi i seguenti stili per la versione mobile */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 80px;
+    left: -80px; /* Nasconde la sidebar */
+  }
+
+  .sidebar.active {
+    width: 100%; /* Modifica la larghezza per riempire tutto lo schermo */
+    left: 0; /* Mostra la sidebar quando è attiva */
+  }
+
+  .sidebar ul li a .text {
+    display: block; /* Mostra il testo delle voci di menu nella versione mobile */
+    color: #333; /* Colore del testo nella versione mobile */
+    padding-top: 20px;
+    left: 20px/* Sposta il testo più in basso */
+  }
+
+  .menuToggle {
+    left: 20px; /* Regola la posizione del pulsante */
+  }
+
+  .sidebar ul li a .icon {
+    font-size: 1.2em; /* Riduce la dimensione delle icone nella versione mobile */
+    color: #333; /* Colore delle icone nella versione mobile */
+  }
+
+  .sidebar ul li.logo .icon {
+    font-size: 2em;
+    color: var(--bg); /* Colore delle icone nella versione mobile */
+  }
+
+  .bottom {
+    width: 100%;
+  }
+
+  /* Ripristina le dimensioni dell'immagine del logo nella versione mobile */
+  .imgBx {
+    width: 40px;
+    height: 40px;
+  }
+
+  .imgBx img {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .logo {
@@ -215,77 +268,5 @@
   border-top-right-radius: 32px !important;
   border-bottom-right-radius: 32px !important;
   background-color: #fff;
-}
-
-/* Aggiungi i seguenti stili per la versione mobile */
-@media (max-width: 2230px) {
-  .sidebar {
-    position: fixed;
-    width: 100%; /* Modifica la larghezza per riempire tutto lo schermo */
-    height: 100vh;
-    background: #fff;
-    transition: 0.5s;
-    padding: 0;
-    overflow: hidden;
-    z-index: 100;
-    top: 0;
-    left: -100%; /* Nasconde la sidebar */
-  }
-
-  .sidebar.active {
-    left: 0; /* Mostra la sidebar quando è attiva */
-  }
-
-  /* Rimuovi altri stili per la sidebar */
-
-  /* Stili per il pulsante di apertura e chiusura della navbar */
-  .menuToggle {
-    position: fixed;
-    top: 20px;
-    left: 10px;
-    width: 50px;
-    height: 50px;
-    background: #ffffff;
-    z-index: 1000;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.5s;
-  }
-
-  .menuToggle::before,
-  .menuToggle::after {
-    content: '';
-    position: absolute;
-    width: 30px;
-    height: 3px;
-    background: #000000;
-    transition: 0.5s;
-  }
-
-  .menuToggle::before {
-    transform: translateY(-9px);
-    box-shadow: 0 9px 0 #000000;
-  }
-
-  .menuToggle::after {
-    transform: translateY(9px);
-    box-shadow: 0 -9px 0 #000000;
-  }
-
-  .menuToggle.active::before {
-    transform: translateY(0px) rotate(45deg);
-    box-shadow: 0 0 0 #ffffff;
-  }
-
-  .menuToggle.active::after {
-    transform: translateY(0px) rotate(-45deg);
-    box-shadow: 0 0 0 #ffffff;
-  }
-
-  /* Nascondi il pulsante di apertura quando la sidebar è attiva */
-  .sidebar.active + .menuToggle {
-    display: none;
-  }
+  top:20px;
 }

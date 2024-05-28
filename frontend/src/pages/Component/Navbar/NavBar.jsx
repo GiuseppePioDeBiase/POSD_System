@@ -12,7 +12,7 @@ function NavBar() {
 
   const handleMenuItemClick = (index) => {
     setActiveMenuItem(index);
-    if (window.innerWidth <= 2230) { // Controlla se la larghezza della finestra è inferiore o uguale a 768px (dispositivi mobili)
+    if (window.innerWidth <= 768) { // Controlla se la larghezza della finestra è inferiore o uguale a 768px (dispositivi mobili)
       setMenuOpen(false); // Chiudi la navbar solo se la larghezza della finestra è inferiore o uguale a 768px
     }
   };
@@ -55,19 +55,19 @@ function NavBar() {
               </li>
             ))}
           </div>
-          <div className="bottom absolute bottom-0 w-full">
+          <div className="bottom">
             {bottomItems.map((item, index) => (
-              <li key={index} className="bottom-item" style={{ '--bg': '#100' }}>
+              <li key={index} onClick={() => handleMenuItemClick(menuItems.length + index)}>
                 <Link to={item.to} className="flex items-center">
-                  <div className="icon flex justify-center items-center min-w-16 h-20">
-                    {item.icon === "img" ? (
-                      <div className="imgBx w-10 h-10 rounded-full overflow-hidden">
-                        <img src={item.imgSrc} alt={item.alt} className="w-full h-full object-cover" />
-                      </div>
-                    ) : (
+                  {item.icon === "img" ? (
+                    <div className="imgBx flex justify-center items-center min-w-10 h-10">
+                      <img src={item.imgSrc} alt={item.alt} />
+                    </div>
+                  ) : (
+                    <div className="icon flex justify-center items-center min-w-16 h-20">
                       <ion-icon name={item.icon}></ion-icon>
-                    )}
-                  </div>
+                    </div>
+                  )}
                   <div className="text text-lg">{item.text}</div>
                 </Link>
               </li>
