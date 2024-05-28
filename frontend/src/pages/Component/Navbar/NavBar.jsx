@@ -12,7 +12,7 @@ function NavBar() {
 
   const handleMenuItemClick = (index) => {
     setActiveMenuItem(index);
-    if (window.innerWidth <= 2230) { // Controlla se la larghezza della finestra è inferiore o uguale a 768px (dispositivi mobili)
+    if (window.innerWidth <= 1920) { // Controlla se la larghezza della finestra è inferiore o uguale a 768px (dispositivi mobili)
       setMenuOpen(false); // Chiudi la navbar solo se la larghezza della finestra è inferiore o uguale a 768px
     }
   };

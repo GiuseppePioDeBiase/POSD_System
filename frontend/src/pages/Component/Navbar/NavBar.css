@@ -218,7 +218,7 @@
 }
 
 /* Aggiungi i seguenti stili per la versione mobile */
-@media (max-width: 2230px) {
+@media (max-width: 1920px) {
   .sidebar {
     position: fixed;
     width: 100%; /* Modifica la larghezza per riempire tutto lo schermo */
