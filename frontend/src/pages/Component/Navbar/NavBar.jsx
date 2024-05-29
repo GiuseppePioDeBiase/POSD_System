@@ -12,7 +12,13 @@ function NavBar() {
 
   const handleMenuItemClick = (index) => {
     setActiveMenuItem(index);
-    if (window.innerWidth <= 1920) { // Controlla se la larghezza della finestra è inferiore o uguale a 768px (dispositivi mobili)
+    if (window.innerWidth <= 1919) { // Controlla se la larghezza della finestra è inferiore o uguale a 768px (dispositivi mobili)
+      setMenuOpen(false); // Chiudi la navbar solo se la larghezza della finestra è inferiore o uguale a 768px
+    }
+  };
+
+  const handleBottomItemClick = () => {
+    if (window.innerWidth <= 1919) { // Controlla se la larghezza della finestra è inferiore o uguale a 768px (dispositivi mobili)
       setMenuOpen(false); // Chiudi la navbar solo se la larghezza della finestra è inferiore o uguale a 768px
     }
   };
@@ -57,7 +63,7 @@ function NavBar() {
           </div>
           <div className="bottom absolute bottom-0 w-full">
             {bottomItems.map((item, index) => (
-              <li key={index} className="bottom-item" style={{ '--bg': '#100' }}>
+              <li key={index} className="bottom-item" style={{ '--bg': '#100' }} onClick={handleBottomItemClick}>
                 <Link to={item.to} className="flex items-center">
                   <div className="icon flex justify-center items-center min-w-16 h-20">
                     {item.icon === "img" ? (

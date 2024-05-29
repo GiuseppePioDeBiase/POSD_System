@@ -66,6 +66,10 @@ def insertFeedback():
 @app.route('/api/register', methods=['POST'])
 def registerUser():
     return Utente.registrati()
+@app.route('/api/login', methods=['POST'])
+def loginUser():
+    return Utente.login()
+
 
 if __name__ == '__main__':
     app.run()

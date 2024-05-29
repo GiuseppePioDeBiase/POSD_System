@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from bson import ObjectId
 from backend.db import conn_db
 import re
@@ -101,3 +101,27 @@ class Utente:
                 {"successo": False, "messaggio": f"Errore durante la registrazione dell'utente: {str(e)}"}), 500
 
         return jsonify({"successo": True, "messaggio": "Utente registrato con successo!"}), 201
+
+    @classmethod
+    def login(cls):
+        dati = request.json
+        if not dati:
+            return jsonify({"successo": False, "messaggio": "Nessun dato fornito!"}), 400
+
+        email = dati.get('email')
+        password = dati.get('password')
+
+        # Controlla se entrambi i campi sono presenti e non vuoti
+        if not all([email, password]):
+            return jsonify({"successo": False, "messaggio": "Email e password sono obbligatori!"}), 400
+
+        # Verifica se l'utente esiste
+        utente = utenti.find_one({"email": email})
+        if not utente:
+            return jsonify({"successo": False, "messaggio": "L'utente non esiste!"}), 401
+
+        # Verifica la password
+        if not check_password_hash(utente['password'], password):
+            return jsonify({"successo": False, "messaggio": "Password non corretta!"}), 401
+
+        return jsonify({"successo": True, "messaggio": "Login eseguito con successo!"}), 200

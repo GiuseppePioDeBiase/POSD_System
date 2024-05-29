@@ -218,7 +218,7 @@
 }
 
 /* Aggiungi i seguenti stili per la versione mobile */
-@media (max-width: 1920px) {
+@media (max-width: 1919px) {
   .sidebar {
     position: fixed;
     width: 100%; /* Modifica la larghezza per riempire tutto lo schermo */
@@ -233,13 +233,10 @@
   }
 
 
-
    .sidebar.active {
     width: 100%; /* Modifica la larghezza per riempire tutto lo schermo */
     left: 0; /* Mostra la sidebar quando è attiva */
   }
-
-  /* Rimuovi altri stili per la sidebar */
 
   /* Stili per il pulsante di apertura e chiusura della navbar */
   .menuToggle {
