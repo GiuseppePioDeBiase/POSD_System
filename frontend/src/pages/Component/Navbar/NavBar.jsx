@@ -42,7 +42,7 @@ function NavBar() {
       <div className={`sidebar ${menuOpen ? 'active' : ''}`}>
         <ul className="relative h-screen">
           <li className="logo bg-transparent pointer-events-none select-none">
-            <div className="icon">.</div>
+            <div className="icon text-white">.</div>
           </li>
           <div className="Menulist">
             {menuItems.map((item, index) => (
