@@ -11,6 +11,8 @@ import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
 import { useState, useEffect } from 'react';
 import NotFound from "./pages/Component/NotFound/NotFound.jsx";
+import ProfilePage from "./pages/Component/PagineMenu/ProfilePage.jsx";
+import Partecipa from "./pages/Component/Partecipa.jsx";
 
 function App() {
   const [patterns, setPatterns] = useState([]);
@@ -68,6 +70,12 @@ function App() {
             <Login />
           </div>
         } />
+        <Route path="/Profilo" element={
+          <div>
+            <NavBar/>
+            <ProfilePage/>
+          </div>}
+        />
         <Route path="/Full/:title" element={
           <div>
             <NavBar />
@@ -87,6 +95,12 @@ function App() {
           </div>
         } />
         <Route path="*" element={<NotFound />} />
+         <Route path="/Partecipa" element={
+          <div>
+            <NavBar />
+            <Partecipa/>
+          </div>
+        } />
       </Routes>
     </Router>
   );
