@@ -4,7 +4,7 @@ import Searchbar from './pages/Component/Searchbar/Searchbar.jsx';
 import Home from './pages/Component/PagineMenu/Home.jsx';
 import './App.css';
 import Feedback from "./pages/Component/PagineMenu/Feedback.jsx";
-import Contatti from "./pages/Component/PagineMenu/Contatti.jsx";
+import Contatti from "./pages/Component/Contatti/Contatti.jsx";
 import POSD from "./pages/Component/PagineMenu/POSD.jsx";
 import Login from "./pages/Component/Login/Login.jsx";
 import Full from "./pages/Component/Risultati/Full.jsx";
