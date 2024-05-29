@@ -44,4 +44,3 @@ class Pattern:
     def getAllPatterns(cls):
         collection = patternCollection.find({}, {'_id': False})
         return jsonify(list(collection))
-
