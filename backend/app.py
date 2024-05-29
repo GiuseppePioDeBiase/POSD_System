@@ -55,10 +55,6 @@ def patternsByStrategies(strategies):
 def privacyByDesign(privacybydesign):
     return Pattern.getPatternByPrivacyByDesign(urllib.parse.unquote(privacybydesign))
 
-@app.route('/api/pattern/namepattern=<string:namepattern>', methods=['GET'])
-def patternsByName(namepattern):
-    return Pattern.getPatternByName(urllib.parse.unquote(namepattern))
-
 @app.route('/api/feedback', methods=['POST'])
 def insertFeedback():
     return Feedback.insertFeedback()
@@ -66,6 +62,7 @@ def insertFeedback():
 @app.route('/api/register', methods=['POST'])
 def registerUser():
     return Utente.registrati()
+
 @app.route('/api/login', methods=['POST'])
 def loginUser():
     return Utente.login()
@@ -77,6 +74,9 @@ def profilo():
 @app.route('/api/pattern', methods=['GET'])
 def getAllPatterns():
     return Pattern.getAllPatterns()
+@app.route('/api/pattern/names', methods=['GET'])
+def getPatternNames():
+    return Pattern.getPatternByName()
 
 
 if __name__ == '__main__':

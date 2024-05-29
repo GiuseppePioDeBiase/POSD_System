@@ -35,12 +35,14 @@ class Pattern:
         return jsonify(list(collection))
 
     @classmethod
-    def getPatternByName(cls, name_pattern):
-        query = {"Pattern": {"$regex": name_pattern, "$options": "i"}}
-        collection = patternCollection.find(query, {'_id': False, 'ID': False})
-        return jsonify(list(collection))
+    def getPatternByName(cls):
+        query = patternCollection.find({}, {'_id': False, 'Pattern': True, 'Description Pattern': True})
+        collection = [{'pattern_name': pattern['Pattern'], 'description': pattern['Description Pattern']} for pattern in
+                      query]
+        return jsonify(collection)
 
     @classmethod
     def getAllPatterns(cls):
         collection = patternCollection.find({}, {'_id': False})
         return jsonify(list(collection))
+
