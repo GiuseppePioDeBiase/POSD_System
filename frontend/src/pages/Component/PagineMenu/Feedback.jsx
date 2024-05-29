@@ -1,11 +1,19 @@
 import { useState } from 'react';
 import axios from 'axios';
+import {Navigate} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 function Feedback() {
+
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState(null);
+  const user = useSelector(state => state.auth.user);
 
+  // Se l'utente non è loggato, reindirizza alla pagina di login
+  if (!user) {
+    return <Navigate to="/Login" />;
+  }
   const validateForm = () => {
     if (subject.trim() === '' || message.trim() === '') {
       setStatus('Oggetto e messaggio non possono essere vuoti!');

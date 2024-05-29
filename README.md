@@ -46,3 +46,4 @@ Questo progetto è stato sviluppato da:
 - [@checcoconf](https://github.com/checcoconf)
 - [@lcalabrese28](https://github.com/lcalabrese28)
 - [@GiuseppePioDeBiase](https://github.com/GiuseppePioDeBiase)
+- npm install redux react-redux
