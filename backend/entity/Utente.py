@@ -125,3 +125,22 @@ class Utente:
             return jsonify({"successo": False, "messaggio": "Password non corretta!"}), 401
 
         return jsonify({"successo": True, "messaggio": "Login eseguito con successo!"}), 200
+
+    @classmethod
+    def getNomeCognomeEmail(cls):
+        dati = request.json
+
+        if not dati:
+            return jsonify({"successo": False, "messaggio": "Nessun dato fornito!"}), 400
+
+        email = dati.get('email')
+        if not email:
+            return jsonify({"successo": False, "messaggio": "Email non fornita!"}), 400
+
+        # Verifica se l'utente esiste
+        utente = utenti.find_one({"email": email}, {"_id": 0, "nome": 1, "cognome": 1, "email": 1})
+        if not utente:
+            return jsonify({"successo": False, "messaggio": "L'utente non esiste!"}), 404
+
+        return jsonify({"successo": True, "utente": utente}), 200
+

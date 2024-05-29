@@ -70,6 +70,10 @@ def registerUser():
 def loginUser():
     return Utente.login()
 
+@app.route('/api/profilo', methods=['GET'])
+def profilo():
+    return Utente.getNomeCognomeEmail()
+
 
 if __name__ == '__main__':
     app.run()
