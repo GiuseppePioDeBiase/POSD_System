@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import NavBar from './pages/Component/Navbar/NavBar.jsx';
 import Searchbar from './pages/Component/Searchbar/Searchbar.jsx';
 import Home from './pages/Component/PagineMenu/Home.jsx';
@@ -11,11 +11,13 @@ import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
 import { useState, useEffect } from 'react';
 import NotFound from "./pages/Component/NotFound/NotFound.jsx";
-import ProfilePage from "./pages/Component/PagineMenu/ProfilePage.jsx";
-import Partecipa from "./pages/Component/Partecipa.jsx";
+import ProfileUR from "./pages/Component/Profili/ProfileUR.jsx";
+import Partecipa from "./pages/Component/PagineMenu/Partecipa.jsx";
+import ProfiloCISO from "./pages/Component/Profili/ProfiloCISO.jsx";
 
 function App() {
   const [patterns, setPatterns] = useState([]);
+  const [user, setUser] = useState(null); // Aggiunto stato per l'utente
 
   useEffect(() => {
     const initialPatterns = [];
@@ -25,7 +27,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={
+        <Route path="/" element={<Navigate to="/Home" />} />
+        <Route path="/Home" element={
           <div>
             <NavBar />
             <div className='flex items-center'>
@@ -67,15 +70,17 @@ function App() {
             <div className='flex items-center'>
               <Searchbar />
             </div>
-            <Login />
+            <Login setUser={setUser} /> {/* Passa setUser al componente Login */}
           </div>
         } />
-        <Route path="/Profilo" element={
+        <Route path="/Profilo" element={user ? (
           <div>
-            <NavBar/>
-            <ProfilePage/>
-          </div>}
-        />
+            <NavBar />
+            <ProfileUR />
+          </div>
+        ) : (
+          <Navigate to="/Login" />
+        )} />
         <Route path="/Full/:title" element={
           <div>
             <NavBar />
@@ -94,13 +99,21 @@ function App() {
             <Information />
           </div>
         } />
-        <Route path="*" element={<NotFound />} />
-         <Route path="/Partecipa" element={
+        <Route path="/ProfiloCISO" element={
           <div>
             <NavBar />
-            <Partecipa/>
+            <ProfiloCISO />
           </div>
         } />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/Partecipa" element={user ? (
+          <div>
+            <NavBar />
+            <Partecipa />
+          </div>
+        ) : (
+          <Navigate to="/Login" />
+        )} />
       </Routes>
     </Router>
   );

@@ -16,12 +16,12 @@ import axios from "axios";
 import { useState} from 'react';
 import {Link} from "react-router-dom";
 
-export default function ProfilePage(email) {
+export default function ProfileUR(email) {
   const [DettagliUtente, setDettagliUtente] = useState([]);
 
         if (email) {
             const fetchPatternDetails = async () => {
-                    const response = await axios.get(`http://localhost:5000/api/Utente=${encodeURIComponent(email)}`);
+                    const response = await axios.get(`http://localhost:5000/api/Utenti=${encodeURIComponent(email)}`);
                     setDettagliUtente(response.data);
             };
 

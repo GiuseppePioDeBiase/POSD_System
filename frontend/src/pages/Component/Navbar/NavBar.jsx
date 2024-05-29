@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from "react-router-dom";
 import './NavBar.css'; // Importa lo stile CSS
 
-function NavBar() {
+function NavBar({ user }) { // Aggiunta della prop user
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState(0);
 
@@ -31,8 +31,9 @@ function NavBar() {
     { to: "/Feedback", icon: "clipboard-outline", text: "Feedback", bg: "#b145e9" },
   ];
 
-  const bottomItems = [
+  const bottomItems = user ? [ // Controlla se l'utente è autenticato
     { to: "/Profilo", icon: "img", imgSrc: "totti.jpeg", alt: "Francesco Totti", text: "Francesco Totti" },
+  ] : [
     { to: "/Login", icon: "log-in-outline", text: "Login" },
   ];
 
