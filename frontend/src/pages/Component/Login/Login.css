@@ -23,7 +23,11 @@ body {
   font-family: var(--font-family);
   font-size: var(--font-size);
   overflow-x: hidden;
+
 }
+
+
+
 
 h6 span {
   padding: 0 20px;

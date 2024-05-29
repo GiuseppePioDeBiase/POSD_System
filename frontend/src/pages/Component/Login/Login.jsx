@@ -67,8 +67,8 @@ function Login() {
                             <input className="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
                             <label htmlFor="reg-log"></label>
                             <div className="card-3d-wrap mx-auto">
-                                <div className="card-3d-wrapper">
-                                    <div className="card-front">
+                                <div className="card-3d-wrapper h-screen">
+                                    <div className="card-front ">
                                         <div className="center-wrap">
                                             <div className="section text-center">
                                                 <h4 className="mb-4 pb-6">Log In</h4>
@@ -107,7 +107,7 @@ function Login() {
                                         </div>
                                     </div>
                                     <div className="card-back">
-                                        <div className="center-wrap">
+                                        <div className="center-wrap ">
                                             <div className="section text-center">
                                                 <h4 className="mb-4 pb-3">Registrati</h4>
                                                 <form onSubmit={handleRegister}>
