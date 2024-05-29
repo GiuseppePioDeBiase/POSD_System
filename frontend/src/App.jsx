@@ -17,7 +17,7 @@ import ProfiloCISO from "./pages/Component/Profili/ProfiloCISO.jsx";
 
 function App() {
   const [patterns, setPatterns] = useState([]);
-  const [user, setUser] = useState(null); // Aggiunto stato per l'utente
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const initialPatterns = [];
@@ -70,7 +70,7 @@ function App() {
             <div className='flex items-center'>
               <Searchbar />
             </div>
-            <Login setUser={setUser} /> {/* Passa setUser al componente Login */}
+            <Login setUser={setUser} />
           </div>
         } />
         <Route path="/Profilo" element={user ? (
