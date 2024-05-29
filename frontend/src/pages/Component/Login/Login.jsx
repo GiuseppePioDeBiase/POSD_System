@@ -71,7 +71,7 @@ function Login() {
                                     <div className="card-front">
                                         <div className="center-wrap">
                                             <div className="section text-center">
-                                                <h4 className="mb-4 pb-3">Log In</h4>
+                                                <h4 className="mb-4 pb-6">Log In</h4>
                                                 <form onSubmit={handleLogin}>
                                                     <div className="form-group">
                                                         <input
