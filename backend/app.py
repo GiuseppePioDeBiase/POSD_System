@@ -74,6 +74,10 @@ def loginUser():
 def profilo():
     return Utente.getNomeCognomeEmail()
 
+@app.route('/api/pattern', methods=['GET'])
+def getAllPatterns():
+    return Pattern.getAllPatterns()
+
 
 if __name__ == '__main__':
     app.run()
