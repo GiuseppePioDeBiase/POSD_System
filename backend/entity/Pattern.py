@@ -37,7 +37,7 @@ class Pattern:
     @classmethod
     def getPatternByNameDescription(cls):
         collection = patternCollection.find({}, {'_id': False, 'Pattern': True, 'Description Pattern': True})
-        return jsonify(collection)
+        return jsonify(list(collection))
 
     @classmethod
     def getAllPatterns(cls):
