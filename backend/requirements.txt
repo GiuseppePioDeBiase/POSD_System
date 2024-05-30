@@ -6,3 +6,6 @@ urllib.parse
 platform
 socket
 re
+flask-jwt-extended
+secrets
+api

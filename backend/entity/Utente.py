@@ -2,12 +2,11 @@ from flask import request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson import ObjectId
 from backend.db import conn_db
+from flask_jwt_extended import create_access_token
 import re
-#from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
-                               #unset_jwt_cookies, jwt_required, JWTManager
+
 db = conn_db()  # Connessione al database MongoDB
 utenti = db['Utenti']  # Nome della collezione
-
 
 class Utente:
     def __init__(self, nome, cognome, email, password):
@@ -125,9 +124,12 @@ class Utente:
         if not check_password_hash(utente['password'], password):
             return jsonify({"successo": False, "messaggio": "Password non corretta!"}), 401
 
-        # access_token = create_access_token(identity=email)
-        # response = {"access_token":access_token} deve restituirmi questo
-        return jsonify({"successo": True, "messaggio": "Login eseguito con successo!"}), 200
+        return jsonify({
+            "successo": True,
+            "messaggio": "Login eseguito con successo!",
+            "token": create_access_token(identity=email),
+            "ruolo": utente.get('ruolo')
+        }), 200
 
     @classmethod
     def getNomeCognomeEmail(cls):
