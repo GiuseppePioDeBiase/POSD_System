@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { Provider } from 'react-redux';
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {Provider} from 'react-redux';
 import NavBar from './pages/Component/Navbar/NavBar.jsx';
 import Searchbar from './pages/Component/Searchbar/Searchbar.jsx';
 import Home from './pages/Component/PagineMenu/Home.jsx';
@@ -11,13 +11,24 @@ import ProfileUR from "./pages/Component/Profili/ProfileUR.jsx";
 import Login from "./pages/Component/Login/Login.jsx";
 import Partecipa from "./pages/Component/PagineMenu/Partecipa.jsx";
 import store from "./pages/Component/Login/Store_Redux/Store.js";
+import Full from "./pages/Component/Risultati/Full.jsx"
 import './App.css'
+import Information from "./pages/Component/Risultati/Information.jsx";
+import {useState, useEffect} from 'react';
+
 function App() {
     // Utilizza useSelector per leggere lo stato di autenticazione dell'utente
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const [patterns, setPatterns] = useState([]);
 
+    useEffect(() => {
+        const initialPatterns = [];
+        setPatterns(initialPatterns);
+    }, []);
     return (
         <Provider store={store}>
+            {/*cose che può vedere l'utente normale*/}
+
             <Router>
                 <Routes>
                     <Route path="/" element={
@@ -28,7 +39,27 @@ function App() {
                             </div>
                             <Home/>
                         </div>
+                    }/><Route path="/Full/:title" element={
+                    <div>
+                        <NavBar/>
+                        <div className='flex items-center'>
+                            <Searchbar/>
+                        </div>
+                        <Full patterns={patterns}/>
+                    </div>
+                }/>
+                    <Route path="/Information/:title" element={
+                        <div>
+                            <NavBar/>
+                            <div className='flex items-center'>
+                                <Searchbar/>
+                            </div>
+                            <Information/>
+                        </div>
                     }/>
+                    {/*cose che può vedere l'utente normale*/}
+
+
                     <Route path="/Login" element={<div>
                         <NavBar/>
                         <Login/>
