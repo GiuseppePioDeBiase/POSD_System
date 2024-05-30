@@ -1,0 +1,14 @@
+# Ignora la cartella virtuale .venv
+.venv/
+
+# Ignora la cartella di configurazione di IntelliJ IDEA
+.idea/
+
+# Ignora la cache di Python
+.pyc
+__pycache__/
+
+# Ignora la cartella node_modules
+node_modules
+*.log
+
