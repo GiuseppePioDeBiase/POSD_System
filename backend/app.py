@@ -75,9 +75,12 @@ def profilo():
 def getAllPatterns():
     return Pattern.getAllPatterns()
 
-@app.route('/api/pattern/name-description', methods=['GET'])
-def getPatternNameDescription():
-    return Pattern.getPatternByNameDescription()
+@app.route('/api/pattern/mvc=<string:mvc>', methods=['GET'])
+def getByMVC(mvc):
+    return Pattern.getPatternByCollocazioneMVC(mvc)
+
 
 if __name__ == '__main__':
     app.run()
+
+

@@ -35,12 +35,12 @@ class Pattern:
         return jsonify(list(collection))
 
     @classmethod
-    def getPatternByNameDescription(cls):
-        collection = patternCollection.find({}, {'_id': False, 'Pattern': True, 'Description Pattern': True})
-        return jsonify(list(collection))
-
-    @classmethod
     def getAllPatterns(cls):
         collection = patternCollection.find({}, {'_id': False})
         return jsonify(list(collection))
 
+    @classmethod
+    def getPatternByCollocazioneMVC(cls, mvc):
+        query = {"Collocazione MVC": {"$regex": mvc, "$options": "i"}}
+        collection = patternCollection.find(query, {'_id': False})
+        return jsonify(list(collection))
