@@ -11,7 +11,7 @@ function POSD() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:5000/api/pattern/names');
+                const response = await axios.get('http://127.0.0.1:5000/api/pattern/name-description');
                 setPatterns(response.data);
             } catch (error) {
                 setError(error);

@@ -35,10 +35,8 @@ class Pattern:
         return jsonify(list(collection))
 
     @classmethod
-    def getPatternByName(cls):
-        query = patternCollection.find({}, {'_id': False, 'Pattern': True, 'Description Pattern': True})
-        collection = [{'pattern_name': pattern['Pattern'], 'description': pattern['Description Pattern']} for pattern in
-                      query]
+    def getPatternByNameDescription(cls):
+        collection = patternCollection.find({}, {'_id': False, 'Pattern': True, 'Description Pattern': True})
         return jsonify(collection)
 
     @classmethod

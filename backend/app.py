@@ -75,9 +75,9 @@ def profilo():
 def getAllPatterns():
     return Pattern.getAllPatterns()
 
-@app.route('/api/pattern/names', methods=['GET'])
-def getPatternNames():
-    return Pattern.getPatternByName()
+@app.route('/api/pattern/name-description', methods=['GET'])
+def getPatternNameDescription():
+    return Pattern.getPatternByNameDescription()
 
 if __name__ == '__main__':
     app.run()
