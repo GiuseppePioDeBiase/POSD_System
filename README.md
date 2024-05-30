@@ -44,5 +44,5 @@ Sviluppo di un’applicazione web che integri ogni elemento della PRIVACY KNOWLE
 Questo progetto è stato sviluppato da:
 
 - [@checcoconf](https://github.com/checcoconf)
-- [@lcalabrese28](https://github.com/lcalabrese28)
+- [@lcalabrese28](https://github.com/LorenzoCalabrese03)
 - [@GiuseppePioDeBiase](https://github.com/GiuseppePioDeBiase)
