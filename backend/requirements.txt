@@ -1,8 +1,0 @@
-Flask
-pymongo
-flask_cors
-datatime
-urllib.parse
-platform
-socket
-re
