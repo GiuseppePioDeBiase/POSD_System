@@ -35,8 +35,8 @@ function POSD() {
                 {patterns.map((pattern, index) => (
                     <Card
                         key={index}
-                        title={pattern.pattern_name}
-                        description={pattern.description}
+                        title={pattern['Pattern']}
+                        description={pattern[['Description Pattern']]}
                         className="w-auto h-auto"
                         onClick={() => handleCardClick(pattern)}
                     />
