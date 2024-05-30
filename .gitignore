@@ -1,5 +1,6 @@
 # Ignora la cartella virtuale .venv
 .venv/
+venv/
 
 # Ignora la cartella di configurazione di IntelliJ IDEA
 .idea/
