@@ -57,6 +57,13 @@ function App() {
                             <Information/>
                         </div>
                     }/>
+                     <Route path="/Contatti" element={
+                        <div>
+                            <NavBar/>
+
+                           <Contatti/>
+                        </div>
+                    }/>
                     {/*cose che può vedere l'utente normale*/}
 
 
@@ -79,7 +86,6 @@ function App() {
                     ) : (
                         <Navigate to="/Login"/>
                     )}/>
-                    <Route path="/Contatti" element={<Contatti/>}/>
                     <Route path="*" element={<NotFound/>}/>
                 </Routes>
             </Router>
