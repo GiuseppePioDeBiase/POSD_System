@@ -1,26 +1,32 @@
 import { useEffect, useState } from 'react';
+import Card from '../Risultati/Card.jsx';
 import axios from 'axios';
-import Card from '../Risultati/Card.jsx';  // Assicurati che il percorso sia corretto
+import { Link, useNavigate } from 'react-router-dom';
 
 function POSD() {
     const [error, setError] = useState(null);
     const [patterns, setPatterns] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchPatterns = async () => {
+        const fetchData = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:5000/api/privacybydesign');
+                const response = await axios.get('http://127.0.0.1:5000/api/pattern/names');
                 setPatterns(response.data);
             } catch (error) {
                 setError(error);
             }
         };
 
-        fetchPatterns();
+        fetchData();
     }, []);
 
+    const handleCardClick = (pattern) => {
+        navigate(`/Definizione/${encodeURIComponent(pattern.pattern_name)}`, { state: { title: pattern.pattern_name, ...pattern } });
+    };
+
     if (error) {
-        return <div>Error fetching patterns. Please try again later.</div>;
+        return <Link to="/Error" />;
     }
 
     return (
@@ -29,9 +35,10 @@ function POSD() {
                 {patterns.map((pattern, index) => (
                     <Card
                         key={index}
-                        title={pattern.title}
+                        title={pattern.pattern_name}
                         description={pattern.description}
                         className="w-auto h-auto"
+                        onClick={() => handleCardClick(pattern)}
                     />
                 ))}
             </div>

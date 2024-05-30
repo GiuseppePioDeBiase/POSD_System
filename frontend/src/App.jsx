@@ -1,6 +1,6 @@
-import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
-import {useSelector} from 'react-redux';
-import {Provider} from 'react-redux';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import NavBar from './pages/Component/Navbar/NavBar.jsx';
 import Searchbar from './pages/Component/Searchbar/Searchbar.jsx';
 import Home from './pages/Component/PagineMenu/Home.jsx';
@@ -11,10 +11,11 @@ import ProfileUR from "./pages/Component/Profili/ProfileUR.jsx";
 import Login from "./pages/Component/Login/Login.jsx";
 import Partecipa from "./pages/Component/PagineMenu/Partecipa.jsx";
 import store from "./pages/Component/Login/Store_Redux/Store.js";
-import Full from "./pages/Component/Risultati/Full.jsx"
-import './App.css'
+import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
-import {useState, useEffect} from 'react';
+import POSD from './pages/Component/POSD/POSD.jsx'; // Importa il componente POSD
+import './App.css';
+import { useState, useEffect } from 'react';
 
 function App() {
     // Utilizza useSelector per leggere lo stato di autenticazione dell'utente
@@ -25,68 +26,74 @@ function App() {
         const initialPatterns = [];
         setPatterns(initialPatterns);
     }, []);
+
     return (
         <Provider store={store}>
-            {/*cose che può vedere l'utente normale*/}
-
             <Router>
                 <Routes>
                     <Route path="/" element={
                         <div>
-                            <NavBar/>
+                            <NavBar />
                             <div className='flex items-center'>
-                                <Searchbar/>
+                                <Searchbar />
                             </div>
-                            <Home/>
+                            <Home />
                         </div>
-                    }/><Route path="/Full/:title" element={
-                    <div>
-                        <NavBar/>
-                        <div className='flex items-center'>
-                            <Searchbar/>
+                    } />
+                    <Route path="/Full/:title" element={
+                        <div>
+                            <NavBar />
+                            <div className='flex items-center'>
+                                <Searchbar />
+                            </div>
+                            <Full patterns={patterns} />
                         </div>
-                        <Full patterns={patterns}/>
-                    </div>
-                }/>
+                    } />
                     <Route path="/Information/:title" element={
                         <div>
-                            <NavBar/>
+                            <NavBar />
                             <div className='flex items-center'>
-                                <Searchbar/>
+                                <Searchbar />
                             </div>
-                            <Information/>
+                            <Information />
                         </div>
-                    }/>
-                     <Route path="/Contatti" element={
+                    } />
+                    <Route path="/Contatti" element={
                         <div>
-                            <NavBar/>
-
-                           <Contatti/>
+                            <NavBar />
+                            <Contatti />
                         </div>
-                    }/>
-                    {/*cose che può vedere l'utente normale*/}
+                    } />
+                    <Route path="/POSD" element={
+                        <div>
+                            <NavBar />
+                            <Searchbar />
+                            <POSD />
 
-
-                    <Route path="/Login" element={<div>
-                        <NavBar/>
-                        <Login/>
-                    </div>}/>
+                        </div>
+                    } />
+                    <Route path="/Login" element={
+                        <div>
+                            <NavBar />
+                            <Login />
+                        </div>
+                    } />
                     <Route path="/Profile" element={isAuthenticated ? (
-                        <ProfileURLayout/>
+                        <ProfileURLayout />
                     ) : (
-                        <Navigate to="/Login"/>
-                    )}/>
+                        <Navigate to="/Login" />
+                    )} />
                     <Route path="/Partecipa" element={isAuthenticated ? (
-                        <PartecipaLayout/>
+                        <PartecipaLayout />
                     ) : (
-                        <Navigate to="/Login"/>
-                    )}/>
+                        <Navigate to="/Login" />
+                    )} />
                     <Route path="/Feedback" element={isAuthenticated ? (
-                        <FeedbackLayout/>
+                        <FeedbackLayout />
                     ) : (
-                        <Navigate to="/Login"/>
-                    )}/>
-                    <Route path="*" element={<NotFound/>}/>
+                        <Navigate to="/Login" />
+                    )} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </Router>
         </Provider>
@@ -97,8 +104,8 @@ function App() {
 function ProfileURLayout() {
     return (
         <div>
-            <NavBar/>
-            <ProfileUR/>
+            <NavBar />
+            <ProfileUR />
         </div>
     );
 }
@@ -107,8 +114,8 @@ function ProfileURLayout() {
 function PartecipaLayout() {
     return (
         <div>
-            <NavBar/>
-            <Partecipa/>
+            <NavBar />
+            <Partecipa />
         </div>
     );
 }
@@ -117,8 +124,8 @@ function PartecipaLayout() {
 function FeedbackLayout() {
     return (
         <div>
-            <NavBar/>
-            <Feedback/>
+            <NavBar />
+            <Feedback />
         </div>
     );
 }

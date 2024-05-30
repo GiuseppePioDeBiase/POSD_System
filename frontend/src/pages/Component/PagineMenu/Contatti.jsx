@@ -1,4 +1,5 @@
 // eslint-disable-next-line no-unused-vars
+import "./Contatti.css"
 function Contatti() {
     return (
         <>
@@ -51,7 +52,7 @@ function Contatti() {
                          style={{visibility: 'visible', animationDelay: '0.4s', animationName: 'fadeInUp'}}>
                         {/* Team Thumb */}
                         <div className="advisor_thumb">
-                            <img src="account.png" alt="Giuseppe Pio De Biase"/>
+                            <img src="peppe.png" alt="Giuseppe Pio De Biase"/>
                             {/* Social Info */}
                             <div className="social-info">
                                 <a href="#"><i className="fa fa-facebook"></i></a>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from "react-router-dom";
 import './NavBar.css'; // Importa lo stile CSS
 
-function NavBar({ user }) { // Aggiunta della prop user
+function NavBar({ user }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState(0);
 
@@ -12,14 +12,14 @@ function NavBar({ user }) { // Aggiunta della prop user
 
   const handleMenuItemClick = (index) => {
     setActiveMenuItem(index);
-    if (window.innerWidth <= 1919) { // Controlla se la larghezza della finestra è inferiore o uguale a 768px (dispositivi mobili)
-      setMenuOpen(false); // Chiudi la navbar solo se la larghezza della finestra è inferiore o uguale a 768px
+    if (window.innerWidth <= 1919) {
+      setMenuOpen(false);
     }
   };
 
   const handleBottomItemClick = () => {
-    if (window.innerWidth <= 1919) { // Controlla se la larghezza della finestra è inferiore o uguale a 768px (dispositivi mobili)
-      setMenuOpen(false); // Chiudi la navbar solo se la larghezza della finestra è inferiore o uguale a 768px
+    if (window.innerWidth <= 1919) {
+      setMenuOpen(false);
     }
   };
 
@@ -31,7 +31,7 @@ function NavBar({ user }) { // Aggiunta della prop user
     { to: "/Feedback", icon: "clipboard-outline", text: "Feedback", bg: "#b145e9" },
   ];
 
-  const bottomItems = user ? [ // Controlla se l'utente è autenticato
+  const bottomItems = user ? [
     { to: "/Profilo", icon: "img", imgSrc: "totti.jpeg", alt: "Francesco Totti", text: "Francesco Totti" },
   ] : [
     { to: "/Login", icon: "log-in-outline", text: "Login" },
@@ -51,7 +51,7 @@ function NavBar({ user }) { // Aggiunta della prop user
                 key={index}
                 style={{ '--bg': item.bg }}
                 className={activeMenuItem === index ? 'active' : ''}
-                onClick={() => handleMenuItemClick(index)} // Aggiungi l'evento onClick per gestire il clic su un elemento del menu
+                onClick={() => handleMenuItemClick(index)}
               >
                 <Link to={item.to} className="flex items-center">
                   <div className="icon flex justify-center items-center min-w-16 h-20">
