@@ -16,18 +16,33 @@ import axios from "axios";
 import { useState} from 'react';
 import {Link} from "react-router-dom";
 
-export default function ProfileUR(email) {
-  const [DettagliUtente, setDettagliUtente] = useState([]);
-
-        if (email) {
-            const fetchPatternDetails = async () => {
-                    const response = await axios.get(`http://localhost:5000/api/Utenti=${encodeURIComponent(email)}`);
-                    setDettagliUtente(response.data);
-            };
-
-            fetchPatternDetails();
+export default function ProfileUR(props) {
+   const [profileData, setProfileData] = useState(null)
+   function getData() {
+    axios({
+      method: "GET",
+      url:"http://localhost:5000/api/profilo",
+      headers: {
+        Authorization: 'Bearer ' + props.token
+      }
+    })
+    .then((response) => {
+      const res =response.data
+      res.access_token && props.setToken(res.access_token)
+      setProfileData(({
+        profile_name: res.name,
+        profile_email: res.email,
+        profile_address: res.address}))
+    }).catch((error) => {
+      if (error.response) {
+        console.log(error.response)
+        console.log(error.response.status)
+        console.log(error.response.headers)
         }
+    })}
+   getData()
   return (
+
     <section>
       <MDBContainer className="py-5">
         <MDBRow>
@@ -63,7 +78,7 @@ export default function ProfileUR(email) {
                     <MDBCardText>Full Name</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted ">{DettagliUtente.nome}</MDBCardText>
+                    <MDBCardText className="text-muted ">{profileData.nome}</MDBCardText>
                   </MDBCol>
                 </MDBRow>
                 <hr />
@@ -72,7 +87,7 @@ export default function ProfileUR(email) {
                     <MDBCardText>Email</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{DettagliUtente.email}</MDBCardText>
+                    <MDBCardText className="text-muted">{profileData.email}</MDBCardText>
                   </MDBCol>
                 </MDBRow>
                 <hr />
@@ -81,7 +96,7 @@ export default function ProfileUR(email) {
                     <MDBCardText>Address</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{DettagliUtente.indirizzo}</MDBCardText>
+                    <MDBCardText className="text-muted">{profileData.indirizzo}</MDBCardText>
                   </MDBCol>
                 </MDBRow>
                   </div>

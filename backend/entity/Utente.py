@@ -3,7 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from bson import ObjectId
 from backend.db import conn_db
 import re
-
+#from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
+                               #unset_jwt_cookies, jwt_required, JWTManager
 db = conn_db()  # Connessione al database MongoDB
 utenti = db['Utenti']  # Nome della collezione
 
@@ -123,9 +124,19 @@ class Utente:
         # Verifica la password
         if not check_password_hash(utente['password'], password):
             return jsonify({"successo": False, "messaggio": "Password non corretta!"}), 401
-
+        #access_token = create_access_token(identity=email)
+        #response = {"access_token":access_token} deve restituirmi questo
         return jsonify({"successo": True, "messaggio": "Login eseguito con successo!"}), 200
 
+    #@api.route('/profile')
+    #def my_profile():
+       # response_body = {
+      #      "name": "Nagato",
+     #       "about": "Hello! I'm a full stack developer that loves python and javascript"
+    #    }
+
+   #     return response_body
+    #mi serve sta cosa per ricevere i dati dell'utente
     @classmethod
     def getNomeCognomeEmail(cls):
         dati = request.json
