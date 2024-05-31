@@ -1,23 +1,21 @@
-import {useEffect, useState} from 'react';
-import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
-import useToken from './pages/Component/useToken';
+import './App.css';
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import NavBar from './pages/Component/Navbar/NavBar.jsx';
 import Searchbar from './pages/Component/Searchbar/Searchbar.jsx';
 import Home from './pages/Component/PagineMenu/Home.jsx';
-import Full from './pages/Component/Risultati/Full.jsx';
-import Information from './pages/Component/Risultati/Information.jsx';
-import Contatti from './pages/Component/PagineMenu/Contatti/Contatti.jsx';
+import Feedback from "./pages/Component/PagineMenu/Feedback.jsx";
+import Contatti from "./pages/Component/PagineMenu/Contatti/Contatti.jsx";
+import NotFound from "./pages/Component/NotFound/NotFound.jsx";
+import ProfileUR from "./pages/Component/Profili/ProfileUR.jsx";
+import Login from "./pages/Component/PagineMenu/Login/Login.jsx";
+import Full from "./pages/Component/Risultati/Full.jsx";
+import Information from "./pages/Component/Risultati/Information.jsx";
 import POSD from './pages/Component/PagineMenu/POSD/POSD.jsx';
-import Login from './pages/Component/PagineMenu/Login/Login.jsx';
-import ProfileUR from './pages/Component/Profili/ProfileUR.jsx';
-// import Partecipa from './pages/Component/';
-import Feedback from './pages/Component/PagineMenu/Feedback.jsx';
-import NotFound from './pages/Component/PagineMenu/NotFound/NotFound.jsx';
-
-import './App.css';
+import Definizione from './pages/Component/PagineMenu/POSD/Definizione.jsx';
+import Filtro from "./pages/Component/PagineMenu/POSD/Filtro/Filtro.jsx";
 
 function App() {
-    const {token, removeToken, setToken} = useToken();
     const [patterns, setPatterns] = useState([]);
 
     useEffect(() => {
@@ -26,111 +24,102 @@ function App() {
     }, []);
 
     return (
-        <Router>
-            <div className="App">
-                <NavBar token={removeToken}/>
+            <Router>
                 <Routes>
                     <Route path="/" element={
                         <div>
-                            <NavBar/>
+                            <NavBar />
                             <div className='flex items-center'>
-                                <Searchbar/>
+                                <Searchbar />
                             </div>
-                            <Home/>
+                            <Home />
                         </div>
-                    }/>
+                    } />
                     <Route path="/Full/:title" element={
                         <div>
-                            <NavBar/>
+                            <NavBar />
                             <div className='flex items-center'>
-                                <Searchbar/>
+                                <Searchbar />
                             </div>
-                            <Full patterns={patterns}/>
+                            <Full patterns={patterns} />
                         </div>
-                    }/>
+                    } />
                     <Route path="/Information/:title" element={
                         <div>
-                            <NavBar/>
+                            <NavBar />
                             <div className='flex items-center'>
-                                <Searchbar/>
+                                <Searchbar />
                             </div>
-                            <Information/>
+                            <Information />
                         </div>
-                    }/>
+                    } />
                     <Route path="/Contatti" element={
                         <div>
-                            <NavBar/>
-                            <Contatti/>
+                            <NavBar />
+                            <Contatti />
                         </div>
-                    }/>
+                    } />
                     <Route path="/POSD" element={
                         <div>
-                            <NavBar/>
-                            <Searchbar/>
+                            <NavBar />
+                            <Searchbar />
+                            <Filtro />
                             <POSD/>
                         </div>
-                    }/>
+                    } />
+
+                    <Route path="/Definizione/:title" element={
+                        <div>
+                            <NavBar />
+                            <div className='flex items-center'>
+                                <Searchbar />
+                            </div>
+                            <Definizione />
+                        </div>
+                    } />
+
                     <Route path="/Login" element={
                         <div>
-                            <NavBar/>
-                            <Login setToken={setToken}/>
+                            <NavBar />
+                            <Login />
                         </div>
-                    }/>
-
-                    <Route exact path="/profile" element={token ? (
-                        <ProfileUR token={token} setToken={setToken}/>
-                    ) : (
-                        <Navigate to="/Login"/>
-                    )}/>
-                    {/*<Route path="/Partecipa" element={token ? (
+                    } />
+                    <Route path="/Profile" element={
+                        <ProfileURLayout />
+                    } />
+                    <Route path="/Partecipa" element={
                         <PartecipaLayout />
-                    ) : (
-                        <Navigate to="/Login" />
-                    )} />*/}
-                    <Route path="/Feedback" element={token ? (
-                        <FeedbackLayout/>
-                    ) : (
-                        <Navigate
-                            to="/Login"
-                            state={{from: '/Feedback'}} // Passa lo stato con la rotta da cui proviene l'utente
-                        />
-                    )}/>
-                    <Route path="*" element={<NotFound/>}/>
+                    } />
+                    <Route path="/Feedback" element={
+                        <div>
+                            <NavBar/>
+                            <Feedback/>
+                        </div>
+                    } />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
-            </div>
-        </Router>
+            </Router>
+
     );
 }
 
 // Layout per il profilo utente
-// function ProfileURLayout() {
-//     return (
-//         <div>
-//             <NavBar/>
-//             <ProfileUR/>
-//         </div>
-//     );
-// }
-
-// Layout per la partecipazione, accessibile solo se loggati
-// function PartecipaLayout() {
-//     return (
-//         <div>
-//             <NavBar />
-//             <Partecipa />
-//         </div>
-//     );
-// }
-
-// Layout per il feedback, accessibile solo se loggati
-function FeedbackLayout() {
+function ProfileURLayout() {
     return (
         <div>
-            <NavBar/>
-            <Feedback/>
+            <NavBar />
+            <ProfileUR />
         </div>
     );
 }
 
+// Layout per la partecipazione, accessibile solo se loggati
+function PartecipaLayout() {
+    return (
+        <div>
+            <NavBar />
+        </div>
+    );
+}
 
 export default App;
