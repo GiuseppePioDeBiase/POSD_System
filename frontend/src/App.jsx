@@ -13,7 +13,6 @@ import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
 import POSD from './pages/Component/PagineMenu/POSD/POSD.jsx';
 import Definizione from './pages/Component/PagineMenu/POSD/Definizione.jsx';
-import Filtro from "./pages/Component/PagineMenu/POSD/Filtro/Filtro.jsx";
 
 function App() {
     const [patterns, setPatterns] = useState([]);
@@ -63,7 +62,6 @@ function App() {
                         <div>
                             <NavBar />
                             <Searchbar />
-                            <Filtro />
                             <POSD/>
                         </div>
                     } />
