@@ -13,8 +13,10 @@ import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
 import POSD from './pages/Component/PagineMenu/POSD/POSD.jsx';
 import Definizione from './pages/Component/PagineMenu/POSD/Definizione.jsx';
+
 import Filtro from "./pages/Component/PagineMenu/POSD/Filtro/Filtro.jsx";
 import useToken from "./pages/Component/useToken.jsx"
+
 
 function App() {
     const [patterns, setPatterns] = useState([]);
@@ -51,6 +53,7 @@ function App() {
                         <div className='flex items-center'>
                             <Searchbar/>
                         </div>
+
                         <Information/>
                     </div>
                 }/>
@@ -68,6 +71,21 @@ function App() {
                         <POSD/>
                     </div>
                 }/>
+
+                    <Route path="/Contatti" element={
+                        <div>
+                            <NavBar />
+                            <Contatti />
+                        </div>
+                    } />
+                    <Route path="/POSD" element={
+                        <div>
+                            <NavBar />
+                            <Searchbar />
+                            <POSD/>
+                        </div>
+                    } />
+
 
                 <Route path="/Definizione/:title" element={
                     <div>
