@@ -11,12 +11,11 @@ import {
   MDBProgressBar,
 
 } from 'mdb-react-ui-kit';
-
+import PropTypes from 'prop-types';
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useState} from 'react';
 import {Link} from "react-router-dom";
-
 export default function ProfileUR(props) {
    const [profileData, setProfileData] = useState(null)
    function getData() {
@@ -29,11 +28,12 @@ export default function ProfileUR(props) {
     })
     .then((response) => {
       const res =response.data
-      res.access_token && props.setToken(res.access_token)
+      res.token && props(res.token)
       setProfileData(({
         profile_name: res.name,
         profile_email: res.email,
-        profile_address: res.address}))
+        }))
+      {/*profile_ruolo: res.ruolo*/}
     }).catch((error) => {
       if (error.response) {
         console.log(error.response)
@@ -79,7 +79,7 @@ export default function ProfileUR(props) {
                     <MDBCardText>Full Name</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted ">{profileData.nome}</MDBCardText>
+                    <MDBCardText className="text-muted ">{profileData.name}</MDBCardText>
                   </MDBCol>
                 </MDBRow>
                 <hr />
@@ -92,14 +92,14 @@ export default function ProfileUR(props) {
                   </MDBCol>
                 </MDBRow>
                 <hr />
-                <MDBRow>
+                  {/* <MDBRow>
                   <MDBCol sm="4">
-                    <MDBCardText>Address</MDBCardText>
+                    <MDBCardText>Ruolo</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{profileData.indirizzo}</MDBCardText>
+                    <MDBCardText className="text-muted">{profileData.ruolo}</MDBCardText>
                   </MDBCol>
-                </MDBRow>
+                </MDBRow>*/}
                   </div>
               </MDBCardBody>
             </MDBCard>
@@ -145,4 +145,8 @@ export default function ProfileUR(props) {
       </MDBContainer>
     </section>
   );
+
 }
+  ProfileUR.propTypes = {
+  token: PropTypes.string.isRequired,
+};

@@ -10,10 +10,11 @@ function useToken() {
 //e restituisce un token solo se esiste, quindi l'uso dell'operatore condizionale &&.
   const [token, setToken] = useState(getToken());
 
-  function saveToken(userToken) {
-    localStorage.setItem('token', userToken);
-    setToken(userToken);
-  }
+ function saveToken(userToken) {
+  sessionStorage.setItem('token', userToken);
+  setToken(userToken);
+}
+
 //La funzione saveToken gestisce la memorizzazione del token ottenuto quando l'utente accede e la funzione al suo interno
 //aggiorna lo stato della variabile token con il token passato come argomento alla funzione saveToken.
   function removeToken() {
