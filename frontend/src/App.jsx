@@ -8,7 +8,7 @@ import Feedback from "./pages/Component/PagineMenu/Feedback.jsx";
 import Contatti from "./pages/Component/PagineMenu/Contatti/Contatti.jsx";
 import NotFound from "./pages/Component/PagineMenu/NotFound/NotFound.jsx";
 import ProfileUR from "./pages/Component/Profili/ProfileUR.jsx";
-import Login from "./pages/Component/PagineMenu/Login/Login.jsx";
+import Login from "./pages/Component/PagineMenu/Accesso/Login/Login.jsx";
 import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
 import POSD from './pages/Component/PagineMenu/POSD/POSD.jsx';
