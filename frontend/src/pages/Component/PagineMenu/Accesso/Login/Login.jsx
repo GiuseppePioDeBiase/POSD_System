@@ -3,8 +3,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import PropTypes from 'prop-types';
 function Login(props) {
-    const navigate = useNavigate();
-     const [token, setTokenState] = useState(""); // Stato locale per memorizzare il token
+       const navigate = useNavigate(); // Ottieni la funzione di navigazione
     const [loginForm, setloginForm] = useState({
       email: "",
       password: ""
@@ -23,7 +22,8 @@ function Login(props) {
       .then((response) => {
       const token = response.data.token;
       props.setToken(token)// Imposta il token utilizzando la prop
-      setTokenState(token); // Memorizza il token nello stato locale
+       navigate('/'); // Reindirizza alla home page
+
 
       }).catch((error) => {
         if (error.response) {
@@ -62,7 +62,6 @@ function Login(props) {
                   value={loginForm.password} />
           <button onClick={logMeIn}>Submit</button>
         </form>
-           {token && <div>Token: {token}</div>}
       </div>
     );
 }

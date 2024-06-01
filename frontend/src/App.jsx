@@ -1,5 +1,6 @@
 import './App.css';
 import {useState, useEffect} from 'react';
+import useToken from "./pages/Component/useToken.jsx"
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import NavBar from './pages/Component/Navbar/NavBar.jsx';
 import Searchbar from './pages/Component/Searchbar/Searchbar.jsx';
@@ -13,7 +14,11 @@ import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
 import POSD from './pages/Component/PagineMenu/POSD/POSD.jsx';
 import Definizione from './pages/Component/PagineMenu/POSD/Definizione.jsx';
-import useToken from "./pages/Component/useToken.jsx"
+import ProfiloCISO from "./pages/Component/Profili/ProfiloCISO.jsx";
+import ProfiloAS from "./pages/Component/Profili/ProfiloAS.jsx"
+
+
+
 
 
 function App() {
@@ -59,6 +64,18 @@ function App() {
                     <div>
                         <NavBar/>
                         <Contatti/>
+                    </div>
+                }/>
+                  <Route path="/ProfiloCISO" element={
+                    <div>
+                        <NavBar/>
+                        <ProfiloCISO/>
+                    </div>
+                }/>
+                  <Route path="/ProfiloAS" element={
+                    <div>
+                        <NavBar/>
+                        <ProfiloAS/>
                     </div>
                 }/>
                 <Route path="/POSD" element={
@@ -136,9 +153,10 @@ function App() {
                             <Feedback token={token} setToken={setToken}/>
                         </div>}/>
 
-
             )}
             <Route path="*" element={<NotFound/>}/>
+
+
             </Routes>
         </Router>
 
