@@ -16,7 +16,8 @@ import POSD from './pages/Component/PagineMenu/POSD/POSD.jsx';
 import Definizione from './pages/Component/PagineMenu/POSD/Definizione.jsx';
 import ProfiloCISO from "./pages/Component/Profili/ProfiloCISO.jsx";
 import ProfiloAS from "./pages/Component/Profili/ProfiloAs.jsx";
-import Filtro from "./pages/Component/PagineMenu/POSD/Filtro/Filtro.jsx";
+
+
 
 
 
@@ -69,7 +70,6 @@ function App() {
                     <div>
                         <NavBar/>
                         <Searchbar/>
-                        <Filtro/>
                         <POSD/>
                     </div>
                 }/>
