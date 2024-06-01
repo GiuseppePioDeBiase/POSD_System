@@ -15,7 +15,7 @@ import Information from "./pages/Component/Risultati/Information.jsx";
 import POSD from './pages/Component/PagineMenu/POSD/POSD.jsx';
 import Definizione from './pages/Component/PagineMenu/POSD/Definizione.jsx';
 import ProfiloCISO from "./pages/Component/Profili/ProfiloCISO.jsx";
-import ProfiloAS from "./pages/Component/Profili/ProfiloAs.jsx";
+import ProfiloAS from "./pages/Component/Profili/ProfiloAS.jsx"
 
 
 
@@ -64,6 +64,18 @@ function App() {
                     <div>
                         <NavBar/>
                         <Contatti/>
+                    </div>
+                }/>
+                  <Route path="/ProfiloCISO" element={
+                    <div>
+                        <NavBar/>
+                        <ProfiloCISO/>
+                    </div>
+                }/>
+                  <Route path="/ProfiloAS" element={
+                    <div>
+                        <NavBar/>
+                        <ProfiloAS/>
                     </div>
                 }/>
                 <Route path="/POSD" element={
@@ -143,8 +155,8 @@ function App() {
 
             )}
             <Route path="*" element={<NotFound/>}/>
-            <Route path="/ProfileCISO" element={<ProfiloCISO/>}/>
-            <Route path="/ProfiloAS" element={<ProfiloAS/>}/>
+
+
             </Routes>
         </Router>
 
