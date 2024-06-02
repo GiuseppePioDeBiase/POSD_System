@@ -129,6 +129,26 @@ function POSD() {
         return <div>Error: {error.message}</div>;
     }
 
+    // Seleziona tutti gli elementi dropdown
+const dropdowns = document.querySelectorAll('.dropdown');
+
+// Aggiungi un gestore di eventi di clic per ciascun dropdown
+dropdowns.forEach(dropdown => {
+  dropdown.addEventListener('click', function(event) {
+    // Impedisci la propagazione dell'evento clic al di fuori del dropdown
+    event.stopPropagation();
+  });
+});
+
+// Aggiungi un gestore di eventi di clic per l'intera finestra
+window.addEventListener('click', function() {
+  // Chiudi tutti i dropdown quando si preme altrove sulla finestra
+  dropdowns.forEach(dropdown => {
+    dropdown.checked = false;
+  });
+});
+
+
     return (
         <div className="container mx-auto mt-5 p-6 flex flex-col items-center">
             <div className="search-dropdown-container">
