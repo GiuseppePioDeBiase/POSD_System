@@ -1,19 +1,28 @@
 .search-dropdown-container {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-  gap: 20px; /* Aggiungi uno spazio tra i dropdown */
+  position: relative;
 }
 
-.sec-center {
-  position: relative;
-  max-width: 100%;
-  text-align: center;
-  margin: 0;
-  z-index: 0;
+/* Regole CSS per dispositivi con larghezza maggiore o uguale a 1920px */
+@media (min-width: 1920px) {
+  .search-dropdown-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+    flex-wrap: nowrap; /* Impedisce il wrapping degli elementi */
+    white-space: nowrap; /* Impedisce il wrapping del testo */
+  }
+
+  .sec-center {
+    position: relative;
+    max-width: 100%;
+    text-align: center;
+    margin: 0;
+    z-index: 1; /* Aggiunto per gestire il contesto di stacking */
+  }
 }
 
 .dropdown {
@@ -27,7 +36,8 @@
   height: 50px;
   transition: all 200ms linear;
   border-radius: 4px;
-  width: 240px;
+  width: 200px; /* Ridotta la larghezza dei dropdown */
+  flex-shrink: 1; /* Permette ai dropdown di ridursi su schermi piccoli */
   letter-spacing: 1px;
   display: inline-flex;
   align-items: center;
@@ -51,7 +61,7 @@
 
 .section-dropdown {
   position: absolute;
-  padding: 40px;
+  padding: 20px;
   background-color: white;
   top: 70px;
   left: 50%;
@@ -72,6 +82,7 @@
   opacity: 1;
   pointer-events: auto;
   transform: translateX(-50%) translateY(0);
+  z-index: 999; /* Assicurati che l'elemento attivo sia sopra tutti gli altri */
 }
 
 .section-dropdown button {
@@ -95,4 +106,25 @@
 a {
   text-decoration: none;
   display: flex;
+}
+
+/* Regole CSS per dispositivi con larghezza massima di 1919px */
+@media (max-width: 1919px) {
+  .dropdown:checked + label,
+  .dropdown:not(:checked) + label {
+    width: 200px; /* Riduce ulteriormente la larghezza dei dropdown su schermi più piccoli */
+  }
+
+  .section-dropdown {
+    top: 90px; /* Modifica la posizione per schermi più piccoli */
+    width: calc(100% - 40px); /* Imposta la larghezza adattata alla larghezza dello schermo */
+    padding: 10px; /* Riduce il padding su schermi più piccoli */
+  }
+
+  .dropdown:checked ~ .section-dropdown {
+    position: absolute;
+    top: calc(10% + 30px); /* Posiziona il dropdown sotto al dropdowncheck */
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }

@@ -16,6 +16,7 @@ import POSD from './pages/Component/PagineMenu/POSD/POSD.jsx';
 import Definizione from './pages/Component/PagineMenu/POSD/Definizione.jsx';
 import ProfiloCISO from "./pages/Component/Profili/ProfiloCISO.jsx";
 import ProfiloAS from "./pages/Component/Profili/ProfiloAS.jsx"
+import Ricerca from "./pages/Component/Searchbar/Ricerca.jsx";
 
 
 
@@ -99,6 +100,14 @@ function App() {
                             <POSD/>
                         </div>
                     } />
+
+
+                 <Route path="/ricerca" element={
+                    <div>
+                        <NavBar />
+                        <Ricerca />
+                    </div>
+                } />
 
 
                 <Route path="/Definizione/:title" element={
