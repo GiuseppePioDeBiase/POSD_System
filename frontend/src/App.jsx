@@ -1,38 +1,54 @@
 import './App.css';
+
 import {useState, useEffect} from 'react';
 import useToken from "./pages/Component/useToken.jsx"
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import useRuolo from "./pages/Component/PagineMenu/Accesso/useRuolo.jsx"
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import NavBar from './pages/Component/Navbar/NavBar.jsx';
 import Searchbar from './pages/Component/Searchbar/Searchbar.jsx';
 import Home from './pages/Component/PagineMenu/Home.jsx';
 import Feedback from "./pages/Component/PagineMenu/Feedback.jsx";
 import Contatti from "./pages/Component/PagineMenu/Contatti/Contatti.jsx";
 import NotFound from "./pages/Component/PagineMenu/NotFound/NotFound.jsx";
-import ProfileUR from "./pages/Component/Profili/ProfileUR.jsx";
+
 import Login from "./pages/Component/PagineMenu/Accesso/Login/Login.jsx";
 import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
 import POSD from './pages/Component/PagineMenu/POSD/POSD.jsx';
 import Definizione from './pages/Component/PagineMenu/POSD/Definizione.jsx';
-import ProfiloCISO from "./pages/Component/Profili/ProfiloCISO.jsx";
-import ProfiloAS from "./pages/Component/Profili/ProfiloAS.jsx"
+
 import Ricerca from "./pages/Component/Searchbar/Ricerca.jsx";
-
-
-
+import PropTypes from "prop-types";
+import Profili from "./pages/Component/Profili/Profili.jsx";
 
 
 function App() {
     const [patterns, setPatterns] = useState([]);
     const {token, removeToken, setToken} = useToken();
+    const {ruolo, removeRuolo, setRuolo} = useRuolo();
+//inizializzazione patterns
     useEffect(() => {
         const initialPatterns = [];
         setPatterns(initialPatterns);
     }, []);
 
+// Componente per route protette in base al token
+    const ProtectedRouteToken = ({children, token}) => {
+        if (!token) {
+            return <Navigate to="/Login"/>;
+        }
+        return children;
+    };
+
+    ProtectedRouteToken.propTypes = {
+        children: PropTypes.node.isRequired,
+        token: PropTypes.string,
+    };
+
+
     return (
         <Router>
-            <Routes token={removeToken}>
+            <Routes token={removeToken} ruolo={removeRuolo}>
                 <Route path="/" element={
                     <div>
                         <NavBar/>
@@ -67,16 +83,18 @@ function App() {
                         <Contatti/>
                     </div>
                 }/>
-                  <Route path="/ProfiloCISO" element={
+                <Route path="/POSD" element={
                     <div>
                         <NavBar/>
-                        <ProfiloCISO/>
+                        <Searchbar/>
+                        <POSD/>
                     </div>
                 }/>
-                  <Route path="/ProfiloAS" element={
+
+                <Route path="/Contatti" element={
                     <div>
                         <NavBar/>
-                        <ProfiloAS/>
+                        <Contatti/>
                     </div>
                 }/>
                 <Route path="/POSD" element={
@@ -87,27 +105,13 @@ function App() {
                     </div>
                 }/>
 
-                    <Route path="/Contatti" element={
-                        <div>
-                            <NavBar />
-                            <Contatti />
-                        </div>
-                    } />
-                    <Route path="/POSD" element={
-                        <div>
-                            <NavBar />
-                            <Searchbar />
-                            <POSD/>
-                        </div>
-                    } />
 
-
-                 <Route path="/ricerca" element={
+                <Route path="/ricerca" element={
                     <div>
-                        <NavBar />
-                        <Ricerca />
+                        <NavBar/>
+                        <Ricerca/>
                     </div>
-                } />
+                }/>
 
 
                 <Route path="/Definizione/:title" element={
@@ -119,51 +123,38 @@ function App() {
                         <Definizione/>
                     </div>
                 }/>
-                 <Route path="/Login" element={
+
+                <Route path="/Login" element={
                     <div>
 
                         <NavBar/>
-                        <Login setToken={setToken}/>
+                        <Login setToken={setToken} setRuolo={setRuolo}/>
                     </div>
                 }/>
-                {!token ? (
-                    <Route path="/ProfileUR" element={<div>
+
+                <Route path="/Profili" element={
+                    <ProtectedRouteToken token={token}>
+                        <Profili ruolo={ruolo}/>
                         <NavBar/>
-                        <Login setToken={setToken}/>
-                    </div>}/>
-                ) : (
-                    <Route path="/ProfileUR" element={
-                        <div>
-                        <NavBar/>
-                        <ProfileUR token={token} setToken={setToken}/>
-                        </div>}/>
-                )}
-                 {!token ? (
-                    <Route path="/Partecipa" element={<div>
-                        <NavBar/>
-                        <Login setToken={setToken}/>
-                    </div>}/>
-                ) : (
-                     <Route path="/Partecipa" element={
-                        <div>
-                        <NavBar/>
-                        <PartecipaLayout token={token} setToken={setToken}/>
-                        </div>}/>
-                )}
-            { !token && token!=="" &&token!== undefined ? (
-                <Route path="/Feedback" element={<div>
-                        <NavBar/>
-                        <Login setToken={setToken}/>
-                    </div>}/>
-                ) : (
-                    <Route path="/Feedback" element={
+                    </ProtectedRouteToken>
+                }/>
+                {/* <Route path="/Partecipa" element={
+          <ProtectedRouteToken token={token}>
+            <div>
+              <NavBar/>
+              <Partecipa token={token} setToken={setToken}/>
+            </div>
+          </ProtectedRouteToken>
+        }/>*/}
+                <Route path="/Feedback" element={
+                    <ProtectedRouteToken token={token}>
                         <div>
                             <NavBar/>
                             <Feedback token={token} setToken={setToken}/>
-                        </div>}/>
-
-            )}
-            <Route path="*" element={<NotFound/>}/>
+                        </div>
+                    </ProtectedRouteToken>
+                }/>
+                <Route path="*" element={<NotFound/>}/>
 
 
             </Routes>
@@ -172,16 +163,5 @@ function App() {
     );
 }
 
-// Layout per il profilo utente
-
-
-// Layout per la partecipazione, accessibile solo se loggati
-function PartecipaLayout() {
-    return (
-        <div>
-            <NavBar/>
-        </div>
-    );
-}
 
 export default App;

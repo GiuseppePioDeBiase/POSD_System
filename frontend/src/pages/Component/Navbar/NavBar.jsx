@@ -32,7 +32,7 @@ function NavBar() {
   ];
 
   const bottomItems = [
-    { to: "/ProfileUR", icon: "img", imgSrc: "frontend/public/totti.jpeg", alt: "Francesco Totti", text: "Francesco Totti"},
+    { to: "/Profili", icon: "img", imgSrc: "frontend/public/totti.jpeg", alt: "Francesco Totti", text: "Francesco Totti"},
     { to: "/Login", icon: "log-in-outline", text: "Login" },
   ];
 

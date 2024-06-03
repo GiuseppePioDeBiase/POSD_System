@@ -16,19 +16,16 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import { useState} from 'react';
 import {Link} from "react-router-dom";
-export default function ProfileUR(props) {
+export default function ProfileUR() {
    const [profileData, setProfileData] = useState(null)
    function getData() {
     axios({
       method: "GET",
       url:"http://localhost:5000/api/profilo",
-      headers: {
-        Authorization: 'Bearer ' + props.token
-      }
+
     })
     .then((response) => {
       const res =response.data
-      res.token && props(res.token)
       setProfileData(({
         profile_name: res.name,
         profile_email: res.email,
