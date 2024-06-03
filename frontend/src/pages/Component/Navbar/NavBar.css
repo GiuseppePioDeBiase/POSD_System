@@ -250,6 +250,7 @@
     cursor: pointer;
     display: flex;
     justify-content: center;
+    border-radius:50px;
     align-items: center;
     transition: 0.5s;
   }
