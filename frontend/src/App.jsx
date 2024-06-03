@@ -13,6 +13,7 @@ import NotFound from "./pages/Component/PagineMenu/NotFound/NotFound.jsx";
 
 import Login from "./pages/Component/PagineMenu/Accesso/Login/Login.jsx";
 import Registrazione from "./pages/Component/PagineMenu/Accesso/Registrazione/Registrazione.jsx";
+import Logout from "./pages/Component/PagineMenu/Accesso/LogOUT.jsx";
 import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
 import POSD from './pages/Component/PagineMenu/POSD/POSD.jsx';
@@ -21,8 +22,6 @@ import Definizione from './pages/Component/PagineMenu/POSD/Definizione.jsx';
 import Ricerca from "./pages/Component/Searchbar/Ricerca.jsx";
 import PropTypes from "prop-types";
 import Profili from "./pages/Component/Profili/Profili.jsx";
-import ProfiloCISO from "./pages/Component/Profili/ProfiloCISO.jsx";
-import ProfiloAS from "./pages/Component/Profili/ProfiloAS.jsx";
 
 
 function App() {
@@ -51,7 +50,7 @@ function App() {
 
     return (
         <Router>
-            <Routes token={removeToken} ruolo={removeRuolo}>
+            <Routes>
                 <Route path="/" element={
                     <div>
                         <NavBar/>
@@ -126,42 +125,53 @@ function App() {
                         <Definizione/>
                     </div>
                 }/>
-
+                <Route path="/LogOUT" element={
+                    <Logout removeToken={removeToken} removeRuolo={removeRuolo}/>
+                }/>
                 <Route path="/Login" element={
                     <div>
-                        <NavBar/>
+                        <NavBar token={token} ruolo={ruolo}/>
                         <Login setToken={setToken} setRuolo={setRuolo}/>
                     </div>
                 }/>
 
-                 <Route path="/Registrazione" element={
+                <Route path="/Registrazione" element={
                     <div>
-                        <NavBar/>
+                        <NavBar token={token} ruolo={ruolo}/>
                         <Registrazione setToken={setToken} setRuolo={setRuolo}/>
                     </div>
                 }/>
 
 
                 <Route path="/Profili" element={
+
                     <ProtectedRouteToken token={token}>
-                        <Profili ruolo={ruolo}/>
-                        <NavBar/>
+                        {token ? (
+                            <div>
+
+                                <NavBar />
+                                <Profili ruolo={ruolo} token={token}/>
+                            </div>
+                        ) : (
+                            <Navigate to="/Login"/>
+                        )}
                     </ProtectedRouteToken>
                 }/>
 
-                <Route path="/ProfiloAS" element={
+
+                {/* <Route path="/ProfiloAS" element={
                     <div>
-                        <NavBar/>
+                        <NavBar token={token} ruolo={ruolo}/>
                         <ProfiloAS/>
                     </div>
                 }/>
 
                  <Route path="/ProfiloCISO" element={
                     <div>
-                        <NavBar/>
+                        <NavBar token={token} ruolo={ruolo}/>
                         <ProfiloCISO/>
                     </div>
-                }/>
+                }/>*/}
                 {/* <Route path="/Partecipa" element={
           <ProtectedRouteToken token={token}>
             <div>
@@ -173,7 +183,7 @@ function App() {
                 <Route path="/Feedback" element={
                     <ProtectedRouteToken token={token}>
                         <div>
-                            <NavBar/>
+                            <NavBar token={token} ruolo={ruolo}/>
                             <Feedback token={token} setToken={setToken}/>
                         </div>
                     </ProtectedRouteToken>

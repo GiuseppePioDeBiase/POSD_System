@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Link, useNavigate} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useRuolo from '../useRuolo.jsx';
-
+export let userEmail = ''; // Variabile per memorizzare l'email fornita dall'utente
 function Login(props) {
     const navigate = useNavigate(); // Ottieni la funzione di navigazione
     const { setRuolo } = useRuolo(); // Ottieni le funzioni da useRuolo
@@ -14,6 +14,7 @@ function Login(props) {
 
     function logMeIn(event) {
         event.preventDefault();
+        const userEmail = loginForm.email; // Salva l'email fornita dall'utente in una variabile
         axios({
             method: 'POST',
             url: 'http://127.0.0.1:5000/api/login',
@@ -29,7 +30,7 @@ function Login(props) {
                 console.log(ruolo);
                 props.setToken(token); // Imposta il token utilizzando la prop
                 console.log(token);
-                navigate('/'); // Reindirizza alla home page
+                navigate('/Profili'); // Reindirizza al profilo
             })
             .catch((error) => {
                 if (error.response) {

@@ -4,15 +4,15 @@ import ProfiloAS from "./ProfiloAS.jsx";
 import NavBar from "../Navbar/NavBar.jsx";
 import PropTypes from "prop-types";
 
-function Profili({ruolo}) {
+function Profili({ token, ruolo}) {
     const renderProfile = () => {
         switch (ruolo) {
             case 'utente':
-                return <ProfileUR />;
+                return <ProfileUR  token={token} />;
             case 'ciso':
-                return <ProfiloCISO/>;
+                return <ProfiloCISO token={token}/>;
             case 'amministratore di sistema':
-                return <ProfiloAS/>;
+                return <ProfiloAS  token={token}/>;
             default:
                 return <div>Ruolo non riconosciuto</div>;
         }
@@ -26,7 +26,8 @@ function Profili({ruolo}) {
 
 }
 Profili.propTypes = {
-    ruolo: PropTypes.string.isRequired
+    ruolo: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired
 };
 
 export default Profili

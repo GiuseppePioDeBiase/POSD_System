@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-
+// eslint-disable-next-line no-unused-vars
+import React, { useState, useEffect } from 'react';
 import {
   MDBCol,
   MDBContainer,
@@ -10,10 +10,46 @@ import {
   MDBCardImage,
 } from 'mdb-react-ui-kit';
 
-export default function ProfiloCISO() {
+import PropTypes from 'prop-types'
+
+export default function ProfiloCISO(props) {
+
   const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
   const [password, setPassword] = useState('');
   const [confermaPassword, setConfermaPassword] = useState('');
+  const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '' });
+
+  useEffect(() => {
+    const fetchProfilo = async () => {
+      const token = props.token
+      if (!token) {
+        console.error("Token non disponibile");
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:5000/api/profilo', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',//nell'intestazione di una richiesta HTTP indica al server che il corpo della richiesta è formattato come JSON
+            'Authorization': `Bearer ${token}`
+
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`Errore: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setProfilo(data);
+      } catch (error) {
+        console.error("Errore durante il recupero del profilo:", error);
+      }
+    };
+
+    fetchProfilo();
+  }, []);
 
   const toggleModificaProfilo = () => {
     setModificaProfiloVisibile(!modificaProfiloVisibile);
@@ -33,6 +69,10 @@ export default function ProfiloCISO() {
       return;
     }
 
+    ProfiloCISO.propTypes = {
+      token: PropTypes.func.isRequired
+    };
+
     // Qui inserisci la logica per inviare le modifiche del profilo
   };
 
@@ -50,9 +90,9 @@ export default function ProfiloCISO() {
                 fluid
               />
               <p className="text-muted mb-2" style={{ fontSize: '2rem' }}>
-                Bentornato <strong>Lorenzo</strong>
+                Bentornato <strong>{profilo.nome}</strong>
               </p>
-              <p className="text-muted mb-1">CISO</p>
+              <p className="text-muted mb-1">{profilo.ruolo}</p>
 
               <div className="d-flex justify-content-center mt-5">
                 <button className="btn btn-warning" onClick={toggleModificaProfilo}>
@@ -62,7 +102,7 @@ export default function ProfiloCISO() {
               </div>
             </MDBCardBody>
             <MDBCardImage
-                 src="/logo.png"
+              src="/logo.png"
               alt="logo"
               className="mb-4"
               style={{ width: '50px', display: 'block', margin: '0 auto' }}
@@ -70,57 +110,57 @@ export default function ProfiloCISO() {
             />
           </MDBCard>
         </MDBCol>
-          <MDBCol lg="8">
-            <MDBCard className="mb-4">
-              <MDBCardBody>
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>Nome</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">Lorenzo</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-                <hr />
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>Cognome</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">Calabrese</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-                <hr />
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>Email</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">Lorenzocalabarese@gmail.com</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-                <hr />
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>Ruolo</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">CISO</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-                <hr />
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>Address</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">Bay Area, San Francisco, CA</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-              </MDBCardBody>
-            </MDBCard>
+        <MDBCol lg="8">
+          <MDBCard className="mb-4">
+            <MDBCardBody>
+              <MDBRow>
+                <MDBCol sm="3">
+                  <MDBCardText>Nome</MDBCardText>
+                </MDBCol>
+                <MDBCol sm="9">
+                  <MDBCardText className="text-muted">{profilo.nome}</MDBCardText>
+                </MDBCol>
+              </MDBRow>
+              <hr />
+              <MDBRow>
+                <MDBCol sm="3">
+                  <MDBCardText>Cognome</MDBCardText>
+                </MDBCol>
+                <MDBCol sm="9">
+                  <MDBCardText className="text-muted">{profilo.cognome}</MDBCardText>
+                </MDBCol>
+              </MDBRow>
+              <hr />
+              <MDBRow>
+                <MDBCol sm="3">
+                  <MDBCardText>Email</MDBCardText>
+                </MDBCol>
+                <MDBCol sm="9">
+                  <MDBCardText className="text-muted">{profilo.email}</MDBCardText>
+                </MDBCol>
+              </MDBRow>
+              <hr />
+              <MDBRow>
+                <MDBCol sm="3">
+                  <MDBCardText>Ruolo</MDBCardText>
+                </MDBCol>
+                <MDBCol sm="9">
+                  <MDBCardText className="text-muted">{profilo.ruolo}</MDBCardText>
+                </MDBCol>
+              </MDBRow>
+              <hr />
+              <MDBRow>
+                <MDBCol sm="3">
+                  <MDBCardText>Address</MDBCardText>
+                </MDBCol>
+                <MDBCol sm="9">
+                  <MDBCardText className="text-muted">Bay Area, San Francisco, CA</MDBCardText>
+                </MDBCol>
+              </MDBRow>
+            </MDBCardBody>
+          </MDBCard>
 
-            <MDBRow>
+          <MDBRow>
             <MDBCol>
               <MDBCard className="mb-4 mb-md-0 w-full">
                 <MDBCardBody>

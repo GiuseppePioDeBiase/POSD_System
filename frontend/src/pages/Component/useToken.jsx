@@ -4,6 +4,7 @@ function useToken() {
 
   function getToken() {
     const userToken = localStorage.getItem('token');
+
     return userToken && userToken
   }
 //La funzione getToken viene utilizzata per recuperare il token memorizzato in localStorage
@@ -11,6 +12,7 @@ function useToken() {
   const [token, setToken] = useState(getToken());
 
  function saveToken(userToken) {
+
   localStorage.setItem('token', userToken);
   setToken(userToken);
 }
