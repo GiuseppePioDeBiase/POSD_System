@@ -131,8 +131,7 @@ class Utente:
         return response, 200
 
     @classmethod
-    def getNomeCognomeRuolo(cls):
-        email = get_jwt_identity()
+    def getNomeCognomeRuolo(cls, email):
         if not email:
             return jsonify({"successo": False, "messaggio": "Email non fornita!"}), 400
 

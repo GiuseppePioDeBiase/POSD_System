@@ -21,7 +21,12 @@ export default function ProfiloCISO(props) {
 
   useEffect(() => {
     const fetchProfilo = async () => {
+
       const token = props.token
+      const token2 = localStorage.getItem('token');
+      console.log("token mio",token)
+      console.log("Token checco",token2)
+
       if (!token) {
         console.error("Token non disponibile");
         return;
@@ -31,6 +36,7 @@ export default function ProfiloCISO(props) {
         const response = await fetch('http://localhost:5000/api/profilo', {
           method: 'GET',
           headers: {
+
             'Content-Type': 'application/json',//nell'intestazione di una richiesta HTTP indica al server che il corpo della richiesta è formattato come JSON
             'Authorization': `Bearer ${token}`
 

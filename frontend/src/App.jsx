@@ -146,6 +146,7 @@ function App() {
                 <Route path="/Profili" element={
 
                     <ProtectedRouteToken token={token}>
+
                         {token ? (
                             <div>
 
@@ -155,6 +156,8 @@ function App() {
                         ) : (
                             <Navigate to="/Login"/>
                         )}
+                        {ruolo && <Profili ruolo={ruolo} token={token}/>}
+
                     </ProtectedRouteToken>
                 }/>
 
