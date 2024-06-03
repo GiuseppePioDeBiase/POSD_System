@@ -5,6 +5,7 @@ from backend.db import conn_db
 db = conn_db()
 patternCollection = db['Pattern']  # Collezione Pattern
 
+
 class Pattern:
     def __init__(self, id, pattern_name, strategies, description, context, mvc_placement,
                  iso_phase, gdpr_compliance, privacy_by_design, owasp_categories,

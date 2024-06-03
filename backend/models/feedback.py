@@ -1,0 +1,27 @@
+from backend.models import BaseMessage
+from flask import jsonify, request
+from backend.db import conn_db
+
+db = conn_db()
+feedbackCollection = db['Feedback']
+
+
+class Feedback(BaseMessage):
+    def __init__(self, oggetto, messaggio, ip_pubblico, id=None):
+        super().__init__(oggetto, messaggio, ip_pubblico, id, feedbackCollection)
+
+    @classmethod
+    def insertFeedback(cls):
+        dati = request.json
+
+        if not cls.validate(dati.get('oggetto', ''), dati.get('messaggio', '')):
+            return jsonify({"successo": False, "messaggio": "Feedback non valido!"}), 400
+
+        feedback = cls(
+            oggetto=dati['oggetto'],
+            messaggio=dati['messaggio'],
+            ip_pubblico=request.remote_addr
+        )
+
+        feedbackCollection.insert_one(feedback.to_json())
+        return jsonify({"successo": True, "messaggio": "Feedback ricevuto!"}), 201

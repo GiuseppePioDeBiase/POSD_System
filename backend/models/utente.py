@@ -1,12 +1,15 @@
-from flask import request, jsonify
+from datetime import datetime, timedelta, timezone
+from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity
+from flask import request, jsonify, json
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson import ObjectId
+
 from backend.db import conn_db
-from flask_jwt_extended import create_access_token
 import re
 
 db = conn_db()  # Connessione al database MongoDB
 utenti = db['Utenti']  # Nome della collezione
+
 
 class Utente:
     def __init__(self, nome, cognome, email, password):
@@ -154,3 +157,19 @@ class Utente:
             "email": utente.get('email'),
             "ruolo": utente.get('ruolo')
         }), 200
+
+    @staticmethod
+    def refresh_expiring_jwts(response):
+        try:
+            exp_ts = get_jwt()["exp"]
+            now = datetime.now(datetime.timezone.utc)
+            target_ts = datetime.timestamp(now + datetime.timedelta(minutes=30))
+            if target_ts > exp_ts:
+                access_token = create_access_token(identity=get_jwt_identity())
+                data = response.get_json()
+                if isinstance(data, dict):
+                    data["access_token"] = access_token
+                    response.data = json.dumps(data)
+            return response
+        except (RuntimeError, KeyError):
+            return response

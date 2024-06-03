@@ -1,20 +1,15 @@
 import re
 from datetime import datetime
-from flask import request, jsonify
-from backend.db import conn_db
 
-# Connessione al database MongoDB
-db = conn_db()
-feedbackCollection = db['Feedback']  # Collezione Feedback
 
-class Feedback:
-    def __init__(self, oggetto, messaggio, ip_pubblico, id=None):
+class BaseMessage:
+    def __init__(self, oggetto, messaggio, ip_pubblico, id=None, collection=None):
         if id:
             self.id = id
         else:
             # Se non viene passato nessun id, legge l'ultimo del db; se il db è vuoto, l'id è 1
-            ultimo_feedback = feedbackCollection.find_one(sort=[("id", -1)])
-            ultimo_id = ultimo_feedback["id"] if ultimo_feedback else 0
+            ultimo_messaggio = collection.find_one(sort=[("id", -1)]) if collection is not None else None
+            ultimo_id = ultimo_messaggio["id"] if ultimo_messaggio else 0
             self.id = ultimo_id + 1
 
         self.oggetto = oggetto
@@ -32,9 +27,7 @@ class Feedback:
         }
 
     @classmethod
-    def insertFeedback(cls):
-        dati = request.json
-
+    def validate(cls, oggetto, messaggio):
         stringa_non_valida = re.compile(
             r'^\s*$'  # solo spazi bianchi
             r'|^(.)\1*$'  # singolo carattere ripetuto
@@ -42,15 +35,6 @@ class Feedback:
             r'|^[^\w\s]+$'  # solo caratteri speciali
             r'|^[^\w\s].*[^\w\s]$'  # inizia e termina con caratteri non alfanumerici o spazi
         )
-
-        if stringa_non_valida.match(dati.get('oggetto', '')) or stringa_non_valida.match(dati.get('messaggio', '')):
-            return jsonify({"successo": False, "messaggio": "Feedback non valido!"}), 400
-
-        feedback = cls(
-            oggetto=dati['oggetto'],
-            messaggio=dati['messaggio'],
-            ip_pubblico=request.remote_addr
-        )
-
-        feedbackCollection.insert_one(feedback.to_json())
-        return jsonify({"successo": True, "messaggio": "Feedback ricevuto!"}), 201
+        if stringa_non_valida.match(oggetto) or stringa_non_valida.match(messaggio):
+            return False
+        return True
