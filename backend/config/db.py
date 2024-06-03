@@ -1,4 +1,6 @@
 from pymongo import MongoClient
+
+
 def conn_db():
     # Configurazione della connessione al database
     conn = MongoClient('localhost', 27017)

@@ -2,7 +2,7 @@ from flask import jsonify
 from datetime import datetime
 import platform
 import socket
-from backend.config import create_app
+from backend.config.config import create_app
 from backend.controllers import controllers_bp
 
 app = create_app()

@@ -1,10 +1,10 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity
 from flask import request, jsonify, json
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson import ObjectId
 
-from backend.db import conn_db
+from backend.config.db import conn_db
 import re
 
 db = conn_db()  # Connessione al database MongoDB
