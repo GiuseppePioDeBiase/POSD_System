@@ -11,7 +11,7 @@ utenti = db['Utenti']  # Nome della collezione
 
 
 class Utente:
-    def __init__(self, nome, cognome, email, password, ruolo):
+    def __init__(self, nome, cognome, email, password):
         self.nome = nome
         self.cognome = cognome
         self.email = email
@@ -132,11 +132,7 @@ class Utente:
 
     @classmethod
     def getNomeCognomeRuolo(cls):
-        dati = request.json
-        if not dati:
-            return jsonify({"successo": False, "messaggio": "Nessun dato fornito!"}), 400
-
-        email = dati.get('email')
+        email = get_jwt_identity()
         if not email:
             return jsonify({"successo": False, "messaggio": "Email non fornita!"}), 400
 
@@ -148,6 +144,7 @@ class Utente:
             "successo": True,
             "nome": utente.get('nome'),
             "cognome": utente.get('cognome'),
+            "email": utente.get('email'),
             "ruolo": utente.get('ruolo')
         }), 200
 
