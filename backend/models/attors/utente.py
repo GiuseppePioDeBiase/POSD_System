@@ -131,7 +131,7 @@ class Utente:
         return response, 200
 
     @classmethod
-    def getNomeCognomeEmail(cls):
+    def getNomeCognomeRuolo(cls):
         dati = request.json
         if not dati:
             return jsonify({"successo": False, "messaggio": "Nessun dato fornito!"}), 400
@@ -148,7 +148,6 @@ class Utente:
             "successo": True,
             "nome": utente.get('nome'),
             "cognome": utente.get('cognome'),
-            "email": utente.get('email'),
             "ruolo": utente.get('ruolo')
         }), 200
 

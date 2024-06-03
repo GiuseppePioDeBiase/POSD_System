@@ -3,7 +3,7 @@ from backend.models.attors import Utente
 
 utente_bp = Blueprint('utente_bp', __name__)
 
-@utente_bp.route('/api/register', methods=['POST'])
+@utente_bp.route('/api/registrazione', methods=['POST'])
 def register_user():
     return Utente.registrati()
 
@@ -13,7 +13,7 @@ def login_user():
 
 @utente_bp.route('/api/profilo', methods=['GET'])
 def get_user_profile():
-    return Utente.getNomeCognomeEmail()
+    return Utente.getNomeCognomeRuolo()
 
 @utente_bp.after_request
 def after_request(response):
