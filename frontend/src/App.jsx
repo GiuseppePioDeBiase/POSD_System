@@ -144,8 +144,7 @@ function App() {
 
                 <Route path="/Profili" element={
                     <ProtectedRouteToken token={token}>
-                        <Profili ruolo={ruolo}/>
-                        <NavBar/>
+                        {ruolo && <Profili ruolo={ruolo}/>}
                     </ProtectedRouteToken>
                 }/>
 
