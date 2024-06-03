@@ -12,6 +12,7 @@ import Contatti from "./pages/Component/PagineMenu/Contatti/Contatti.jsx";
 import NotFound from "./pages/Component/PagineMenu/NotFound/NotFound.jsx";
 
 import Login from "./pages/Component/PagineMenu/Accesso/Login/Login.jsx";
+import Registrazione from "./pages/Component/PagineMenu/Accesso/Registrazione/Registrazione.jsx";
 import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
 import POSD from './pages/Component/PagineMenu/POSD/POSD.jsx';
@@ -20,6 +21,8 @@ import Definizione from './pages/Component/PagineMenu/POSD/Definizione.jsx';
 import Ricerca from "./pages/Component/Searchbar/Ricerca.jsx";
 import PropTypes from "prop-types";
 import Profili from "./pages/Component/Profili/Profili.jsx";
+import ProfiloCISO from "./pages/Component/Profili/ProfiloCISO.jsx";
+import ProfiloAS from "./pages/Component/Profili/ProfiloAS.jsx";
 
 
 function App() {
@@ -126,17 +129,38 @@ function App() {
 
                 <Route path="/Login" element={
                     <div>
-
                         <NavBar/>
                         <Login setToken={setToken} setRuolo={setRuolo}/>
                     </div>
                 }/>
+
+                 <Route path="/Registrazione" element={
+                    <div>
+                        <NavBar/>
+                        <Registrazione setToken={setToken} setRuolo={setRuolo}/>
+                    </div>
+                }/>
+
 
                 <Route path="/Profili" element={
                     <ProtectedRouteToken token={token}>
                         <Profili ruolo={ruolo}/>
                         <NavBar/>
                     </ProtectedRouteToken>
+                }/>
+
+                <Route path="/ProfiloAS" element={
+                    <div>
+                        <NavBar/>
+                        <ProfiloAS/>
+                    </div>
+                }/>
+
+                 <Route path="/ProfiloCISO" element={
+                    <div>
+                        <NavBar/>
+                        <ProfiloCISO/>
+                    </div>
                 }/>
                 {/* <Route path="/Partecipa" element={
           <ProtectedRouteToken token={token}>
