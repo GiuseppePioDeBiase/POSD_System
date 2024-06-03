@@ -1,5 +1,5 @@
 from flask import Blueprint
-from backend.models.utente import Utente
+from backend.models.attors import Utente
 
 utente_bp = Blueprint('utente_bp', __name__)
 
@@ -18,3 +18,7 @@ def get_user_profile():
 @utente_bp.after_request
 def after_request(response):
     return Utente.refresh_expiring_jwts(response)
+
+@utente_bp.route('/api/logout', methods=['POST'])
+def logout_user():
+    return Utente.logout()

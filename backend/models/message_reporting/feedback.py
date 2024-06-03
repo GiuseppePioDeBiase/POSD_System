@@ -1,4 +1,4 @@
-from backend.models import BaseMessage
+from backend.models.message_reporting import BaseMessage
 from flask import jsonify, request
 from backend.config.db import conn_db
 
@@ -7,8 +7,8 @@ feedbackCollection = db['Feedback']
 
 
 class Feedback(BaseMessage):
-    def __init__(self, oggetto, messaggio, ip_pubblico, id=None):
-        super().__init__(oggetto, messaggio, ip_pubblico, id, feedbackCollection)
+    def __init__(self, oggetto, messaggio, ip_pubblico):
+        super().__init__(oggetto, messaggio, ip_pubblico)
 
     @classmethod
     def insertFeedback(cls):

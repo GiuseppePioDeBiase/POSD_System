@@ -1,5 +1,5 @@
 from flask import Blueprint
-from backend.models.privacy_by_design import PrivacyByDesign
+from backend.models import PrivacyByDesign
 
 privacy_by_design_bp = Blueprint('privacy_by_design_bp', __name__)
 

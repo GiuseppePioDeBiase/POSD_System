@@ -1,3 +1,2 @@
-from .base_message import BaseMessage
-from .feedback import Feedback
-from .segnalazione import Segnalazione
+from backend.models.pattern import Pattern
+from backend.models.privacy_by_design import PrivacyByDesign

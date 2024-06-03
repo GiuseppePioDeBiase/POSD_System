@@ -1,4 +1,4 @@
-Flask
+flask
 flask_cors
 flask-jwt-extended
 pymongo
@@ -9,3 +9,4 @@ socket
 re
 secrets
 bson
+werkzeug.security

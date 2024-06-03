@@ -3,15 +3,7 @@ from datetime import datetime
 
 
 class BaseMessage:
-    def __init__(self, oggetto, messaggio, ip_pubblico, id=None, collection=None):
-        if id:
-            self.id = id
-        else:
-            # Se non viene passato nessun id, legge l'ultimo del db; se il db è vuoto, l'id è 1
-            ultimo_messaggio = collection.find_one(sort=[("id", -1)]) if collection is not None else None
-            ultimo_id = ultimo_messaggio["id"] if ultimo_messaggio else 0
-            self.id = ultimo_id + 1
-
+    def __init__(self, oggetto, messaggio, ip_pubblico):
         self.oggetto = oggetto
         self.messaggio = messaggio
         self.data_ora = datetime.now().strftime("%A %d-%m-%Y - %H:%M:%S")
@@ -19,7 +11,6 @@ class BaseMessage:
 
     def to_json(self):
         return {
-            "id": self.id,
             "oggetto": self.oggetto,
             "messaggio": self.messaggio,
             "data_ora": self.data_ora,

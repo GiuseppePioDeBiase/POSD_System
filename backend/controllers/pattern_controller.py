@@ -1,5 +1,5 @@
 from flask import Blueprint
-from backend.models.pattern import Pattern
+from backend.models import Pattern
 import urllib.parse
 
 pattern_bp = Blueprint('pattern_bp', __name__)

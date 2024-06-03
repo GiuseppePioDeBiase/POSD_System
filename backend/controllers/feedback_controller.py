@@ -1,5 +1,5 @@
 from flask import Blueprint
-from backend.models.feedback import Feedback
+from backend.models.message_reporting import Feedback
 
 feedback_bp = Blueprint('feedback_bp', __name__)
 

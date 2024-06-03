@@ -1,5 +1,5 @@
 from flask import Blueprint
-from backend.models.segnalazione import Segnalazione
+from backend.models.message_reporting import Segnalazione
 
 segnalazione_bp = Blueprint('segnalazione_bp', __name__)
 

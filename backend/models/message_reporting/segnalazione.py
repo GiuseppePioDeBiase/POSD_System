@@ -1,5 +1,5 @@
 from backend.config.db import conn_db
-from backend.models import BaseMessage
+from backend.models.message_reporting.base_message import BaseMessage
 from flask import request, jsonify
 
 db = conn_db()
@@ -7,8 +7,8 @@ segnalazioneCollection = db['Segnalazione']
 
 
 class Segnalazione(BaseMessage):
-    def __init__(self, oggetto, messaggio, ip_pubblico, id=None):
-        super().__init__(oggetto, messaggio, ip_pubblico, id, segnalazioneCollection)
+    def __init__(self, oggetto, messaggio, ip_pubblico):
+        super().__init__(oggetto, messaggio, ip_pubblico)
 
     @classmethod
     def insertSegnalazione(cls):
