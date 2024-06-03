@@ -1,4 +1,5 @@
 from flask import Blueprint
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from backend.models.attors import Utente
 
 utente_bp = Blueprint('utente_bp', __name__)
@@ -11,9 +12,11 @@ def register_user():
 def login_user():
     return Utente.login()
 
+
 @utente_bp.route('/api/profilo', methods=['GET'])
+@jwt_required()
 def get_user_profile():
-    return Utente.getNomeCognomeRuolo()
+    return Utente.getNomeCognomeRuolo(email=get_jwt_identity())
 
 @utente_bp.after_request
 def after_request(response):
