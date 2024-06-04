@@ -33,7 +33,7 @@ function fixedHeaderContent() {
                     variant="head"
                     style={{ width: column.width }}
                     sx={{
-                        backgroundColor: 'background.paper',
+                        backgroundColor: 'background.black',
                     }}
                 >
                     {column.label}

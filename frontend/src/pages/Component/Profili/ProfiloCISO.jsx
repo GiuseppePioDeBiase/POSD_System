@@ -11,6 +11,7 @@ import {
 } from 'mdb-react-ui-kit';
 
 import PropTypes from 'prop-types'
+import SegnalazioneCISO from "../Segnalazioni/SegnalazioneCISO.jsx";
 
 export default function ProfiloCISO(props) {
 
@@ -105,7 +106,7 @@ export default function ProfiloCISO(props) {
               <p className="text-muted mb-2 my-4" style={{ fontSize: '2rem' }}>
                 Bentornato <strong>{profilo.nome}</strong>
               </p>
-              <p className="text-muted mb-1">{profilo.ruolo}</p>
+              <p className="font-bold text-xl text-center">{profilo.ruolo}</p>
 
               <div className="d-flex flex flex-col items-center mt-5">
                 <button className="btn btn-warning py-2 px-4" onClick={toggleModificaProfilo}>
@@ -202,9 +203,7 @@ export default function ProfiloCISO(props) {
                  <MDBCardBody>
                   {SegnalazioniVisibile && (
                       <div>
-                        <a>Licenza</a>
-                        <input type="text" placeholder="Modifica nome..." className="form-control mb-3"
-                               style={{maxWidth: '200px'}}/>
+                       <SegnalazioneCISO/>
                       </div>
                   )}
                 </MDBCardBody>
