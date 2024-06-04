@@ -16,7 +16,7 @@ class Utente:
         self.cognome = cognome
         self.email = email
         self.password = generate_password_hash(password)  # Hash della password per la sicurezza
-        self.ruolo = Ruolo.UTENTE
+        self.ruolo = Ruolo.UTENTE.value
 
     def to_json(self):
         return {
@@ -61,7 +61,7 @@ class Utente:
         password = dati.get('password')
 
         if not dati.get('ruolo'):
-            ruolo = Ruolo.UTENTE
+            ruolo = Ruolo.UTENTE.value
         else:
             ruolo = dati.get('ruolo')
 
@@ -82,6 +82,7 @@ class Utente:
 
         if utenti.find_one({"email": email}):
             return jsonify({"successo": False, "messaggio": "L'utente è già registrato!"}), 400
+
 
         # Crea un'istanza della classe appropriata
         try:
