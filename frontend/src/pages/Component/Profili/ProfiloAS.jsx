@@ -231,134 +231,152 @@ export default function ProfiloAS(props) {
           <MDBRow>
             <MDBCol>
               <MDBCard className="mb-3 mb-md-0 w-full">
+
                 <MDBCardBody>
-                  {modificaProfiloVisibile && (
-                    <div>
-                      <a>Nome</a>
-                      <input
-                        onChange={handleModificaProfiloChange}
-                        autoComplete="off"
-                        type="text"
-                        placeholder="Modifica nome..."
-                        className="form-control mb-3"
-                        name="nome"
-                        value={modificaProfiloForm.nome}
-                        style={{ maxWidth: '200px' }}
-                      />
-                      <a>Cognome</a>
-                      <input
-                        onChange={handleModificaProfiloChange}
-                        autoComplete="off"
-                        type="text"
-                        placeholder="Modifica cognome..."
-                        className="form-control mb-3"
-                        name="cognome"
-                        value={modificaProfiloForm.cognome}
-                        style={{ maxWidth: '200px' }}
-                      />
-                      <a>Email</a>
-                      <input
-                        onChange={handleModificaProfiloChange}
-                        autoComplete="off"
-                        type="email"
-                        placeholder="Modifica email..."
-                        className="form-control mb-3"
-                        name="email"
-                        value={modificaProfiloForm.email}
-                        style={{ maxWidth: '200px' }}
-                      />
-                      <a>Password</a>
-                      <input
-                        onChange={handleModificaProfiloChange}
-                        autoComplete="off"
-                        type="password"
-                        placeholder="Modifica password..."
-                        className="form-control mb-3"
-                        name="password"
-                        value={modificaProfiloForm.password}
-                        style={{ maxWidth: '200px' }}
-                      />
-                      <div className="d-flex justify-content-end">
+                {modificaProfiloVisibile && (
+                    <div className="d-flex flex-column flex-md-row justify-content-between">
+                      <div className="mb-3">
+                        <div>
+                          <a>Nome</a>
+                          <input
+                              onChange={handleModificaProfiloChange}
+                              autoComplete="off"
+                              type="text"
+                              placeholder="Modifica nome..."
+                              className="form-control mb-3"
+                              name="nome"
+                              value={modificaProfiloForm.nome}
+                              style={{maxWidth: '200px'}}
+                          />
+
+                        </div>
+                        <div>
+                          <a>Cognome</a>
+                          <input
+                              onChange={handleModificaProfiloChange}
+                              autoComplete="off"
+                              type="text"
+                              placeholder="Modifica cognome..."
+                              className="form-control mb-3"
+                              name="cognome"
+                              value={modificaProfiloForm.cognome}
+                              style={{maxWidth: '200px'}}
+                          />
+                        </div>
+                      </div>
+                      <div className="mb-3">
+                        <div>
+                          <a>Email</a>
+                          <input
+                              onChange={handleModificaProfiloChange}
+                              autoComplete="off"
+                              type="email"
+                              placeholder="Modifica email..."
+                              className="form-control mb-3"
+                              name="email"
+                              value={modificaProfiloForm.email}
+                              style={{maxWidth: '200px'}}
+                          />
+                        </div>
+                        <div>
+                          <a>Password</a>
+                          <input
+                              onChange={handleModificaProfiloChange}
+                              autoComplete="off"
+                              type="password"
+                              placeholder="Modifica password..."
+                              className="form-control mb-3"
+                              name="password"
+                              value={modificaProfiloForm.password}
+                              style={{maxWidth: '200px'}}
+                          />
+
+
+                        </div>
+                      </div>
+                      <div className="d-flex justify-content-end align-items-end">
                         <button className="btn btn-secondary me-2" onClick={toggleModificaProfilo}>
                           Annulla
                         </button>
-                        <button className="btn btn-success" onClick={aggiornaProfilo}>
+                        <button className="btn btn-success bme-2" onClick={aggiornaProfilo}>
                           Conferma modifiche
                         </button>
                       </div>
-                    </div>
-                  )}
-                </MDBCardBody>
 
-                <MDBCardBody>
-                  {aggiungiProfiloVisibile && (
-                    <div>
-                      <a>Nome</a>
-                      <input
-                        onChange={handleChange}
-                        autoComplete="off"
-                        type="text"
-                        placeholder="Inserisci nome..."
-                        className="form-control mb-3"
-                        name="nome"
-                        value={registrazioneForm.nome}
-                        style={{ maxWidth: '200px' }}
-                      />
-                      <a>Cognome</a>
-                      <input
-                        onChange={handleChange}
-                        autoComplete="off"
-                        type="text"
-                        placeholder="Inserisci cognome..."
-                        className="form-control mb-3"
-                        name="cognome"
-                        value={registrazioneForm.cognome}
-                        style={{ maxWidth: '200px' }}
-                      />
-                      <a>Email</a>
-                      <input
-                        onChange={handleChange}
-                        autoComplete="off"
-                        type="email"
-                        placeholder="Inserisci email..."
-                        className="form-control mb-3"
-                        name="email"
-                        value={registrazioneForm.email}
-                        style={{ maxWidth: '200px' }}
-                      />
-                      <a>Password</a>
-                      <input
-                        onChange={handleChange}
-                        autoComplete="off"
-                        type="password"
-                        placeholder="Inserisci password..."
-                        className="form-control mb-3"
-                        name="password"
-                        value={registrazioneForm.password}
-                        style={{ maxWidth: '200px' }}
-                      />
-                      <a>Ruolo</a>
-                      <select
-                        onChange={handleChange}
-                        className="form-control mb-3"
-                        name="ruolo"
-                        value={registrazioneForm.ruolo}
-                        style={{ maxWidth: '200px' }}
-                      >
-                        <option value="CISO">CISO</option>
-                        <option value="Amministratore di sistema">Amministratore di sistema</option>
-                      </select>
-                      <div className="d-flex justify-content-end">
-                        <button className="btn btn-success" onClick={registrami}>
-                          Conferma Registrazione
-                        </button>
-                      </div>
-                      {registrazioneSuccess && (
-                        <p className="text-success mt-3">Registrazione completata con successo!</p>
-                      )}
-                    </div>
+                  </div>
                   )}
-                </MDBCardBody>
+
+                  {aggiungiProfiloVisibile && (
+                      <div className="d-flex flex-column flex-md-row justify-content-between">
+                        <div className="mb-3">
+                          <div>
+                          <a>Nome</a>
+                        <input
+                          onChange={handleChange}
+                          autoComplete="off"
+                          type="text"
+                          placeholder="Inserisci nome..."
+                          className="form-control mb-3"
+                          name="nome"
+                          value={registrazioneForm.nome}
+                          style={{ maxWidth: '200px' }}
+                        />
+                      </div>
+                      <div>
+                        <a>Cognome</a>
+                        <input
+                          onChange={handleChange}
+                          autoComplete="off"
+                          type="text"
+                          placeholder="Inserisci cognome..."
+                          className="form-control mb-3"
+                          name="cognome"
+                          value={registrazioneForm.cognome}
+                          style={{ maxWidth: '200px' }}
+                        />
+                      </div>
+                    </div>
+                    <div className="mb-3">
+                      <div>
+                        <a>Password</a>
+                        <input
+                          onChange={handleChange}
+                          autoComplete="off"
+                          type="text"
+                          placeholder="Inserisci password..."
+                          className="form-control mb-3"
+                          name="password"
+                          value={registrazioneForm.password}
+                          style={{ maxWidth: '200px' }}
+                        />
+                      </div>
+                      <div>
+                        <a>Ruolo</a>
+                        <select
+                          onChange={handleChange}
+                          className="form-control mb-3"
+                          name="ruolo"
+                          value={registrazioneForm.ruolo}
+                          style={{ maxWidth: '200px' }}
+                        >
+                          <option value="CISO">CISO</option>
+                          <option value="Amministratore di sistema">Amministratore di sistema</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="d-flex align-items-end">
+                      <button className="btn me-2 btn-success mt-auto" onClick={registrami}>
+                        Conferma Registrazione
+                      </button>
+                    </div>
+                    {registrazioneSuccess && (
+                      <p className="text-success mt-3">Registrazione completata con successo!</p>
+                    )}
+                  </div>
+                )}
+
+
+              </MDBCardBody>
               </MDBCard>
             </MDBCol>
           </MDBRow>
