@@ -27,9 +27,7 @@ function Login(props) {
                 const token = response.data.token; // Estrai il token e il ruolo dalla risposta del server
                 const ruolo = response.data.ruolo; // Aggiungi l'assegnazione del ruolo dalla risposta del server
                 setRuolo(ruolo); // Imposta il ruolo utilizzando l'hook useRuolo
-                console.log(ruolo);
                 props.setToken(token); // Imposta il token utilizzando la prop
-                console.log(token);
 
                 navigate('/Profili'); // Reindirizza al profilo
             })
