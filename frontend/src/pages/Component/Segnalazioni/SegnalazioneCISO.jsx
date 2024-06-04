@@ -95,10 +95,10 @@ function ReactVirtualizedTable() {
 }
 
 // Componente principale che renderizza la tabella virtuale
-function Segnalazione() {
+function SegnalazioneCISO() {
     return (
         <ReactVirtualizedTable />
     );
 }
 
-export default Segnalazione;
+export default SegnalazioneCISO;

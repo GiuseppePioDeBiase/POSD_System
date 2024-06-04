@@ -69,14 +69,14 @@ function App() {
                         <Full patterns={patterns}/>
                     </div>
                 }/>
-                <Route path="/Information/:title" element={
+                <Route path="/Information/:title"  element={
                     <div>
                         <NavBar/>
                         <div className='flex items-center'>
                             <Searchbar/>
                         </div>
 
-                        <Information/>
+                        <Information token={token}/>
                     </div>
                 }/>
                 <Route path="/Contatti" element={

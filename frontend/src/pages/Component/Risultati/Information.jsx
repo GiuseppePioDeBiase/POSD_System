@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import FeedbackForm from '../FeedbackForm';  // Import the FeedbackForm component
+import SegnalazioneUR from '../Segnalazioni/SegnalazioneUR.jsx';  // Import the SegnalazioneUR component
 
-const Information = () => {
+const Information = (token) => {
   const location = useLocation();
   const pattern = location.state || {};
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const Information = () => {
         </div>
       )}
 
-      {showFeedbackForm && <FeedbackForm onClose={toggleFeedbackForm} />}
+      {showFeedbackForm && <SegnalazioneUR token={token} titolo={ pattern.Pattern } onClose={toggleFeedbackForm} />}
 
       <div className="bg-white shadow-md rounded-lg p-4 mb-4">
         <div className="mt-4">

@@ -2,14 +2,14 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-const FeedbackForm = ({ onClose }) => {
-  const [subject, setSubject] = useState('');
+const SegnalazioneUR = ({ onClose,token, titolo }) => {
+  const subject="Segnalazione per il pattern: " + titolo;
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState(null);
 
   const validateForm = () => {
-    if (subject.trim() === '' || message.trim() === '') {
-      setStatus('Oggetto e messaggio non possono essere vuoti!');
+    if (message.trim() === '') {
+      setStatus('Il messaggio non può essere vuoto!');
       return false;
     }
     setStatus(null);
@@ -22,9 +22,13 @@ const FeedbackForm = ({ onClose }) => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/api/feedback', {
+      const response = await axios.post('http://localhost:5000/api/segnalzione', {
         oggetto: subject,
-        messaggio: message
+        messaggio: message,
+        headers: {
+            'Content-Type': 'application/json',//nell'intestazione di una richiesta HTTP indica al server che il corpo della richiesta è formattato come JSON
+            'Authorization': `Bearer ${token}`
+          }
       });
       setStatus(response.data.message);
     } catch (error) {
@@ -43,7 +47,7 @@ const FeedbackForm = ({ onClose }) => {
             id="subject"
             name="subject"
             value={subject}
-            onChange={(e) => setSubject(e.target.value)}
+             readOnly
             className="w-full rounded border border-gray-300 bg-white py-2 px-4 text-lg text-gray-700 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
             required
           />
@@ -80,8 +84,10 @@ const FeedbackForm = ({ onClose }) => {
   );
 };
 
-FeedbackForm.propTypes = {
+SegnalazioneUR.propTypes = {
   onClose: PropTypes.func.isRequired,
+  token: PropTypes.func.isRequired,
+  titolo: PropTypes.func.isRequired
 };
 
-export default FeedbackForm;
+export default SegnalazioneUR;
