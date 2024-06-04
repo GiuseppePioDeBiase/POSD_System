@@ -14,7 +14,7 @@ function Login(props) {
 
     function logMeIn(event) {
         event.preventDefault();
-        const userEmail = loginForm.email; // Salva l'email fornita dall'utente in una variabile
+
         axios({
             method: 'POST',
             url: 'http://127.0.0.1:5000/api/login',

@@ -1,7 +1,6 @@
 import ProfiloCISO from "./ProfiloCISO.jsx";
 import ProfileUR from "./ProfileUR.jsx";
 import ProfiloAS from "./ProfiloAS.jsx";
-import NavBar from "../Navbar/NavBar.jsx";
 import PropTypes from "prop-types";
 
 function Profili({ token, ruolo}) {
@@ -19,7 +18,7 @@ function Profili({ token, ruolo}) {
     };
    return (
     <div>
-      <NavBar/>
+
       {renderProfile()}
     </div>
   );
