@@ -1,15 +1,49 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { Link } from "react-router-dom";
-import './NavBar.css'; // Importa lo stile CSS
+import './NavBar.css';
+import PropTypes from "prop-types";
 
-function NavBar() {
+
+function NavBar({token}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState(0);
-
+  const [profilo, setProfilo] = useState({ nome: '', cognome: ''});
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
   };
 
+  useEffect(() => {
+    const fetchProfilo = async () => {
+
+      if (!token) {
+        console.error("Token non disponibile");
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:5000/api/profilo', {
+          method: 'GET',
+          headers: {
+
+            'Content-Type': 'application/json',//nell'intestazione di una richiesta HTTP indica al server che il corpo della richiesta è formattato come JSON
+            'Authorization': `Bearer ${token}`
+
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`Errore: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setProfilo(data);
+      } catch (error) {
+        console.error("Errore durante il recupero del profilo:", error);
+      }
+    };
+
+    fetchProfilo();
+  }, []);
   const handleMenuItemClick = (index) => {
     setActiveMenuItem(index);
     if (window.innerWidth <= 1919) {
@@ -30,12 +64,19 @@ function NavBar() {
     { to: "/Partecipa", icon: "hand-right-outline", text: "Partecipa", bg: "#0fc70f" },
     { to: "/Feedback", icon: "clipboard-outline", text: "Feedback", bg: "#b145e9" },
   ];
+  let bottomItems ;
+  if (!token){
+    bottomItems =[
+        { to: "/Login", icon: "log-in-outline", text: "Login" }
 
-  const bottomItems = [
-    { to: "/Profili", icon: "img", imgSrc: "frontend/public/totti.jpeg", alt: "Francesco Totti", text: "Francesco Totti"},
-    { to: "/Login", icon: "log-in-outline", text: "Login" },
+    ];
+  }else{
+    bottomItems = [
+    { to: "/Profili", icon: "img", imgSrc: "frontend/public/totti.jpeg", alt: profilo.nome, text: profilo.nome +" "+ profilo.cognome},
     { to: "/LogOUT", icon: "log-out-outline", text: "Logout" }
   ];
+  }
+
 
   return (
     <>
@@ -85,5 +126,8 @@ function NavBar() {
     </>
   );
 }
+NavBar.propTypes = {
+  token: PropTypes.string.isRequired,
+};
 
 export default NavBar;

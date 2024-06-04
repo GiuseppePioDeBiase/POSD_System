@@ -4,18 +4,30 @@ import SegnalazioneUR from '../Segnalazioni/SegnalazioneUR.jsx';
 import PropTypes from "prop-types";
 
 
-const Information = ({props}) => {
+const Information = ({props, ruolo}) => {
+
   const location = useLocation();
   const pattern = location.state || {};
   const navigate = useNavigate();
+  const navigate1 = useNavigate();
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
+   const [error, setError] = useState('');
   console.log("Token info ", props)
   const handleBackClick = () => {
     navigate(`/Full/${encodeURIComponent(pattern.title)}`, { state: { title: pattern.title } });
   };
 
   const toggleFeedbackForm = () => {
-    setShowFeedbackForm(!showFeedbackForm);
+    if(!props){
+      navigate1("/Login")
+    }else{
+      if (ruolo!=='Utente'){
+        setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
+      }else{
+        setShowFeedbackForm(!showFeedbackForm);
+      }
+    }
+    
   };
 
   return (
@@ -39,7 +51,7 @@ const Information = ({props}) => {
           </div>
         </div>
       )}
-
+      {error && <p className="text-center font-bold" style={{ color: 'red' }}>{error}</p>}
       {showFeedbackForm && <SegnalazioneUR  onClose={toggleFeedbackForm }  token={props} titolo={pattern.titolo}/>}
 
       <div className="bg-white shadow-md rounded-lg p-4 mb-4">
@@ -62,6 +74,7 @@ const Information = ({props}) => {
 };
 Information.propTypes = {
     props: PropTypes.string.isRequired,
+    ruolo: PropTypes.string.isRequired
 
 };
 export default Information;

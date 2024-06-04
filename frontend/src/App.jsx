@@ -49,11 +49,11 @@ function App() {
 
 
     return (
-        <Router>
-            <Routes>
+        <Router >
+            <Routes >
                 <Route path="/" element={
                     <div>
-                        <NavBar/>
+                        <NavBar token={token}/>
                         <div className='flex items-center'>
                             <Searchbar/>
                         </div>
@@ -62,7 +62,7 @@ function App() {
                 }/>
                 <Route path="/Full/:title" element={
                     <div>
-                        <NavBar/>
+                        <NavBar token={token}/>
                         <div className='flex items-center'>
                             <Searchbar/>
                         </div>
@@ -71,22 +71,22 @@ function App() {
                 }/>
                 <Route path="/Information/:title"  element={
                     <div>
-                        <NavBar/>
+                        <NavBar token={token}/>
                         <div className='flex items-center'>
                             <Searchbar/>
                         </div>
-                        <Information   props={token}/>
+                        <Information   props={token} ruolo={ruolo}/>
                     </div>
                 }/>
                 <Route path="/Contatti" element={
                     <div>
-                        <NavBar/>
+                        <NavBar token={token}/>
                         <Contatti/>
                     </div>
                 }/>
                 <Route path="/POSD" element={
                     <div>
-                        <NavBar/>
+                        <NavBar token={token}/>
                         <Searchbar/>
                         <POSD/>
                     </div>
@@ -94,13 +94,13 @@ function App() {
 
                 <Route path="/Contatti" element={
                     <div>
-                        <NavBar/>
+                        <NavBar token={token}/>
                         <Contatti/>
                     </div>
                 }/>
                 <Route path="/POSD" element={
                     <div>
-                        <NavBar/>
+                        <NavBar token={token}/>
                         <Searchbar/>
                         <POSD/>
                     </div>
@@ -109,7 +109,7 @@ function App() {
 
                 <Route path="/ricerca" element={
                     <div>
-                        <NavBar/>
+                        <NavBar token={token}/>
                         <Ricerca/>
                     </div>
                 }/>
@@ -117,7 +117,7 @@ function App() {
 
                 <Route path="/Definizione/:title" element={
                     <div>
-                        <NavBar/>
+                        <NavBar token={token}/>
                         <div className='flex items-center'>
                             <Searchbar/>
                         </div>
@@ -139,10 +139,10 @@ function App() {
                 <Route path="/Registrazione" element={
                     <div>
 
-                        <NavBar />
+                        <NavBar token={token}/>
                         <Registrazione/>
 
-                        <NavBar/>
+                        <NavBar token={token}/>
                         <Registrazione />
 
                     </div>
@@ -152,34 +152,12 @@ function App() {
                 <Route path="/Profili" element={
                     <ProtectedRouteToken token={token}>
                             <div>
-                                <NavBar />
+                                <NavBar token={token}/>
                                 <Profili  token={token} ruolo={ruolo}/>
                             </div>
                     </ProtectedRouteToken>
                 }/>
 
-
-                {/* <Route path="/ProfiloAS" element={
-                    <div>
-                        <NavBar token={token} ruolo={ruolo}/>
-                        <ProfiloAS/>
-                    </div>
-                }/>
-
-                 <Route path="/ProfiloCISO" element={
-                    <div>
-                        <NavBar token={token} ruolo={ruolo}/>
-                        <ProfiloCISO/>
-                    </div>
-                }/>*/}
-                {/* <Route path="/Partecipa" element={
-          <ProtectedRouteToken token={token}>
-            <div>
-              <NavBar/>
-              <Partecipa token={token} setToken={setToken}/>
-            </div>
-          </ProtectedRouteToken>
-        }/>*/}
                 <Route path="/Feedback" element={
                     <ProtectedRouteToken token={token}>
                         <div>
