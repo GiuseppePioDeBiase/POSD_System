@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-const SegnalazioneUR = ({onClose, token, titolo} ) => {
+const SegnalazioneUR = ({ token, titolo} ) => {
   const subject="Segnalazione per il pattern: " + titolo;
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState(null);
@@ -72,13 +72,6 @@ const SegnalazioneUR = ({onClose, token, titolo} ) => {
           >
             Invia
           </button>
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-full bg-red-500 py-3 px-8 text-lg text-white hover:bg-red-600 focus:outline-none"
-          >
-            Chiudi
-          </button>
         </div>
         {status && <p className="mt-4 text-lg text-center">{status}</p>}
       </form>
@@ -87,7 +80,7 @@ const SegnalazioneUR = ({onClose, token, titolo} ) => {
 };
 
 SegnalazioneUR.propTypes = {
-  onClose: PropTypes.func.isRequired,
+
   token: PropTypes.string.isRequired,
   titolo: PropTypes.string.isRequired
 };
