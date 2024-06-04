@@ -149,14 +149,13 @@ function App() {
 
                         {token ? (
                             <div>
-
                                 <NavBar />
-                                <Profili ruolo={ruolo} token={token}/>
+                                <Profili  token={token} ruolo={ruolo}/>
                             </div>
                         ) : (
                             <Navigate to="/Login"/>
                         )}
-                        {ruolo && <Profili ruolo={ruolo} token={token}/>}
+
 
                     </ProtectedRouteToken>
                 }/>
