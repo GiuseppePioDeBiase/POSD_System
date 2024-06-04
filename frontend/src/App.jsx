@@ -146,17 +146,10 @@ function App() {
                 <Route path="/Profili" element={
 
                     <ProtectedRouteToken token={token}>
-
-                        {token ? (
                             <div>
                                 <NavBar />
                                 <Profili  token={token} ruolo={ruolo}/>
                             </div>
-                        ) : (
-                            <Navigate to="/Login"/>
-                        )}
-
-
                     </ProtectedRouteToken>
                 }/>
 
