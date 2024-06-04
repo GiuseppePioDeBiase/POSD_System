@@ -1,5 +1,5 @@
-from backend.models.attors.utente import Utente
-from backend.models.attors.ruolo import Ruolo
+from backend import Utente
+from backend import Ruolo
 
 
 class Ciso(Utente):

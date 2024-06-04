@@ -1,4 +1,4 @@
-from backend.models.message_reporting import BaseMessage
+from backend.models.message_reporting.base_message import BaseMessage
 from flask import jsonify, request
 from backend.config.db import conn_db
 
