@@ -8,7 +8,7 @@ segnalazioneCollection = db['Segnalazione']
 
 class Segnalazione(BaseMessage):
     def __init__(self, oggetto, messaggio, ip_pubblico, mail):
-        super().__init__(oggetto, messaggio, ip_pubblico)
+        super().__init__(oggetto, messaggio, ip_pubblico, mail)
         self.mail = mail
 
     @classmethod
