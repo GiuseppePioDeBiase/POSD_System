@@ -2,11 +2,12 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-const SegnalazioneUR = ({ onClose,token, titolo }) => {
+const SegnalazioneUR = ({onClose, token, titolo} ) => {
   const subject="Segnalazione per il pattern: " + titolo;
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState(null);
-
+  console.log('Segnalazione:', titolo);
+  console.log('Segnalazione:', token);
   const validateForm = () => {
     if (message.trim() === '') {
       setStatus('Il messaggio non può essere vuoto!');
@@ -23,6 +24,7 @@ const SegnalazioneUR = ({ onClose,token, titolo }) => {
     }
     try {
       const response = await axios.post('http://localhost:5000/api/segnalazione', {
+        method: 'POST',
         oggetto: subject,
         messaggio: message,
         headers: {
@@ -86,8 +88,8 @@ const SegnalazioneUR = ({ onClose,token, titolo }) => {
 
 SegnalazioneUR.propTypes = {
   onClose: PropTypes.func.isRequired,
-  token: PropTypes.func.isRequired,
-  titolo: PropTypes.func.isRequired
+  token: PropTypes.string.isRequired,
+  titolo: PropTypes.string.isRequired
 };
 
 export default SegnalazioneUR;

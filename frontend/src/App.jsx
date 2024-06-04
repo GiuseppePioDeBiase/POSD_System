@@ -57,7 +57,7 @@ function App() {
                         <div className='flex items-center'>
                             <Searchbar/>
                         </div>
-                        <Home/>
+                        <Home />
                     </div>
                 }/>
                 <Route path="/Full/:title" element={
@@ -66,7 +66,7 @@ function App() {
                         <div className='flex items-center'>
                             <Searchbar/>
                         </div>
-                        <Full patterns={patterns}/>
+                        <Full patterns={patterns} />
                     </div>
                 }/>
                 <Route path="/Information/:title"  element={
@@ -75,8 +75,7 @@ function App() {
                         <div className='flex items-center'>
                             <Searchbar/>
                         </div>
-
-                        <Information token={token}/>
+                        <Information   props={token}/>
                     </div>
                 }/>
                 <Route path="/Contatti" element={
