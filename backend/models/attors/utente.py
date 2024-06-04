@@ -85,13 +85,13 @@ class Utente:
 
         # Crea un'istanza della classe appropriata
         try:
-            if ruolo == "ciso":
+            if ruolo == Ruolo.CISO:
                 from backend.models.attors.ciso import Ciso
                 utente = Ciso(nome, cognome, email, password)
-            elif ruolo == "amministratore di sistema":
+            elif ruolo == Ruolo.AMMINISTRATORE_DI_SISTEMA:
                 from backend.models.attors.amministratore_di_sistema import AmministratoreDiSistema
                 utente = AmministratoreDiSistema(nome, cognome, email, password)
-            elif ruolo == "utente":
+            elif ruolo == Ruolo.UTENTE:
                 utente = cls(nome, cognome, email, password)
             else:
                 return jsonify({"successo": False, "messaggio": f"Ruolo: {ruolo} non valido!"}), 400
