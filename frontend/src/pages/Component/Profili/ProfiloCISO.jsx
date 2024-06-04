@@ -27,7 +27,6 @@ export default function ProfiloCISO(props) {
 
       const token = props.token
 
-      console.log("token mio",token)
 
 
       if (!token) {
@@ -94,7 +93,7 @@ export default function ProfiloCISO(props) {
     <MDBContainer className="py-5">
       <MDBRow>
         <MDBCol lg="4">
-          <MDBCard className="mb-4 h-auto w-auto justify-content-center mx-5">
+          <MDBCard className="mb-4 h-full w-auto justify-content-center mx-5">
             <MDBCardBody className=" mx-5">
               <MDBCardImage
                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
