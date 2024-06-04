@@ -87,10 +87,10 @@ class Utente:
         # Crea un'istanza della classe appropriata
         try:
             if ruolo == Ruolo.CISO.value:
-                from backend import Ciso
+                from backend.models.attors.ciso import Ciso
                 utente = Ciso(nome, cognome, email, password)
             elif ruolo == Ruolo.AMMINISTRATORE_DI_SISTEMA.value:
-                from backend import AmministratoreDiSistema
+                from backend.models.attors.amministratore_di_sistema import AmministratoreDiSistema
                 utente = AmministratoreDiSistema(nome, cognome, email, password)
             elif ruolo == Ruolo.UTENTE.value:
                 utente = cls(nome, cognome, email, password)
