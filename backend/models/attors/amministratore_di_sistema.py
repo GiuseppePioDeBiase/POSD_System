@@ -1,6 +1,5 @@
-from backend import Utente
-from backend import Ruolo
-
+from backend.models.attors.utente import Utente
+from backend.models.attors.ruolo import Ruolo
 
 class AmministratoreDiSistema(Utente):
     def __init__(self, nome, cognome, email, password):

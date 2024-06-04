@@ -6,8 +6,6 @@ from backend.config.db import conn_db
 import re
 from backend.models.attors.ruolo import Ruolo
 
-
-
 db = conn_db()  # Connessione al database MongoDB
 utenti = db['Utenti']  # Nome della collezione
 
@@ -26,7 +24,7 @@ class Utente:
             "cognome": self.cognome,
             "email": self.email,
             "password": self.password,
-            "ruolo": self.ruolo
+            "ruolo": self.ruolo.value
         }
 
     @staticmethod
@@ -98,7 +96,6 @@ class Utente:
                 utente = cls(nome, cognome, email, password)
             else:
                 return jsonify({"successo": False, "messaggio": f"Ruolo: {ruolo} non valido!"}), 400
-
             utenti.insert_one(utente.to_json())
         except Exception as e:
             return jsonify(
