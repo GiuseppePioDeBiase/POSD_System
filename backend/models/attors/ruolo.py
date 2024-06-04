@@ -2,6 +2,6 @@ from enum import Enum
 
 
 class Ruolo(Enum):
-    UTENTE = "utente"
-    CISO = "ciso"
-    AMMINISTRATORE_DI_SISTEMA = "amministratore di sistema"
+    UTENTE = "Utente"
+    CISO = "CISO"
+    AMMINISTRATORE_DI_SISTEMA = "Amministratore di sistema"

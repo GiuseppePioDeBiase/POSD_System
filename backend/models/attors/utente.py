@@ -59,7 +59,11 @@ class Utente:
         cognome = dati.get('cognome')
         email = dati.get('email')
         password = dati.get('password')
-        ruolo = dati.get('ruolo')
+
+        if not dati.get('ruolo'):
+            ruolo = Ruolo.UTENTE
+        else:
+            ruolo = dati.get('ruolo')
 
         if not all([nome, cognome, email, password]):
             return jsonify({"successo": False, "messaggio": "Tutti i campi sono obbligatori!"}), 400
@@ -81,20 +85,21 @@ class Utente:
 
         # Crea un'istanza della classe appropriata
         try:
-            if ruolo == "ciso":
+            if ruolo == Ruolo.CISO.value:
                 from backend.models.attors.ciso import Ciso
                 utente = Ciso(nome, cognome, email, password)
-            elif ruolo == "amministratore di sistema":
+            elif ruolo == Ruolo.AMMINISTRATORE_DI_SISTEMA.value:
                 from backend.models.attors.amministratore_di_sistema import AmministratoreDiSistema
                 utente = AmministratoreDiSistema(nome, cognome, email, password)
-            elif ruolo == "utente":
+            elif ruolo == Ruolo.UTENTE.value:
                 utente = cls(nome, cognome, email, password)
             else:
                 return jsonify({"successo": False, "messaggio": f"Ruolo: {ruolo} non valido!"}), 400
 
             utenti.insert_one(utente.to_json())
         except Exception as e:
-            return jsonify({"successo": False, "messaggio": f"Errore durante la registrazione dell'utente: {str(e)}"}), 500
+            return jsonify(
+                {"successo": False, "messaggio": f"Errore durante la registrazione dell'utente: {str(e)}"}), 500
 
         return jsonify({"successo": True, "messaggio": "Utente registrato con successo!"}), 201
 

@@ -13,7 +13,7 @@ import NotFound from "./pages/Component/PagineMenu/NotFound/NotFound.jsx";
 
 import Login from "./pages/Component/PagineMenu/Accesso/Login/Login.jsx";
 import Registrazione from "./pages/Component/PagineMenu/Accesso/Registrazione/Registrazione.jsx";
-import Logout from "./pages/Component/PagineMenu/Accesso/LogOUT.jsx";
+
 import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
 import POSD from './pages/Component/PagineMenu/POSD/POSD.jsx';
@@ -125,9 +125,11 @@ function App() {
                         <Definizione/>
                     </div>
                 }/>
+
                 <Route path="/LogOUT" element={
                     <Logout token={token}/>
                 }/>
+
                 <Route path="/Login" element={
                     <div>
                         <NavBar token={token} ruolo={ruolo}/>
@@ -137,8 +139,13 @@ function App() {
 
                 <Route path="/Registrazione" element={
                     <div>
+
                         <NavBar />
                         <Registrazione/>
+
+                        <NavBar/>
+                        <Registrazione />
+
                     </div>
                 }/>
 
