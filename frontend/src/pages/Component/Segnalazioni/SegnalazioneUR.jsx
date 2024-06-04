@@ -22,7 +22,7 @@ const SegnalazioneUR = ({ onClose,token, titolo }) => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/api/segnalzione', {
+      const response = await axios.post('http://localhost:5000/api/segnalazione', {
         oggetto: subject,
         messaggio: message,
         headers: {
