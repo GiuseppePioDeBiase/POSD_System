@@ -3,12 +3,12 @@ from backend.models.message_reporting.base_message import BaseMessage
 from flask import request, jsonify
 
 db = conn_db()
-segnalazioneCollection = db['Segnalazione']
+segnalazioneCollection = db['Segnalazioni']
 
 
 class Segnalazione(BaseMessage):
     def __init__(self, oggetto, messaggio, mail):
-        super().__init__(oggetto, messaggio, mail)
+        super().__init__(oggetto, messaggio)
         self.mail = mail
 
     @classmethod
@@ -26,6 +26,12 @@ class Segnalazione(BaseMessage):
 
         segnalazioneCollection.insert_one(segnalazione.to_json())
         return jsonify({"successo": True, "messaggio": "Segnalazione ricevuta!"}), 201
+
+    @classmethod
+    def getAllSegnalazioni(cls):
+        collection = segnalazioneCollection.find({}, {'_id': False, 'data_ora':False, "ip_pubblico": False})
+        return jsonify(list(collection))
+
 
     def to_json(self):
         base_json = super().to_json()

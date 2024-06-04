@@ -11,8 +11,8 @@ const Information = ({props, ruolo}) => {
   const navigate = useNavigate();
   const navigate1 = useNavigate();
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
-   const [error, setError] = useState('');
-  console.log("Token info ", props)
+  const [error, setError] = useState('');
+
   const handleBackClick = () => {
     navigate(`/Full/${encodeURIComponent(pattern.title)}`, { state: { title: pattern.title } });
   };

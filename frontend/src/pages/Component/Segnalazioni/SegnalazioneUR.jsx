@@ -2,12 +2,11 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-const SegnalazioneUR = ({ token, titolo} ) => {
-  const subject="Segnalazione per il pattern: " + titolo;
+const SegnalazioneUR = ({ token, titolo }) => {
+  const subject = "Segnalazione per il pattern: " + titolo;
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState(null);
-  console.log('Segnalazione:', titolo);
-  console.log('Segnalazione:', token);
+
   const validateForm = () => {
     if (message.trim() === '') {
       setStatus('Il messaggio non può essere vuoto!');
@@ -17,24 +16,28 @@ const SegnalazioneUR = ({ token, titolo} ) => {
     return true;
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
     }
     try {
       const response = await axios.post('http://localhost:5000/api/segnalazione', {
-        method: 'POST',
         oggetto: subject,
         messaggio: message,
+      }, {
         headers: {
-            'Content-Type': 'application/json',//nell'intestazione di una richiesta HTTP indica al server che il corpo della richiesta è formattato come JSON
-            'Authorization': `Bearer ${token}`
-          }
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        }
       });
-      setStatus(response.data.message);
+      setStatus(response.data.messaggio);
     } catch (error) {
-      setStatus('Errore nell\'invio del feedback');
+      if (error.response) {
+        setStatus(error.response.data.messaggio || 'Errore nell\'invio del feedback');
+      } else {
+        setStatus('Errore di connessione. Riprova più tardi.');
+      }
     }
   };
 
@@ -49,7 +52,7 @@ const SegnalazioneUR = ({ token, titolo} ) => {
             id="subject"
             name="subject"
             value={subject}
-             readOnly
+            readOnly
             className="w-full rounded border border-gray-300 bg-white py-2 px-4 text-lg text-gray-700 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
             required
           />
@@ -80,7 +83,6 @@ const SegnalazioneUR = ({ token, titolo} ) => {
 };
 
 SegnalazioneUR.propTypes = {
-
   token: PropTypes.string.isRequired,
   titolo: PropTypes.string.isRequired
 };
