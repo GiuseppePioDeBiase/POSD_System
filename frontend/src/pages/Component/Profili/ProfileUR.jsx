@@ -19,8 +19,6 @@ export default function ProfiloCISO(props) {
   const [password, setPassword] = useState('');
   const [confermaPassword, setConfermaPassword] = useState('');
   const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '' });
-  const [aggiungiLicenzaVisibile, setAggiungiLicenzaVisibile] = useState(false);
-  const [SegnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
 
   useEffect(() => {
     const fetchProfilo = async () => {
