@@ -28,8 +28,6 @@ function Registrazione() {
             }
         })
         .then(() => {
-
-
                 navigate('/Home'); // Reindirizza al profilo
             })
             .catch((error) => {
@@ -163,7 +161,7 @@ function Registrazione() {
                                         Registrati
                                     </button>
                                 </div>
-                                <Link to="/" className="block text-center text-gray-600 underline">Torna alla pagina di Login</Link>
+                                <Link to="/Login" className="block text-center text-gray-600 underline">Torna alla pagina di Login</Link>
                             </div>
                         </div>
                     </div>
