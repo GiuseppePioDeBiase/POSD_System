@@ -13,12 +13,12 @@ utenti = db['Utenti']  # Nome della collezione
 
 
 class Utente:
-    def __init__(self, nome, cognome, email, password):
+    def __init__(self, nome, cognome, email, password, ruolo):
         self.nome = nome
         self.cognome = cognome
         self.email = email
         self.password = generate_password_hash(password)  # Hash della password per la sicurezza
-        self.ruolo = Ruolo.UTENTE.value
+        self.ruolo = ruolo
 
     def to_json(self):
         return {
