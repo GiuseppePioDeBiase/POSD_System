@@ -28,6 +28,7 @@ function App() {
     const [patterns, setPatterns] = useState([]);
     const {token, setToken} = useToken();
     const {ruolo, setRuolo} = useRuolo();
+    const [error, setError] = useState('');
 //inizializzazione patterns
     useEffect(() => {
         const initialPatterns = [];
@@ -41,10 +42,20 @@ function App() {
         }
         return children;
     };
+        const ProtectedRouteRuolo = ({children, ruolo}) => {
+        if (ruolo!=="Utente") {
+            setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
+        }
+        return children;
+    };
 
     ProtectedRouteToken.propTypes = {
         children: PropTypes.node.isRequired,
         token: PropTypes.string,
+    };
+        ProtectedRouteRuolo.propTypes = {
+        children: PropTypes.node.isRequired,
+        ruolo: PropTypes.string,
     };
 
 
@@ -78,19 +89,6 @@ function App() {
                         <Information   props={token} ruolo={ruolo}/>
                     </div>
                 }/>
-                <Route path="/Contatti" element={
-                    <div>
-                        <NavBar token={token}/>
-                        <Contatti/>
-                    </div>
-                }/>
-                <Route path="/POSD" element={
-                    <div>
-                        <NavBar token={token}/>
-                        <Searchbar/>
-                        <POSD/>
-                    </div>
-                }/>
 
                 <Route path="/Contatti" element={
                     <div>
@@ -98,6 +96,7 @@ function App() {
                         <Contatti/>
                     </div>
                 }/>
+
                 <Route path="/POSD" element={
                     <div>
                         <NavBar token={token}/>
@@ -160,19 +159,25 @@ function App() {
 
                 <Route path="/Partecipa" element={
                     <ProtectedRouteToken token={token}>
+                        <ProtectedRouteRuolo ruolo={ruolo}>
                             <div>
                                 <NavBar token={token}/>
                                 <Partecipa  token={token} ruolo={ruolo}/>
                             </div>
+                        </ProtectedRouteRuolo>
                     </ProtectedRouteToken>
                 }/>
 
                 <Route path="/Feedback" element={
                     <ProtectedRouteToken token={token}>
+                         <ProtectedRouteRuolo ruolo={ruolo}>
+
+
                         <div>
                             <NavBar token={token} ruolo={ruolo}/>
                             <Feedback token={token} setToken={setToken}/>
                         </div>
+                        </ProtectedRouteRuolo>
                     </ProtectedRouteToken>
                 }/>
                 <Route path="*" element={<NotFound/>}/>
