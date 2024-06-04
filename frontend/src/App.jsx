@@ -162,6 +162,7 @@ function App() {
                         <ProtectedRouteRuolo ruolo={ruolo}>
                             <div>
                                 <NavBar token={token}/>
+                                <Searchbar/>
                                 <Partecipa  token={token} ruolo={ruolo}/>
                             </div>
                         </ProtectedRouteRuolo>
@@ -175,6 +176,7 @@ function App() {
 
                         <div>
                             <NavBar token={token} ruolo={ruolo}/>
+                            <Searchbar/>
                             <Feedback token={token} setToken={setToken}/>
                         </div>
                         </ProtectedRouteRuolo>
