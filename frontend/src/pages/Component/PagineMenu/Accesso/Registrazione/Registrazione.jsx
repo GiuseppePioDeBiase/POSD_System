@@ -28,7 +28,11 @@ function Registrazione() {
             }
         })
         .then(() => {
-                navigate('/Home'); // Reindirizza al profilo
+
+
+
+                navigate('/'); // Reindirizza al profilo
+
             })
             .catch((error) => {
                 if (error.response) {

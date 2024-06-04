@@ -6,11 +6,11 @@ import PropTypes from "prop-types";
 function Profili({ token, ruolo}) {
     const renderProfile = () => {
         switch (ruolo) {
-            case 'utente':
+            case 'Utente':
                 return <ProfileUR  token={token} />;
-            case 'ciso':
+            case 'CISO':
                 return <ProfiloCISO token={token}/>;
-            case 'amministratore di sistema':
+            case 'Amministratore di sistema':
                 return <ProfiloAS  token={token}/>;
             default:
                 return <div>Ruolo non riconosciuto</div>;
