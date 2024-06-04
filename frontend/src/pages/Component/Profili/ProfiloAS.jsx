@@ -9,21 +9,26 @@ import {
   MDBCardImage,
 } from 'mdb-react-ui-kit';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export default function ProfiloAS(props) {
-  const navigate = useNavigate();
   const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
   const [aggiungiProfiloVisibile, setAggiungiProfiloVisibile] = useState(false);
   const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '' });
+  const [modificaProfiloForm, setModificaProfiloForm] = useState({
+    nome: '',
+    cognome: '',
+    email: '',
+    password: '',
+  });
   const [registrazioneForm, setRegistrazioneForm] = useState({
     nome: '',
     cognome: '',
     email: '',
     password: '',
-    ruolo: '',
+    ruolo: 'CISO',
   });
+  const [registrazioneSuccess, setRegistrazioneSuccess] = useState(false);
 
   const toggleModificaProfilo = () => {
     setModificaProfiloVisibile(!modificaProfiloVisibile);
@@ -40,16 +45,17 @@ export default function ProfiloAS(props) {
     axios({
       method: 'POST',
       url: 'http://127.0.0.1:5000/api/registrazione',
-      data: {
-        nome: registrazioneForm.nome,
-        cognome: registrazioneForm.cognome,
-        email: registrazioneForm.email,
-        password: registrazioneForm.password,
-        ruolo: registrazioneForm.ruolo,
-      },
+      data: registrazioneForm,
     })
       .then(() => {
-        navigate('/'); // Reindirizza al profilo
+        setRegistrazioneSuccess(true);
+        setRegistrazioneForm({
+          nome: '',
+          cognome: '',
+          email: '',
+          password: '',
+          ruolo: 'CISO',
+        });
       })
       .catch((error) => {
         if (error.response) {
@@ -58,14 +64,6 @@ export default function ProfiloAS(props) {
           console.log(error.response.headers);
         }
       });
-
-    setRegistrazioneForm({
-      nome: '',
-      cognome: '',
-      email: '',
-      password: '',
-      ruolo: '',
-    });
   };
 
   const handleChange = (event) => {
@@ -74,6 +72,39 @@ export default function ProfiloAS(props) {
       ...prevNote,
       [name]: value,
     }));
+  };
+
+  const handleModificaProfiloChange = (event) => {
+    const { value, name } = event.target;
+    setModificaProfiloForm((prevNote) => ({
+      ...prevNote,
+      [name]: value,
+    }));
+  };
+
+  const aggiornaProfilo = (event) => {
+    event.preventDefault();
+    const token = props.token;
+    if (!token) {
+      console.error('Token non disponibile');
+      return;
+    }
+    axios({
+      method: 'PUT',
+      url: 'http://127.0.0.1:5000/api/profilo',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: modificaProfiloForm,
+    })
+      .then((response) => {
+        setProfilo(response.data);
+        toggleModificaProfilo();
+      })
+      .catch((error) => {
+        console.error('Errore durante l\'aggiornamento del profilo:', error);
+      });
   };
 
   useEffect(() => {
@@ -92,11 +123,14 @@ export default function ProfiloAS(props) {
             'Content-Type': 'application/json',
           },
         });
-
-
-
         const data = await response.json();
         setProfilo(data);
+        setModificaProfiloForm({
+          nome: data.nome,
+          cognome: data.cognome,
+          email: data.email,
+          password: '',
+        });
       } catch (error) {
         console.error('Errore durante il recupero del profilo:', error);
       }
@@ -104,10 +138,6 @@ export default function ProfiloAS(props) {
 
     fetchProfilo();
   }, [props.token]);
-
-  const handleSubmit = () => {
-    // Logica per inviare le modifiche del profilo
-  };
 
   return (
     <MDBContainer className="py-5">
@@ -206,6 +236,65 @@ export default function ProfiloAS(props) {
                     <div>
                       <a>Nome</a>
                       <input
+                        onChange={handleModificaProfiloChange}
+                        autoComplete="off"
+                        type="text"
+                        placeholder="Modifica nome..."
+                        className="form-control mb-3"
+                        name="nome"
+                        value={modificaProfiloForm.nome}
+                        style={{ maxWidth: '200px' }}
+                      />
+                      <a>Cognome</a>
+                      <input
+                        onChange={handleModificaProfiloChange}
+                        autoComplete="off"
+                        type="text"
+                        placeholder="Modifica cognome..."
+                        className="form-control mb-3"
+                        name="cognome"
+                        value={modificaProfiloForm.cognome}
+                        style={{ maxWidth: '200px' }}
+                      />
+                      <a>Email</a>
+                      <input
+                        onChange={handleModificaProfiloChange}
+                        autoComplete="off"
+                        type="email"
+                        placeholder="Modifica email..."
+                        className="form-control mb-3"
+                        name="email"
+                        value={modificaProfiloForm.email}
+                        style={{ maxWidth: '200px' }}
+                      />
+                      <a>Password</a>
+                      <input
+                        onChange={handleModificaProfiloChange}
+                        autoComplete="off"
+                        type="password"
+                        placeholder="Modifica password..."
+                        className="form-control mb-3"
+                        name="password"
+                        value={modificaProfiloForm.password}
+                        style={{ maxWidth: '200px' }}
+                      />
+                      <div className="d-flex justify-content-end">
+                        <button className="btn btn-secondary me-2" onClick={toggleModificaProfilo}>
+                          Annulla
+                        </button>
+                        <button className="btn btn-success" onClick={aggiornaProfilo}>
+                          Conferma modifiche
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </MDBCardBody>
+
+                <MDBCardBody>
+                  {aggiungiProfiloVisibile && (
+                    <div>
+                      <a>Nome</a>
+                      <input
                         onChange={handleChange}
                         autoComplete="off"
                         type="text"
@@ -230,7 +319,7 @@ export default function ProfiloAS(props) {
                       <input
                         onChange={handleChange}
                         autoComplete="off"
-                        type="text"
+                        type="email"
                         placeholder="Inserisci email..."
                         className="form-control mb-3"
                         name="email"
@@ -241,7 +330,7 @@ export default function ProfiloAS(props) {
                       <input
                         onChange={handleChange}
                         autoComplete="off"
-                        type="text"
+                        type="password"
                         placeholder="Inserisci password..."
                         className="form-control mb-3"
                         name="password"
@@ -249,69 +338,24 @@ export default function ProfiloAS(props) {
                         style={{ maxWidth: '200px' }}
                       />
                       <a>Ruolo</a>
-                      <input
+                      <select
                         onChange={handleChange}
-                        autoComplete="off"
-                        type="text"
-                        placeholder="Inserisci ruolo..."
                         className="form-control mb-3"
                         name="ruolo"
                         value={registrazioneForm.ruolo}
                         style={{ maxWidth: '200px' }}
-                      />
+                      >
+                        <option value="CISO">CISO</option>
+                        <option value="Amministratore di sistema">Amministratore di sistema</option>
+                      </select>
                       <div className="d-flex justify-content-end">
                         <button className="btn btn-success" onClick={registrami}>
                           Conferma Registrazione
                         </button>
                       </div>
-                    </div>
-                  )}
-                </MDBCardBody>
-
-                <MDBCardBody>
-                  {aggiungiProfiloVisibile && (
-                    <div>
-                      <a>Nome</a>
-                      <input
-                        type="text"
-                        placeholder="Inserisci nome..."
-                        className="form-control mb-3"
-                        style={{ maxWidth: '200px' }}
-                      />
-                      <a>Cognome</a>
-                      <input
-                        type="text"
-                        placeholder="Inserisci cognome..."
-                        className="form-control mb-3"
-                        style={{ maxWidth: '200px' }}
-                      />
-                      <a>Email</a>
-                      <input
-                        type="text"
-                        placeholder="Inserisci Email..."
-                        className="form-control mb-3"
-                        style={{ maxWidth: '200px' }}
-                      />
-                      <a>Password</a>
-                      <input
-                        type="text"
-                        placeholder="Inserisci password..."
-                        className="form-control mb-3"
-                        style={{ maxWidth: '200px' }}
-                      />
-                      <a>Ruolo</a>
-                      <select className="form-control mb-3" style={{ maxWidth: '200px' }}>
-                        <option value="Amministratore di Sistema">Amministratore di Sistema</option>
-                        <option value="CISO">CISO</option>
-                      </select>
-                      <div className="d-flex justify-content-end">
-                        <button className="btn btn-secondary me-2" onClick={toggleModificaProfilo}>
-                          Annulla
-                        </button>
-                        <button className="btn btn-success" onClick={handleSubmit}>
-                          Conferma modifiche
-                        </button>
-                      </div>
+                      {registrazioneSuccess && (
+                        <p className="text-success mt-3">Registrazione completata con successo!</p>
+                      )}
                     </div>
                   )}
                 </MDBCardBody>
