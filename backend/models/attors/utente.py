@@ -6,6 +6,8 @@ from backend.config.db import conn_db
 import re
 from backend.models.attors.ruolo import Ruolo
 
+
+
 db = conn_db()  # Connessione al database MongoDB
 utenti = db['Utenti']  # Nome della collezione
 
@@ -86,8 +88,8 @@ class Utente:
 
         # Crea un'istanza della classe appropriata
         try:
+            from backend.models.attors.ciso import Ciso
             if ruolo == Ruolo.CISO.value:
-                from backend.models.attors.ciso import Ciso
                 utente = Ciso(nome, cognome, email, password)
             elif ruolo == Ruolo.AMMINISTRATORE_DI_SISTEMA.value:
                 from backend.models.attors.amministratore_di_sistema import AmministratoreDiSistema
