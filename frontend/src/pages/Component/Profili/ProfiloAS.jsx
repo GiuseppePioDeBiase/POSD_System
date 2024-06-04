@@ -1,5 +1,5 @@
 
-import  { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MDBCol,
   MDBContainer,
@@ -84,30 +84,35 @@ export default function ProfiloAS(props) {
           <MDBCard className="mb-4 h-full justify-content-center mx-5">
             <MDBCardBody className="text-center mx-5">
               <MDBCardImage
-                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-                alt="avatar"
-                className="rounded-circle mb-4 mx-5"
-                style={{ width: '150px' }}
-                fluid
+                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                  alt="avatar"
+                  className="rounded-circle mb-4 mx-5"
+                  style={{width: '150px'}}
+                  fluid
               />
-              <p className="text-muted mb-2" style={{ fontSize: '2rem' }}>
+              <p className="text-muted mb-2" style={{fontSize: '2rem'}}>
                 Bentornato <strong>{profilo.nome}</strong>
               </p>
               <p className="text-muted mb-1">{profilo.ruolo}</p>
 
-              <div className="d-flex justify-content-center mt-5">
-                <button className="btn btn-warning" onClick={toggleModificaProfilo}>
+              <div className="d-flex flex flex-col items-center mt-5">
+                <button className="btn btn-warning py-2 px-4" onClick={toggleModificaProfilo}>
                   Modifica profilo
                 </button>
-                <button className="btn btn-warning ms-1">Gestisci Segnalazioni</button>
+                <button className="btn btn-warning py-2 px-9 mt-2" onClick={toggleModificaProfilo}>
+                  Segnalazioni
+                </button>
+                <button className="btn btn-warning py-2 px-4 mt-2" onClick={toggleModificaProfilo}>
+                  Aggiungi utenti
+                </button>
               </div>
             </MDBCardBody>
             <MDBCardImage
-              src="/logo.png"
-              alt="logo"
-              className="mb-4"
-              style={{ width: '50px', display: 'block', margin: '0 auto' }}
-              fluid
+                src="/logo.png"
+                alt="logo"
+                className="mb-4"
+                style={{width: '50px', display: 'block', margin: '0 auto'}}
+                fluid
             />
           </MDBCard>
         </MDBCol>

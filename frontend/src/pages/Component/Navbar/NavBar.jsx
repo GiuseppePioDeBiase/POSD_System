@@ -34,6 +34,7 @@ function NavBar() {
   const bottomItems = [
     { to: "/Profili", icon: "img", imgSrc: "frontend/public/totti.jpeg", alt: "Francesco Totti", text: "Francesco Totti"},
     { to: "/Login", icon: "log-in-outline", text: "Login" },
+    { to: "/LogOUT", icon: "log-out-outline", text: "Logout" }
   ];
 
   return (

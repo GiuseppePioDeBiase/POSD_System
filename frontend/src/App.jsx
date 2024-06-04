@@ -126,7 +126,7 @@ function App() {
                     </div>
                 }/>
                 <Route path="/LogOUT" element={
-                    <Logout removeToken={removeToken} removeRuolo={removeRuolo}/>
+                    <Logout token={token}/>
                 }/>
                 <Route path="/Login" element={
                     <div>
@@ -137,14 +137,13 @@ function App() {
 
                 <Route path="/Registrazione" element={
                     <div>
-                        <NavBar token={token} ruolo={ruolo}/>
-                        <Registrazione setToken={setToken} setRuolo={setRuolo}/>
+                        <NavBar />
+                        <Registrazione/>
                     </div>
                 }/>
 
 
                 <Route path="/Profili" element={
-
                     <ProtectedRouteToken token={token}>
                             <div>
                                 <NavBar />
