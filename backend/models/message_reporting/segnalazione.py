@@ -3,7 +3,7 @@ from backend.models.message_reporting.base_message import BaseMessage
 from flask import request, jsonify
 
 db = conn_db()
-segnalazioneCollection = db['Segnalazione']
+segnalazioneCollection = db['SegnalazioneCISO']
 
 
 class Segnalazione(BaseMessage):
@@ -15,7 +15,7 @@ class Segnalazione(BaseMessage):
         dati = request.json
 
         if not cls.validate(dati.get('oggetto', ''), dati.get('messaggio', '')):
-            return jsonify({"successo": False, "messaggio": "Segnalazione non valida!"}), 400
+            return jsonify({"successo": False, "messaggio": "SegnalazioneCISO non valida!"}), 400
 
         segnalazione = cls(
             oggetto=dati['oggetto'],
@@ -24,4 +24,4 @@ class Segnalazione(BaseMessage):
         )
 
         segnalazioneCollection.insert_one(segnalazione.to_json())
-        return jsonify({"successo": True, "messaggio": "Segnalazione ricevuta!"}), 201
+        return jsonify({"successo": True, "messaggio": "SegnalazioneCISO ricevuta!"}), 201
