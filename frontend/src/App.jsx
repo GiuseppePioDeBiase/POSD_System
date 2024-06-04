@@ -11,7 +11,7 @@ import Feedback from "./pages/Component/PagineMenu/Feedback.jsx";
 import Contatti from "./pages/Component/PagineMenu/Contatti/Contatti.jsx";
 import NotFound from "./pages/Component/PagineMenu/NotFound/NotFound.jsx";
 
-import Login from "./pages/Component/PagineMenu/Accesso/Login/Login.jsx";
+import Login from "./pages/Component/PagineMenu/Accesso/Login.jsx";
 import Registrazione from "./pages/Component/PagineMenu/Accesso/Registrazione/Registrazione.jsx";
 import LogOUT from "./pages/Component/PagineMenu/Accesso/LogOUT.jsx";
 import Full from "./pages/Component/Risultati/Full.jsx";

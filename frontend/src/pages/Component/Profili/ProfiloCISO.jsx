@@ -18,6 +18,8 @@ export default function ProfiloCISO(props) {
   const [password, setPassword] = useState('');
   const [confermaPassword, setConfermaPassword] = useState('');
   const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '' });
+  const [aggiungiLicenzaVisibile, setAggiungiLicenzaVisibile] = useState(false);
+  const [SegnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
 
   useEffect(() => {
     const fetchProfilo = async () => {
@@ -56,7 +58,12 @@ export default function ProfiloCISO(props) {
 
     fetchProfilo();
   }, []);
-
+  const toggleSegnalazioniVisibile =()=>{
+    setSegnalazioniVisibile(!SegnalazioniVisibile)
+  }
+  const toggleAggiungiLicenza = () =>{
+    setAggiungiLicenzaVisibile(!aggiungiLicenzaVisibile )
+  }
   const toggleModificaProfilo = () => {
     setModificaProfiloVisibile(!modificaProfiloVisibile);
   };
@@ -104,10 +111,10 @@ export default function ProfiloCISO(props) {
                 <button className="btn btn-warning py-2 px-4" onClick={toggleModificaProfilo}>
                   Modifica profilo
                 </button>
-                <button className="btn btn-warning py-2 px-9 mt-2"  onClick={toggleModificaProfilo}>
+                <button className="btn btn-warning py-2 px-9 mt-2"  onClick={toggleSegnalazioniVisibile}>
                   Segnalazioni
                 </button>
-                <button className="btn btn-warning py-2 px-4 mt-2" onClick={toggleModificaProfilo}>
+                <button className="btn btn-warning py-2 px-4 mt-2" onClick={toggleAggiungiLicenza}>
                  Titolo di licenza
                 </button>
               </div>
@@ -177,10 +184,6 @@ export default function ProfiloCISO(props) {
                 <MDBCardBody>
                   {modificaProfiloVisibile && (
                     <div>
-                      <a>Nome</a>
-                      <input type="text" placeholder="Modifica nome..." className="form-control mb-3" style={{ maxWidth: '200px' }} />
-                      <a>Cognome</a>
-                      <input type="text" placeholder="Modifica cognome..." className="form-control mb-3" style={{ maxWidth: '200px' }} />
                       <a>Password</a>
                       <input type="text" placeholder="Modifica password..." className="form-control mb-3" style={{ maxWidth: '200px' }} onChange={handlePasswordChange} />
                       <a>Conferma Password</a>
@@ -194,6 +197,24 @@ export default function ProfiloCISO(props) {
                         </button>
                       </div>
                     </div>
+                  )}
+                </MDBCardBody>
+                 <MDBCardBody>
+                  {SegnalazioniVisibile && (
+                      <div>
+                        <a>Licenza</a>
+                        <input type="text" placeholder="Modifica nome..." className="form-control mb-3"
+                               style={{maxWidth: '200px'}}/>
+                      </div>
+                  )}
+                </MDBCardBody>
+                <MDBCardBody>
+                  {aggiungiLicenzaVisibile && (
+                      <div>
+                        <a>Licenza</a>
+                        <input type="text" placeholder="Modifica nome..." className="form-control mb-3"
+                               style={{maxWidth: '200px'}}/>
+                      </div>
                   )}
                 </MDBCardBody>
               </MDBCard>

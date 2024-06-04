@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import {Link, useNavigate} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import useRuolo from '../useRuolo.jsx';
+import useRuolo from './useRuolo.jsx';
 export let userEmail = ''; // Variabile per memorizzare l'email fornita dall'utente
 function Login(props) {
     const navigate = useNavigate(); // Ottieni la funzione di navigazione
@@ -30,7 +30,7 @@ function Login(props) {
                 console.log(ruolo);
                 props.setToken(token); // Imposta il token utilizzando la prop
                 console.log(token);
-                
+
                 navigate('/Profili'); // Reindirizza al profilo
             })
             .catch((error) => {
