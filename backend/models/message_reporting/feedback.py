@@ -7,8 +7,8 @@ feedbackCollection = db['Feedback']
 
 
 class Feedback(BaseMessage):
-    def __init__(self, oggetto, messaggio, ip_pubblico):
-        super().__init__(oggetto, messaggio, ip_pubblico)
+    def __init__(self, oggetto, messaggio):
+        super().__init__(oggetto, messaggio)
 
     @classmethod
     def insertFeedback(cls):
@@ -20,7 +20,6 @@ class Feedback(BaseMessage):
         feedback = cls(
             oggetto=dati['oggetto'],
             messaggio=dati['messaggio'],
-            ip_pubblico=request.remote_addr
         )
 
         feedbackCollection.insert_one(feedback.to_json())
