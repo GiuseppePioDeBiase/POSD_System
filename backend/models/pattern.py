@@ -24,12 +24,6 @@ class Pattern:
         self.examples = examples
 
     @classmethod
-    def getPatternStrategies(cls, strategies):
-        query = {"Strategies": {"$regex": strategies, "$options": "i"}}
-        collection = patternCollection.find(query, {'_id': False})
-        return jsonify(list(collection))
-
-    @classmethod
     def getPatternByPrivacyByDesign(cls, privacy_by_design):
         query = {"Privacy By Design Principles": {"$regex": privacy_by_design, "$options": "i"}}
         collection = patternCollection.find(query, {'_id': False})
@@ -38,10 +32,4 @@ class Pattern:
     @classmethod
     def getAllPatterns(cls):
         collection = patternCollection.find({}, {'_id': False})
-        return jsonify(list(collection))
-
-    @classmethod
-    def getPatternByCollocazioneMVC(cls, mvc):
-        query = {"Collocazione MVC": {"$regex": mvc, "$options": "i"}}
-        collection = patternCollection.find(query, {'_id': False})
         return jsonify(list(collection))

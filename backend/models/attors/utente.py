@@ -59,7 +59,11 @@ class Utente:
         cognome = dati.get('cognome')
         email = dati.get('email')
         password = dati.get('password')
-        ruolo = dati.get('ruolo')
+
+        if not dati.get('ruolo'):
+            ruolo = Ruolo.UTENTE
+        else:
+            ruolo = dati.get('ruolo')
 
         if not all([nome, cognome, email, password]):
             return jsonify({"successo": False, "messaggio": "Tutti i campi sono obbligatori!"}), 400
@@ -94,7 +98,8 @@ class Utente:
 
             utenti.insert_one(utente.to_json())
         except Exception as e:
-            return jsonify({"successo": False, "messaggio": f"Errore durante la registrazione dell'utente: {str(e)}"}), 500
+            return jsonify(
+                {"successo": False, "messaggio": f"Errore durante la registrazione dell'utente: {str(e)}"}), 500
 
         return jsonify({"successo": True, "messaggio": "Utente registrato con successo!"}), 201
 
