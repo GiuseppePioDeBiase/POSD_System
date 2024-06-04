@@ -21,7 +21,7 @@ const Information = ({props, ruolo}) => {
     if(!props){
       navigate1("/Login")
     }else{
-      if (ruolo!=='Utente'){
+      if (ruolo!=="Utente"){
         setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
       }else{
         setShowFeedbackForm(!showFeedbackForm);
