@@ -1,3 +1,1 @@
-from backend.models.message_reporting.base_message import BaseMessage
-from backend.models.message_reporting.feedback import Feedback
-from backend.models.message_reporting.segnalazione import Segnalazione
+

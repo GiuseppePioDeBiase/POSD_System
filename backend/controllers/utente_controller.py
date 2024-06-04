@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from backend.models.attors import Utente
+from backend.models.attors.utente import Utente
 
 utente_bp = Blueprint('utente_bp', __name__)
 
