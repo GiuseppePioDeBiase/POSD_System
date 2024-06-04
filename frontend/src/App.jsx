@@ -22,7 +22,7 @@ import Definizione from './pages/Component/PagineMenu/POSD/Definizione.jsx';
 import Ricerca from "./pages/Component/Searchbar/Ricerca.jsx";
 import PropTypes from "prop-types";
 import Profili from "./pages/Component/Profili/Profili.jsx";
-
+import Partecipa from "./pages/Component/PagineMenu/Partecipa.jsx";
 
 function App() {
     const [patterns, setPatterns] = useState([]);
@@ -154,6 +154,15 @@ function App() {
                             <div>
                                 <NavBar token={token}/>
                                 <Profili  token={token} ruolo={ruolo}/>
+                            </div>
+                    </ProtectedRouteToken>
+                }/>
+
+                <Route path="/Partecipa" element={
+                    <ProtectedRouteToken token={token}>
+                            <div>
+                                <NavBar token={token}/>
+                                <Partecipa  token={token} ruolo={ruolo}/>
                             </div>
                     </ProtectedRouteToken>
                 }/>
