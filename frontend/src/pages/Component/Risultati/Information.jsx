@@ -52,7 +52,7 @@ const Information = ({props, ruolo}) => {
         </div>
       )}
       {error && <p className="text-center font-bold" style={{ color: 'red' }}>{error}</p>}
-      {showFeedbackForm && <SegnalazioneUR  onClose={toggleFeedbackForm }  token={props} titolo={pattern.titolo}/>}
+      {showFeedbackForm && <SegnalazioneUR  onClose={toggleFeedbackForm }  token={props} titolo={pattern.Pattern}/>}
 
       <div className="bg-white shadow-md rounded-lg p-4 mb-4">
         <div className="mt-4">

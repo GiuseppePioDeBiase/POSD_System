@@ -1,20 +1,30 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import SegnalazioneUR from '../../Segnalazioni/SegnalazioneUR.jsx';  // Import the SegnalazioneUR component
+import SegnalazioneUR from '../../Segnalazioni/SegnalazioneUR.jsx';
+import PropTypes from "prop-types";
 
-
-const Definizione = () => {
+const Definizione = ({props , ruolo}) => {
   const location = useLocation();
   const pattern = location.state || {};
   const navigate = useNavigate();
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
-
+  const navigate1 = useNavigate();
+   const [error, setError] = useState('');
   const handleBackClick = () => {
     navigate("/POSD");
   };
-
+    console.log(ruolo)
   const toggleFeedbackForm = () => {
-    setShowFeedbackForm(!showFeedbackForm);
+    if(!props){
+      navigate1("/Login")
+    }else{
+      if (ruolo!=="Utente"){
+        setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
+      }else{
+        setShowFeedbackForm(!showFeedbackForm);
+      }
+    }
+    
   };
 
   return (
@@ -38,8 +48,8 @@ const Definizione = () => {
           </div>
         </div>
       )}
-
-      {showFeedbackForm && <SegnalazioneUR onClose={toggleFeedbackForm} />}
+      {error && <p className="text-center font-bold" style={{ color: 'red' }}>{error}</p>}
+      {showFeedbackForm && <SegnalazioneUR onClose={toggleFeedbackForm}  titolo={pattern.Pattern} token={props}/>}
 
       <div className="bg-white shadow-md rounded-lg p-4 mb-4">
         <div className="mt-4">
@@ -58,5 +68,8 @@ const Definizione = () => {
     </div>
   );
 };
-
+Definizione.propTypes = {
+    props: PropTypes.string.isRequired,
+    ruolo: PropTypes.string.isRequired
+};
 export default Definizione;

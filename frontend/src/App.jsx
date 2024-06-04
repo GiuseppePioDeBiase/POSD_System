@@ -121,7 +121,7 @@ function App() {
                         <div className='flex items-center'>
                             <Searchbar/>
                         </div>
-                        <Definizione/>
+                        <Definizione ruolo={ruolo} props={token}/>
                     </div>
                 }/>
 
