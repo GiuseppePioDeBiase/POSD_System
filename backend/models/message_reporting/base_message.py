@@ -1,13 +1,14 @@
 import re
 from datetime import datetime
+from flask import request
 
 
 class BaseMessage:
-    def __init__(self, oggetto, messaggio, ip_pubblico):
+    def __init__(self, oggetto, messaggio):
         self.oggetto = oggetto
         self.messaggio = messaggio
         self.data_ora = datetime.now().strftime("%A %d-%m-%Y - %H:%M:%S")
-        self.ip_pubblico = ip_pubblico
+        self.ip_pubblico = request.remote_addr
 
     def to_json(self):
         return {

@@ -11,12 +11,12 @@ utenti = db['Utenti']  # Nome della collezione
 
 
 class Utente:
-    def __init__(self, nome, cognome, email, password):
+    def __init__(self, nome, cognome, email, password, ruolo):
         self.nome = nome
         self.cognome = cognome
         self.email = email
         self.password = generate_password_hash(password)  # Hash della password per la sicurezza
-        self.ruolo = Ruolo.UTENTE.value
+        self.ruolo = ruolo
 
     def to_json(self):
         return {
@@ -24,7 +24,7 @@ class Utente:
             "cognome": self.cognome,
             "email": self.email,
             "password": self.password,
-            "ruolo": self.ruolo
+            "ruolo": self.ruolo.value
         }
 
     @staticmethod
@@ -86,17 +86,16 @@ class Utente:
 
         # Crea un'istanza della classe appropriata
         try:
+            from backend.models.attors.ciso import Ciso
             if ruolo == Ruolo.CISO.value:
-                from backend import Ciso
                 utente = Ciso(nome, cognome, email, password)
             elif ruolo == Ruolo.AMMINISTRATORE_DI_SISTEMA.value:
-                from backend import AmministratoreDiSistema
+                from backend.models.attors.amministratore_di_sistema import AmministratoreDiSistema
                 utente = AmministratoreDiSistema(nome, cognome, email, password)
             elif ruolo == Ruolo.UTENTE.value:
                 utente = cls(nome, cognome, email, password)
             else:
                 return jsonify({"successo": False, "messaggio": f"Ruolo: {ruolo} non valido!"}), 400
-
             utenti.insert_one(utente.to_json())
         except Exception as e:
             return jsonify(
