@@ -12,11 +12,11 @@ import Contatti from "./pages/Component/PagineMenu/Contatti/Contatti.jsx";
 import NotFound from "./pages/Component/PagineMenu/NotFound/NotFound.jsx";
 
 import Login from "./pages/Component/PagineMenu/Accesso/Login.jsx";
-import Registrazione from "./pages/Component/PagineMenu/Accesso/Registrazione/Registrazione.jsx";
+import Registrazione from "./pages/Component/PagineMenu/Accesso/Registrazione.jsx";
 import LogOUT from "./pages/Component/PagineMenu/Accesso/LogOUT.jsx";
 import Full from "./pages/Component/Risultati/Full.jsx";
 import Information from "./pages/Component/Risultati/Information.jsx";
-import POSD from './pages/Component/PagineMenu/POSD/POSD.jsx';
+import POSD from './pages/Component/PagineMenu/POSD/Filtro/POSD.jsx';
 import Definizione from './pages/Component/PagineMenu/POSD/Definizione.jsx';
 
 import Ricerca from "./pages/Component/Searchbar/Ricerca.jsx";
