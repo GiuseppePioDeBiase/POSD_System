@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
-import Card from '../../Risultati/Card.jsx';
+import Card from '../../../Risultati/Card.jsx';
 import {useNavigate} from 'react-router-dom';
-import './Filtro/POSD.css';
+import './POSD.css';
 
 function POSD() {
     const [patterns, setPatterns] = useState([]);

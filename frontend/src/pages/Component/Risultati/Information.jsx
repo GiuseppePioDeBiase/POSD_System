@@ -1,13 +1,15 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import SegnalazioneUR from '../Segnalazioni/SegnalazioneUR.jsx';  // Import the SegnalazioneUR component
+import SegnalazioneUR from '../Segnalazioni/SegnalazioneUR.jsx';
+import PropTypes from "prop-types";
 
-const Information = (token) => {
+
+const Information = ({props}) => {
   const location = useLocation();
   const pattern = location.state || {};
   const navigate = useNavigate();
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
-
+  console.log("Token info ", props)
   const handleBackClick = () => {
     navigate(`/Full/${encodeURIComponent(pattern.title)}`, { state: { title: pattern.title } });
   };
@@ -38,7 +40,7 @@ const Information = (token) => {
         </div>
       )}
 
-      {showFeedbackForm && <SegnalazioneUR token={token} titolo={ pattern.Pattern } onClose={toggleFeedbackForm} />}
+      {showFeedbackForm && <SegnalazioneUR  onClose={toggleFeedbackForm }  token={props} titolo={pattern.titolo}/>}
 
       <div className="bg-white shadow-md rounded-lg p-4 mb-4">
         <div className="mt-4">
@@ -56,6 +58,10 @@ const Information = (token) => {
       </div>
     </div>
   );
-};
 
+};
+Information.propTypes = {
+    props: PropTypes.string.isRequired,
+
+};
 export default Information;
