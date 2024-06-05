@@ -14,8 +14,8 @@ function NavBar({token}) {
 
   useEffect(() => {
     const fetchProfilo = async () => {
-      if (!token) {
-        console.error("Token non disponibile");
+     if (!token) {
+
         return;
       }
 

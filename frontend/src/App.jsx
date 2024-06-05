@@ -147,10 +147,12 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                         <Definizione ruolo={ruolo} props={token} />
                     </div>
                 } />
+
+
                 <Route path="/LogOUT" element={<LogOUT setToken={setToken} removeRuolo={setRuolo} />} />
                 <Route path="/Login" element={
                     <div>
-                        <NavBar token={token} ruolo={ruolo} />
+                        <NavBar token={token} />
                         <Login setToken={setToken} setRuolo={setRuolo} />
                     </div>
                 } />
