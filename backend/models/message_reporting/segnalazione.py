@@ -29,13 +29,17 @@ class Segnalazione(BaseMessage):
 
     @classmethod
     def getAllSegnalazioni(cls):
-        collection = segnalazioneCollection.find({}, {'_id': False, 'data_ora':False, "ip_pubblico": False})
-        return jsonify(list(collection))
-
+        collection = segnalazioneCollection.find({}, {'data_ora': False, "ip_pubblico": False})
+        segnalazioni = []
+        for segnalazione in collection:
+            segnalazione['_id'] = str(segnalazione['_id'])  # Converti l'ObjectID in stringa
+            segnalazioni.append(segnalazione)
+        return jsonify(segnalazioni)
 
     def to_json(self):
         base_json = super().to_json()
         base_json.update({
-            "mail": self.mail
+            "mail": self.mail,
+            "_id": str(self._id) if hasattr(self, '_id') else None  # Assicurati che l'ObjectID sia convertito
         })
         return base_json
