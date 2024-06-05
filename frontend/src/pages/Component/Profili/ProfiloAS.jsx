@@ -224,9 +224,3 @@ ProfiloAS.propTypes = {
   token: PropTypes.string.isRequired,
 };
 
-
-
-export const styleElement = document.createElement('style');
-styleElement.type = 'text/css';
-styleElement.appendChild(document.createTextNode(styles));
-document.head.appendChild(styleElement);
