@@ -1,30 +1,24 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import {
-  MDBCol,
-  MDBContainer,
-  MDBRow,
-  MDBCard,
-  MDBCardText,
-  MDBCardBody,
-  MDBCardImage,
-} from 'mdb-react-ui-kit';
-
-import PropTypes from 'prop-types'
+  Box, Card, CardContent, Typography, Avatar, Button, TextField, Grid, Container
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import SegnalazioneCISO from "../Segnalazioni/SegnalazioneCISO.jsx";
 
-export default function ProfiloCISO(props) {
 
+export default function ProfiloCISO(props) {
+  const navigate = useNavigate();
   const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
   const [password, setPassword] = useState('');
   const [confermaPassword, setConfermaPassword] = useState('');
   const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '' });
   const [aggiungiLicenzaVisibile, setAggiungiLicenzaVisibile] = useState(false);
-  const [SegnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
+  const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
 
   useEffect(() => {
     const fetchProfilo = async () => {
-      const token = props.token
+      const token = props.token;
 
       if (!token) {
         console.error("Token non disponibile");
@@ -35,7 +29,7 @@ export default function ProfiloCISO(props) {
         const response = await fetch('http://localhost:5000/api/profilo', {
           method: 'GET',
           headers: {
-            'Content-Type': 'application/json',//nell'intestazione di una richiesta HTTP indica al server che il corpo della richiesta è formattato come JSON
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           }
         });
@@ -52,17 +46,20 @@ export default function ProfiloCISO(props) {
     };
 
     fetchProfilo();
-  }, []);
-  const toggleSegnalazioniVisibile =()=>{
-    setSegnalazioniVisibile(!SegnalazioniVisibile);
+  }, [props.token]);
+
+  const toggleSegnalazioniVisibile = () => {
+    setSegnalazioniVisibile(!segnalazioniVisibile);
     setModificaProfiloVisibile(false);
     setAggiungiLicenzaVisibile(false);
-  }
-  const toggleAggiungiLicenza = () =>{
-    setAggiungiLicenzaVisibile(!aggiungiLicenzaVisibile );
-      setModificaProfiloVisibile(false);
+  };
+
+  const toggleAggiungiLicenza = () => {
+    setAggiungiLicenzaVisibile(!aggiungiLicenzaVisibile);
+    setModificaProfiloVisibile(false);
     setSegnalazioniVisibile(false);
-  }
+  };
+
   const toggleModificaProfilo = () => {
     setModificaProfiloVisibile(!modificaProfiloVisibile);
     setAggiungiLicenzaVisibile(false);
@@ -82,134 +79,134 @@ export default function ProfiloCISO(props) {
       alert("Le password non corrispondono!");
       return;
     }
+    navigate(0);
+    // Add logic to submit profile changes
+  };
 
-    ProfiloCISO.propTypes = {
-      token: PropTypes.func.isRequired
-    };
-
-    // Qui inserisci la logica per inviare le modifiche del profilo
+  ProfiloCISO.propTypes = {
+    token: PropTypes.string.isRequired
   };
 
   return (
-    <MDBContainer className="py-5">
-      <MDBRow>
-        <MDBCol lg="4">
-          <MDBCard className="mb-4 h-full w-auto justify-content-center mx-5">
-            <MDBCardBody className=" mx-5">
-              <MDBCardImage
+    <Container sx={{ py: 5 }}>
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={4}>
+          <Card sx={{ mb: 4, mx: 5 }}>
+            <CardContent sx={{ textAlign: 'center' }}>
+              <Avatar
                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                 alt="avatar"
-                className="rounded-circle my-4 flex-row align-items-center"
-                style={{ width: '150px' }}
-                fluid
+                sx={{ width: 150, height: 150, mx: 'auto', my: 2 }}
               />
-              <p className="text-muted mb-2 my-4" style={{ fontSize: '2rem' }}>
+              <Typography variant="h5" sx={{ mb: 2 }}>
                 Bentornato <strong>{profilo.nome}</strong>
-              </p>
-              <p className="font-bold text-xl text-center">{profilo.ruolo}</p>
-
-              <div className="d-flex flex flex-col items-center mt-5">
-                <button className="btn btn-warning py-2 px-4" onClick={toggleModificaProfilo}>
-                  Modifica profilo
-                </button>
-                <button className="btn btn-warning py-2 px-9 mt-2"  onClick={toggleSegnalazioniVisibile}>
+              </Typography>
+              <Typography variant="subtitle1">{profilo.ruolo}</Typography>
+              <Box sx={{ mt: 5 }}>
+                <Button variant="contained" color="warning" onClick={toggleSegnalazioniVisibile} sx={{ mb: 2 }}>
                   Segnalazioni
-                </button>
-                <button className="btn btn-warning py-2 px-4 mt-2" onClick={toggleAggiungiLicenza}>
-                 Titolo di licenza
-                </button>
-              </div>
-            </MDBCardBody>
-            <MDBCardImage
-                src="/logo.png"
-                alt="logo"
-                className="mb-4"
-              style={{ width: '50px', display: 'block', margin: '0 auto' }}
-              fluid
+                </Button>
+                <Button variant="contained" color="warning" onClick={toggleModificaProfilo} sx={{ mb: 2 }}>
+                  Modifica profilo
+                </Button>
+                <Button variant="contained" color="warning" onClick={toggleAggiungiLicenza}>
+                  Titolo di licenza
+                </Button>
+              </Box>
+            </CardContent>
+            <Avatar
+              src="/logo.png"
+              alt="logo"
+              sx={{ width: 50, height: 50, mx: 'auto', my: 2 }}
             />
-          </MDBCard>
-        </MDBCol>
-        <MDBCol lg="8">
-          <MDBCard className="mb-4">
-            <MDBCardBody>
-              <MDBRow>
-                <MDBCol sm="3">
-                  <MDBCardText>Nome</MDBCardText>
-                </MDBCol>
-                <MDBCol sm="9">
-                  <MDBCardText className="text-muted">{profilo.nome}</MDBCardText>
-                </MDBCol>
-              </MDBRow>
-              <hr />
-              <MDBRow>
-                <MDBCol sm="3">
-                  <MDBCardText>Cognome</MDBCardText>
-                </MDBCol>
-                <MDBCol sm="9">
-                  <MDBCardText className="text-muted">{profilo.cognome}</MDBCardText>
-                </MDBCol>
-              </MDBRow>
-              <hr />
-              <MDBRow>
-                <MDBCol sm="3">
-                  <MDBCardText>Email</MDBCardText>
-                </MDBCol>
-                <MDBCol sm="9">
-                  <MDBCardText className="text-muted">{profilo.email}</MDBCardText>
-                </MDBCol>
-              </MDBRow>
-              <hr />
-              <MDBRow>
-                <MDBCol sm="3">
-                  <MDBCardText>Ruolo</MDBCardText>
-                </MDBCol>
-                <MDBCol sm="9">
-                  <MDBCardText className="text-muted">{profilo.ruolo}</MDBCardText>
-                </MDBCol>
-              </MDBRow>
-            </MDBCardBody>
-          </MDBCard>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <Card sx={{ mb: 4 }}>
+            <CardContent>
+              <Grid container spacing={2}>
+                <Grid item xs={3}>
+                  <Typography variant="subtitle1">Nome</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                  <Typography variant="body1" color="text.secondary">{profilo.nome}</Typography>
+                </Grid>
+                <Grid item xs={12}><hr /></Grid>
+                <Grid item xs={3}>
+                  <Typography variant="subtitle1">Cognome</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                  <Typography variant="body1" color="text.secondary">{profilo.cognome}</Typography>
+                </Grid>
+                <Grid item xs={12}><hr /></Grid>
+                <Grid item xs={3}>
+                  <Typography variant="subtitle1">Email</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                  <Typography variant="body1" color="text.secondary">{profilo.email}</Typography>
+                </Grid>
+                <Grid item xs={12}><hr /></Grid>
+                <Grid item xs={3}>
+                  <Typography variant="subtitle1">Ruolo</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                  <Typography variant="body1" color="text.secondary">{profilo.ruolo}</Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
 
-          <MDBRow>
-            <MDBCol>
-              <MDBCard className="mb-4 w-auto">
-                <MDBCardBody>
+          <Grid container>
+            <Grid item xs={12}>
+              <Card sx={{ mb: 4 , height: '215%' }}>
+                <CardContent >
                   {modificaProfiloVisibile && (
-                    <div>
-                      <a>Password</a>
-                      <input type="text" placeholder="Modifica password..." className="form-control mb-3" style={{ maxWidth: '200px' }} onChange={handlePasswordChange} />
-                      <a>Conferma Password</a>
-                      <input type="text" placeholder="Conferma password..." className="form-control mb-3" style={{ maxWidth: '200px' }} onChange={handleConfermaPasswordChange} />
-                      <div className="d-flex justify-content-end">
-                        <button className="btn btn-secondary me-2" onClick={toggleModificaProfilo}>
+                    <Box>
+                      <TextField
+                        label="Password"
+                        type="password"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mb: 3 }}
+                        onChange={handlePasswordChange}
+                      />
+                      <TextField
+                        label="Conferma Password"
+                        type="password"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mb: 3 }}
+                        onChange={handleConfermaPasswordChange}
+                      />
+                      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button variant="contained" color="secondary" onClick={toggleModificaProfilo} sx={{ mr: 2 }}>
                           Annulla
-                        </button>
-                        <button className="btn btn-success" onClick={handleSubmit}>
+                        </Button>
+                        <Button variant="contained" color="success" onClick={handleSubmit}>
                           Conferma modifiche
-                        </button>
-                      </div>
-                    </div>
+                        </Button>
+                      </Box>
+                    </Box>
                   )}
 
-                  {SegnalazioniVisibile && (
-                      <div>
-                       <SegnalazioneCISO/>
-                      </div>
-                  )}
+                  {segnalazioniVisibile && <SegnalazioneCISO />}
 
                   {aggiungiLicenzaVisibile && (
-                      <div>
-                        <a>Licenza</a>
-                        <input type="text" placeholder="Modifica nome..." className="form-control mb-3"
-                               style={{maxWidth: '200px'}}/>
-                      </div>
+                    <Box>
+                      <TextField
+                        label="Licenza"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mb: 3 }}
+                      />
+                    </Box>
                   )}
-                </MDBCardBody>
-              </MDBCard>
-            </MDBCol>
-          </MDBRow>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }

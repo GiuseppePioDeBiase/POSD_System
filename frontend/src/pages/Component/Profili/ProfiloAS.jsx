@@ -1,248 +1,268 @@
-import { useState, useEffect } from 'react';
-import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage } from 'mdb-react-ui-kit';
+import {useState, useEffect} from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import {
+    Container,
+    Grid,
+    Card,
+    CardContent,
+    Typography,
+    TextField,
+    Button,
+    Avatar,
+    MenuItem,
+    Alert,
+    Box
+} from '@mui/material';
 import SegnalazioneAS from '../Segnalazioni/SegnalazioneAS.jsx';
 
+const ProfiloAS = ({token}) => {
+    const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
+    const [aggiungiProfiloVisibile, setAggiungiProfiloVisibile] = useState(false);
+    const [profilo, setProfilo] = useState({nome: '', cognome: '', email: '', ruolo: ''});
+    const [modificaProfiloForm, setModificaProfiloForm] = useState({nome: '', cognome: '', email: '', password: ''});
+    const [registrazioneForm, setRegistrazioneForm] = useState({
+        nome: '',
+        cognome: '',
+        email: '',
+        password: '',
+        ruolo: 'CISO'
+    });
+    const [registrazioneSuccess, setRegistrazioneSuccess] = useState(false);
+    const [error, setError] = useState('');
+    const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
 
-export default function ProfiloAS({ token }) {
-  const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
-  const [aggiungiProfiloVisibile, setAggiungiProfiloVisibile] = useState(false);
-  const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '' });
-  const [modificaProfiloForm, setModificaProfiloForm] = useState({ nome: '', cognome: '', email: '', password: '' });
-  const [registrazioneForm, setRegistrazioneForm] = useState({ nome: '', cognome: '', email: '', password: '', ruolo: 'CISO' });
-  const [registrazioneSuccess, setRegistrazioneSuccess] = useState(false);
-  const [error, setError] = useState('');
-  const [SegnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
-  const toggleModificaProfilo = () => {
-    setModificaProfiloVisibile(!modificaProfiloVisibile);
-    setAggiungiProfiloVisibile(false);
-    setSegnalazioniVisibile(false);
-    setError('');
-  };
-
-  const toggleSegnalazioniApprovate = () => {
-    setSegnalazioniVisibile(!SegnalazioniVisibile);
-    setModificaProfiloVisibile(false);
-    setAggiungiProfiloVisibile(false);
-}
-  const toggleAggiungiProfilo = () => {
-    setAggiungiProfiloVisibile(!aggiungiProfiloVisibile);
-    setModificaProfiloVisibile(false);
-    setSegnalazioniVisibile(false);
-    setError('');
-  };
-
-  const registrami = (event) => {
-    event.preventDefault();
-    axios.post('http://127.0.0.1:5000/api/registrazione', registrazioneForm)
-      .then(() => {
-        setRegistrazioneSuccess(true);
-        setRegistrazioneForm({ nome: '', cognome: '', email: '', password: '', ruolo: 'CISO' });
+    const toggleModificaProfilo = () => {
+        setModificaProfiloVisibile(!modificaProfiloVisibile);
+        setAggiungiProfiloVisibile(false);
+        setSegnalazioniVisibile(false);
         setError('');
-      })
-      .catch((error) => {
-        if (error.response) {
-          setError(error.response.data.messaggio);
-          console.log(error.response);
-        }
-      });
-  };
-
-  const handleChange = (event) => {
-    const { value, name } = event.target;
-    setRegistrazioneForm((prevNote) => ({ ...prevNote, [name]: value }));
-  };
-
-  const handleModificaProfiloChange = (event) => {
-    const { value, name } = event.target;
-    setModificaProfiloForm((prevNote) => ({ ...prevNote, [name]: value }));
-  };
-
-  const aggiornaProfilo = (event) => {
-    event.preventDefault();
-    if (!token) {
-      console.error('Token non disponibile');
-      return;
-    }
-    axios.put('http://127.0.0.1:5000/api/profilo', modificaProfiloForm, {
-      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
-    })
-      .then((response) => {
-        setProfilo(response.data);
-        toggleModificaProfilo();
-      })
-      .catch((error) => {
-        console.error('Errore durante l\'aggiornamento del profilo:', error);
-        setError('Errore durante l\'aggiornamento del profilo');
-      });
-  };
-
-  useEffect(() => {
-    const fetchProfilo = async () => {
-      if (!token) {
-        console.error('Token non disponibile');
-        return;
-      }
-      console.log('Token:', token);
-      try {
-        const response = await fetch('http://localhost:5000/api/profilo', {
-          method: 'GET',
-          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-        });
-        const data = await response.json();
-        setProfilo(data);
-        setModificaProfiloForm({ nome: data.nome, cognome: data.cognome, email: data.email, password: '' });
-      } catch (error) {
-        console.error('Errore durante il recupero del profilo:', error);
-        setError('Errore durante il recupero del profilo');
-      }
     };
 
-    fetchProfilo();
-  }, [token]);
+    const toggleSegnalazioniApprovate = () => {
+        setSegnalazioniVisibile(!segnalazioniVisibile);
+        setModificaProfiloVisibile(false);
+        setAggiungiProfiloVisibile(false);
+    };
 
-  return (
-    <MDBContainer className="py-5">
-      <MDBRow>
-        <MDBCol lg="4">
-          <MDBCard className="mb-4 h-full justify-content-center mx-5">
-            <MDBCardBody className="text-center mx-5">
-              <div className="d-flex justify-content-center">
-                <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" className="rounded-circle mb-4" style={{ width: '150px' }} fluid />
-              </div>
-              <p className="text-muted mb-2 responsive-text">Bentornato </p>
-              <p className="text-muted mb-2 responsive-text"><strong>{profilo.nome}</strong></p>
-              <p className="text-muted mb-1">{profilo.ruolo}</p>
-              <div className="d-flex flex flex-col items-center mt-5">
-                <button className="btn btn-warning py-2 px-4" onClick={toggleModificaProfilo}>Modifica profilo</button>
-<<<<<<< HEAD
-                <button className="btn btn-warning py-2 px-9 mt-2" onClick={toggleModificaProfilo}>Segnalazioni</button>
-                <button className="btn btn-warning py-2 px-4 mt-2" onClick={toggleAggiungiProfilo}>Aggiungi utenti
-                </button>
-=======
-                <button className="btn btn-warning py-2 px-9 mt-2" onClick={toggleSegnalazioniApprovate}>Segnalazioni</button>
-                <button className="btn btn-warning py-2 px-4 mt-2" onClick={toggleAggiungiProfilo}>Aggiungi utenti</button>
->>>>>>> b96af35a76f62fe21b203520f8850c6357b5809b
-              </div>
-            </MDBCardBody>
-            <MDBCardImage src="/logo.png" alt="logo" className="mb-4" style={{ width: '50px', display: 'block', margin: '0 auto' }} fluid />
-          </MDBCard>
-        </MDBCol>
-        <MDBCol lg="8">
-          <MDBCard className="mb-4">
-            <MDBCardBody>
-              <MDBRow>
-                <MDBCol sm="3"><MDBCardText>Nome</MDBCardText></MDBCol>
-                <MDBCol sm="9"><MDBCardText className="text-muted">{profilo.nome}</MDBCardText></MDBCol>
-              </MDBRow>
-              <hr />
-              <MDBRow>
-                <MDBCol sm="3"><MDBCardText>Cognome</MDBCardText></MDBCol>
-                <MDBCol sm="9"><MDBCardText className="text-muted">{profilo.cognome}</MDBCardText></MDBCol>
-              </MDBRow>
-              <hr />
-              <MDBRow>
-                <MDBCol sm="3"><MDBCardText>Email</MDBCardText></MDBCol>
-                <MDBCol sm="9"><MDBCardText className="text-muted">{profilo.email}</MDBCardText></MDBCol>
-              </MDBRow>
-              <hr />
-              <MDBRow>
-                <MDBCol sm="3"><MDBCardText>Ruolo</MDBCardText></MDBCol>
-                <MDBCol sm="9"><MDBCardText className="text-muted">{profilo.ruolo}</MDBCardText></MDBCol>
-              </MDBRow>
-            </MDBCardBody>
-          </MDBCard>
-          <MDBRow>
-            <MDBCol>
-              <MDBCard className="mb-3 mb-md-0 w-full">
-                <MDBCardBody>
-                  {modificaProfiloVisibile && (
-                    <div className="d-flex flex-column flex-md-row justify-content-between">
-                      <div className="mb-3">
-                        <div>
-                          <a>Nome</a>
-                          <input onChange={handleModificaProfiloChange} autoComplete="off" type="text" placeholder="Modifica nome..." className="form-control mb-3" name="nome" value={modificaProfiloForm.nome} style={{ maxWidth: '200px' }} />
-                        </div>
-                        <div>
-                          <a>Cognome</a>
-                          <input onChange={handleModificaProfiloChange} autoComplete="off" type="text" placeholder="Modifica cognome..." className="form-control mb-3" name="cognome" value={modificaProfiloForm.cognome} style={{ maxWidth: '200px' }} />
-                        </div>
-                      </div>
-                      <div className="mb-3">
-                        <div>
-                          <a>Email</a>
-                          <input onChange={handleModificaProfiloChange} autoComplete="off" type="email" placeholder="Modifica email..." className="form-control mb-3" name="email" value={modificaProfiloForm.email} style={{ maxWidth: '200px' }} />
-                        </div>
-                        <div>
-                          <a>Password</a>
-                          <input onChange={handleModificaProfiloChange} autoComplete="off" type="password" placeholder="Modifica password..." className="form-control mb-3" name="password" value={modificaProfiloForm.password} style={{ maxWidth: '200px' }} />
-                        </div>
-                      </div>
-                      {error && <div className="text-red-500 text-center">{error}</div>}
-                      <div></div>
-                      <div className="d-flex justify-content-end align-items-end">
-                        <button className="btn btn-secondary me-2" onClick={toggleModificaProfilo}>Annulla</button>
-                        <button className="btn btn-success bme-2" onClick={aggiornaProfilo}>Conferma modifiche</button>
-                      </div>
-                    </div>
-                  )}
+    const toggleAggiungiProfilo = () => {
+        setAggiungiProfiloVisibile(!aggiungiProfiloVisibile);
+        setModificaProfiloVisibile(false);
+        setSegnalazioniVisibile(false);
+        setError('');
+    };
 
-                  {aggiungiProfiloVisibile && (
-                    <div className="d-flex flex-column flex-md-row justify-content-between">
-                      <div className="mb-3">
-                        <div className="mb-3">
-                          <a>Nome</a>
-                          <input onChange={handleChange} autoComplete="off" type="text" placeholder="Inserisci nome..." className="form-control" name="nome" value={registrazioneForm.nome} style={{ maxWidth: '250px' }} />
-                        </div>
-                        <div className="mb-3">
-                          <a>Cognome</a>
-                          <input onChange={handleChange} autoComplete="off" type="text" placeholder="Inserisci cognome..." className="form-control" name="cognome" value={registrazioneForm.cognome} style={{ maxWidth: '250px' }} />
-                        </div>
-                        <div className="mb-3">
-                          <a>Email</a>
-                          <input onChange={handleChange} autoComplete="off" type="text" placeholder="Inserisci email..." className="form-control" name="email" value={registrazioneForm.email} style={{ maxWidth: '250px' }} />
-                        </div>
-                      </div>
-                      <div className="mb-3 ms-md-4">
-                        <div className="mb-3">
-                          <a>Password</a>
-                          <input onChange={handleChange} autoComplete="off" type="text" placeholder="Inserisci password..." className="form-control" name="password" value={registrazioneForm.password} style={{ maxWidth: '250px' }} />
-                        </div>
-                        <div className="mb-3">
-                          <a>Ruolo</a>
-                          <select onChange={handleChange} className="form-control" name="ruolo" value={registrazioneForm.ruolo} style={{ maxWidth: '250px' }}>
-                            <option value="CISO">CISO</option>
-                            <option value="Amministratore di sistema">Amministratore di sistema</option>
-                          </select>
-                          <div>
-                            {registrazioneSuccess && <p className="text-success">Registrazione completata con successo!</p>}
-                          </div>
-                        </div>
-                        {error && <div className="text-red-500 text-center">{error}</div>}
-                      </div>
-                      <div className="d-flex align-items-end justify-content-between ">
-                        <button className="btn me-2 btn-success" onClick={registrami}>Conferma Registrazione</button>
-                      </div>
-                    </div>
+    const registrami = (event) => {
+        event.preventDefault();
+        axios.post('http://127.0.0.1:5000/api/registrazione', registrazioneForm)
+            .then(() => {
+                setRegistrazioneSuccess(true);
+                setRegistrazioneForm({nome: '', cognome: '', email: '', password: '', ruolo: 'CISO'});
+                setError('');
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setError(error.response.data.messaggio);
+                    console.log(error.response);
+                }
+            });
+    };
 
-                  )}
-                      {SegnalazioniVisibile && (
-                      <div>
-                       <SegnalazioneAS/>
-                      </div>
-                  )}
-                </MDBCardBody>
-              </MDBCard>
-            </MDBCol>
-          </MDBRow>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
-  );
-}
+    const handleChange = (event) => {
+        const {value, name} = event.target;
+        setRegistrazioneForm((prevNote) => ({...prevNote, [name]: value}));
+    };
 
-ProfiloAS.propTypes = {
-  token: PropTypes.string.isRequired,
+    const handleModificaProfiloChange = (event) => {
+        const {value, name} = event.target;
+        setModificaProfiloForm((prevNote) => ({...prevNote, [name]: value}));
+    };
+
+    const aggiornaProfilo = (event) => {
+        event.preventDefault();
+        if (!token) {
+            console.error('Token non disponibile');
+            return;
+        }
+        axios.put('http://127.0.0.1:5000/api/profilo', modificaProfiloForm, {
+            headers: {Authorization: `Bearer ${token}`, 'Content-Type': 'application/json'}
+        })
+            .then((response) => {
+                setProfilo(response.data);
+                toggleModificaProfilo();
+            })
+            .catch((error) => {
+                console.error('Errore durante l\'aggiornamento del profilo:', error);
+                setError('Errore durante l\'aggiornamento del profilo');
+            });
+    };
+
+    useEffect(() => {
+        const fetchProfilo = async () => {
+            if (!token) {
+                console.error('Token non disponibile');
+                return;
+            }
+            console.log('Token:', token);
+            try {
+                const response = await fetch('http://localhost:5000/api/profilo', {
+                    method: 'GET',
+                    headers: {Authorization: `Bearer ${token}`, 'Content-Type': 'application/json'},
+                });
+                const data = await response.json();
+                setProfilo(data);
+                setModificaProfiloForm({nome: data.nome, cognome: data.cognome, email: data.email, password: ''});
+            } catch (error) {
+                console.error('Errore durante il recupero del profilo:', error);
+                setError('Errore durante il recupero del profilo');
+            }
+        };
+
+        fetchProfilo();
+    }, [token]);
+
+    return (
+        <Container sx={{py: 5}}>
+            <Grid container spacing={4}>
+                <Grid item lg={4} xs={12}>
+                    <Card sx={{mb: 4, mx: 5}}>
+                        <CardContent sx={{textAlign: 'center'}}>
+                            <Avatar src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                    sx={{width: 150, height: 150, mx: 'auto', mb: 4}}/>
+                            <Typography variant="h6" gutterBottom>Bentornato</Typography>
+                            <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
+                            <Typography variant="subtitle1">{profilo.ruolo}</Typography>
+                            <Box sx={{mt: 5}}>
+                                <Button variant="contained" color="warning" onClick={toggleSegnalazioniApprovate}
+                                        sx={{mb: 2}}>
+                                    Segnalazioni
+                                </Button>
+                                <Button variant="contained" color="warning" onClick={toggleModificaProfilo}
+                                        sx={{mb: 2}}>
+                                    Modifica profilo
+                                </Button>
+
+                                <Button variant="contained" color="warning" onClick={toggleAggiungiProfilo}>
+                                    Aggiungi profilo
+                                </Button>
+                            </Box>
+                        </CardContent>
+                    </Card>
+                </Grid>
+
+                <Grid item lg={8} xs={12}>
+                    <Card sx={{mb: 4}}>
+                        <CardContent>
+                            <Grid container spacing={2}>
+                                <Grid item xs={3}>
+                                    <Typography variant="subtitle1">Nome</Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Typography variant="body1" color="text.secondary">{profilo.nome}</Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <hr/>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Typography variant="subtitle1">Cognome</Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Typography variant="body1" color="text.secondary">{profilo.cognome}</Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <hr/>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Typography variant="subtitle1">Email</Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Typography variant="body1" color="text.secondary">{profilo.email}</Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <hr/>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Typography variant="subtitle1">Ruolo</Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Typography variant="body1" color="text.secondary">{profilo.ruolo}</Typography>
+                                </Grid>
+                            </Grid>
+                        </CardContent>
+                    </Card>
+
+                    {modificaProfiloVisibile && (
+                        <Card sx={{mb: 3}}>
+                            <CardContent>
+                                <Typography variant="h6">Modifica Profilo</Typography>
+                                <TextField label="Nome" name="nome" value={modificaProfiloForm.nome}
+                                           onChange={handleModificaProfiloChange} fullWidth sx={{mb: 2}}/>
+                                <TextField label="Cognome" name="cognome" value={modificaProfiloForm.cognome}
+                                           onChange={handleModificaProfiloChange} fullWidth sx={{mb: 2}}/>
+                                <TextField label="Email" name="email" value={modificaProfiloForm.email}
+                                           onChange={handleModificaProfiloChange} fullWidth sx={{mb: 2}}/>
+                                <TextField label="Password" name="password" type="password"
+                                           value={modificaProfiloForm.password} onChange={handleModificaProfiloChange}
+                                           fullWidth sx={{mb: 2}}/>
+                                {error && <Alert severity="error" sx={{mb: 2}}>{error}</Alert>}
+                                <Button variant="contained" color="warning" onClick={aggiornaProfilo}>Aggiorna
+                                    Profilo</Button>
+                            </CardContent>
+                        </Card>
+                    )}
+
+                    {aggiungiProfiloVisibile && (
+                        <Card sx={{mb: 3}}>
+                            <CardContent>
+                                <Typography variant="h6">Aggiungi Utente</Typography>
+                                <form onSubmit={registrami}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} md={6}>
+                                            <TextField label="Nome" name="nome" value={registrazioneForm.nome}
+                                                       onChange={handleChange} fullWidth/>
+                                        </Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <TextField label="Cognome" name="cognome" value={registrazioneForm.cognome}
+                                                       onChange={handleChange} fullWidth/>
+                                        </Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <TextField label="Email" name="email" value={registrazioneForm.email}
+                                                       onChange={handleChange} fullWidth/>
+                                        </Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <TextField label="Password" name="password" type="password"
+                                                       value={registrazioneForm.password} onChange={handleChange}
+                                                       fullWidth/>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField select label="Ruolo" name="ruolo" value={registrazioneForm.ruolo}
+                                                       onChange={handleChange} fullWidth>
+                                                <MenuItem value="CISO">CISO</MenuItem>
+                                                <MenuItem value="IT Security Manager">IT Security Manager</MenuItem>
+                                            </TextField>
+                                        </Grid>
+                                        {registrazioneSuccess &&
+                                            <Grid item xs={12}><Alert severity="success">Registrazione avvenuta con
+                                                successo!</Alert></Grid>}
+                                        {error && <Grid item xs={12}><Alert severity="error">{error}</Alert></Grid>}
+                                        <Grid item xs={12}>
+                                            <Button variant="contained" color="warning" type="submit">Registra</Button>
+                                        </Grid>
+                                    </Grid>
+                                </form>
+                            </CardContent>
+                        </Card>
+                    )}
+
+                    {segnalazioniVisibile && <SegnalazioneAS token={token}/>}
+                </Grid>
+            </Grid>
+        </Container>
+    );
 };
 
+ProfiloAS.propTypes = {
+    token: PropTypes.string.isRequired,
+};
+
+export default ProfiloAS;

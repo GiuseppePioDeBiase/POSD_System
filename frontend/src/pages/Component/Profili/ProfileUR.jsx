@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardBody, MDBCardImage, MDBCardText } from 'mdb-react-ui-kit';
+import { Container, Grid, Card, CardContent, CardMedia, Typography, TextField, Button, Avatar } from '@mui/material';
 
 export default function ProfiloUR({ token }) {
   const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
   const [password, setPassword] = useState('');
   const [confermaPassword, setConfermaPassword] = useState('');
   const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '' });
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchProfilo = async () => {
@@ -31,6 +32,7 @@ export default function ProfiloUR({ token }) {
         setProfilo(data);
       } catch (error) {
         console.error("Errore durante il recupero del profilo:", error);
+        setError('Errore durante il recupero del profilo');
       }
     };
 
@@ -51,90 +53,102 @@ export default function ProfiloUR({ token }) {
 
   const handleSubmit = () => {
     if (password !== confermaPassword) {
-      alert("Le password non corrispondono!");
-      return;
+      setError("Le password non corrispondono!");
+
     }
 
     // Qui inserisci la logica per inviare le modifiche del profilo
   };
 
   return (
-    <MDBContainer className="py-5">
-      <MDBRow>
-        <MDBCol lg="4" className="mb-4">
-          <MDBCard className="h-auto w-auto justify-content-center mx-5">
-            <MDBCardBody className="mx-5">
-              <MDBCardImage
-                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-                alt="avatar"
-                className="rounded-circle my-4 flex-row align-items-center"
-                style={{ width: '150px' }}
-                fluid
-              />
-              <p className="text-muted mb-2 my-4" style={{ fontSize: '2rem' }}>
-                Bentornato <strong>{profilo.nome}</strong>
-              </p>
-              <p className="font-bold text-xl text-center">{profilo.ruolo}</p>
-
-              <div className="d-flex flex flex-col items-center mt-5">
-                <button className="btn btn-warning py-2 px-4" onClick={toggleModificaProfilo}>
-                  Modifica profilo
-                </button>
-              </div>
-            </MDBCardBody>
-            <MDBCardImage
-              src="/logo.png"
+    <Container sx={{ py: 5 }}>
+      <Grid container spacing={4}>
+        <Grid item lg={4} xs={12}>
+          <Card sx={{ mb: 4, mx: 5 }}>
+            <CardContent sx={{ textAlign: 'center' }}>
+              <Avatar src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" sx={{ width: 150, height: 150, mx: 'auto', mb: 4 }} />
+              <Typography variant="h6" gutterBottom>Bentornato</Typography>
+              <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
+              <Typography variant="subtitle1">{profilo.ruolo}</Typography>
+              <Button variant="contained" color="warning" sx={{ mt: 3 }} onClick={toggleModificaProfilo}>Modifica profilo</Button>
+            </CardContent>
+            <CardMedia
+              component="img"
+              image="/logo.png"
               alt="logo"
-              className="mb-4"
-              style={{ width: '50px', display: 'block', margin: '0 auto' }}
-              fluid
+              sx={{ width: 50, mx: 'auto', mb: 4 }}
             />
-          </MDBCard>
-        </MDBCol>
-        <MDBCol lg="8">
-          <MDBCard className="mb-4">
-            <MDBCardBody>
-              <MDBCardText>
-                <strong>Nome:</strong> {profilo.nome}
-              </MDBCardText>
-              <hr />
-              <MDBCardText>
-                <strong>Cognome:</strong> {profilo.cognome}
-              </MDBCardText>
-              <hr />
-              <MDBCardText>
-                <strong>Email:</strong> {profilo.email}
-              </MDBCardText>
-              <hr />
-              <MDBCardText>
-                <strong>Ruolo:</strong> {profilo.ruolo}
-              </MDBCardText>
-            </MDBCardBody>
-          </MDBCard>
+          </Card>
+        </Grid>
+        <Grid item lg={8} xs={12}>
+         <Card sx={{ mb: 4 }}>
+            <CardContent>
+              <Grid container spacing={2}>
+                <Grid item xs={3}>
+                  <Typography variant="subtitle1">Nome</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                  <Typography variant="body1" color="text.secondary">{profilo.nome}</Typography>
+                </Grid>
+                <Grid item xs={12}><hr /></Grid>
+                <Grid item xs={3}>
+                  <Typography variant="subtitle1">Cognome</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                  <Typography variant="body1" color="text.secondary">{profilo.cognome}</Typography>
+                </Grid>
+                <Grid item xs={12}><hr /></Grid>
+                <Grid item xs={3}>
+                  <Typography variant="subtitle1">Email</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                  <Typography variant="body1" color="text.secondary">{profilo.email}</Typography>
+                </Grid>
+                <Grid item xs={12}><hr /></Grid>
+                <Grid item xs={3}>
+                  <Typography variant="subtitle1">Ruolo</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                  <Typography variant="body1" color="text.secondary">{profilo.ruolo}</Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
 
-          <MDBCard className="mb-4">
-            <MDBCardBody>
-              {modificaProfiloVisibile && (
+          {modificaProfiloVisibile && (
+            <Card sx={{ mb: 4 }}>
+              <CardContent>
+                <Typography variant="h6">Modifica Profilo</Typography>
+                <TextField
+                  label="Password"
+                  type="password"
+                  placeholder="Modifica password..."
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  onChange={handlePasswordChange}
+                />
+                <TextField
+                  label="Conferma Password"
+                  type="password"
+                  placeholder="Conferma password..."
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  onChange={handleConfermaPasswordChange}
+                />
                 <div>
-                  <label>Password</label>
-                  <input type="password" placeholder="Modifica password..." className="form-control mb-3" style={{ maxWidth: '200px' }} onChange={handlePasswordChange} />
-                  <label>Conferma Password</label>
-                  <input type="password" placeholder="Conferma password..." className="form-control mb-3" style={{ maxWidth: '200px' }} onChange={handleConfermaPasswordChange} />
-                  <div className="d-flex justify-content-end">
-                    <button className="btn btn-secondary me-2" onClick={toggleModificaProfilo}>
-                      Annulla
-                    </button>
-                    <button className="btn btn-success" onClick={handleSubmit}>
-                      Conferma modifiche
-                    </button>
-                  </div>
+                  <Button variant="contained" color="secondary" sx={{ mr: 2 }} onClick={toggleModificaProfilo}>
+                    Annulla
+                  </Button>
+                  <Button variant="contained" color="success" onClick={handleSubmit}>
+                    Conferma modifiche
+                  </Button>
                 </div>
-              )}
-            </MDBCardBody>
-          </MDBCard>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+              </CardContent>
+            </Card>
+          )}
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
 

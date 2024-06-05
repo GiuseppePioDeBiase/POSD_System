@@ -100,7 +100,7 @@ export default function ReactVirtualizedTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/allsegnalazioni');
+        const response = await axios.get('http://localhost:5000/api/');
         setRows(response.data);
         setLoading(false);
       } catch (error) {
@@ -124,7 +124,7 @@ export default function ReactVirtualizedTable() {
   if (error) return <div>Errore: {error.message}</div>;
 
   return (
-    <Paper style={{ height: 400, width: '100%' }}>
+    <Paper style={{ height: 400, width: '100%', backgroundColor: 'white' }}>
       <TableVirtuoso
         data={rows}
         components={VirtuosoTableComponents}

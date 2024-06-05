@@ -2,11 +2,14 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Box, Card, CardContent, Typography, Button, TextField, TextareaAutosize } from '@mui/material';
+
 const SceltaSegnalazione = ({ messaggio, id }) => {
   const subject = "Segnalazione Numero: #" + id;
   const [message, setMessage] = useState(messaggio);
   const [status, setStatus] = useState(null);
   const navigate = useNavigate();
+
   const validateForm = () => {
     if (message.trim() === '') {
       setStatus('Il messaggio non può essere vuoto!');
@@ -24,7 +27,7 @@ const SceltaSegnalazione = ({ messaggio, id }) => {
     try {
       const response = await axios.post('http://localhost:5000/api/updatesegnalazione', {
         _id: id,
-        messaggio: messaggio,
+        messaggio: message,
         stato: true
       });
       setStatus(response.data.messaggio);
@@ -44,7 +47,7 @@ const SceltaSegnalazione = ({ messaggio, id }) => {
     try {
       const response = await axios.post('http://localhost:5000/api/updatesegnalazione', {
         _id: id,
-        messaggio: messaggio,
+        messaggio: message,
         stato: false
       });
       setStatus(response.data.messaggio);
@@ -56,55 +59,70 @@ const SceltaSegnalazione = ({ messaggio, id }) => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 mb-4">
-      <h2 className="text-2xl font-bold mb-4">Segnalazione</h2>
+    <Box sx={{ backgroundColor: 'white', boxShadow: 3, borderRadius: 2, p: 4, mb: 4 }}>
+      <Typography variant="h5" sx={{ mb: 4 }}>Segnalazione</Typography>
       <form>
-        <div className="mb-4">
-          <label htmlFor="subject" className="text-lg text-gray-600">Oggetto</label>
-          <input
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>Oggetto</Typography>
+          <TextField
             type="text"
             id="subject"
             name="subject"
             value={subject}
-            readOnly
-            className="w-full rounded border border-gray-300 bg-white py-2 px-4 text-lg text-gray-700 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+            InputProps={{
+              readOnly: true,
+            }}
+            fullWidth
+            sx={{ mt: 1 }}
             required
           />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="message" className="text-lg text-gray-600">Messaggio</label>
-          <textarea
+        </Box>
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>Messaggio</Typography>
+          <TextareaAutosize
             id="message"
             name="message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="w-full h-40 resize-none rounded border border-gray-300 bg-white py-2 px-4 text-lg text-gray-700 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+            minRows={8}
+            style={{
+              width: '100%',
+              borderRadius: 4,
+              borderColor: 'rgba(0, 0, 0, 0.23)',
+              padding: 8,
+              fontSize: 16,
+              fontFamily: 'Roboto, sans-serif',
+            }}
             required
-          ></textarea>
-        </div>
-        <div className="flex justify-between items-center">
-          <div>
-            <button
+          />
+        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box>
+            <Button
               type="button"
               onClick={handleAccept}
-              className="rounded-full bg-purple-500 py-3 px-8 text-lg text-white hover:bg-green-600 focus:outline-none"
+              variant="contained"
+              color="primary"
+              sx={{ borderRadius: '50px', py: 1.5, px: 4, textTransform: 'none' }}
             >
               Accetta
-            </button>
-            {status && <p className="mt-4 text-lg text-center">{status}</p>}
-          </div>
-          <div>
-            <button
+            </Button>
+            {status && <Typography variant="body1" sx={{ mt: 2, textAlign: 'center' }}>{status}</Typography>}
+          </Box>
+          <Box>
+            <Button
               type="button"
               onClick={handleReject}
-              className="rounded-full bg-purple-500 py-3 px-8 text-lg text-white hover:bg-red-600 focus:outline-none"
+              variant="contained"
+              color="secondary"
+              sx={{ borderRadius: '50px', py: 1.5, px: 4, textTransform: 'none' }}
             >
               Rifiuta
-            </button>
-          </div>
-        </div>
+            </Button>
+          </Box>
+        </Box>
       </form>
-    </div>
+    </Box>
   );
 };
 

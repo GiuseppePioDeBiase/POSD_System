@@ -1,14 +1,23 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import {
+  TextField,
+  Select,
+  MenuItem,
+  Button,
+  Typography,
+  Box,
+} from '@mui/material';
 
-const SceltaSegnalazione = ({  messaggio, id }) => {
+const SceltaSegnalazione = ({ messaggio, id }) => {
   const subject = "Segnalazione Numero: #" + id;
   const [message, setMessage] = useState(messaggio);
   const [status, setStatus] = useState(null);
   const [error, setError] = useState('');
   const [registrazioneSuccess, setRegistrazioneSuccess] = useState(false);
-  const [registrazioneForm, setRegistrazioneForm] = useState({ nome: '', cognome: '', OWASP: '', password: '', ruolo: 'CISO' });
+  const [registrazioneForm, setRegistrazioneForm] = useState({ nome: '', cognome: '', ruolo: 'CISO', password: '' });
+
   const validateForm = () => {
     if (message.trim() === '') {
       setStatus('Il messaggio non può essere vuoto!');
@@ -17,12 +26,13 @@ const SceltaSegnalazione = ({  messaggio, id }) => {
     setStatus(null);
     return true;
   };
-    const registrami = (event) => {
+
+  const registrami = (event) => {
     event.preventDefault();
     axios.post('http://127.0.0.1:5000/api/registrazione', registrazioneForm)
       .then(() => {
         setRegistrazioneSuccess(true);
-        setRegistrazioneForm({ nome: '', cognome: '', OWASP: '', password: '', ruolo: 'CISO' });
+        setRegistrazioneForm({ nome: '', cognome: '', ruolo: 'CISO', password: '' });
         setError('');
       })
       .catch((error) => {
@@ -33,82 +43,68 @@ const SceltaSegnalazione = ({  messaggio, id }) => {
       });
   };
 
-  const handleAccept = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) {
-      return;
-    }
-    try {
-
-      const response = await axios.post('http://localhost:5000/api/status_segnalazione', {
-        _id: id,
-        stato: true
-      });
-      setStatus(response.data.messaggio);
-    } catch (error) {
-      if (error.response) {
-        setStatus(error.response.data.messaggio || 'Errore nell\'invio del feedback');
-      } else {
-        setStatus('Errore di connessione. Riprova più tardi.');
-      }
-    }
-  };
- const handleChange = (event) => {
+  const handleChange = (event) => {
     const { value, name } = event.target;
     setRegistrazioneForm((prevNote) => ({ ...prevNote, [name]: value }));
   };
 
   return (
-      <div className="d-flex flex-column flex-md-row justify-content-between">
-        <div className="mb-3">
-          <div className="mb-3">
-            <a>Nome</a>
-            <input onChange={handleChange} autoComplete="off" type="text" placeholder="Inserisci nome..."
-                   className="form-control" name="nome" value={registrazioneForm.nome} style={{maxWidth: '250px'}}/>
-          </div>
-          <div className="mb-3">
-            <a>Cognome</a>
-            <input onChange={handleChange} autoComplete="off" type="text" placeholder="Inserisci cognome..."
-                   className="form-control" name="cognome" value={registrazioneForm.cognome}
-                   style={{maxWidth: '250px'}}/>
-          </div>
-          <div className="mb-3">
-            <a>OWASP</a>
-            <select onChange={handleChange} className="form-control" name="ruolo" value={registrazioneForm.ruolo}
-                    style={{maxWidth: '250px'}}>
-              <option value="CISO">CISO</option>
-              <option value="Amministratore di sistema">Amministratore di sistema</option>
-            </select>
-            <div>
-              {registrazioneSuccess && <p className="text-success">Registrazione completata con successo!</p>}
-            </div>
-          </div>
-        </div>
-        <div className="mb-3 ms-md-4">
-          <div className="mb-3">
-            <a>Password</a>
-            <input onChange={handleChange} autoComplete="off" type="text" placeholder="Inserisci password..."
-                   className="form-control" name="password" value={registrazioneForm.password}
-                   style={{maxWidth: '250px'}}/>
-          </div>
-          <div className="mb-3">
-            <a>Ruolo</a>
-            <select onChange={handleChange} className="form-control" name="ruolo" value={registrazioneForm.ruolo}
-                    style={{maxWidth: '250px'}}>
-              <option value="CISO">CISO</option>
-              <option value="Amministratore di sistema">Amministratore di sistema</option>
-            </select>
-            <div>
-              {registrazioneSuccess && <p className="text-success">Registrazione completata con successo!</p>}
-            </div>
-          </div>
-          {error && <div className="text-red-500 text-center">{error}</div>}
-        </div>
-        <div className="d-flex align-items-end justify-content-between ">
-          <button className="btn me-2 btn-success" onClick={registrami}>Conferma Registrazione</button>
-        </div>
-      </div>
 
+    <Box sx={{ display: 'flex', justifyContent: 'space-between' ,backgroundColor: 'white', mb: 3}}>
+      <Box>
+        <Typography variant="h6">Dati Utente</Typography>
+        <TextField
+          onChange={handleChange}
+          autoComplete="off"
+          type="text"
+          label="Nome"
+          placeholder="Inserisci nome..."
+          fullWidth
+          name="nome"
+          value={registrazioneForm.nome}
+          sx={{ mb: 1 }}
+        />
+        <TextField
+          onChange={handleChange}
+          autoComplete="off"
+          type="text"
+          label="Cognome"
+          placeholder="Inserisci cognome..."
+          fullWidth
+          name="cognome"
+          value={registrazioneForm.cognome}
+          sx={{ mb: 1 }}
+        />
+        <Select
+          onChange={handleChange}
+          label="Ruolo"
+          fullWidth
+          name="ruolo"
+          value={registrazioneForm.ruolo}
+          sx={{ mb: 1 }}
+        >
+          <MenuItem value="CISO">CISO</MenuItem>
+          <MenuItem value="Amministratore di sistema">Amministratore di sistema</MenuItem>
+        </Select>
+        {registrazioneSuccess && <Typography variant="body2" sx={{ color: 'success.main' }}>Registrazione completata con successo!</Typography>}
+      </Box>
+      <Box>
+        <Typography variant="h6">Altri Dati</Typography>
+        <TextField
+          onChange={handleChange}
+          autoComplete="off"
+          type="password"
+          label="Password"
+          placeholder="Inserisci password..."
+          fullWidth
+          name="password"
+          value={registrazioneForm.password}
+          sx={{ mb: 1 }}
+        />
+        <Typography variant="body2" sx={{ color: 'error.main', mb: 1 }}>{error}</Typography>
+      </Box>
+      <Button variant="contained" onClick={registrami}>Conferma Registrazione</Button>
+    </Box>
   );
 };
 

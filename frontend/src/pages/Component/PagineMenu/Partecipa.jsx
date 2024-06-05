@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 
 const Partecipa = ({ token }) => {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState(null);
-
+  const navigate=useNavigate();
   const validateForm = () => {
     if (message.trim() === '' || subject.trim() === '') {
       setStatus('Il nome e la descrizione non possono essere vuoti!');
@@ -31,6 +32,7 @@ const Partecipa = ({ token }) => {
           'Authorization': `Bearer ${token}`,
         }
       });
+      navigate(0);
       setStatus(response.data.messaggio);
     } catch (error) {
       if (error.response) {

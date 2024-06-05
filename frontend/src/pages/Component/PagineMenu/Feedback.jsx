@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 
 function Feedback() {
 
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState(null);
-
+  const navigate = useNavigate();
   const validateForm = () => {
     if (subject.trim() === '' || message.trim() === '') {
       setStatus('Oggetto e messaggio non possono essere vuoti!');
@@ -27,6 +28,7 @@ function Feedback() {
         messaggio: message
       });
       setStatus(response.data.message);
+      navigate(0);
     } catch (error) {
       setStatus('Errore nell\'invio del feedback');
     }
