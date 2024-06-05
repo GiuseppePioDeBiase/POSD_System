@@ -14,7 +14,6 @@ function NavBar({token}) {
 
   useEffect(() => {
     const fetchProfilo = async () => {
-
       if (!token) {
         console.error("Token non disponibile");
         return;
@@ -24,10 +23,8 @@ function NavBar({token}) {
         const response = await fetch('http://localhost:5000/api/profilo', {
           method: 'GET',
           headers: {
-
             'Content-Type': 'application/json',//nell'intestazione di una richiesta HTTP indica al server che il corpo della richiesta è formattato come JSON
             'Authorization': `Bearer ${token}`
-
           }
         });
 
@@ -42,8 +39,9 @@ function NavBar({token}) {
       }
     };
 
-    fetchProfilo();
-  }, []);
+       fetchProfilo();
+  }, [token]);
+
   const handleMenuItemClick = (index) => {
     setActiveMenuItem(index);
     if (window.innerWidth <= 1919) {
@@ -64,17 +62,15 @@ function NavBar({token}) {
     { to: "/Partecipa", icon: "hand-right-outline", text: "Partecipa", bg: "#0fc70f" },
     { to: "/Feedback", icon: "clipboard-outline", text: "Feedback", bg: "#b145e9" },
   ];
-  let bottomItems ;
-  if (!token){
-    bottomItems =[
-        { to: "/Login", icon: "log-in-outline", text: "Login" }
 
-    ];
-  }else{
-    bottomItems = [
-    { to: "/Profili", icon: "img", imgSrc: "frontend/public/totti.jpeg", alt: profilo.nome, text: profilo.nome +" "+ profilo.cognome},
-    { to: "/LogOUT", icon: "log-out-outline", text: "Logout" }
-  ];
+   let bottomItems = [];
+  if (!token) {
+    bottomItems.push({ to: "/Login", icon: "log-in-outline", text: "Login" });
+  } else {
+    bottomItems.push(
+      { to: "/Profili", icon: "img", imgSrc: "frontend/public/totti.jpeg", alt: profilo.nome, text: profilo.nome + " " + profilo.cognome },
+      { to: "/LogOUT", icon: "log-out-outline", text: "Logout" }
+    );
   }
 
 
