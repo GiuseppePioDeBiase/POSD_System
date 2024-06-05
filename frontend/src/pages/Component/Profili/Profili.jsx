@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 function Profili({ token, ruolo }) {
     const [loading, setLoading] = useState(true);
-    const [secondsLeft, setSecondsLeft] = useState(3); // Tempo di attesa in secondi
+    const [secondsLeft, setSecondsLeft] = useState(2); // Tempo di attesa in secondi
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -16,7 +16,7 @@ function Profili({ token, ruolo }) {
         setTimeout(() => {
             setLoading(false);
             clearInterval(timer);
-        }, 3000); // Attendiamo 3 secondi prima di rimuovere il caricamento
+        }, 2000); // Attendiamo 2 secondi prima di rimuovere il caricamento
 
         return () => clearInterval(timer);
     }, []);

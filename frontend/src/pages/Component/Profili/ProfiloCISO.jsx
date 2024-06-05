@@ -167,15 +167,6 @@ export default function ProfiloCISO(props) {
                   <MDBCardText className="text-muted">{profilo.ruolo}</MDBCardText>
                 </MDBCol>
               </MDBRow>
-              <hr />
-              <MDBRow>
-                <MDBCol sm="3">
-                  <MDBCardText>Address</MDBCardText>
-                </MDBCol>
-                <MDBCol sm="9">
-                  <MDBCardText className="text-muted">Bay Area, San Francisco, CA</MDBCardText>
-                </MDBCol>
-              </MDBRow>
             </MDBCardBody>
           </MDBCard>
 
