@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-const SceltaSegnalazione = ({  messaggio, id }) => {
+const SceltaSegnalazione = ({ messaggio, id }) => {
   const subject = "Segnalazione Numero: #" + id;
   const [message, setMessage] = useState(messaggio);
   const [status, setStatus] = useState(null);
@@ -22,16 +22,15 @@ const SceltaSegnalazione = ({  messaggio, id }) => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/api/status_segnalazione', {
+      const response = await axios.post('http://localhost:5000/api/updatesegnalazione', {
         _id: id,
+        messaggio: messaggio,
         stato: true
       });
-      setStatus(response.data.messagg);
+      setStatus(response.data.messaggio);
     } catch (error) {
-      if (error.response) {
-        setStatus(error.response.data.messaggio || 'Errore nell\'invio del feedback');
-      } else {
-        setStatus('Errore di connessione. Riprova più tardi.');
+      if (error.response && error.response.data.messaggio) {
+        setStatus(error.response.data.messaggio);
       }
     }
   };
@@ -42,16 +41,15 @@ const SceltaSegnalazione = ({  messaggio, id }) => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/api/allsegnalazioni', {
+      const response = await axios.post('http://localhost:5000/api/updatesegnalazione', {
         _id: id,
+        messaggio: messaggio,
         stato: false
       });
       setStatus(response.data.messaggio);
     } catch (error) {
-      if (error.response) {
-        setStatus(error.response.data.messaggio || 'Errore nell\'invio della segnalazione');
-      } else {
-        setStatus('Errore di connessione. Riprova più tardi.');
+      if (error.response && error.response.data.messaggio) {
+        setStatus(error.response.data.messaggio);
       }
     }
   };
