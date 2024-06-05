@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage } from 'mdb-react-ui-kit';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import SegnalazioneAS from '../Segnalazioni/SegnalazioneAS.jsx';
+
 
 export default function ProfiloAS({ token }) {
   const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
@@ -11,16 +13,23 @@ export default function ProfiloAS({ token }) {
   const [registrazioneForm, setRegistrazioneForm] = useState({ nome: '', cognome: '', email: '', password: '', ruolo: 'CISO' });
   const [registrazioneSuccess, setRegistrazioneSuccess] = useState(false);
   const [error, setError] = useState('');
-
+  const [SegnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
   const toggleModificaProfilo = () => {
     setModificaProfiloVisibile(!modificaProfiloVisibile);
     setAggiungiProfiloVisibile(false);
+    setSegnalazioniVisibile(false);
     setError('');
   };
 
+  const toggleSegnalazioniApprovate = () => {
+    setSegnalazioniVisibile(!SegnalazioniVisibile);
+    setModificaProfiloVisibile(false);
+    setAggiungiProfiloVisibile(false);
+}
   const toggleAggiungiProfilo = () => {
     setAggiungiProfiloVisibile(!aggiungiProfiloVisibile);
     setModificaProfiloVisibile(false);
+    setSegnalazioniVisibile(false);
     setError('');
   };
 
@@ -107,9 +116,14 @@ export default function ProfiloAS({ token }) {
               <p className="text-muted mb-1">{profilo.ruolo}</p>
               <div className="d-flex flex flex-col items-center mt-5">
                 <button className="btn btn-warning py-2 px-4" onClick={toggleModificaProfilo}>Modifica profilo</button>
+<<<<<<< HEAD
                 <button className="btn btn-warning py-2 px-9 mt-2" onClick={toggleModificaProfilo}>Segnalazioni</button>
                 <button className="btn btn-warning py-2 px-4 mt-2" onClick={toggleAggiungiProfilo}>Aggiungi utenti
                 </button>
+=======
+                <button className="btn btn-warning py-2 px-9 mt-2" onClick={toggleSegnalazioniApprovate}>Segnalazioni</button>
+                <button className="btn btn-warning py-2 px-4 mt-2" onClick={toggleAggiungiProfilo}>Aggiungi utenti</button>
+>>>>>>> b96af35a76f62fe21b203520f8850c6357b5809b
               </div>
             </MDBCardBody>
             <MDBCardImage src="/logo.png" alt="logo" className="mb-4" style={{ width: '50px', display: 'block', margin: '0 auto' }} fluid />
@@ -211,6 +225,12 @@ export default function ProfiloAS({ token }) {
                         <button className="btn me-2 btn-success" onClick={registrami}>Conferma Registrazione</button>
                       </div>
                     </div>
+
+                  )}
+                      {SegnalazioniVisibile && (
+                      <div>
+                       <SegnalazioneAS/>
+                      </div>
                   )}
                 </MDBCardBody>
               </MDBCard>
