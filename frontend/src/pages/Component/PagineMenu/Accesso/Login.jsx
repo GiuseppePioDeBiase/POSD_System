@@ -2,20 +2,19 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import useRuolo from './useRuolo.jsx';
+
 
 export let userEmail = ''; // Variabile per memorizzare l'email fornita dall'utente
 
 function Login(props) {
     const navigate = useNavigate(); // Ottieni la funzione di navigazione
-    const { setRuolo } = useRuolo(); // Ottieni le funzioni da useRuolo
-    const [loginForm, setloginForm] = useState({
+
+     const [loginForm, setloginForm] = useState({
         email: '',
         password: ''
     });
-    const [error, setError] = useState(''); // Aggiungi lo stato per memorizzare l'errore
-
-    function logMeIn(event) {
+     const [error, setError] = useState(''); // Aggiungi lo stato per memorizzare l'errore
+       function logMeIn(event) {
     event.preventDefault();
 
     axios({
@@ -29,7 +28,7 @@ function Login(props) {
     .then((response) => {
         const token = response.data.token; // Extract token from server response
         const ruolo = response.data.ruolo; // Extract role from server response
-        setRuolo(ruolo); // Set role using the useRuolo hook
+        props.setRuolo(ruolo); // Set role using the useRuolo hook
         props.setToken(token); // Set token using the prop
         setError(''); // Reset error
 
@@ -40,6 +39,7 @@ function Login(props) {
             setError(error.response.data.messaggio);
         }
     });
+
 }
 
     function handleChange(event) {
@@ -49,7 +49,7 @@ function Login(props) {
             [name]: value
         }));
     }
-
+    if(props){
     return (
         <div className="min-h-screen py-6 flex flex-col justify-center sm:py-12">
             <div className="relative py-3 w-full sm:max-w-xl sm:mx-auto">
@@ -117,9 +117,12 @@ function Login(props) {
             </div>
         </div>
     );
+    }
+    navigate("/Profili")
 }
 
 Login.propTypes = {
-    setToken: PropTypes.func.isRequired
+    setToken: PropTypes.func.isRequired,
+    setRuolo: PropTypes.func.isRequired
 };
 export default Login;

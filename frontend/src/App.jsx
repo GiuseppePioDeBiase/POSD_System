@@ -157,7 +157,7 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                 <Route path="/Registrazione" element={
                     <div>
                         <NavBar token={token} />
-                        <Registrazione />
+                        <Registrazione setToken={setToken} setRuolo={setRuolo} />
                     </div>
                 } />
                 <Route path="/Profili" element={

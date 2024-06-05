@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import PropTypes from "prop-types";
+import Login from "./Login.jsx";
 
-function Registrazione() {
+
+function Registrazione(token, ruolo) {
     const navigate = useNavigate();
     const [error, setError] = useState(''); // Correctly define setError state
 
@@ -26,8 +29,12 @@ function Registrazione() {
                 password: RegistrazioneForm.password
             }
         })
-        .then(() => {
-            navigate('/'); // Redirect to the homepage
+        .then((response) => {
+            token.setToken(response.data.token)
+            ruolo.setRuolo(response.data.ruolo);
+            console.log(response.data.ruolo);
+            console.log(response.data.token);
+            navigate("/Prifli")
         })
         .catch((error) => {
             if (error.response) {
@@ -160,5 +167,8 @@ function Registrazione() {
         </div>
     );
 }
-
+Login.propTypes = {
+    setToken: PropTypes.func.isRequired,
+    setRuolo: PropTypes.func.isRequired
+};
 export default Registrazione;
