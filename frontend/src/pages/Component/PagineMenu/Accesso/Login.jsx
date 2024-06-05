@@ -3,9 +3,6 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-
-export let userEmail = ''; // Variabile per memorizzare l'email fornita dall'utente
-
 function Login(props) {
     const navigate = useNavigate(); // Ottieni la funzione di navigazione
 
@@ -26,10 +23,8 @@ function Login(props) {
         }
     })
     .then((response) => {
-        const token = response.data.token; // Extract token from server response
-        const ruolo = response.data.ruolo; // Extract role from server response
-        props.setRuolo(ruolo); // Set role using the useRuolo hook
-        props.setToken(token); // Set token using the prop
+        props.setRuolo(response.data.ruolo); // Set role using the useRuolo hook
+        props.setToken(response.data.token); // Set token using the prop
         setError(''); // Reset error
 
         navigate('/Profili'); // Redirect to the profile page
@@ -49,7 +44,7 @@ function Login(props) {
             [name]: value
         }));
     }
-    if(props){
+
     return (
         <div className="min-h-screen py-6 flex flex-col justify-center sm:py-12">
             <div className="relative py-3 w-full sm:max-w-xl sm:mx-auto">
@@ -118,8 +113,7 @@ function Login(props) {
         </div>
     );
     }
-    navigate("/Profili")
-}
+
 
 Login.propTypes = {
     setToken: PropTypes.func.isRequired,

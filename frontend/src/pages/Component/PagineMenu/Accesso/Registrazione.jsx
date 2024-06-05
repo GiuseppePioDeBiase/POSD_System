@@ -1,11 +1,10 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 import PropTypes from "prop-types";
-import Login from "./Login.jsx";
 
 
-function Registrazione(token, ruolo) {
+function Registrazione(props) {
     const navigate = useNavigate();
     const [error, setError] = useState(''); // Correctly define setError state
 
@@ -29,20 +28,22 @@ function Registrazione(token, ruolo) {
                 password: RegistrazioneForm.password
             }
         })
-        .then((response) => {
-            token.setToken(response.data.token)
-            ruolo.setRuolo(response.data.ruolo);
-            navigate("/Profili")
-        })
-        .catch((error) => {
-            if (error.response) {
-                setError(error.response.data.messaggio); // Set error message from server response
-            }
-        });
+            .then((response) => {
+                props.setRuolo(response.data.ruolo); // Set role using the useRuolo hook
+                props.setToken(response.data.token); // Set token using the prop
+                setError(''); // Reset error
+
+                navigate("/Profili")
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setError(error.response.data.messaggio); // Set error message from server response
+                }
+            });
     }
 
     function handleChange(event) {
-        const { value, name } = event.target;
+        const {value, name} = event.target;
         setRegistrazioneForm((prevNote) => ({
             ...prevNote,
             [name]: value
@@ -52,7 +53,8 @@ function Registrazione(token, ruolo) {
     return (
         <div className="min-h-screen py-6 flex flex-col justify-center sm:py-12">
             <div className="relative py-3 w-full sm:max-w-xl sm:mx-auto">
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+                <div
+                    className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
                 <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
                     <div className="max-w-md mx-auto">
                         <div>
@@ -153,8 +155,10 @@ function Registrazione(token, ruolo) {
                                         Registrati
                                     </button>
                                 </div>
-                                {error && <div className="text-red-500 text-sm mt-4 text-center">{error}</div>} {/* Center align error message */}
-                                <Link to="/Login" className="block text-center text-gray-600 underline mt-4"> {/* Adjust the margin */}
+                                {error && <div
+                                    className="text-red-500 text-sm mt-4 text-center">{error}</div>} {/* Center align error message */}
+                                <Link to="/Login"
+                                      className="block text-center text-gray-600 underline mt-4"> {/* Adjust the margin */}
                                     Torna alla pagina di Login
                                 </Link>
                             </div>
@@ -165,7 +169,8 @@ function Registrazione(token, ruolo) {
         </div>
     );
 }
-Login.propTypes = {
+
+Registrazione.propTypes = {
     setToken: PropTypes.func.isRequired,
     setRuolo: PropTypes.func.isRequired
 };
