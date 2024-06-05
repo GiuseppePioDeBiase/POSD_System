@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 const SceltaSegnalazione = ({ messaggio, id }) => {
   const subject = "Segnalazione Numero: #" + id;
   const [message, setMessage] = useState(messaggio);
   const [status, setStatus] = useState(null);
-
+  const navigate = useNavigate();
   const validateForm = () => {
     if (message.trim() === '') {
       setStatus('Il messaggio non può essere vuoto!');
@@ -28,6 +28,7 @@ const SceltaSegnalazione = ({ messaggio, id }) => {
         stato: true
       });
       setStatus(response.data.messaggio);
+      navigate(0);
     } catch (error) {
       if (error.response && error.response.data.messaggio) {
         setStatus(error.response.data.messaggio);
