@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-const SceltaSegnalazione = ({ oggetto, messaggio, id }) => {
+const SceltaSegnalazione = ({  messaggio, id }) => {
   const subject = "Segnalazione Numero: #" + id;
   const [message, setMessage] = useState(messaggio);
   const [status, setStatus] = useState(null);
@@ -26,7 +26,7 @@ const SceltaSegnalazione = ({ oggetto, messaggio, id }) => {
         _id: id,
         stato: true
       });
-      setStatus(response.data.messaggio);
+      setStatus(response.data.messagg);
     } catch (error) {
       if (error.response) {
         setStatus(error.response.data.messaggio || 'Errore nell\'invio del feedback');
@@ -110,7 +110,6 @@ const SceltaSegnalazione = ({ oggetto, messaggio, id }) => {
 };
 
 SceltaSegnalazione.propTypes = {
-  oggetto: PropTypes.string.isRequired,
   messaggio: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired
 };
