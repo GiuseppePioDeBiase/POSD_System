@@ -132,10 +132,10 @@ export default function ReactVirtualizedTable() {
       />
       {showSegnalazioneForm && selectedCell && (
         <SceltaSegnalazione
-          key={selectedCell.id}
+          key={selectedCell._id}
           messaggio={selectedCell.messaggio}
           oggetto={selectedCell.oggetto}
-          id={selectedCell.id}
+          id={selectedCell._id}
         />
       )}
     </Paper>
