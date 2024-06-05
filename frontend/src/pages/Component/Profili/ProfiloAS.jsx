@@ -26,19 +26,23 @@ export default function ProfiloAS(props) {
     cognome: '',
     email: '',
     password: '',
-    ruolo: 'CISO',
+    ruolo: '',
   });
   const [registrazioneSuccess, setRegistrazioneSuccess] = useState(false);
+  const [error, setError] = useState('');
 
-  const toggleModificaProfilo = () => {
+    const toggleModificaProfilo = () => {
     setModificaProfiloVisibile(!modificaProfiloVisibile);
     setAggiungiProfiloVisibile(false);
+    setError('');  // Reset degli errori quando si cambia vista
   };
 
   const toggleAggiungiProfilo = () => {
     setAggiungiProfiloVisibile(!aggiungiProfiloVisibile);
     setModificaProfiloVisibile(false);
+    setError('');  // Reset degli errori quando si cambia vista
   };
+
 
   const registrami = (event) => {
     event.preventDefault();
@@ -54,11 +58,13 @@ export default function ProfiloAS(props) {
           cognome: '',
           email: '',
           password: '',
-          ruolo: 'CISO',
+          ruolo: '',
         });
+         setError('');
       })
       .catch((error) => {
         if (error.response) {
+          setError(error.response.data.messaggio);
           console.log(error.response);
           console.log(error.response.status);
           console.log(error.response.headers);
@@ -104,6 +110,7 @@ export default function ProfiloAS(props) {
       })
       .catch((error) => {
         console.error('Errore durante l\'aggiornamento del profilo:', error);
+        setError('Errore durante l\'aggiornamento del profilo');
       });
   };
 
@@ -133,6 +140,7 @@ export default function ProfiloAS(props) {
         });
       } catch (error) {
         console.error('Errore durante il recupero del profilo:', error);
+        setError('Errore durante il recupero del profilo');
       }
     };
 
@@ -291,8 +299,10 @@ export default function ProfiloAS(props) {
                               style={{maxWidth: '200px'}}
                           />
 
-
                         </div>
+                        </div>
+                          {error && <div className="text-red-500 text-center">{error}</div>}
+                        <div>
                       </div>
                       <div className="d-flex justify-content-end align-items-end">
                         <button className="btn btn-secondary me-2" onClick={toggleModificaProfilo}>
@@ -306,77 +316,99 @@ export default function ProfiloAS(props) {
                   </div>
                   )}
 
-                  {aggiungiProfiloVisibile && (
-                      <div className="d-flex flex-column flex-md-row justify-content-between">
-                        <div className="mb-3">
-                          <div>
-                          <a>Nome</a>
+              {aggiungiProfiloVisibile && (
+                  <div className="d-flex flex-column flex-md-row justify-content-between">
+                    <div className="mb-3">
+                      <div className="mb-3">
+                        <a>Nome</a>
                         <input
-                          onChange={handleChange}
-                          autoComplete="off"
-                          type="text"
-                          placeholder="Inserisci nome..."
-                          className="form-control mb-3"
-                          name="nome"
-                          value={registrazioneForm.nome}
-                          style={{ maxWidth: '200px' }}
+                            onChange={handleChange}
+                            autoComplete="off"
+                            type="text"
+                            placeholder="Inserisci nome..."
+                            className="form-control"
+                            name="nome"
+                            value={registrazioneForm.nome}
+                            style={{maxWidth: '250px'}}
                         />
                       </div>
-                      <div>
+                      <div className="mb-3">
                         <a>Cognome</a>
                         <input
-                          onChange={handleChange}
-                          autoComplete="off"
-                          type="text"
-                          placeholder="Inserisci cognome..."
-                          className="form-control mb-3"
-                          name="cognome"
-                          value={registrazioneForm.cognome}
-                          style={{ maxWidth: '200px' }}
+                            onChange={handleChange}
+                            autoComplete="off"
+                            type="text"
+                            placeholder="Inserisci cognome..."
+                            className="form-control"
+                            name="cognome"
+                            value={registrazioneForm.cognome}
+                            style={{maxWidth: '250px'}}
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <a>Email</a>
+                        <input
+                            onChange={handleChange}
+                            autoComplete="off"
+                            type="text"
+                            placeholder="Inserisci email..."
+                            className="form-control"
+                            name="email"
+                            value={registrazioneForm.email}
+                            style={{maxWidth: '250px'}}
                         />
                       </div>
                     </div>
-                    <div className="mb-3">
-                      <div>
+                    <div className="mb-3 ms-md-4">
+                      <div className="mb-3">
                         <a>Password</a>
                         <input
-                          onChange={handleChange}
-                          autoComplete="off"
-                          type="text"
-                          placeholder="Inserisci password..."
-                          className="form-control mb-3"
-                          name="password"
-                          value={registrazioneForm.password}
-                          style={{ maxWidth: '200px' }}
+                            onChange={handleChange}
+                            autoComplete="off"
+                            type="text"
+                            placeholder="Inserisci password..."
+                            className="form-control"
+                            name="password"
+                            value={registrazioneForm.password}
+                            style={{maxWidth: '250px'}}
                         />
+
                       </div>
-                      <div>
+                      <div className="mb-3">
                         <a>Ruolo</a>
                         <select
-                          onChange={handleChange}
-                          className="form-control mb-3"
-                          name="ruolo"
-                          value={registrazioneForm.ruolo}
-                          style={{ maxWidth: '200px' }}
+                            onChange={handleChange}
+                            className="form-control"
+                            name="ruolo"
+                            value={registrazioneForm.ruolo}
+                            style={{maxWidth: '250px'}}
                         >
                           <option value="CISO">CISO</option>
                           <option value="Amministratore di sistema">Amministratore di sistema</option>
                         </select>
+                        <div>
+                          {registrazioneSuccess && (
+                              <p className="text-success">Registrazione completata con successo!</p>
+                          )}
+                        </div>
                       </div>
+                      {error && <div className="text-red-500 text-center">{error}</div>}
                     </div>
-                    <div className="d-flex align-items-end">
-                      <button className="btn me-2 btn-success mt-auto" onClick={registrami}>
+
+                    <div className="d-flex align-items-end justify-content-between ">
+
+                      <button className="btn me-2 btn-success" onClick={registrami}>
                         Conferma Registrazione
                       </button>
+
                     </div>
-                    {registrazioneSuccess && (
-                      <p className="text-success mt-3">Registrazione completata con successo!</p>
-                    )}
+
                   </div>
-                )}
+
+              )}
 
 
-              </MDBCardBody>
+                </MDBCardBody>
               </MDBCard>
             </MDBCol>
           </MDBRow>

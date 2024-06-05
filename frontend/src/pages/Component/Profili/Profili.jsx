@@ -13,12 +13,24 @@ function Profili({ token, ruolo }) {
             setSecondsLeft(prevSeconds => prevSeconds - 1);
         }, 1000);
 
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
             setLoading(false);
             clearInterval(timer);
-        }, 3000); // Attendiamo 3 secondi prima di rimuovere il caricamento
 
-        return () => clearInterval(timer);
+            // Controlla se la pagina è già stata ricaricata
+            if (!localStorage.getItem('pageRefreshed')) {
+                localStorage.setItem('pageRefreshed', 'true');
+                window.location.reload();
+            } else {
+                // Rimuovi il flag dopo il primo caricamento
+                localStorage.removeItem('pageRefreshed');
+            }
+        }, 3000); // Attendiamo 3 secondi prima di rimuovere il caricamento e fare il refresh
+
+        return () => {
+            clearInterval(timer);
+            clearTimeout(timeout);
+        };
     }, []);
 
     const renderProfile = () => {
