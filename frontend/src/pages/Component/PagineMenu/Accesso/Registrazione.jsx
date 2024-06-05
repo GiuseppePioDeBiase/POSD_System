@@ -32,9 +32,7 @@ function Registrazione(token, ruolo) {
         .then((response) => {
             token.setToken(response.data.token)
             ruolo.setRuolo(response.data.ruolo);
-            console.log(response.data.ruolo);
-            console.log(response.data.token);
-            navigate("/Prifli")
+            navigate("/Profili")
         })
         .catch((error) => {
             if (error.response) {
