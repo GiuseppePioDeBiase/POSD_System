@@ -84,6 +84,7 @@ const SceltaSegnalazione = ({ messaggio, id }) => {
             name="message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            fullWidth
             minRows={8}
             style={{
               width: '100%',

@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Container, Grid, Card, CardContent, CardMedia, Typography, TextField, Button, Avatar } from '@mui/material';
+import {Container, Grid, Card, CardContent, CardMedia, Typography, TextField, Button, Avatar, Box} from '@mui/material';
+import StoricoSegnalazioni from "../Segnalazioni/StoricoSegnalazioni.jsx";
 
 export default function ProfiloUR({ token }) {
   const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
   const [password, setPassword] = useState('');
   const [confermaPassword, setConfermaPassword] = useState('');
   const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '' });
-  const [error, setError] = useState('');
-
-  useEffect(() => {
+  const [ setError] = useState('');
+const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);  useEffect(() => {
     const fetchProfilo = async () => {
       try {
         if (!token) {
@@ -41,20 +41,21 @@ export default function ProfiloUR({ token }) {
 
   const toggleModificaProfilo = () => {
     setModificaProfiloVisibile(!modificaProfiloVisibile);
+    setSegnalazioniVisibile(false);
   };
-
+const toggleSegnalazioniVisibile = () => {
+    setSegnalazioniVisibile(!segnalazioniVisibile);
+    setModificaProfiloVisibile(false);
+  };
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
-
   const handleConfermaPasswordChange = (event) => {
     setConfermaPassword(event.target.value);
   };
-
   const handleSubmit = () => {
     if (password !== confermaPassword) {
       setError("Le password non corrispondono!");
-
     }
 
     // Qui inserisci la logica per inviare le modifiche del profilo
@@ -70,7 +71,10 @@ export default function ProfiloUR({ token }) {
               <Typography variant="h6" gutterBottom>Bentornato</Typography>
               <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
               <Typography variant="subtitle1">{profilo.ruolo}</Typography>
-              <Button variant="contained" color="warning" sx={{ mt: 3 }} onClick={toggleModificaProfilo}>Modifica profilo</Button>
+              <Box sx={{mt: 5}}>
+              <Button variant="contained" color="warning" sx={{ mt: 5 }} onClick={toggleModificaProfilo}>Modifica profilo</Button>
+              <Button variant="contained" color="warning" sx={{ mb: 2 ,mt:3}} onClick={toggleSegnalazioniVisibile} >Storico</Button>
+              </Box>
             </CardContent>
             <CardMedia
               component="img"
@@ -146,6 +150,7 @@ export default function ProfiloUR({ token }) {
               </CardContent>
             </Card>
           )}
+          {segnalazioniVisibile && <StoricoSegnalazioni />}
         </Grid>
       </Grid>
     </Container>
