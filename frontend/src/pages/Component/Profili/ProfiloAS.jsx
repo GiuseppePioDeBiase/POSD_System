@@ -99,8 +99,10 @@ export default function ProfiloAS({ token }) {
         <MDBCol lg="4">
           <MDBCard className="mb-4 h-full justify-content-center mx-5">
             <MDBCardBody className="text-center mx-5">
-              <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" className="rounded-circle mb-4 mx-5" style={{ width: '150px' }} fluid />
-              <p className="text-muted mb-2" style={{ fontSize: '2rem' }}>Bentornato <strong>{profilo.nome}</strong></p>
+              <div className="d-flex justify-content-center">
+                <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" className="rounded-circle mb-4" style={{ width: '150px' }} fluid />
+              </div>
+              <p className="text-muted mb-2 responsive-text">Bentornato <strong>{profilo.nome}</strong></p>
               <p className="text-muted mb-1">{profilo.ruolo}</p>
               <div className="d-flex flex flex-col items-center mt-5">
                 <button className="btn btn-warning py-2 px-4" onClick={toggleModificaProfilo}>Modifica profilo</button>
@@ -221,3 +223,10 @@ export default function ProfiloAS({ token }) {
 ProfiloAS.propTypes = {
   token: PropTypes.string.isRequired,
 };
+
+
+
+export const styleElement = document.createElement('style');
+styleElement.type = 'text/css';
+styleElement.appendChild(document.createTextNode(styles));
+document.head.appendChild(styleElement);
