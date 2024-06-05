@@ -112,17 +112,15 @@ export default function ReactVirtualizedTable() {
   }, []);
 
   const handleCellClick = (row) => {
-    if (selectedCell === row) {
-      setShowSegnalazioneForm(false);
-      setSelectedCell(null);
-    } else {
-      setShowSegnalazioneForm(true);
+    setShowSegnalazioneForm(false); // Close the form before opening a new one
+    setTimeout(() => {
       setSelectedCell(row);
-    }
+      setShowSegnalazioneForm(true);
+    }, 0); // Open the form with new details
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (loading) return <div>Caricamento...</div>;
+  if (error) return <div>Errore: {error.message}</div>;
 
   return (
     <Paper style={{ height: 400, width: '100%' }}>
@@ -133,7 +131,12 @@ export default function ReactVirtualizedTable() {
         itemContent={(index, row) => rowContent(index, row, handleCellClick)}
       />
       {showSegnalazioneForm && selectedCell && (
-        <SceltaSegnalazione messaggio={selectedCell.messaggio} oggetto={selectedCell.oggetto} id={selectedCell.id} />
+        <SceltaSegnalazione
+          key={selectedCell.id}
+          messaggio={selectedCell.messaggio}
+          oggetto={selectedCell.oggetto}
+          id={selectedCell.id}
+        />
       )}
     </Paper>
   );
