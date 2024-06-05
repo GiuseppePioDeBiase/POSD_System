@@ -93,7 +93,7 @@ class Utente:
                 from backend.models.attors.amministratore_di_sistema import AmministratoreDiSistema
                 utente = AmministratoreDiSistema(nome, cognome, email, password)
             elif ruolo == Ruolo.UTENTE.value:
-                utente = cls(nome, cognome, email, password)
+                utente = cls(nome, cognome, email, password, ruolo=Ruolo.UTENTE)
             else:
                 return jsonify({"successo": False, "messaggio": f"Ruolo: {ruolo} non valido!"}), 400
             utenti.insert_one(utente.to_json())
@@ -106,14 +106,20 @@ class Utente:
     @classmethod
     def login(cls):
         dati = request.json
-        if not dati:
+        if dati is None or 'email' not in dati or 'password' not in dati:
             return jsonify({"successo": False, "messaggio": "Nessun dato fornito!"}), 400
 
         email = dati.get('email')
         password = dati.get('password')
 
-        if not all([email, password]):
-            return jsonify({"successo": False, "messaggio": "Email e password sono obbligatori!"}), 400
+        if not email.strip() and not password.strip():
+            return jsonify({"successo": False, "messaggio": "Nessun dato fornito!"}), 400
+
+        if not email.strip():
+            return jsonify({"successo": False, "messaggio": "L'email è obbligatoria!"}), 400
+
+        if not password.strip():
+            return jsonify({"successo": False, "messaggio": "La password è obbligatoria!"}), 400
 
         utente = utenti.find_one({"email": email})
         if not utente:

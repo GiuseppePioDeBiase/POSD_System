@@ -2,10 +2,9 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
-
 function Registrazione() {
-      const navigate = useNavigate();
-
+    const navigate = useNavigate();
+    const [error, setError] = useState(''); // Correctly define setError state
 
     const [RegistrazioneForm, setRegistrazioneForm] = useState({
         nome: '',
@@ -17,37 +16,23 @@ function Registrazione() {
 
     function registrami(event) {
         event.preventDefault();
-            axios({
-                method: 'POST',
-                url: 'http://127.0.0.1:5000/api/registrazione', // Endpoint di registrazione
-                data: {
-                    nome: RegistrazioneForm.nome,
-                    cognome: RegistrazioneForm.cognome,
-                    email: RegistrazioneForm.email,
-                    password: RegistrazioneForm.password
+        axios({
+            method: 'POST',
+            url: 'http://127.0.0.1:5000/api/registrazione', // Registration endpoint
+            data: {
+                nome: RegistrazioneForm.nome,
+                cognome: RegistrazioneForm.cognome,
+                email: RegistrazioneForm.email,
+                password: RegistrazioneForm.password
             }
         })
         .then(() => {
-
-
-
-                navigate('/'); // Reindirizza al profilo
-
-            })
-            .catch((error) => {
-                if (error.response) {
-                    console.log(error.response);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                }
-            });
-
-        setRegistrazioneForm({
-            nome: '',
-            cognome: '',
-            email: '',
-            password: '',
-            confirmPassword: ''
+            navigate('/'); // Redirect to the homepage
+        })
+        .catch((error) => {
+            if (error.response) {
+                setError(error.response.data.messaggio); // Set error message from server response
+            }
         });
     }
 
@@ -137,7 +122,6 @@ function Registrazione() {
                                     >
                                         Password
                                     </label>
-
                                 </div>
                                 <div className="relative">
                                     <input
@@ -155,17 +139,19 @@ function Registrazione() {
                                     >
                                         Conferma Password
                                     </label>
-
                                 </div>
-                                <div className="relative">
+                                <div className="relative flex justify-center"> {/* Center the button */}
                                     <button
                                         onClick={registrami}
-                                        className="bg-blue-500 text-white rounded-md px-2 py-1"
+                                        className="bg-blue-500 text-white rounded-md px-4 py-2 mt-4"
                                     >
                                         Registrati
                                     </button>
                                 </div>
-                                <Link to="/Login" className="block text-center text-gray-600 underline">Torna alla pagina di Login</Link>
+                                {error && <div className="text-red-500 text-sm mt-4 text-center">{error}</div>} {/* Center align error message */}
+                                <Link to="/Login" className="block text-center text-gray-600 underline mt-4"> {/* Adjust the margin */}
+                                    Torna alla pagina di Login
+                                </Link>
                             </div>
                         </div>
                     </div>

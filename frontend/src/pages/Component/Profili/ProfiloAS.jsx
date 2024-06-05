@@ -26,7 +26,7 @@ export default function ProfiloAS(props) {
     cognome: '',
     email: '',
     password: '',
-    ruolo: '',
+    ruolo: 'CISO',
   });
   const [registrazioneSuccess, setRegistrazioneSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -58,7 +58,7 @@ export default function ProfiloAS(props) {
           cognome: '',
           email: '',
           password: '',
-          ruolo: '',
+          ruolo: 'CISO',
         });
          setError('');
       })

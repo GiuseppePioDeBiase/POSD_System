@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import axios from 'axios';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useRuolo from './useRuolo.jsx';
+
 export let userEmail = ''; // Variabile per memorizzare l'email fornita dall'utente
+
 function Login(props) {
     const navigate = useNavigate(); // Ottieni la funzione di navigazione
     const { setRuolo } = useRuolo(); // Ottieni le funzioni da useRuolo
@@ -11,39 +13,34 @@ function Login(props) {
         email: '',
         password: ''
     });
+    const [error, setError] = useState(''); // Aggiungi lo stato per memorizzare l'errore
 
     function logMeIn(event) {
-        event.preventDefault();
+    event.preventDefault();
 
-        axios({
-            method: 'POST',
-            url: 'http://127.0.0.1:5000/api/login',
-            data: {
-                email: loginForm.email,
-                password: loginForm.password
-            }
-        })
-            .then((response) => {
-                const token = response.data.token; // Estrai il token e il ruolo dalla risposta del server
-                const ruolo = response.data.ruolo; // Aggiungi l'assegnazione del ruolo dalla risposta del server
-                setRuolo(ruolo); // Imposta il ruolo utilizzando l'hook useRuolo
-                props.setToken(token); // Imposta il token utilizzando la prop
+    axios({
+        method: 'POST',
+        url: 'http://127.0.0.1:5000/api/login',
+        data: {
+            email: loginForm.email,
+            password: loginForm.password
+        }
+    })
+    .then((response) => {
+        const token = response.data.token; // Extract token from server response
+        const ruolo = response.data.ruolo; // Extract role from server response
+        setRuolo(ruolo); // Set role using the useRuolo hook
+        props.setToken(token); // Set token using the prop
+        setError(''); // Reset error
 
-                navigate('/Profili'); // Reindirizza al profilo
-            })
-            .catch((error) => {
-                if (error.response) {
-                    console.log(error.response);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                }
-            });
-
-        setloginForm({
-            email: '',
-            password: ''
-        });
-    }
+        navigate('/Profili'); // Redirect to the profile page
+    })
+    .catch((error) => {
+        if (error.response) {
+            setError(error.response.data.messaggio);
+        }
+    });
+}
 
     function handleChange(event) {
         const { value, name } = event.target;
@@ -99,6 +96,7 @@ function Login(props) {
                                         Password
                                     </label>
                                 </div>
+                                {error && <div className="text-red-500 text-sm">{error}</div>} {/* Renderizza il messaggio di errore */}
                                 <div className="flex justify-between mt-4">
                                     <Link to="/Registrazione">
                                         <button className="bg-cyan-500 text-white rounded-md px-1 py-2">
@@ -111,7 +109,6 @@ function Login(props) {
                                     >
                                         Accedi
                                     </button>
-
                                 </div>
                             </div>
                         </div>
