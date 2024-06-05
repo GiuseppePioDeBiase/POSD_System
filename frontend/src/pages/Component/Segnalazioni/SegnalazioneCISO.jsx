@@ -9,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso } from 'react-virtuoso';
+import SceltaSegnalazione from "./SceltaSegnalazione.jsx";
 
 const columns = [
   {
@@ -20,15 +21,12 @@ const columns = [
     width: 50,
     label: 'Oggetto',
     dataKey: 'oggetto',
-
   },
   {
     width: 90,
     label: 'Messaggio',
     dataKey: 'messaggio',
-
   },
-
 ];
 
 const VirtuosoTableComponents = {
@@ -54,7 +52,6 @@ VirtuosoTableComponents.TableRow.propTypes = {
 };
 
 function fixedHeaderContent() {
-
   return (
     <TableRow>
       {columns.map((column) => (
@@ -74,20 +71,14 @@ function fixedHeaderContent() {
   );
 }
 
-function rowContent(_index, row) {
-  const handleRowClick = () => {
-    console.log('Row clicked:');
-
-  };
+function rowContent(_index, row, handleCellClick) {
   return (
     <React.Fragment>
-      {columns.map((column) => (
+      {columns.map((column, colIndex) => (
         <TableCell
-            onClick={handleRowClick}
-            style={{ cursor: 'pointer' }}
-              sx={{'&:hover': {backgroundColor: 'rgba(0, 0, 0, 0.08)',},
-            }}
-
+          onClick={colIndex === 2 ? () => handleCellClick(row) : undefined}
+          style={{ cursor: colIndex === 2 ? 'pointer' : 'default' }}
+          sx={{ '&:hover': { backgroundColor: colIndex === 2 ? 'rgba(0, 0, 0, 0.08)' : 'transparent' } }}
           key={column.dataKey}
           align={column.numeric ? 'right' : 'left'}
         >
@@ -102,6 +93,8 @@ export default function ReactVirtualizedTable() {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showSegnalazioneForm, setShowSegnalazioneForm] = useState(false);
+  const [selectedCell, setSelectedCell] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -118,17 +111,30 @@ export default function ReactVirtualizedTable() {
     fetchData();
   }, []);
 
+  const handleCellClick = (row) => {
+    if (selectedCell === row) {
+      setShowSegnalazioneForm(false);
+      setSelectedCell(null);
+    } else {
+      setShowSegnalazioneForm(true);
+      setSelectedCell(row);
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <Paper style={{ height: 400, width: '100%', backgroundColor:"black"}}>
+    <Paper style={{ height: 400, width: '100%' }}>
       <TableVirtuoso
         data={rows}
         components={VirtuosoTableComponents}
         fixedHeaderContent={fixedHeaderContent}
-        itemContent={rowContent}
+        itemContent={(index, row) => rowContent(index, row, handleCellClick)}
       />
+      {showSegnalazioneForm && selectedCell && (
+        <SceltaSegnalazione messaggio={selectedCell.messaggio} oggetto={selectedCell.oggetto} id={selectedCell.id} />
+      )}
     </Paper>
   );
 }
