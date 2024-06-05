@@ -68,7 +68,7 @@ function NavBar({token}) {
     bottomItems.push({ to: "/Login", icon: "log-in-outline", text: "Login" });
   } else {
     bottomItems.push(
-      { to: "/Profili", icon: "img", imgSrc: "frontend/public/totti.jpeg", alt: profilo.nome, text: profilo.nome + " " + profilo.cognome },
+      { to: "/Profili", icon: "img", imgSrc: "frontend/public/totti.jpeg", alt: profilo.nome, text: profilo.nome },
       { to: "/LogOUT", icon: "log-out-outline", text: "Logout" }
     );
   }
