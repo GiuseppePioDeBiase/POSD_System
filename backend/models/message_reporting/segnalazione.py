@@ -1,5 +1,9 @@
 import datetime
+import re
+
 from bson import ObjectId
+from pymongo.errors import PyMongoError
+
 from backend.config.db import conn_db
 from backend.models.message_reporting.base_message import BaseMessage
 from flask import request, jsonify
@@ -78,3 +82,30 @@ class Segnalazione(BaseMessage):
     def getSegnalazioniAccettate(cls):
         collection = segnalazioniAccettate.find({}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True, "_id": False})
         return jsonify(list(collection))
+
+    @classmethod
+    def storicoUtente(cls, email):
+
+        try:
+            if 'Segnalazioni accettate' not in db.list_collection_names():
+                return jsonify({"error": "Collezione 'Segnalazioni accettate' non esiste"}), 500
+
+            if 'Segnalazioni rifiutate' not in db.list_collection_names():
+                return jsonify({"error": "Collezione 'Segnalazioni rifiutate' non esiste"}), 500
+
+            accettate = list(segnalazioniAccettate.find({"mail": email},
+                                                        {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                         "_id": False, "stato": True}))
+            rifiutate = list(segnalazioniRifiutate.find({"mail": email},
+                                                        {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                         "_id": False, "stato": True}))
+
+        except PyMongoError as e:
+            return jsonify({"error": f"Database error: {str(e)}"}), 500
+
+        # Combine results
+        storico = []
+        storico.extend(accettate)
+        storico.extend(rifiutate)
+
+        return jsonify(storico)

@@ -10,3 +10,4 @@ re
 secrets
 bson
 werkzeug.security
+PyMongoError
