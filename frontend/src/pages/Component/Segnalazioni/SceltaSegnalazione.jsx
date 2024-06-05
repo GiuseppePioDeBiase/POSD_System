@@ -22,11 +22,12 @@ const SceltaSegnalazione = ({  messaggio, id }) => {
       return;
     }
     try {
+
       const response = await axios.post('http://localhost:5000/api/status_segnalazione', {
         _id: id,
         stato: true
       });
-      setStatus(response.data.messagg);
+      setStatus(response.data.messaggio);
     } catch (error) {
       if (error.response) {
         setStatus(error.response.data.messaggio || 'Errore nell\'invio del feedback');
