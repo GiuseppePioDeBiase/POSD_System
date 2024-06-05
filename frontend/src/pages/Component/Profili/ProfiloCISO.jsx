@@ -24,10 +24,7 @@ export default function ProfiloCISO(props) {
 
   useEffect(() => {
     const fetchProfilo = async () => {
-
       const token = props.token
-
-
 
       if (!token) {
         console.error("Token non disponibile");
@@ -38,10 +35,8 @@ export default function ProfiloCISO(props) {
         const response = await fetch('http://localhost:5000/api/profilo', {
           method: 'GET',
           headers: {
-
             'Content-Type': 'application/json',//nell'intestazione di una richiesta HTTP indica al server che il corpo della richiesta è formattato come JSON
             'Authorization': `Bearer ${token}`
-
           }
         });
 
@@ -59,13 +54,19 @@ export default function ProfiloCISO(props) {
     fetchProfilo();
   }, []);
   const toggleSegnalazioniVisibile =()=>{
-    setSegnalazioniVisibile(!SegnalazioniVisibile)
+    setSegnalazioniVisibile(!SegnalazioniVisibile);
+    setModificaProfiloVisibile(false);
+    setAggiungiLicenzaVisibile(false);
   }
   const toggleAggiungiLicenza = () =>{
-    setAggiungiLicenzaVisibile(!aggiungiLicenzaVisibile )
+    setAggiungiLicenzaVisibile(!aggiungiLicenzaVisibile );
+      setModificaProfiloVisibile(false);
+    setSegnalazioniVisibile(false);
   }
   const toggleModificaProfilo = () => {
     setModificaProfiloVisibile(!modificaProfiloVisibile);
+    setAggiungiLicenzaVisibile(false);
+    setSegnalazioniVisibile(false);
   };
 
   const handlePasswordChange = (event) => {
@@ -198,15 +199,13 @@ export default function ProfiloCISO(props) {
                       </div>
                     </div>
                   )}
-                </MDBCardBody>
-                 <MDBCardBody>
+
                   {SegnalazioniVisibile && (
                       <div>
                        <SegnalazioneCISO/>
                       </div>
                   )}
-                </MDBCardBody>
-                <MDBCardBody>
+
                   {aggiungiLicenzaVisibile && (
                       <div>
                         <a>Licenza</a>
