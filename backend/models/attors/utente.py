@@ -101,7 +101,12 @@ class Utente:
             return jsonify(
                 {"successo": False, "messaggio": f"Errore durante la registrazione dell'utente: {str(e)}"}), 500
 
-        return jsonify({"successo": True, "messaggio": "Utente registrato con successo!"}), 201
+        return jsonify({
+            "successo": True,
+            "messaggio": "Utente registrato con successo!",
+             "ruolo": utente.ruolo.value,
+            "token": create_access_token(identity=email)
+        }), 200
 
     @classmethod
     def login(cls):

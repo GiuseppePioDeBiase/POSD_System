@@ -22,9 +22,9 @@ const SceltaSegnalazione = ({ oggetto, messaggio, id }) => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/api/allsegnalazione', {
-        id: id,
-        fleg: true
+      const response = await axios.post('http://localhost:5000/api/status_segnalazione', {
+        _id: id,
+        stato: true
       });
       setStatus(response.data.messaggio);
     } catch (error) {
@@ -43,8 +43,8 @@ const SceltaSegnalazione = ({ oggetto, messaggio, id }) => {
     }
     try {
       const response = await axios.post('http://localhost:5000/api/allsegnalazioni', {
-        id: id,
-        fleg: false
+        _id: id,
+        stato: false
       });
       setStatus(response.data.messaggio);
     } catch (error) {
