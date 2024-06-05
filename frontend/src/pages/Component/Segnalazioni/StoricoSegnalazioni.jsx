@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso } from 'react-virtuoso';
-import SceltaSegnalazione from "./SceltaSegnalazione.jsx";
+
 
 const columns = [
   {
@@ -76,14 +76,12 @@ function fixedHeaderContent() {
   );
 }
 
-function rowContent(_index, row, handleCellClick) {
+function rowContent(_index, row) {
   return (
     <React.Fragment>
-      {columns.map((column, colIndex) => (
+      {columns.map((column) => (
         <TableCell
-          onClick={colIndex === 2 ? () => handleCellClick(row) : undefined}
-          style={{ cursor: colIndex === 2 ? 'pointer' : 'default' }}
-          sx={{ '&:hover': { backgroundColor: colIndex === 2 ? 'rgba(0, 0, 0, 0.08)' : 'transparent' } }}
+          sx={{ '&:hover': { backgroundColor:'transparent' } }}
           key={column.dataKey}
           align={column.numeric ? 'right' : 'left'}
         >
@@ -98,8 +96,6 @@ export default function ReactVirtualizedTable() {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showSegnalazioneForm, setShowSegnalazioneForm] = useState(false);
-  const [selectedCell, setSelectedCell] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -116,12 +112,7 @@ export default function ReactVirtualizedTable() {
     fetchData();
   }, []);
 
-  const handleCellClick = (row) => {
-    setShowSegnalazioneForm(false); // Close the form before opening a new one
-    setTimeout(() => {
-      setSelectedCell(row);
-    }, 0); // Open the form with new details
-  };
+
 
   if (loading) return <div>Caricamento...</div>;
   if (error) return <div>Errore: {error.message}</div>;
@@ -132,7 +123,7 @@ export default function ReactVirtualizedTable() {
         data={rows}
         components={VirtuosoTableComponents}
         fixedHeaderContent={fixedHeaderContent}
-        itemContent={(index, row) => rowContent(index, row, handleCellClick)}
+        itemContent={(index, row) => rowContent(index, row)}
       />
 
     </Paper>
