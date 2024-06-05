@@ -17,3 +17,7 @@ def get_all_segnalazioni():
 @segnalazione_bp.route('/api/updatesegnalazione', methods=['POST'])
 def status_segnalazione():
     return Segnalazione.statusSegnalazione()
+
+@segnalazione_bp.route('/api/allsegnalazioniaccettate', methods=['GET'])
+def get_all_segnalazioni_accettate():
+    return Segnalazione.getSegnalazioniAccettate()

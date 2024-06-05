@@ -50,27 +50,21 @@ class Segnalazione(BaseMessage):
             return jsonify({"successo": False, "messaggio": "Stato non valido!"}), 400
 
         id_segnalazione = ObjectId(dati.get('_id'))
-
         messaggio = dati.get('messaggio')
-
         data_ora_modifica = datetime.datetime.now().strftime("%A %d-%m-%Y - %H:%M:%S")
 
-        if stato:  # Se lo stato è True (accettato)
-            segnalazione = segnalazioneCollection.find_one_and_delete({"_id": id_segnalazione})
-            if segnalazione:
-                segnalazione['data_ora_modifica'] = data_ora_modifica
-                segnalazioniAccettate.insert_one({**segnalazione, "messaggio": messaggio})
-                return jsonify({"successo": True, "messaggio": "Segnalazione accettata!"}), 200
-            else:
-                return jsonify({"successo": False, "messaggio": "Segnalazione non trovata!"}), 404
-        else:  # Se lo stato è False (rifiutato)
-            segnalazione = segnalazioneCollection.find_one_and_delete({"_id": id_segnalazione})
-            if segnalazione:
-                segnalazione['data_ora_modifica'] = data_ora_modifica
-                segnalazioniRifiutate.insert_one({**segnalazione, "messaggio": messaggio})
-                return jsonify({"successo": True, "messaggio": "Segnalazione rimossa!"}), 200
-            else:
-                return jsonify({"successo": False, "messaggio": "Segnalazione non trovata!"}), 404
+        segnalazione = segnalazioneCollection.find_one_and_delete({"_id": id_segnalazione})
+
+        if not segnalazione:
+            return jsonify({"successo": False, "messaggio": "Segnalazione non trovata!"}), 404
+
+        segnalazione['data_ora_modifica'] = data_ora_modifica
+        segnalazione['stato'] = "ACCETTATO" if stato else "RIFIUTATO"
+        collection = segnalazioniAccettate if stato else segnalazioniRifiutate
+        collection.insert_one({**segnalazione, "messaggio": messaggio})
+
+        messaggio_finale = "Segnalazione accettata!" if stato else "Segnalazione rifiutata!"
+        return jsonify({"successo": True, "messaggio": messaggio_finale}), 200
 
     def to_json(self):
         base_json = super().to_json()
@@ -79,3 +73,8 @@ class Segnalazione(BaseMessage):
             #"_id": str(self._id) if hasattr(self, '_id') else None  # Assicurati che l'ObjectID sia convertito
         })
         return base_json
+
+    @classmethod
+    def getSegnalazioniAccettate(cls):
+        collection = segnalazioniAccettate.find({}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True, "_id": False})
+        return jsonify(list(collection))
