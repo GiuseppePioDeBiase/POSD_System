@@ -22,7 +22,7 @@ const SceltaSegnalazione = ({ oggetto, messaggio, id }) => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/api/allsegnalazione', {
+      const response = await axios.post('http://localhost:5000/api/status_segnalazione', {
         _id: id,
         stato: true
       });
