@@ -15,7 +15,7 @@ import AggiungiSegnalazione from "./AggiungiSegnalazione.jsx";
 const columns = [
   {
     width: 20,
-    label: 'email',
+    label: 'ID CISO',
     dataKey: 'mail',
   },
   {
@@ -100,7 +100,7 @@ export default function ReactVirtualizedTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/');
+        const response = await axios.get('http://localhost:5000/api/allsegnalazioniaccettate');
         setRows(response.data);
         setLoading(false);
       } catch (error) {

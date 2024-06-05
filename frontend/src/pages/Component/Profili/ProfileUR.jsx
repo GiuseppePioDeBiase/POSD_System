@@ -150,7 +150,7 @@ const toggleSegnalazioniVisibile = () => {
               </CardContent>
             </Card>
           )}
-          {segnalazioniVisibile && <StoricoSegnalazioni />}
+          {segnalazioniVisibile && <StoricoSegnalazioni token={token} />}
         </Grid>
       </Grid>
     </Container>

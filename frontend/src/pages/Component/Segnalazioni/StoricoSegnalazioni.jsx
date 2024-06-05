@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import axios from 'axios';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso } from 'react-virtuoso';
-
+import PropTypes from 'prop-types';
 
 const columns = [
   {
@@ -30,7 +28,7 @@ const columns = [
   {
     width: 20,
     label: 'Data',
-    dataKey: 'data',
+    dataKey: 'data_ora_modifica',
   },
 ];
 
@@ -81,7 +79,7 @@ function rowContent(_index, row) {
     <React.Fragment>
       {columns.map((column) => (
         <TableCell
-          sx={{ '&:hover': { backgroundColor:'transparent' } }}
+          sx={{ '&:hover': { backgroundColor: 'transparent' } }}
           key={column.dataKey}
           align={column.numeric ? 'right' : 'left'}
         >
@@ -92,7 +90,7 @@ function rowContent(_index, row) {
   );
 }
 
-export default function ReactVirtualizedTable() {
+export default function ReactVirtualizedTable({ token }) {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -100,8 +98,18 @@ export default function ReactVirtualizedTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/allsegnalazioni');
-        setRows(response.data);
+        const response = await fetch('http://localhost:5000/api/storicoutente', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Errore nella richiesta');
+        }
+        const data = await response.json();
+        setRows(data);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -110,9 +118,7 @@ export default function ReactVirtualizedTable() {
     };
 
     fetchData();
-  }, []);
-
-
+  }, [token]);
 
   if (loading) return <div>Caricamento...</div>;
   if (error) return <div>Errore: {error.message}</div>;
@@ -125,7 +131,10 @@ export default function ReactVirtualizedTable() {
         fixedHeaderContent={fixedHeaderContent}
         itemContent={(index, row) => rowContent(index, row)}
       />
-
     </Paper>
   );
 }
+
+ReactVirtualizedTable.propTypes = {
+  token: PropTypes.string.isRequired,
+};
