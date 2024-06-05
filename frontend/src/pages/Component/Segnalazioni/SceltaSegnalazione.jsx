@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 const SceltaSegnalazione = ({ oggetto, messaggio, id }) => {
-  const subject = "Segnalazione Numero: #";
+  const subject = "Segnalazione Numero: #" + id;
   const [message, setMessage] = useState(messaggio);
   const [status, setStatus] = useState(null);
 
