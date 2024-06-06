@@ -120,7 +120,7 @@ const ProfiloAS = ({ token }) => {
                 console.error('Token non disponibile');
                 return;
             }
-            console.log('Token:', token);
+
             try {
                 const response = await fetch('http://localhost:5000/api/profilo', {
                     method: 'GET',
@@ -260,13 +260,7 @@ const ProfiloAS = ({ token }) => {
                         </Card>
                     )}
 
-                     {segnalazioniVisibile && (
-                        <Card sx={{ mb: 3 }}>
-                            <CardContent>
-                                <SegnalazioneAS token={token} />
-                            </CardContent>
-                        </Card>
-                    )}
+                 {segnalazioniVisibile && ( <SegnalazioneAS token={token} /> )}
 
                     {utentiVisibile && (
                         <Card sx={{ mb: 3 }}>

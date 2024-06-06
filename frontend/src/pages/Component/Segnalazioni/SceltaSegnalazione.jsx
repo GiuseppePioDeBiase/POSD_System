@@ -46,7 +46,7 @@ const SceltaSegnalazione = ({ token }) => {
         }
       );
       setStatus(response.data.messaggio);
-      navigate('/Profili');
+      navigate(-1);
     } catch (error) {
       console.error("Risposta errore:", error.response); // Log per debugging
       if (error.response && error.response.data.messaggio) {

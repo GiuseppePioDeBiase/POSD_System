@@ -10,9 +10,9 @@ import {
   Box,
 } from '@mui/material';
 
-const SceltaSegnalazione = ({ messaggio, id }) => {
-  const subject = "Segnalazione Numero: #" + id;
-  const [message, setMessage] = useState(messaggio);
+const SceltaSegnalazione = ({ token }) => {
+  const subject = "Segnalazione Numero: #";
+  const [message, setMessage] = useState("");
   const [status, setStatus] = useState(null);
   const [error, setError] = useState('');
   const [registrazioneSuccess, setRegistrazioneSuccess] = useState(false);
@@ -109,8 +109,8 @@ const SceltaSegnalazione = ({ messaggio, id }) => {
 };
 
 SceltaSegnalazione.propTypes = {
-  messaggio: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
+
+  token: PropTypes.string.isRequired
 };
 
 export default SceltaSegnalazione;

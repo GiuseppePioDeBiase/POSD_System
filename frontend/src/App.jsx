@@ -21,6 +21,7 @@ import PropTypes from "prop-types";
 import Profili from "./pages/Component/Profili/Profili.jsx";
 import Partecipa from "./pages/Component/PagineMenu/Partecipa.jsx";
 import SceltaSegnalazione from './pages/Component/Segnalazioni/SceltaSegnalazione';
+import AggiungiSegnalazione from "./pages/Component/Segnalazioni/AggiungiSegnalazione.jsx";
 function App() {
     const [patterns, setPatterns] = useState([]);
     const { token, setToken } = useToken();
@@ -179,6 +180,15 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                             <SceltaSegnalazione token={token} />
                         ) : (
                             <Navigate to="/" />
+                        )}
+                    </ProtectedRouteToken>
+                } />
+                     <Route path="/AggiungiSegnalazione/:id" element={
+                    <ProtectedRouteToken token={token}>
+                        {ruolo === 'Amministratore di sistema' ? (
+                            <AggiungiSegnalazione token={token} />
+                        ) : (
+                            <Navigate to="/Profili" />
                         )}
                     </ProtectedRouteToken>
                 } />
