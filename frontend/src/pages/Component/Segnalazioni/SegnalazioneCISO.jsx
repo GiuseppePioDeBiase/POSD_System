@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso } from 'react-virtuoso';
 import { useNavigate } from 'react-router-dom';
-import SceltaSegnalazione from './SceltaSegnalazione';
+
 
 const columns = [
   {
@@ -112,7 +112,7 @@ export default function ReactVirtualizedTable({ token }) {
   }, []);
 
   const handleCellClick = (row) => {
-    navigate(`/Segnalazione/${row._id}`, { state: { messaggio: row.messaggio, oggetto: row.oggetto, token } });
+    navigate(`/segnalazione/${row._id}`, { state: { messaggio: row.messaggio, oggetto: row.oggetto, token } });
   };
 
   if (loading) return <div>Caricamento...</div>;

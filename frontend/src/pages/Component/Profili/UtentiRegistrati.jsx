@@ -8,34 +8,46 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
 import { TableVirtuoso } from 'react-virtuoso';
 
 const columns = [
   {
-    width: 20,
+    width: 70,
+    label: 'Seleziona',
+    dataKey: 'checkbox',
+  },
+  {
+    width: 220,
     label: 'Nome',
     dataKey: 'nome',
   },
   {
-    width: 20,
+    width: 200,
     label: 'Cognome',
     dataKey: 'cognome',
   },
   {
-    width: 20,
+    width: 300,
     label: 'Email',
     dataKey: 'email',
   },
   {
-    width: 20,
+    width: 150,
     label: 'Ruolo',
     dataKey: 'ruolo',
-  }
+  },
 ];
 
 const VirtuosoTableComponents = {
   Scroller: React.forwardRef((props, ref) => (
-    <TableContainer component={Paper} {...props} ref={ref} />
+    <TableContainer
+      component={Paper}
+      {...props}
+      ref={ref}
+      sx={{ maxHeight: '90%' }}
+    />
   )),
   Table: (props) => (
     <Table {...props} sx={{ borderCollapse: 'separate', tableLayout: 'fixed' }} />
@@ -75,25 +87,47 @@ function fixedHeaderContent() {
   );
 }
 
-function rowContent(_index, row) {
+function rowContent(index, row, handleCheckboxChange, selectedRow) {
+  const isSelected = selectedRow === row.id;
+
   return (
     <React.Fragment>
-      {columns.map((column) => (
+      <TableCell key="checkbox">
+        <Checkbox
+          checked={isSelected}
+          onChange={() => handleCheckboxChange(row.id)}
+        />
+      </TableCell>
+      {columns.slice(1).map((column) => (
         <TableCell
           key={column.dataKey}
           align="left"
+          sx={{
+            backgroundColor: isSelected ? 'red' : 'inherit',
+            animation: isSelected ? 'flash 1.5s infinite' : 'none',
+          }}
         >
           {row[column.dataKey]}
         </TableCell>
       ))}
+      <style>
+        {`
+          @keyframes flash {
+            0% { background-color: red; }
+            50% { background-color: white; }
+            90% { background-color: red; }
+          }
+        `}
+      </style>
     </React.Fragment>
   );
 }
 
-export default function ReactVirtualizedTable({token}) {
+export default function ReactVirtualizedTable({ token }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedRow, setSelectedRow] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,7 +137,8 @@ export default function ReactVirtualizedTable({token}) {
             Authorization: `Bearer ${token}`
           }
         });
-        setUsers(response.data);
+        console.log(response.data); // Verifica i dati ricevuti
+        setUsers(response.data.utenti.map((user, index) => ({ ...user, id: index }))); // Ensure unique IDs
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -114,21 +149,50 @@ export default function ReactVirtualizedTable({token}) {
     fetchData();
   }, [token]);
 
+  const handleCheckboxChange = (id) => {
+    setSelectedRow(id === selectedRow ? null : id);
+  };
+
+  const handleRemoveProfile = async () => {
+    try {
+      const user = users.find((u) => u.id === selectedRow);
+      await axios.delete(`http://localhost:5000/api/rimuoviutente/${user.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setUsers(users.filter((u) => u.id !== selectedRow));
+      setSelectedRow(null);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
   if (loading) return <div>Caricamento...</div>;
   if (error) return <div>Errore: {error.message}</div>;
 
   return (
-    <Paper style={{ height: 400, width: '100%' }}>
-
+    <Paper style={{ height: 500, width: '100%', padding: '16px' }}>
       <TableVirtuoso
         data={users}
         components={VirtuosoTableComponents}
         fixedHeaderContent={fixedHeaderContent}
-        itemContent={(index, row) => rowContent(index, row)}
+        itemContent={(index, row) => rowContent(index, row, handleCheckboxChange, selectedRow)}
       />
+      {selectedRow !== null && (
+        <Button
+          variant="contained"
+          color="error"
+          onClick={handleRemoveProfile}
+          sx={{ mt: 2 }}
+        >
+          Rimuovi Profilo
+        </Button>
+      )}
     </Paper>
   );
 }
+
 ReactVirtualizedTable.propTypes = {
   token: PropTypes.string.isRequired
 };

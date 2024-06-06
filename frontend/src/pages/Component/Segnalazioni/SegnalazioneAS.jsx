@@ -9,8 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso } from 'react-virtuoso';
-import AggiungiSegnalazione from "./AggiungiSegnalazione.jsx";
-
+import {useNavigate} from "react-router-dom";
 
 const columns = [
   {
@@ -90,13 +89,12 @@ function rowContent(_index, row, handleCellClick) {
   );
 }
 
-export default function ReactVirtualizedTable() {
+export default function ReactVirtualizedTable({token}) {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showSegnalazioneForm, setShowSegnalazioneForm] = useState(false);
-  const [selectedCell, setSelectedCell] = useState(null);
 
+  const navigate=useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -113,13 +111,8 @@ export default function ReactVirtualizedTable() {
   }, []);
 
   const handleCellClick = (row) => {
-    setShowSegnalazioneForm(false); // Close the form before opening a new one
-    setTimeout(() => {
-      setSelectedCell(row);
-      setShowSegnalazioneForm(true);
-    }, 0); // Open the form with new details
+    navigate(`/AggiungiSegnalazione/${row._id}`, { state: { messaggio: row.messaggio, oggetto: row.oggetto, token } });
   };
-
   if (loading) return <div>Caricamento...</div>;
   if (error) return <div>Errore: {error.message}</div>;
 
@@ -131,14 +124,9 @@ export default function ReactVirtualizedTable() {
         fixedHeaderContent={fixedHeaderContent}
         itemContent={(index, row) => rowContent(index, row, handleCellClick)}
       />
-      {showSegnalazioneForm && selectedCell && (
-       <AggiungiSegnalazione
-          key={selectedCell._id}
-          messaggio={selectedCell.messaggio}
-          oggetto={selectedCell.oggetto}
-          id={selectedCell._id}
-        />
-      )}
     </Paper>
   );
 }
+ReactVirtualizedTable.propTypes = {
+  token: PropTypes.string.isRequired,
+};
