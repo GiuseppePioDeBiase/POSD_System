@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+actor User
+participant Browser
+participant App
+participant Home
+participant Full
+
+User -> Browser: Open App
+Browser -> App: Inizializzazione
+App -> Home: Render Home con i 7 principi
+
+User -> Home: Vede i 7 principi della PDB
+User -> Home: Clicca su un principio
+Home -> Browser: Reindirizzato /Full/:title
+Browser -> App: Mostra Full
+App -> Full: Renderizza Full con i pattern associati
+
+@enduml

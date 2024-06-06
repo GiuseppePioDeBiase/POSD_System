@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor Utente
+participant Browser
+participant App
+participant ProtectedRouteToken
+participant Partecipa
+participant PatternService
+
+Utente -> Browser: Apri App
+Browser -> App: Inizializza
+App -> NavBar: Render NavBar con token
+
+Utente -> Browser: Naviga a /AggiungiPattern
+Browser -> App: Render AggiungiPattern Route
+App -> ProtectedRouteToken: Verifica Token
+ProtectedRouteToken -> App: Token Valido
+App -> Partecipa: Render AddPattern Page
+
+Utente -> Partecipa: Inserisci dettagli pattern
+Partecipa -> App: Invia dettagli pattern
+App -> PatternService: Richiesta di aggiunta nuovo pattern
+
+App -> Partecipa: Notifica Utente
+
+@enduml

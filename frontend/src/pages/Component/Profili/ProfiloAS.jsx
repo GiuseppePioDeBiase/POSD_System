@@ -248,7 +248,7 @@ const ProfiloAS = ({ token }) => {
                                     <TextField select label="Ruolo" name="ruolo" value={registrazioneForm.ruolo}
                                                onChange={handleChange} fullWidth sx={{mb: 2}}>
                                         <MenuItem value="CISO">CISO</MenuItem>
-                                        <MenuItem value="AS">Amministratore di Sistema</MenuItem>
+                                        <MenuItem value="Amministratore di sistema">Amministratore di Sistema</MenuItem>
                                     </TextField>
                                     <Button variant="contained" color="warning" type="submit">Registrati</Button>
                                 </form>

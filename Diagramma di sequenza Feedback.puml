@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor Utente
+participant Browser
+participant App
+participant ProtectedRouteToken
+participant FeedbackPage
+
+Utente -> Browser: Apri App
+Browser -> App: Inizializza
+App -> NavBar: Render NavBar con token
+
+Utente -> Browser: Naviga a /Feedback
+Browser -> App: Render Feedback Route
+App -> ProtectedRouteToken: Verifica Token
+ProtectedRouteToken -> App: Token Valido
+App -> FeedbackPage: Render Feedback Page
+
+Utente -> FeedbackPage: Inserisci feedback
+FeedbackPage -> App: Invia feedback
+App -> FeedbackService: Salva feedback
+
+FeedbackService -> App: Conferma salvataggio
+App -> FeedbackPage: Notifica Utente
+
+@enduml
