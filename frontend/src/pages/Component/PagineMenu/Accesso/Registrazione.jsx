@@ -12,6 +12,7 @@ function Registrazione(props) {
         nome: '',
         cognome: '',
         email: '',
+        genere: '',
         password: '',
         confirmPassword: ''
     });
@@ -25,6 +26,7 @@ function Registrazione(props) {
                 nome: RegistrazioneForm.nome,
                 cognome: RegistrazioneForm.cognome,
                 email: RegistrazioneForm.email,
+                genere: RegistrazioneForm.genere,
                 password: RegistrazioneForm.password
             }
         })
@@ -79,6 +81,7 @@ function Registrazione(props) {
                                         Nome
                                     </label>
                                 </div>
+
                                 <div className="relative">
                                     <input
                                         onChange={handleChange}
@@ -147,6 +150,33 @@ function Registrazione(props) {
                                         Conferma Password
                                     </label>
                                 </div>
+                                <div className="relative">
+                                    <select
+                                        onChange={handleChange}
+                                        name="genere"
+                                        className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                                        value={RegistrazioneForm.genere}
+                                    >
+                                        <option value="" disabled hidden>Seleziona il genere</option>
+                                        <option value="Maschio">Maschio</option>
+                                        <option value="Femmina">Femmina</option>
+                                        <option value="Anonimo">Anonimo</option>
+                                    </select>
+                                    <label
+                                        htmlFor="genere"
+                                        className="absolute left-0 -top-5 text-gray-600 text-sm transition-all peer-focus:-top-5 peer-focus:text-gray-600 peer-focus:text-sm"
+                                    >
+                                        Genere
+                                    </label>
+                                    <div
+                                        className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 20 20">
+                                            <path d="M7 10l5 5 5-5H7z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+
                                 <div className="relative flex justify-center"> {/* Center the button */}
                                     <button
                                         onClick={registrami}
