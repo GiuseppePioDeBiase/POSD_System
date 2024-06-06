@@ -1,10 +1,11 @@
 @startuml
-actor User
+actor Utente
 participant FlaskApp
 participant conn_db
 
-User -> FlaskApp: Richiesta di connessione al database
-activate FlaskApp
+Utente -> FlaskApp: Richiesta di connessione al database
+
+
 FlaskApp -> conn_db: Connessione al database
 activate conn_db
 conn_db --> FlaskApp: Connessione stabilita
