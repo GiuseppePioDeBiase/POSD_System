@@ -13,17 +13,17 @@ import {useNavigate} from "react-router-dom";
 
 const columns = [
     {
-        width: 5,
+        width: 30,
         label: 'ID CISO',
         dataKey: 'id_ciso',
     },
     {
-        width: 20,
+        width: 10,
         label: 'Oggetto',
         dataKey: 'oggetto',
     },
     {
-        width: 40,
+        width: 10,
         label: 'Messaggio',
         dataKey: 'messaggio',
     },
