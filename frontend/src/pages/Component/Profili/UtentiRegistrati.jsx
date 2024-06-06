@@ -14,12 +14,12 @@ import { TableVirtuoso } from 'react-virtuoso';
 
 const columns = [
   {
-    width: 50,
+    width: 70,
     label: 'Seleziona',
     dataKey: 'checkbox',
   },
   {
-    width: 200,
+    width: 220,
     label: 'Nome',
     dataKey: 'nome',
   },
@@ -42,7 +42,12 @@ const columns = [
 
 const VirtuosoTableComponents = {
   Scroller: React.forwardRef((props, ref) => (
-    <TableContainer component={Paper} {...props} ref={ref} />
+    <TableContainer
+      component={Paper}
+      {...props}
+      ref={ref}
+      sx={{ maxHeight: '90%' }}
+    />
   )),
   Table: (props) => (
     <Table {...props} sx={{ borderCollapse: 'separate', tableLayout: 'fixed' }} />
