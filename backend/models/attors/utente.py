@@ -1,4 +1,6 @@
+import uuid
 from datetime import datetime, timedelta, timezone
+from bson import Binary
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies
 from flask import request, jsonify, json
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -162,6 +164,26 @@ class Utente:
             "email": utente.get('email'),
             "ruolo": utente.get('ruolo')
         }), 200
+
+    @classmethod
+    def carica_foto(cls, mail):
+        if 'foto' not in request.files:
+            return jsonify({"successo": False, "messaggio": "Nessun file fornito!"}), 400
+
+        foto = request.files['foto']
+        if foto.filename == '':
+            return jsonify({"successo": False, "messaggio": "Nessun file selezionato!"}), 400
+
+        # Leggi il file come binario
+        foto_binario = foto.read()
+
+        # Salva il binario nel database MongoDB
+        foto_id = str(uuid.uuid4())
+        utenti.update_one({"email": mail}, {"$set": {"foto": Binary(foto_binario), "foto_id": foto_id}})
+
+        # Rispondi con il percorso della foto
+        foto_url = f"/foto/{foto_id}"  # Per esempio, un endpoint per servire la foto
+        return jsonify({"successo": True, "messaggio": "Foto caricata con successo!", "foto_url": foto_url}), 200
 
     @staticmethod
     def refresh_expiring_jwts(response):

@@ -24,3 +24,10 @@ def after_request(response):
 @utente_bp.route('/api/logout', methods=['POST'])
 def logout_user():
     return Utente.logout()
+
+@utente_bp.route('/api/caricafoto', methods=['POST'])
+@jwt_required()
+def carica_foto():
+    return Utente.carica_foto(mail=get_jwt_identity())
+
+
