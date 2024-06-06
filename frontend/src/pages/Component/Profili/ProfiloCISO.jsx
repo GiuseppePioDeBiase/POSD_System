@@ -1,11 +1,10 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box, Card, CardContent, Typography, Avatar, Button, TextField, Grid, Container
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SegnalazioneCISO from "../Segnalazioni/SegnalazioneCISO.jsx";
-
 
 export default function ProfiloCISO(props) {
   const navigate = useNavigate();
@@ -15,6 +14,7 @@ export default function ProfiloCISO(props) {
   const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '' });
   const [aggiungiLicenzaVisibile, setAggiungiLicenzaVisibile] = useState(false);
   const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
+  const [file, setFile] = useState(null); // Stato per gestire il file caricato
 
   useEffect(() => {
     const fetchProfilo = async () => {
@@ -81,6 +81,41 @@ export default function ProfiloCISO(props) {
     }
     navigate(0);
     // Add logic to submit profile changes
+  };
+
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const handleFileUpload = async () => {
+    if (!file) {
+      alert("Nessun file selezionato!");
+      return;
+    }else{
+      
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/upload', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${props.token}`
+        },
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error(`Errore: ${response.status}`);
+      }
+
+      const data = await response.json();
+      alert(data.message);
+    } catch (error) {
+      console.error("Errore durante il caricamento del file:", error);
+    }
   };
 
   ProfiloCISO.propTypes = {
@@ -193,12 +228,20 @@ export default function ProfiloCISO(props) {
 
                   {aggiungiLicenzaVisibile && (
                     <Box>
-                      <TextField
-                        label="Licenza"
-                        variant="outlined"
-                        fullWidth
-                        sx={{ mb: 3 }}
+
+                      <input
+                        type="file"
+                        onChange={handleFileChange}
+                        style={{ display: 'block', marginBottom: '16px' }}
                       />
+                      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button variant="contained" color="secondary" onClick={toggleAggiungiLicenza} sx={{ mr: 2 }}>
+                          Annulla
+                        </Button>
+                        <Button variant="contained" color="success" onClick={handleFileUpload}>
+                          Carica Licenza
+                        </Button>
+                      </Box>
                     </Box>
                   )}
                 </CardContent>
