@@ -89,7 +89,7 @@ function rowContent(_index, row, handleCellClick) {
   );
 }
 
-export default function ReactVirtualizedTable() {
+export default function ReactVirtualizedTable({token}) {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -124,6 +124,7 @@ export default function ReactVirtualizedTable() {
 
   return (
     <Paper style={{ height: 400, width: '100%' }}>
+
       <TableVirtuoso
         data={rows}
         components={VirtuosoTableComponents}
@@ -136,8 +137,12 @@ export default function ReactVirtualizedTable() {
           messaggio={selectedCell.messaggio}
           oggetto={selectedCell.oggetto}
           id={selectedCell._id}
+          token={token}
         />
       )}
     </Paper>
   );
 }
+ReactVirtualizedTable.propTypes = {
+  token: PropTypes.string.isRequired
+};

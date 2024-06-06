@@ -158,7 +158,7 @@ export default function ProfiloCISO(props) {
 
           <Grid container>
             <Grid item xs={12}>
-              <Card sx={{ mb: 4 , height: '215%' }}>
+              <Card sx={{ mb: 4 , height: '200%' }}>
                 <CardContent >
                   {modificaProfiloVisibile && (
                     <Box>
@@ -189,7 +189,7 @@ export default function ProfiloCISO(props) {
                     </Box>
                   )}
 
-                  {segnalazioniVisibile && <SegnalazioneCISO />}
+                  {segnalazioniVisibile && <SegnalazioneCISO token={props.token} />}
 
                   {aggiungiLicenzaVisibile && (
                     <Box>

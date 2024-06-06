@@ -2,9 +2,9 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Box, Card, CardContent, Typography, Button, TextField, TextareaAutosize } from '@mui/material';
+import { Box, Typography, Button, TextField, TextareaAutosize } from '@mui/material';
 
-const SceltaSegnalazione = ({ messaggio, id }) => {
+const SceltaSegnalazione = ({ messaggio, id , token}) => {
   const subject = "Segnalazione Numero: #" + id;
   const [message, setMessage] = useState(messaggio);
   const [status, setStatus] = useState(null);
@@ -26,6 +26,10 @@ const SceltaSegnalazione = ({ messaggio, id }) => {
     }
     try {
       const response = await axios.post('http://localhost:5000/api/updatesegnalazione', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },  
         _id: id,
         messaggio: message,
         stato: true
@@ -50,6 +54,7 @@ const SceltaSegnalazione = ({ messaggio, id }) => {
         messaggio: message,
         stato: false
       });
+      navigate(0);
       setStatus(response.data.messaggio);
     } catch (error) {
       if (error.response && error.response.data.messaggio) {
@@ -129,7 +134,8 @@ const SceltaSegnalazione = ({ messaggio, id }) => {
 
 SceltaSegnalazione.propTypes = {
   messaggio: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired
 };
 
 export default SceltaSegnalazione;
