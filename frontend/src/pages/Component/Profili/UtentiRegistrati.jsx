@@ -128,6 +128,7 @@ export default function ReactVirtualizedTable({ token }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [message, setMessage] = useState(null); // Aggiunto stato per i messaggi
 
   useEffect(() => {
     const fetchData = async () => {
@@ -156,13 +157,18 @@ export default function ReactVirtualizedTable({ token }) {
   const handleRemoveProfile = async () => {
     try {
       const user = users.find((u) => u.id === selectedRow);
-      await axios.delete(`http://localhost:5000/api/rimuoviutente=${user.mail}`, {
+      if (!user) {
+        setMessage("Utente non trovato."); // Imposta il messaggio di errore
+        return;
+      }
+      await axios.delete(`http://localhost:5000/api/eliminautente=${user.email}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       setUsers(users.filter((u) => u.id !== selectedRow));
       setSelectedRow(null);
+      setMessage("Utente rimosso con successo."); // Imposta il messaggio di successo
     } catch (error) {
       setError(error);
     }
@@ -180,14 +186,17 @@ export default function ReactVirtualizedTable({ token }) {
         itemContent={(index, row) => rowContent(index, row, handleCheckboxChange, selectedRow)}
       />
       {selectedRow !== null && (
-        <Button
-          variant="contained"
-          color="error"
-          onClick={handleRemoveProfile}
-          sx={{ mt: 2 }}
-        >
-          Rimuovi Profilo
-        </Button>
+        <>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleRemoveProfile}
+            sx={{ mt: 2, mr: 2 }}
+          >
+            Rimuovi Profilo
+          </Button>
+          {message && <div>{message}</div>} {/* Visualizza il messaggio */}
+        </>
       )}
     </Paper>
   );

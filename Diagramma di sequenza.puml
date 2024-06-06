@@ -1,6 +1,6 @@
 @startuml
 actor Utente
-participant FlaskApp
+participant
 participant conn_db
 
 Utente -> FlaskApp: Richiesta di connessione al database
