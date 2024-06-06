@@ -15,7 +15,7 @@ def login_user():
 @utente_bp.route('/api/profilo', methods=['GET'])
 @jwt_required()
 def get_user_profile():
-    return Utente.getNomeCognomeRuolo(mail=get_jwt_identity())
+    return Utente.getNomeCognomeRuoloGenere(mail=get_jwt_identity())
 
 @utente_bp.after_request
 def after_request(response):
@@ -29,5 +29,3 @@ def logout_user():
 @jwt_required()
 def carica_foto():
     return Utente.carica_foto(mail=get_jwt_identity())
-
-

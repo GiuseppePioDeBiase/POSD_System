@@ -156,7 +156,7 @@ export default function ReactVirtualizedTable({ token }) {
   const handleRemoveProfile = async () => {
     try {
       const user = users.find((u) => u.id === selectedRow);
-      await axios.delete(`http://localhost:5000/api/rimuoviutente/${user.id}`, {
+      await axios.delete(`http://localhost:5000/api/rimuoviutente=${user.mail}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
