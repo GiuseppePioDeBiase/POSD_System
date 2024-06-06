@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Button, TextField, TextareaAutosize } from '@mui/material';
 
-const SceltaSegnalazione = ({ messaggio, id , token}) => {
+const SceltaSegnalazione = ({ messaggio, id, token }) => {
   const subject = "Segnalazione Numero: #" + id;
   const [message, setMessage] = useState(messaggio);
   const [status, setStatus] = useState(null);
@@ -25,20 +25,29 @@ const SceltaSegnalazione = ({ messaggio, id , token}) => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/api/updatesegnalazione', {
+      console.log("Invio richiesta con token:", token); // Log per debugging
+      const response = await axios.post(
+        'http://localhost:5000/api/updatesegnalazione',
+        {
+          _id: id,
+          messaggio: message,
+          stato: true,
+        },
+        {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },  
-        _id: id,
-        messaggio: message,
-        stato: true
-      });
+            'Authorization': `Bearer ${token}`,
+          },
+        }
+      );
       setStatus(response.data.messaggio);
       navigate(0);
     } catch (error) {
+      console.error("Risposta errore:", error.response); // Log per debugging
       if (error.response && error.response.data.messaggio) {
         setStatus(error.response.data.messaggio);
+      } else {
+        setStatus('Si è verificato un errore durante l\'elaborazione della richiesta.');
       }
     }
   };
@@ -49,16 +58,29 @@ const SceltaSegnalazione = ({ messaggio, id , token}) => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/api/updatesegnalazione', {
-        _id: id,
-        messaggio: message,
-        stato: false
-      });
-      navigate(0);
+      console.log("Invio richiesta con token:", token); // Log per debugging
+      const response = await axios.post(
+        'http://localhost:5000/api/updatesegnalazione',
+        {
+          _id: id,
+          messaggio: message,
+          stato: false,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        }
+      );
       setStatus(response.data.messaggio);
+      navigate(0);
     } catch (error) {
+      console.error("Risposta errore:", error.response); // Log per debugging
       if (error.response && error.response.data.messaggio) {
         setStatus(error.response.data.messaggio);
+      } else {
+        setStatus('Si è verificato un errore durante l\'elaborazione della richiesta.');
       }
     }
   };
@@ -135,7 +157,7 @@ const SceltaSegnalazione = ({ messaggio, id , token}) => {
 SceltaSegnalazione.propTypes = {
   messaggio: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  token: PropTypes.string.isRequired
+  token: PropTypes.string.isRequired,
 };
 
 export default SceltaSegnalazione;

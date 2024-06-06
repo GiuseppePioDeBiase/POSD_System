@@ -15,8 +15,9 @@ def get_all_segnalazioni():
     return Segnalazione.getAllSegnalazioni()
 
 @segnalazione_bp.route('/api/updatesegnalazione', methods=['POST'])
+@jwt_required()
 def status_segnalazione():
-    return Segnalazione.statusSegnalazione()
+    return Segnalazione.statusSegnalazione(mail=get_jwt_identity())
 
 @segnalazione_bp.route('/api/allsegnalazioniaccettate', methods=['GET'])
 def get_all_segnalazioni_accettate():

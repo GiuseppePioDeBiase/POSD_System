@@ -1,18 +1,17 @@
 import datetime
-import re
-
 from bson import ObjectId
 from pymongo.errors import PyMongoError
-
 from backend.config.db import conn_db
 from backend.models.message_reporting.base_message import BaseMessage
 from flask import request, jsonify
+from backend.models.attors.utente import utenti
 
 db = conn_db()
 
 segnalazioneCollection = db['Segnalazioni']
 segnalazioniAccettate = db['Segnalazioni accettate']
 segnalazioniRifiutate = db['Segnalazioni rifiutate']
+
 
 
 class Segnalazione(BaseMessage):
@@ -46,7 +45,7 @@ class Segnalazione(BaseMessage):
         return jsonify(segnalazioni)
 
     @classmethod
-    def statusSegnalazione(cls):
+    def statusSegnalazione(cls, mail):
         dati = request.json
 
         stato = dati.get('stato')
@@ -62,6 +61,9 @@ class Segnalazione(BaseMessage):
         if not segnalazione:
             return jsonify({"successo": False, "messaggio": "Segnalazione non trovata!"}), 404
 
+        id_ciso = utenti.find_one({"email": mail}, {"_id": True})
+
+        segnalazione['id_ciso'] = str(id_ciso['_id']) if id_ciso else None
         segnalazione['data_ora_modifica'] = data_ora_modifica
         segnalazione['stato'] = "ACCETTATO" if stato else "RIFIUTATO"
         collection = segnalazioniAccettate if stato else segnalazioniRifiutate
@@ -74,7 +76,6 @@ class Segnalazione(BaseMessage):
         base_json = super().to_json()
         base_json.update({
             "mail": self.mail,
-            #"_id": str(self._id) if hasattr(self, '_id') else None  # Assicurati che l'ObjectID sia convertito
         })
         return base_json
 
