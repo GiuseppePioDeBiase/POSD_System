@@ -9,7 +9,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso } from 'react-virtuoso';
-import SceltaSegnalazione from "./SceltaSegnalazione.jsx";
+import { useNavigate } from 'react-router-dom';
+import SceltaSegnalazione from './SceltaSegnalazione';
 
 const columns = [
   {
@@ -89,12 +90,11 @@ function rowContent(_index, row, handleCellClick) {
   );
 }
 
-export default function ReactVirtualizedTable({token}) {
+export default function ReactVirtualizedTable({ token }) {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showSegnalazioneForm, setShowSegnalazioneForm] = useState(false);
-  const [selectedCell, setSelectedCell] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -112,11 +112,7 @@ export default function ReactVirtualizedTable({token}) {
   }, []);
 
   const handleCellClick = (row) => {
-    setShowSegnalazioneForm(false); // Close the form before opening a new one
-    setTimeout(() => {
-      setSelectedCell(row);
-      setShowSegnalazioneForm(true);
-    }, 0); // Open the form with new details
+    navigate(`/Segnalazione/${row._id}`, { state: { messaggio: row.messaggio, oggetto: row.oggetto, token } });
   };
 
   if (loading) return <div>Caricamento...</div>;
@@ -124,25 +120,16 @@ export default function ReactVirtualizedTable({token}) {
 
   return (
     <Paper style={{ height: 400, width: '100%' }}>
-
       <TableVirtuoso
         data={rows}
         components={VirtuosoTableComponents}
         fixedHeaderContent={fixedHeaderContent}
         itemContent={(index, row) => rowContent(index, row, handleCellClick)}
       />
-      {showSegnalazioneForm && selectedCell && (
-        <SceltaSegnalazione
-          key={selectedCell._id}
-          messaggio={selectedCell.messaggio}
-          oggetto={selectedCell.oggetto}
-          id={selectedCell._id}
-          token={token}
-        />
-      )}
     </Paper>
   );
 }
+
 ReactVirtualizedTable.propTypes = {
-  token: PropTypes.string.isRequired
+  token: PropTypes.string.isRequired,
 };

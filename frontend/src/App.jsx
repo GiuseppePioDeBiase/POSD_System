@@ -20,7 +20,7 @@ import Ricerca from "./pages/Component/Searchbar/Ricerca.jsx";
 import PropTypes from "prop-types";
 import Profili from "./pages/Component/Profili/Profili.jsx";
 import Partecipa from "./pages/Component/PagineMenu/Partecipa.jsx";
-
+import SceltaSegnalazione from './pages/Component/Segnalazioni/SceltaSegnalazione';
 function App() {
     const [patterns, setPatterns] = useState([]);
     const { token, setToken } = useToken();
@@ -173,7 +173,15 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                         </div>
                     </ProtectedRouteToken>
                 } />
-
+                   <Route path="/segnalazione/:id" element={
+                    <ProtectedRouteToken token={token}>
+                        {ruolo === 'CISO' ? (
+                            <SceltaSegnalazione token={token} />
+                        ) : (
+                            <Navigate to="/" />
+                        )}
+                    </ProtectedRouteToken>
+                } />
                 <Route path="/Partecipa" element={
                     <ProtectedRouteToken token={token}>
                         <ProtectedRouteRuolo ruolo={ruolo}>

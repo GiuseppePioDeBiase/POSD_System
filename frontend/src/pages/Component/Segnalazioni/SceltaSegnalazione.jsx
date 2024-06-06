@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import  { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Box, Typography, Button, TextField, TextareaAutosize } from '@mui/material';
 
-const SceltaSegnalazione = ({ messaggio, id, token }) => {
-  const subject = "Segnalazione Numero: #" + id;
-  const [message, setMessage] = useState(messaggio);
-  const [status, setStatus] = useState(null);
+const SceltaSegnalazione = ({ token }) => {
   const navigate = useNavigate();
+
+  const { id } = useParams();
+  const location = useLocation();
+  const { messaggio, oggetto } = location.state || {};
+
+  const subject = "Segnalazione Numero: #" + id;
+  const [message, setMessage] = useState(messaggio || '');
+  const [status, setStatus] = useState(null);
+
 
   const validateForm = () => {
     if (message.trim() === '') {
@@ -41,7 +47,7 @@ const SceltaSegnalazione = ({ messaggio, id, token }) => {
         }
       );
       setStatus(response.data.messaggio);
-      navigate(0);
+      navigate('/Profili');
     } catch (error) {
       console.error("Risposta errore:", error.response); // Log per debugging
       if (error.response && error.response.data.messaggio) {
@@ -74,7 +80,7 @@ const SceltaSegnalazione = ({ messaggio, id, token }) => {
         }
       );
       setStatus(response.data.messaggio);
-      navigate(0);
+      navigate('/Profili');
     } catch (error) {
       console.error("Risposta errore:", error.response); // Log per debugging
       if (error.response && error.response.data.messaggio) {
@@ -155,9 +161,7 @@ const SceltaSegnalazione = ({ messaggio, id, token }) => {
 };
 
 SceltaSegnalazione.propTypes = {
-  messaggio: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  token: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired
 };
 
 export default SceltaSegnalazione;

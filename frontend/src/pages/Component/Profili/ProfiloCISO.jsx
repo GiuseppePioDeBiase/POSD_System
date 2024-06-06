@@ -158,7 +158,7 @@ export default function ProfiloCISO(props) {
 
           <Grid container>
             <Grid item xs={12}>
-              <Card sx={{ mb: 4 , height: '200%' }}>
+              <Card sx={{ mb: 4 }}>
                 <CardContent >
                   {modificaProfiloVisibile && (
                     <Box>
