@@ -5,6 +5,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SegnalazioneCISO from "../Segnalazioni/SegnalazioneCISO.jsx";
+import axios from "axios";
 
 export default function ProfiloCISO(props) {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function ProfiloCISO(props) {
   const [aggiungiLicenzaVisibile, setAggiungiLicenzaVisibile] = useState(false);
   const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
   const [file, setFile] = useState(null); // Stato per gestire il file caricato
-
+  const [status, setStatus] = useState(null);
   useEffect(() => {
     const fetchProfilo = async () => {
       const token = props.token;
@@ -86,41 +87,47 @@ export default function ProfiloCISO(props) {
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
-
-  const handleFileUpload = async () => {
+  const validateFILE = () => {
     if (!file) {
-      alert("Nessun file selezionato!");
-      return;
-    }else{
-      
+      setStatus('Il file è vuoto');
+      return false;
     }
+    setStatus(null);
+    return true;
+  };
+const handleFileUpload = async () => {
+  if (!validateFILE()) {
+    return;
+  }
+  
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const response = await axios.post(
+      'http://localhost:5000/api/updatesegnalazione',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${props.token}`,
+        },
+      }
+    );
+    setStatus(response.data.messaggio);
+    navigate('/Profili');
+  } catch (error) {
+    console.error("Risposta errore:", error.response); // Log per debugging
+    if (error.response && error.response.data && error.response.data.messaggio) {
+      setStatus(error.response.data.messaggio);
+    } else {
+      setStatus('Si è verificato un errore durante l\'elaborazione della richiesta.');
+    }
+  }
+}
 
     const formData = new FormData();
     formData.append('file', file);
-
-    try {
-      const response = await fetch('http://localhost:5000/api/upload', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${props.token}`
-        },
-        body: formData
-      });
-
-      if (!response.ok) {
-        throw new Error(`Errore: ${response.status}`);
-      }
-
-      const data = await response.json();
-      alert(data.message);
-    } catch (error) {
-      console.error("Errore durante il caricamento del file:", error);
-    }
-  };
-
-  ProfiloCISO.propTypes = {
-    token: PropTypes.string.isRequired
-  };
 
   return (
     <Container sx={{ py: 5 }}>
@@ -253,3 +260,6 @@ export default function ProfiloCISO(props) {
     </Container>
   );
 }
+ProfiloCISO.propTypes = {
+    token: PropTypes.string.isRequired
+  };

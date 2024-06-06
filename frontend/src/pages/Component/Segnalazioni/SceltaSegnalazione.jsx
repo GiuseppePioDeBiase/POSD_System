@@ -31,7 +31,6 @@ const SceltaSegnalazione = ({ token }) => {
       return;
     }
     try {
-      console.log("Invio richiesta con token:", token); // Log per debugging
       const response = await axios.post(
         'http://localhost:5000/api/updatesegnalazione',
         {
