@@ -13,7 +13,6 @@ segnalazioniAccettate = db['Segnalazioni accettate']
 segnalazioniRifiutate = db['Segnalazioni rifiutate']
 
 
-
 class Segnalazione(BaseMessage):
     def __init__(self, oggetto, messaggio, mail):
         super().__init__(oggetto, messaggio)
