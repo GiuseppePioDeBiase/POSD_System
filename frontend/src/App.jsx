@@ -64,18 +64,21 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
     }, [ruolo, navigate]);
 
     return (
-        <div className="flex justify-center items-center h-screen">
+        <>
             {error && (
-                <div className="text-center">
-                    <div className="text-2xl font-bold mb-4">{error}</div>
-                    <div className="text-xl mb-4">Ritorno alla home tra {countdown} secondi...</div>
-                    <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+                <div className="fixed inset-0 flex justify-center items-center  bg-opacity-75 z-50">
+                    <div className="text-center  p-6 rounded ">
+                        <div className="text-2xl font-bold mb-4">{error}</div>
+                        <div className="text-xl mb-4">Ritorno alla home tra {countdown} secondi...</div>
+                        <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+                    </div>
                 </div>
             )}
             {!error && children}
-        </div>
+        </>
     );
 };
+
 // Fine funzione
 
 
@@ -170,6 +173,7 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                         </div>
                     </ProtectedRouteToken>
                 } />
+
                 <Route path="/Partecipa" element={
                     <ProtectedRouteToken token={token}>
                         <ProtectedRouteRuolo ruolo={ruolo}>
