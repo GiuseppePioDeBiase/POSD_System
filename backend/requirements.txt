@@ -11,4 +11,3 @@ secrets
 bson
 werkzeug.security
 PyMongoError
-uuid
