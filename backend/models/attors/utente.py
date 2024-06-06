@@ -147,11 +147,11 @@ class Utente:
         return response, 200
 
     @classmethod
-    def getNomeCognomeRuolo(cls, email):
-        if not email:
+    def getNomeCognomeRuolo(cls, mail):
+        if not mail:
             return jsonify({"successo": False, "messaggio": "Email non fornita!"}), 400
 
-        utente = utenti.find_one({"email": email})
+        utente = utenti.find_one({"email": mail})
         if not utente:
             return jsonify({"successo": False, "messaggio": "Utente non trovato!"}), 404
 

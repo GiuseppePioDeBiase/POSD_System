@@ -12,11 +12,10 @@ def register_user():
 def login_user():
     return Utente.login()
 
-
 @utente_bp.route('/api/profilo', methods=['GET'])
 @jwt_required()
 def get_user_profile():
-    return Utente.getNomeCognomeRuolo(email=get_jwt_identity())
+    return Utente.getNomeCognomeRuolo(mail=get_jwt_identity())
 
 @utente_bp.after_request
 def after_request(response):
