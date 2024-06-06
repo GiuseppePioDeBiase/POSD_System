@@ -1,13 +1,13 @@
-import uuid
+import io
 from bson import Binary
-from flask import request, jsonify
+from flask import request, jsonify, send_file
 from backend.models.attors.utente import Utente, utenti
 from backend.models.attors.ruolo import Ruolo
 
 
 class Ciso(Utente):
-    def __init__(self, nome, cognome, email, password):
-        super().__init__(nome, cognome, email, password, ruolo=Ruolo.CISO)
+    def __init__(self, nome, cognome, email, password, genere,):
+        super().__init__(nome, cognome, email, password, genere, ruolo=Ruolo.CISO.value)
 
     @classmethod
     def carica_licenza(cls, mail):
@@ -20,13 +20,21 @@ class Ciso(Utente):
 
         # Leggi il file come binario
         licenza_binario = licenza.read()
+        nome_file = licenza.filename #nome file
 
-        # Salva il binario nel database MongoDB
-        licenza_id = str(uuid.uuid4())
-        utenti.update_one({"email": mail}, {"$set": {"licenza": Binary(licenza_binario), "licenza_id": licenza_id}})
+        # Salva il binario e il nome del file nel database MongoDB
+        utenti.update_one({"email": mail}, {"$set": {"licenza": Binary(licenza_binario), "nome_file": nome_file}})
 
-        # Rispondi con il percorso della licenza
-        licenza_url = f"/licenza/{licenza_id}"  # Per esempio, un endpoint per servire la licenza
-        return jsonify(
-            {"successo": True, "messaggio": "Licenza caricata con successo!", "licenza_url": licenza_url}), 200
+        # Rispondi con il messaggio di successo
+        return jsonify({"successo": True, "messaggio": "Licenza caricata con successo!"}), 200
+
+    @classmethod
+    def recupera_licenza(cls, mail):
+        user = utenti.find_one({"email": mail}, {"licenza": True, "licenza_nome": True}) # Verifico se c'è una licenza
+        if not user or 'licenza' not in user:
+            return jsonify({"successo": False, "messaggio": "Licenza non trovata!"}), 404
+
+        licenza_binario = user['licenza']
+        licenza_nome = user['licenza_nome'] # nome file
+        return send_file(io.BytesIO(licenza_binario), as_attachment=True, attachment_filename=licenza_nome)
 

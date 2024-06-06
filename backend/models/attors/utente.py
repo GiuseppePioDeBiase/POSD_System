@@ -13,11 +13,12 @@ utenti = db['Utenti']  # Nome della collezione
 
 
 class Utente:
-    def __init__(self, nome, cognome, email, password, ruolo):
+    def __init__(self, nome, cognome, email, password, genere, ruolo):
         self.nome = nome
         self.cognome = cognome
         self.email = email
         self.password = generate_password_hash(password)  # Hash della password per la sicurezza
+        self.genere = genere
         self.ruolo = ruolo
 
     def to_json(self):
@@ -26,7 +27,8 @@ class Utente:
             "cognome": self.cognome,
             "email": self.email,
             "password": self.password,
-            "ruolo": self.ruolo.value
+            "genere": self.genere,
+            "ruolo": self.ruolo
         }
 
     @staticmethod
@@ -61,6 +63,7 @@ class Utente:
         cognome = dati.get('cognome')
         email = dati.get('email')
         password = dati.get('password')
+        genere = dati.get('genere')
 
         if not dati.get('ruolo'):
             ruolo = Ruolo.UTENTE.value
@@ -85,17 +88,16 @@ class Utente:
         if utenti.find_one({"email": email}):
             return jsonify({"successo": False, "messaggio": "L'utente è già registrato!"}), 400
 
-
         # Crea un'istanza della classe appropriata
         try:
             from backend.models.attors.ciso import Ciso
             if ruolo == Ruolo.CISO.value:
-                utente = Ciso(nome, cognome, email, password)
+                utente = Ciso(nome, cognome, email, password, genere)
             elif ruolo == Ruolo.AMMINISTRATORE_DI_SISTEMA.value:
                 from backend.models.attors.amministratore_di_sistema import AmministratoreDiSistema
-                utente = AmministratoreDiSistema(nome, cognome, email, password)
+                utente = AmministratoreDiSistema(nome, cognome, email, password, genere)
             elif ruolo == Ruolo.UTENTE.value:
-                utente = cls(nome, cognome, email, password, ruolo=Ruolo.UTENTE)
+                utente = cls(nome, cognome, email, password, genere, ruolo=Ruolo.UTENTE.value)
             else:
                 return jsonify({"successo": False, "messaggio": f"Ruolo: {ruolo} non valido!"}), 400
             utenti.insert_one(utente.to_json())
@@ -106,7 +108,7 @@ class Utente:
         return jsonify({
             "successo": True,
             "messaggio": "Utente registrato con successo!",
-             "ruolo": utente.ruolo.value,
+            "ruolo": utente.ruolo,
             "token": create_access_token(identity=email)
         }), 200
 
@@ -149,7 +151,7 @@ class Utente:
         return response, 200
 
     @classmethod
-    def getNomeCognomeRuolo(cls, mail):
+    def getNomeCognomeRuoloGenere(cls, mail):
         if not mail:
             return jsonify({"successo": False, "messaggio": "Email non fornita!"}), 400
 
