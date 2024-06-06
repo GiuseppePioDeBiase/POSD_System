@@ -99,14 +99,14 @@ const handleFileUpload = async () => {
   if (!validateFILE()) {
     return;
   }
-  
+
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('licenza', file);
 
   try {
     const response = await axios.post(
-      'http://localhost:5000/api/updatesegnalazione',
-      formData,
+      'http://localhost:5000/api/caricalicenza',
+        formData,
       {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -115,7 +115,7 @@ const handleFileUpload = async () => {
       }
     );
     setStatus(response.data.messaggio);
-    navigate('/Profili');
+    navigate(0);
   } catch (error) {
     console.error("Risposta errore:", error.response); // Log per debugging
     if (error.response && error.response.data && error.response.data.messaggio) {
