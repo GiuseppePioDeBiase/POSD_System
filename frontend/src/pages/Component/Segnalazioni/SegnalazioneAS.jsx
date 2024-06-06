@@ -15,7 +15,7 @@ const columns = [
   {
     width: 20,
     label: 'ID CISO',
-    dataKey: 'mail',
+    dataKey: '_id',
   },
   {
     width: 50,
