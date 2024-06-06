@@ -12,22 +12,22 @@ import { TableVirtuoso } from 'react-virtuoso';
 
 const columns = [
   {
-    width: 20,
+    width: 200,
     label: 'Nome',
     dataKey: 'nome',
   },
   {
-    width: 20,
+    width: 200,
     label: 'Cognome',
     dataKey: 'cognome',
   },
   {
-    width: 20,
+    width: 300,
     label: 'Email',
     dataKey: 'email',
   },
   {
-    width: 20,
+    width: 150,
     label: 'Ruolo',
     dataKey: 'ruolo',
   }
@@ -90,7 +90,7 @@ function rowContent(_index, row) {
   );
 }
 
-export default function ReactVirtualizedTable({token}) {
+export default function ReactVirtualizedTable({ token }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -103,7 +103,8 @@ export default function ReactVirtualizedTable({token}) {
             Authorization: `Bearer ${token}`
           }
         });
-        setUsers(response.data);
+        console.log(response.data); // Verifica i dati ricevuti
+        setUsers(response.data.utenti); // Accedi alla chiave corretta
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -119,7 +120,6 @@ export default function ReactVirtualizedTable({token}) {
 
   return (
     <Paper style={{ height: 400, width: '100%' }}>
-
       <TableVirtuoso
         data={users}
         components={VirtuosoTableComponents}
@@ -129,6 +129,7 @@ export default function ReactVirtualizedTable({token}) {
     </Paper>
   );
 }
+
 ReactVirtualizedTable.propTypes = {
   token: PropTypes.string.isRequired
 };
