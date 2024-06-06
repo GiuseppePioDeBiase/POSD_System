@@ -1,7 +1,5 @@
-import {useState, useEffect} from 'react';
-import {
-    Box, Card, CardContent, Typography, Avatar, Button, TextField, Grid, Container
-} from '@mui/material';
+import {useEffect, useState} from 'react';
+import {Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typography} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SegnalazioneCISO from "../Segnalazioni/SegnalazioneCISO.jsx";
@@ -21,8 +19,7 @@ function base64ToBlob(base64Data, contentType) {
         byteArrays.push(byteArray);
     }
 
-    const blob = new Blob(byteArrays, {type: contentType});
-    return blob;
+    return new Blob(byteArrays, {type: contentType});
 }
 
 export default function ProfiloCISO(props) {
@@ -33,14 +30,14 @@ export default function ProfiloCISO(props) {
     const [profilo, setProfilo] = useState({nome: '', cognome: '', email: '', ruolo: ''});
     const [aggiungiLicenzaVisibile, setAggiungiLicenzaVisibile] = useState(false);
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
-    const [file, setFile] = useState({}); // Stato per gestire il file caricato
+    const [file, setFile] = useState({});
     const [status, setStatus] = useState({});
-    const [fileUrl, setFileUrl] = useState({}); // URL per visualizzare il file "Licenza"
+    const [fileUrl, setFileUrl] = useState(null); // Stato per l'URL del file
+    const [licenzaNome, setLicenzaNome] = useState('Nessun file presente'); // Stato per il nome della licenza
+
     useEffect(() => {
         const fetchProfilo = async () => {
-            const token = props.token;
-
-            if (!token) {
+            if (!props.token) {
                 console.error("Token non disponibile");
                 return;
             }
@@ -50,7 +47,7 @@ export default function ProfiloCISO(props) {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${props.token}`
                     }
                 });
 
@@ -61,7 +58,7 @@ export default function ProfiloCISO(props) {
                 const data = await response.json();
                 setProfilo(data);
                 if (data.licenza) {
-                    const blob = base64ToBlob(data.licenza, 'application/pdf'); // Sostituisci 'application/pdf' con il tipo MIME appropriato
+                    const blob = base64ToBlob(data.licenza, 'application/pdf');
                     const url = URL.createObjectURL(blob);
                     setFileUrl(url);
                 }
@@ -72,6 +69,41 @@ export default function ProfiloCISO(props) {
 
         fetchProfilo();
     }, [props.token]);
+
+
+    const fetchLicenza = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/licenza', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${props.token}`
+                },
+                responseType: 'blob' // Imposta il tipo di risposta come blob
+            });
+
+            if (!response.ok) {
+                throw new Error(`Errore: ${response.status}`);
+            }
+
+            // Ottieni il nome del file dalla intestazione 'Content-Disposition'
+            const disposition = response.headers.get('Content-Disposition');
+            const nomeFile = disposition ? disposition.split('filename=')[1] : 'licenza.pdf';
+
+            // Crea un oggetto URL per il blob della risposta
+            const url = URL.createObjectURL(await response.blob());
+
+            // Aggiorna lo stato con l'URL del file e il nome del file
+            setFileUrl(url);
+            setLicenzaNome(nomeFile);
+        } catch (error) {
+            console.error("Errore durante il recupero della licenza:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchLicenza();
+    }, []);
 
     const toggleSegnalazioniVisibile = () => {
         setSegnalazioniVisibile(!segnalazioniVisibile);
@@ -108,17 +140,6 @@ export default function ProfiloCISO(props) {
         // Add logic to submit profile changes
     };
 
-    const handleFileChange = (event) => {
-        setFile(event.target.files[0]);
-    };
-    const validateFILE = () => {
-        if (!file) {
-            setStatus('Il file è vuoto');
-            return false;
-        }
-        setStatus(null);
-        return true;
-    };
     const handleFileUpload = async () => {
         if (!validateFILE()) {
             return;
@@ -136,22 +157,55 @@ export default function ProfiloCISO(props) {
                         'Content-Type': 'multipart/form-data',
                         'Authorization': `Bearer ${props.token}`,
                     },
+                    responseType: 'blob',
                 }
             );
+
             setStatus(response.data.messaggio);
             navigate(0);
         } catch (error) {
-            console.error("Risposta errore:", error.response); // Log per debugging
+            console.error("Risposta errore:", error.response);
             if (error.response && error.response.data && error.response.data.messaggio) {
                 setStatus(error.response.data.messaggio);
             } else {
                 setStatus('Si è verificato un errore durante l\'elaborazione della richiesta.');
             }
         }
+    };
+
+const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    const allowedExtensions = [".cer", ".crt", ".pem", ".p12", ".pfx", ".der", ".p7b", ".p7c", ".key",".pdf"];
+
+    // Estrai l'estensione del file
+    const fileExtension = selectedFile.name.split(".").pop().toLowerCase();
+
+    // Controlla se l'estensione è consentita
+    if (!allowedExtensions.includes("." + fileExtension)) {
+        // Se l'estensione non è consentita, mostra un avviso all'utente
+        alert("Formato del file non supportato. Si prega di selezionare un file con un'estensione valida.");
+        event.target.value = null; // Cancella il file selezionato
+        return;
     }
 
-    const formData = new FormData();
-    formData.append('file', file);
+    // Se l'estensione è valida, imposta il file nello stato
+    setFile(selectedFile);
+};
+    const handleFileDownload = () => {
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.setAttribute('download', licenzaNome);
+        link.click();
+    };
+
+    const validateFILE = () => {
+        if (!file) {
+            setStatus('Il file è vuoto');
+            return false;
+        }
+        setStatus(null);
+        return true;
+    };
 
     return (
         <Container sx={{py: 5}}>
@@ -178,7 +232,7 @@ export default function ProfiloCISO(props) {
                                     Modifica profilo
                                 </Button>
                                 <Button variant="contained" color="warning" onClick={toggleAggiungiLicenza}>
-                                    Titolo di licenza
+                                    Licenza
                                 </Button>
                             </Box>
                         </CardContent>
@@ -226,6 +280,16 @@ export default function ProfiloCISO(props) {
                                 <Grid item xs={9}>
                                     <Typography variant="body1" color="text.secondary">{profilo.ruolo}</Typography>
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <hr/>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Typography variant="subtitle1">Licenza</Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Typography variant="body1" color="text.secondary">{licenzaNome}</Typography>
+
+                                </Grid>
                             </Grid>
                         </CardContent>
                     </Card>
@@ -268,15 +332,21 @@ export default function ProfiloCISO(props) {
 
                                     {aggiungiLicenzaVisibile && (
                                         <Box>
-                                            {fileUrl && (
-                                                <div>
-                                                    <iframe src={fileUrl} width="100%" height="600"></iframe>
-                                                </div>
+                                            {file && (
+                                                <Box mt={2}>
+                                                    <Typography variant="subtitle2">Nome file: {licenzaNome}</Typography>
+                                                    {fileUrl && (
+                                                        <Button variant="contained" color="primary"
+                                                                onClick={handleFileDownload} sx={{mt: 1}}>
+                                                            Scarica Licenza
+                                                        </Button>
+                                                    )}
+                                                </Box>
                                             )}
                                             <input
                                                 type="file"
                                                 onChange={handleFileChange}
-                                                style={{display: 'block', marginBottom: '16px'}}
+                                                style={{display: 'block', marginBottom: '0.5%', marginTop: "5%"}}
                                             />
                                             <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                                                 <Button variant="contained" color="secondary"
@@ -287,6 +357,7 @@ export default function ProfiloCISO(props) {
                                                     Carica Licenza
                                                 </Button>
                                             </Box>
+
                                         </Box>
                                     )}
                                 </CardContent>
