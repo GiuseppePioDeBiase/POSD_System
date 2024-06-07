@@ -1,16 +1,29 @@
 import {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {Container, Grid, Card, CardContent, CardMedia, Typography, TextField, Button, Avatar, Box} from '@mui/material';
+import {
+    Container,
+    Grid,
+    Card,
+    CardContent,
+    CardMedia,
+    Typography,
+    TextField,
+    Button,
+    Avatar,
+    Box,
+    Alert, MenuItem
+} from '@mui/material';
 import StoricoSegnalazioni from "../Segnalazioni/StoricoSegnalazioni.jsx";
 
 export default function ProfiloUR({token}) {
     const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
     const [password, setPassword] = useState('');
     const [confermaPassword, setConfermaPassword] = useState('');
-    const [profilo, setProfilo] = useState({nome: '', cognome: '', email: '', ruolo: ''});
-    const [setError] = useState('');
+    const [profilo, setProfilo] = useState({nome: '', cognome: '', email: '', ruolo: '', genere: ''});
+    const [error, setError] = useState('');
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
     const [avatar, setAvatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
+
     useEffect(() => {
         const fetchProfilo = async () => {
             try {
@@ -45,23 +58,33 @@ export default function ProfiloUR({token}) {
         setModificaProfiloVisibile(!modificaProfiloVisibile);
         setSegnalazioniVisibile(false);
     };
+
     const toggleSegnalazioniVisibile = () => {
         setSegnalazioniVisibile(!segnalazioniVisibile);
         setModificaProfiloVisibile(false);
     };
+
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
+
     const handleConfermaPasswordChange = (event) => {
         setConfermaPassword(event.target.value);
     };
+
     const handleSubmit = () => {
         if (password !== confermaPassword) {
             setError("Le password non corrispondono!");
+            return;
         }
 
         // Qui inserisci la logica per inviare le modifiche del profilo
     };
+
+    const handleAvatarClick = () => {
+        document.getElementById('avatarInput').click();
+    };
+
     const handleAvatarChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -72,37 +95,57 @@ export default function ProfiloUR({token}) {
             reader.readAsDataURL(file);
         }
     };
+    const getWelcomeMessage = () => {
+        if (profilo.genere) {
+            switch (profilo.genere) {
+                case 'Uomo':
+                    return 'Bentornato';
+                case 'Donna':
+                    return 'Bentornata';
+                default:
+                    return 'Bentornatə';
+            }
+        } else {
+            return 'Bentornatə'; // Fallback in caso di genere non definito
+        }
+    };
 
     return (
         <Container sx={{py: 5}}>
             <Grid container spacing={4}>
                 <Grid item lg={4} xs={12}>
-                    <Card sx={{mb: 4, mx: 5}}>
+                    <Card sx={{mb: 4, mx: {xs: 0, md: 5}}}>
                         <CardContent sx={{textAlign: 'center'}}>
-                            <Button sx={{width: 150, height: 150, mx: 'auto', mb: 4}} onClick={handleAvatarChange}>
-                                <Avatar src={avatar}/>
-                            </Button>
-
-                            <Typography variant="h6" gutterBottom>Bentornato</Typography>
+                              <Box onClick={handleAvatarClick} sx={{ cursor: 'pointer' }}>
+                                <Avatar
+                                    src={avatar}
+                                    sx={{ width: 150, height: 150, mx: 'auto', mb: 4 }}
+                                />
+                                <input
+                                    id="avatarInput"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleAvatarChange}
+                                    style={{ display: 'none' }}
+                                />
+                            </Box>
+                            <Typography variant="h6" gutterBottom>{getWelcomeMessage()}</Typography>
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
                             <Typography variant="subtitle1">{profilo.ruolo}</Typography>
                             <Box sx={{mt: 5, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                                <Button variant="contained" color="warning"
-                                        sx={{mb: 2, width: '100%', maxWidth: '300px'}} onClick={toggleModificaProfilo}>Modifica
-                                    profilo</Button>
-                                <Button variant="contained" color="warning"
-                                        sx={{mb: 2, width: '100%', maxWidth: '300px'}}
-                                        onClick={toggleSegnalazioniVisibile}>Storico</Button>
+                                <Button variant="contained" color="warning" onClick={toggleSegnalazioniVisibile}
+                                        sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
+                                    Segnalazioni
+                                </Button>
+                                <Button variant="contained" color="warning" onClick={toggleModificaProfilo}
+                                        sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
+                                    Modifica profilo
+                                </Button>
                             </Box>
                         </CardContent>
-                        <CardMedia
-                            component="img"
-                            image="/logo.png"
-                            alt="logo"
-                            sx={{width: 50, mx: 'auto', mb: 4}}
-                        />
                     </Card>
                 </Grid>
+
                 <Grid item lg={8} xs={12}>
                     <Card sx={{mb: 4}}>
                         <CardContent>
@@ -140,46 +183,48 @@ export default function ProfiloUR({token}) {
                                 <Grid item xs={9}>
                                     <Typography variant="body1" color="text.secondary">{profilo.ruolo}</Typography>
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <hr/>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Typography variant="subtitle1">Genere</Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Typography variant="body1" color="text.secondary">{profilo.genere}</Typography>
+                                </Grid>
                             </Grid>
                         </CardContent>
                     </Card>
+
                     <Grid container>
                         <Grid item xs={12}>
                             <Card sx={{mb: 4}}>
                                 <CardContent>
                                     {modificaProfiloVisibile && (
-                                        <Card sx={{mb: 4}}>
+                                        <Card sx={{mb: 3}}>
                                             <CardContent>
                                                 <Typography variant="h6">Modifica Profilo</Typography>
-                                                <TextField
-                                                    label="Password"
-                                                    type="password"
-                                                    placeholder="Modifica password..."
-                                                    fullWidth
-                                                    sx={{mb: 2}}
-                                                    onChange={handlePasswordChange}
-                                                />
-                                                <TextField
-                                                    label="Conferma Password"
-                                                    type="password"
-                                                    placeholder="Conferma password..."
-                                                    fullWidth
-                                                    sx={{mb: 2}}
-                                                    onChange={handleConfermaPasswordChange}
-                                                />
-                                                <div>
-                                                    <Button variant="contained" color="secondary" sx={{mr: 2}}
-                                                            onClick={toggleModificaProfilo}>
-                                                        Annulla
-                                                    </Button>
-                                                    <Button variant="contained" color="success" onClick={handleSubmit}>
-                                                        Conferma modifiche
-                                                    </Button>
-                                                </div>
+                                                <TextField label="Nome" name="nome" value={profilo.nome} fullWidth
+                                                           sx={{mb: 2}}/>
+                                                <TextField label="Cognome" name="cognome" value={profilo.cognome}
+                                                           fullWidth sx={{mb: 2}}/>
+                                                <TextField label="Email" name="email" value={profilo.email} fullWidth
+                                                           sx={{mb: 2}}/>
+                                                <TextField label="Password" name="password" type="password"
+                                                           value={password} onChange={handlePasswordChange} fullWidth
+                                                           sx={{mb: 2}}/>
+                                                  <TextField label="Conferma password" name="Conferma password" type="Conferma password"
+                                                           value={password} onChange={handleConfermaPasswordChange} fullWidth
+                                                           sx={{mb: 2}}/>
+                                                <Button variant="contained" color="warning" onClick={handleSubmit}>Salva
+                                                    Modifiche</Button>
+                                                {error && <Alert severity="error" sx={{mt: 2}}>{error}</Alert>}
                                             </CardContent>
                                         </Card>
                                     )}
-                                    {segnalazioniVisibile && <StoricoSegnalazioni token={token}/>}
+
+                                    {segnalazioniVisibile && (<StoricoSegnalazioni token={token}/>)}
+
                                 </CardContent>
                             </Card>
                         </Grid>
@@ -188,6 +233,7 @@ export default function ProfiloUR({token}) {
             </Grid>
         </Container>
     );
+
 }
 
 ProfiloUR.propTypes = {
