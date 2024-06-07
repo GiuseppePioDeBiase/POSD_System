@@ -5,7 +5,7 @@ from backend.models.attors.utente import Utente, utenti
 from backend.models.attors.ruolo import Ruolo
 
 db = conn_db()  # Connessione al database MongoDB
-utenti_eliminati = db['Utenti eleminati']  # Nome della collezione
+utenti_eliminati = db['Utenti eliminati']  # Nome della collezione
 
 
 class AmministratoreDiSistema(Utente):
