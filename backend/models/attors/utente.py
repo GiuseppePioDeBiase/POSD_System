@@ -27,7 +27,7 @@ class Utente:
             "cognome": self.cognome,
             "email": self.email,
             "password": self.password,
-            "genere": self.genere,  # Aggiunto il campo genere
+            "genere": self.genere,
             "ruolo": self.ruolo
         }
 
@@ -166,7 +166,7 @@ class Utente:
             "cognome": utente.get('cognome'),
             "email": utente.get('email'),
             "ruolo": utente.get('ruolo'),
-            "genere": utente.get('genere')  # Aggiunto il campo genere
+            "genere": utente.get('genere')
         }), 200
 
     @classmethod
