@@ -80,7 +80,7 @@ class Segnalazione(BaseMessage):
 
     @classmethod
     def getSegnalazioniAccettate(cls):
-        collection = segnalazioniAccettate.find({}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True, "_id": False})
+        collection = segnalazioniAccettate.find({}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True, 'id_ciso': True, "_id": False})
         return jsonify(list(collection))
 
     @classmethod
