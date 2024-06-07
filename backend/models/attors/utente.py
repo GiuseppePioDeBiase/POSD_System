@@ -5,11 +5,12 @@ from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, u
 from flask import request, jsonify, json
 from werkzeug.security import generate_password_hash, check_password_hash
 from backend.config.db import conn_db
-import re
+import regex
 from backend.models.attors.ruolo import Ruolo
 
 db = conn_db()  # Connessione al database MongoDB
 utenti = db['Utenti']  # Nome della collezione
+no_data = "Nessun dato fornito!"
 
 
 class Utente:
@@ -33,31 +34,31 @@ class Utente:
 
     @staticmethod
     def valida_email(email):
-        regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-        return re.match(regex, email) is not None
+        regex_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        return regex.match(regex_pattern, email) is not None
 
     @staticmethod
     def valida_password(password):
         if len(password) < 8:
             return False
-        if not re.search(r'[A-Z]', password):
+        if not regex.search(r'[A-Z]', password):
             return False
-        if not re.search(r'[a-z]', password):
+        if not regex.search(r'[a-z]', password):
             return False
-        if not re.search(r'\d', password):
+        if not regex.search(r'\d', password):
             return False
         return True
 
     @staticmethod
     def valida_nome_cognome(nome_cognome):
-        regex = r"^[a-zA-Zà-ÿÀ-Ÿ0-9' -]+$"
-        return re.match(regex, nome_cognome) is not None
+        regex_pattern = r"^[\p{L}\p{M}' -]+$"
+        return regex.fullmatch(regex_pattern, nome_cognome) is not None
 
     @classmethod
     def registrati(cls):
         dati = request.json
         if not dati:
-            return jsonify({"successo": False, "messaggio": "Nessun dato fornito!"}), 400
+            return jsonify({"successo": False, "messaggio": no_data}), 400
 
         nome = dati.get('nome')
         cognome = dati.get('cognome')
@@ -116,13 +117,13 @@ class Utente:
     def login(cls):
         dati = request.json
         if dati is None or 'email' not in dati or 'password' not in dati:
-            return jsonify({"successo": False, "messaggio": "Nessun dato fornito!"}), 400
+            return jsonify({"successo": False, "messaggio": no_data}), 400
 
         email = dati.get('email')
         password = dati.get('password')
 
         if not email.strip() and not password.strip():
-            return jsonify({"successo": False, "messaggio": "Nessun dato fornito!"}), 400
+            return jsonify({"successo": False, "messaggio": no_data}), 400
 
         if not email.strip():
             return jsonify({"successo": False, "messaggio": "L'email è obbligatoria!"}), 400
@@ -151,7 +152,7 @@ class Utente:
         return response, 200
 
     @classmethod
-    def getNomeCognomeRuoloGenere(cls, mail):
+    def get_nome_cognome_ruolo_genere(cls, mail):
         if not mail:
             return jsonify({"successo": False, "messaggio": "Email non fornita!"}), 400
 

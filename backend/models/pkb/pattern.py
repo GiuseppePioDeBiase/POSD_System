@@ -24,12 +24,12 @@ class Pattern:
         self.examples = examples
 
     @classmethod
-    def getPatternByPrivacyByDesign(cls, privacy_by_design):
+    def get_pattern_by_privacy_by_design(cls, privacy_by_design):
         query = {"Privacy By Design Principles": {"$regex": privacy_by_design, "$options": "i"}}
         collection = patternCollection.find(query, {'_id': False})
         return jsonify(list(collection))
 
     @classmethod
-    def getAllPatterns(cls):
+    def get_all_patterns(cls):
         collection = patternCollection.find({}, {'_id': False})
         return jsonify(list(collection))

@@ -5,13 +5,13 @@ from backend.config.db import conn_db
 db = conn_db()
 privacyByDesignCollection = db['PrivacyByDesign']  # Collezione PrivacyByDesign
 
-class PrivacyByDesign:
+class privacy_by_design:
     def __init__(self, id, title, description):
         self.id = id
         self.title = title
         self.description = description
 
     @classmethod
-    def getPrivacyByDesign(cls):
+    def get_privacy_by_design(cls):
         query_result = privacyByDesignCollection.find({}, {'_id': False})
         return jsonify(list(query_result))

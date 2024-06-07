@@ -1,12 +1,13 @@
 flask
 flask_cors
 flask-jwt-extended
+flask_wtf
 pymongo
 datatime
 urllib.parse
 platform
 socket
-re
+regex
 secrets
 bson
 werkzeug.security
