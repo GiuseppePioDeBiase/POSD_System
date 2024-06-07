@@ -159,7 +159,7 @@ function Registrazione(props) {
                                     >
                                         <option value="" disabled hidden>Seleziona il genere</option>
                                         <option value="Maschio">Uomo</option>
-                                        <option value="Femmina">Donna</option>
+                                        <option value="Donna">Donna</option>
                                         <option value="Anonimo">Anonimo</option>
                                     </select>
                                     <label

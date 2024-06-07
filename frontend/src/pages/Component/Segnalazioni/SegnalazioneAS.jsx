@@ -57,48 +57,49 @@ VirtuosoTableComponents.TableRow.propTypes = {
 };
 
 function fixedHeaderContent() {
-    return (
-        <TableRow>
-            {columns.map((column) => (
-                <TableCell
-                    key={column.dataKey}
-                    variant="head"
-                    align={column.numeric ? 'right' : 'left'}
-                    style={{width: column.width}}
-                    sx={{
-                        backgroundColor: 'background.paper',
-                    }}
-                >
-                    {column.label}
-                </TableCell>
-            ))}
-        </TableRow>
-    );
+  return (
+    <TableRow>
+      {columns.map((column) => (
+        <TableCell
+          key={column.dataKey}
+          variant="head"
+          align={column.numeric ? 'right' : 'left'}
+          style={{ width: column.width }}
+          sx={{
+            backgroundColor: 'background.paper',
+          }}
+        >
+          {column.label}
+        </TableCell>
+      ))}
+    </TableRow>
+  );
 }
 
 function rowContent(_index, row, handleCellClick) {
-    return (
-        <React.Fragment>
-            {columns.map((column, colIndex) => (
-                <TableCell
-                    onClick={colIndex === 2 ? () => handleCellClick(row) : undefined}
-                    style={{
-                        cursor: colIndex === 2 ? 'pointer' : 'default',
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                    }}
-
-                    sx={{'&:hover': {backgroundColor: colIndex === 2 ? 'rgba(0, 0, 0, 0.08)' : 'transparent'}}}
-                    key={column.dataKey}
-
-                    align={column.numeric ? 'right' : 'left'}
-                >
-                    {row[column.dataKey]}
-                </TableCell>
-            ))}
-        </React.Fragment>
-    );
+   return (
+    <React.Fragment>
+      {columns.map((column, colIndex) => (
+        <TableCell
+          onClick={colIndex === 2 ? () => handleCellClick(row) : undefined}
+          style={{
+            cursor: colIndex === 2 ? 'pointer' : 'default',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+          sx={{
+            '&:hover': { backgroundColor: colIndex === 2 ? 'rgba(0, 0, 0, 0.08)' : 'transparent' },
+            maxWidth: { xs: '100px', sm: '200px', md: '300px' },
+          }}
+          key={column.dataKey}
+          align={column.numeric ? 'right' : 'left'}
+        >
+          {row[column.dataKey]}
+        </TableCell>
+      ))}
+    </React.Fragment>
+  );
 }
 
 export default function ReactVirtualizedTable({token}) {
@@ -128,16 +129,22 @@ export default function ReactVirtualizedTable({token}) {
     if (loading) return <div>Caricamento...</div>;
     if (error) return <div>Errore: {error.message}</div>;
 
-    return (
-        <Paper style={{height: 400, width: '100%', backgroundColor: 'white'}}>
-            <TableVirtuoso
-                data={rows}
-                components={VirtuosoTableComponents}
-                fixedHeaderContent={fixedHeaderContent}
-                itemContent={(index, row) => rowContent(index, row, handleCellClick)}
-            />
-        </Paper>
-    );
+  return (
+    <Paper style={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '1rem' }}>
+      {rows.length > 0 ? (
+        <TableVirtuoso
+          data={rows}
+          components={VirtuosoTableComponents}
+          fixedHeaderContent={fixedHeaderContent}
+          itemContent={(index, row) => rowContent(index, row, handleCellClick)}
+        />
+      ) : (
+        <div className="flex flex-row justify-center items-center font-bold text-xl" style={{ height: '100%' }}>
+          Nessuna segnalazione
+        </div>
+      )}
+    </Paper>
+  );
 }
 ReactVirtualizedTable.propTypes = {
     token: PropTypes.string.isRequired,
