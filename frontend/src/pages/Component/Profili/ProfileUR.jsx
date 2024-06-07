@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {Container, Grid, Card, CardContent, CardMedia, Typography, TextField, Button, Avatar, Box} from '@mui/material';
+import { Container, Grid, Card, CardContent, CardMedia, Typography, TextField, Button, Avatar, Box } from '@mui/material';
 import StoricoSegnalazioni from "../Segnalazioni/StoricoSegnalazioni.jsx";
 
 export default function ProfiloUR({ token }) {
   const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
   const [password, setPassword] = useState('');
   const [confermaPassword, setConfermaPassword] = useState('');
-  const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '' });
-  const [ setError] = useState('');
-const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);  useEffect(() => {
+  const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '', genere: '' });
+  const [error, setError] = useState('');
+  const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
+
+  useEffect(() => {
     const fetchProfilo = async () => {
       try {
         if (!token) {
@@ -29,6 +31,7 @@ const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);  useEff
         }
 
         const data = await response.json();
+        console.log("Profilo data:", data); // Log per debug
         setProfilo(data);
       } catch (error) {
         console.error("Errore durante il recupero del profilo:", error);
@@ -43,22 +46,41 @@ const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);  useEff
     setModificaProfiloVisibile(!modificaProfiloVisibile);
     setSegnalazioniVisibile(false);
   };
-const toggleSegnalazioniVisibile = () => {
+
+  const toggleSegnalazioniVisibile = () => {
     setSegnalazioniVisibile(!segnalazioniVisibile);
     setModificaProfiloVisibile(false);
   };
+
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
+
   const handleConfermaPasswordChange = (event) => {
     setConfermaPassword(event.target.value);
   };
+
   const handleSubmit = () => {
     if (password !== confermaPassword) {
       setError("Le password non corrispondono!");
     }
 
     // Qui inserisci la logica per inviare le modifiche del profilo
+  };
+
+  const getWelcomeMessage = () => {
+    if (profilo.genere) {
+      switch (profilo.genere) {
+        case 'Uomo':
+          return 'Bentornato';
+        case 'Donna':
+          return 'Bentornata';
+        default:
+          return 'Bentornatə';
+      }
+    } else {
+      return 'Bentornatə'; // Fallback in caso di genere non definito
+    }
   };
 
   return (
@@ -68,12 +90,12 @@ const toggleSegnalazioniVisibile = () => {
           <Card sx={{ mb: 4, mx: 5 }}>
             <CardContent sx={{ textAlign: 'center' }}>
               <Avatar src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" sx={{ width: 150, height: 150, mx: 'auto', mb: 4 }} />
-              <Typography variant="h6" gutterBottom>Bentornato</Typography>
+              <Typography variant="h6" gutterBottom>{getWelcomeMessage()}</Typography>
               <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
               <Typography variant="subtitle1">{profilo.ruolo}</Typography>
-              <Box sx={{mt: 5}}>
-              <Button variant="contained" color="warning" sx={{ mt: 5 }} onClick={toggleModificaProfilo}>Modifica profilo</Button>
-              <Button variant="contained" color="warning" sx={{ mb: 2 ,mt:3}} onClick={toggleSegnalazioniVisibile} >Storico</Button>
+              <Box sx={{ mt: 5 }}>
+                <Button variant="contained" color="warning" sx={{ mt: 5 }} onClick={toggleModificaProfilo}>Modifica profilo</Button>
+                <Button variant="contained" color="warning" sx={{ mb: 2, mt: 3 }} onClick={toggleSegnalazioniVisibile}>Storico</Button>
               </Box>
             </CardContent>
             <CardMedia
@@ -85,7 +107,7 @@ const toggleSegnalazioniVisibile = () => {
           </Card>
         </Grid>
         <Grid item lg={8} xs={12}>
-         <Card sx={{ mb: 4 }}>
+          <Card sx={{ mb: 4 }}>
             <CardContent>
               <Grid container spacing={2}>
                 <Grid item xs={3}>
@@ -114,6 +136,13 @@ const toggleSegnalazioniVisibile = () => {
                 </Grid>
                 <Grid item xs={9}>
                   <Typography variant="body1" color="text.secondary">{profilo.ruolo}</Typography>
+                </Grid>
+                <Grid item xs={12}><hr /></Grid>
+                <Grid item xs={3}>
+                  <Typography variant="subtitle1">Genere</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                  <Typography variant="body1" color="text.secondary">{profilo.genere}</Typography>
                 </Grid>
               </Grid>
             </CardContent>

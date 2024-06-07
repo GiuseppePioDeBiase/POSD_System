@@ -124,7 +124,6 @@ const ProfiloAS = ({ token }) => {
             });
             const data = await response.json();
             console.log('Dati del profilo:', data);
-            console.log('Gen333ere:', data.genere); // Inserisci questo log
             setProfilo(data);
             setModificaProfiloForm({ nome: data.nome, cognome: data.cognome, email: data.email, password: '', genere: data.genere });
         } catch (error) {

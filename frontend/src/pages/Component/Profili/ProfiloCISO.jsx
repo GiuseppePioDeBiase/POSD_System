@@ -27,7 +27,7 @@ export default function ProfiloCISO(props) {
     const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
     const [password, setPassword] = useState('');
     const [confermaPassword, setConfermaPassword] = useState('');
-    const [profilo, setProfilo] = useState({nome: '', cognome: '', email: '', ruolo: ''});
+    const [profilo, setProfilo] = useState({nome: '', cognome: '', email: '', ruolo: '', genere: '' });
     const [aggiungiLicenzaVisibile, setAggiungiLicenzaVisibile] = useState(false);
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
     const [file, setFile] = useState({});
@@ -207,6 +207,22 @@ const handleFileChange = (event) => {
         return true;
     };
 
+      const getWelcomeMessage = () => {
+    console.log('Gen22ere:', profilo.genere); // Debugging line
+    if (profilo.genere) {
+        switch (profilo.genere) {
+            case 'Uomo':
+                return 'Bentornato';
+            case 'Donna':
+                return 'Bentornata';
+            default:
+                return 'Bentornatə';
+        }
+    } else {
+        return 'Bentornatə'; // Fallback in caso di genere non definito
+    }
+};
+
     return (
         <Container sx={{py: 5}}>
             <Grid container spacing={4}>
@@ -218,9 +234,8 @@ const handleFileChange = (event) => {
                                 alt="avatar"
                                 sx={{width: 150, height: 150, mx: 'auto', my: 2}}
                             />
-                            <Typography variant="h5" sx={{mb: 2}}>
-                                Bentornato <strong>{profilo.nome}</strong>
-                            </Typography>
+                            <Typography variant="h6" gutterBottom>{getWelcomeMessage()}</Typography>
+                            <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
                             <Typography variant="subtitle1">{profilo.ruolo}</Typography>
                             <Box sx={{mt: 5}}>
                                 <Button variant="contained" color="warning" onClick={toggleSegnalazioniVisibile}
@@ -247,14 +262,14 @@ const handleFileChange = (event) => {
                     <Card sx={{mb: 4}}>
                         <CardContent>
                             <Grid container spacing={2}>
-                                <Grid item xs={3}>
+                                 <Grid item xs={3}>
                                     <Typography variant="subtitle1">Nome</Typography>
                                 </Grid>
                                 <Grid item xs={9}>
                                     <Typography variant="body1" color="text.secondary">{profilo.nome}</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <hr/>
+                                    <hr />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography variant="subtitle1">Cognome</Typography>
@@ -263,7 +278,7 @@ const handleFileChange = (event) => {
                                     <Typography variant="body1" color="text.secondary">{profilo.cognome}</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <hr/>
+                                    <hr />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography variant="subtitle1">Email</Typography>
@@ -272,7 +287,7 @@ const handleFileChange = (event) => {
                                     <Typography variant="body1" color="text.secondary">{profilo.email}</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <hr/>
+                                    <hr />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography variant="subtitle1">Ruolo</Typography>
@@ -281,15 +296,24 @@ const handleFileChange = (event) => {
                                     <Typography variant="body1" color="text.secondary">{profilo.ruolo}</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <hr/>
+                                    <hr />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Typography variant="subtitle1">Genere</Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Typography variant="body1" color="text.secondary">{profilo.genere}</Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <hr />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography variant="subtitle1">Licenza</Typography>
                                 </Grid>
                                 <Grid item xs={9}>
                                     <Typography variant="body1" color="text.secondary">{licenzaNome}</Typography>
-
                                 </Grid>
+
                             </Grid>
                         </CardContent>
                     </Card>
