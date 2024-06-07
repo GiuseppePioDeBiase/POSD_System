@@ -27,7 +27,7 @@ class Utente:
             "cognome": self.cognome,
             "email": self.email,
             "password": self.password,
-            "genere": self.genere,
+            "genere": self.genere,  # Aggiunto il campo genere
             "ruolo": self.ruolo
         }
 
@@ -157,6 +157,7 @@ class Utente:
 
         utente = utenti.find_one({"email": mail})
         if not utente:
+
             return jsonify({"successo": False, "messaggio": "Utente non trovato!"}), 404
 
         return jsonify({
@@ -164,7 +165,8 @@ class Utente:
             "nome": utente.get('nome'),
             "cognome": utente.get('cognome'),
             "email": utente.get('email'),
-            "ruolo": utente.get('ruolo')
+            "ruolo": utente.get('ruolo'),
+            "genere": utente.get('genere')  # Aggiunto il campo genere
         }), 200
 
     @classmethod

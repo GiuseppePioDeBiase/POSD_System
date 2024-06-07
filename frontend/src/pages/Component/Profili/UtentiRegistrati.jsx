@@ -128,7 +128,7 @@ export default function ReactVirtualizedTable({ token }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
-  const [message, setMessage] = useState(null); // Aggiunto stato per i messaggi
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -161,16 +161,16 @@ export default function ReactVirtualizedTable({ token }) {
         setMessage("Utente non trovato."); // Imposta il messaggio di errore
         return;
       }
-      await axios.delete(`http://localhost:5000/api/eliminautente=${user.email}`, {
+      const response = await axios.delete(`http://localhost:5000/api/eliminautente=${user.email}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       setUsers(users.filter((u) => u.id !== selectedRow));
       setSelectedRow(null);
-      setMessage("Utente rimosso con successo."); // Imposta il messaggio di successo
+      setMessage(response.data.message); // Imposta il messaggio dal backend
     } catch (error) {
-      setError(error);
+      setMessage(error.response?.data?.message || "Errore durante la rimozione dell'utente."); // Imposta il messaggio di errore dal backend
     }
   };
 

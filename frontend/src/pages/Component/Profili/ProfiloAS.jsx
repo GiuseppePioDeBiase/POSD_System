@@ -1,4 +1,4 @@
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import {
@@ -20,14 +20,15 @@ import UtentiRegistrati from './UtentiRegistrati.jsx'; // Import the new compone
 const ProfiloAS = ({ token }) => {
     const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
     const [aggiungiProfiloVisibile, setAggiungiProfiloVisibile] = useState(false);
-    const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '' });
-    const [modificaProfiloForm, setModificaProfiloForm] = useState({ nome: '', cognome: '', email: '', password: '' });
+    const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '', genere: '' });
+    const [modificaProfiloForm, setModificaProfiloForm] = useState({ nome: '', cognome: '', email: '', password: '', genere: '' });
     const [registrazioneForm, setRegistrazioneForm] = useState({
         nome: '',
         cognome: '',
         email: '',
         password: '',
-        ruolo: 'CISO'
+        ruolo: 'CISO',
+        genere: '' // Default value for the gender field
     });
     const [registrazioneSuccess, setRegistrazioneSuccess] = useState(false);
     const [error, setError] = useState('');
@@ -41,8 +42,6 @@ const ProfiloAS = ({ token }) => {
         setUtentiVisibile(false);
         setError('');
     };
-
-
 
     const toggleSegnalazioniApprovate = () => {
         setSegnalazioniVisibile(!segnalazioniVisibile);
@@ -66,13 +65,12 @@ const ProfiloAS = ({ token }) => {
         setAggiungiProfiloVisibile(false);
     };
 
-
     const registrami = (event) => {
         event.preventDefault();
         axios.post('http://127.0.0.1:5000/api/registrazione', registrazioneForm)
             .then(() => {
                 setRegistrazioneSuccess(true);
-                setRegistrazioneForm({ nome: '', cognome: '', email: '', password: '', ruolo: 'CISO' });
+                setRegistrazioneForm({ nome: '', cognome: '', email: '', password: '', ruolo: 'CISO', genere: '' });
                 setError('');
             })
             .catch((error) => {
@@ -112,31 +110,48 @@ const ProfiloAS = ({ token }) => {
             });
     };
 
+  useEffect(() => {
+    const fetchProfilo = async () => {
+        if (!token) {
+            console.error('Token non disponibile');
+            return;
+        }
 
+        try {
+            const response = await fetch('http://localhost:5000/api/profilo', {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            });
+            const data = await response.json();
+            console.log('Dati del profilo:', data);
+            console.log('Gen333ere:', data.genere); // Inserisci questo log
+            setProfilo(data);
+            setModificaProfiloForm({ nome: data.nome, cognome: data.cognome, email: data.email, password: '', genere: data.genere });
+        } catch (error) {
+            console.error('Errore durante il recupero del profilo:', error);
+            setError('Errore durante il recupero del profilo');
+        }
+    };
 
-    useEffect(() => {
-        const fetchProfilo = async () => {
-            if (!token) {
-                console.error('Token non disponibile');
-                return;
-            }
+    fetchProfilo();
+}, [token]);
 
-            try {
-                const response = await fetch('http://localhost:5000/api/profilo', {
-                    method: 'GET',
-                    headers: {Authorization: `Bearer ${token}`, 'Content-Type': 'application/json'},
-                });
-                const data = await response.json();
-                setProfilo(data);
-                setModificaProfiloForm({nome: data.nome, cognome: data.cognome, email: data.email, password: ''});
-            } catch (error) {
-                console.error('Errore durante il recupero del profilo:', error);
-                setError('Errore durante il recupero del profilo');
-            }
-        };
+  const getWelcomeMessage = () => {
+    console.log('Gen22ere:', profilo.genere); // Debugging line
+    if (profilo.genere) {
+        switch (profilo.genere) {
+            case 'Uomo':
+                return 'Bentornato';
+            case 'Donna':
+                return 'Bentornata';
+            default:
+                return 'Bentornatə';
+        }
+    } else {
+        return 'Bentornatə'; // Fallback in caso di genere non definito
+    }
+};
 
-        fetchProfilo();
-    }, [token]);
 
     return (
         <Container sx={{ py: 5 }}>
@@ -146,7 +161,7 @@ const ProfiloAS = ({ token }) => {
                         <CardContent sx={{ textAlign: 'center' }}>
                             <Avatar src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                                 sx={{ width: 150, height: 150, mx: 'auto', mb: 4 }} />
-                            <Typography variant="h6" gutterBottom>Bentornato</Typography>
+                            <Typography variant="h6" gutterBottom>{getWelcomeMessage()}</Typography>
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
                             <Typography variant="subtitle1">{profilo.ruolo}</Typography>
                             <Box sx={{ mt: 5 }}>
@@ -169,7 +184,7 @@ const ProfiloAS = ({ token }) => {
                     </Card>
                 </Grid>
 
-                 <Grid item lg={8} xs={12}>
+                <Grid item lg={8} xs={12}>
                     <Card sx={{ mb: 4 }}>
                         <CardContent>
                             <Grid container spacing={2}>
@@ -185,7 +200,7 @@ const ProfiloAS = ({ token }) => {
                                 <Grid item xs={3}>
                                     <Typography variant="subtitle1">Cognome</Typography>
                                 </Grid>
-                                                                <Grid item xs={9}>
+                                <Grid item xs={9}>
                                     <Typography variant="body1" color="text.secondary">{profilo.cognome}</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
@@ -206,61 +221,75 @@ const ProfiloAS = ({ token }) => {
                                 <Grid item xs={9}>
                                     <Typography variant="body1" color="text.secondary">{profilo.ruolo}</Typography>
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <hr />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Typography variant="subtitle1">Genere</Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Typography variant="body1" color="text.secondary">{profilo.genere}</Typography>
+                                </Grid>
                             </Grid>
                         </CardContent>
                     </Card>
 
-
-                       {modificaProfiloVisibile && (
-                        <Card sx={{mb: 3}}>
+                    {modificaProfiloVisibile && (
+                        <Card sx={{ mb: 3 }}>
                             <CardContent>
                                 <Typography variant="h6">Modifica Profilo</Typography>
                                 <TextField label="Nome" name="nome" value={modificaProfiloForm.nome}
-                                           onChange={handleModificaProfiloChange} fullWidth sx={{mb: 2}}/>
+                                    onChange={handleModificaProfiloChange} fullWidth sx={{ mb: 2 }} />
                                 <TextField label="Cognome" name="cognome" value={modificaProfiloForm.cognome}
-                                           onChange={handleModificaProfiloChange} fullWidth sx={{mb: 2}}/>
+                                    onChange={handleModificaProfiloChange} fullWidth sx={{ mb: 2 }} />
                                 <TextField label="Email" name="email" value={modificaProfiloForm.email}
-                                           onChange={handleModificaProfiloChange} fullWidth sx={{mb: 2}}/>
+                                    onChange={handleModificaProfiloChange} fullWidth sx={{ mb: 2 }} />
                                 <TextField label="Password" name="password" type="password"
-                                           value={modificaProfiloForm.password} onChange={handleModificaProfiloChange}
-                                           fullWidth sx={{mb: 2}}/>
+                                    value={modificaProfiloForm.password} onChange={handleModificaProfiloChange}
+                                    fullWidth sx={{ mb: 2 }} />
                                 <Button variant="contained" color="warning" onClick={aggiornaProfilo}>Salva
                                     Modifiche</Button>
-                                {error && <Alert severity="error" sx={{mt: 2}}>{error}</Alert>}
+                                {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
                             </CardContent>
                         </Card>
                     )}
 
-                     {aggiungiProfiloVisibile && (
-                        <Card sx={{mb: 3}}>
+                    {aggiungiProfiloVisibile && (
+                        <Card sx={{ mb: 3 }}>
                             <CardContent>
                                 <Typography variant="h6">Aggiungi Profilo</Typography>
                                 <form onSubmit={registrami}>
                                     <TextField label="Nome" name="nome" value={registrazioneForm.nome}
-                                               onChange={handleChange} fullWidth sx={{mb: 2}}/>
+                                        onChange={handleChange} fullWidth sx={{ mb: 2 }} />
                                     <TextField label="Cognome" name="cognome" value={registrazioneForm.cognome}
-                                               onChange={handleChange} fullWidth sx={{mb: 2}}/>
+                                        onChange={handleChange} fullWidth sx={{ mb: 2 }} />
                                     <TextField label="Email" name="email" value={registrazioneForm.email}
-                                               onChange={handleChange} fullWidth sx={{mb: 2}}/>
+                                        onChange={handleChange} fullWidth sx={{ mb: 2 }} />
                                     <TextField label="Password" name="password" type="password"
-                                               value={registrazioneForm.password} onChange={handleChange}
-                                               fullWidth sx={{mb: 2}}/>
+                                        value={registrazioneForm.password} onChange={handleChange}
+                                        fullWidth sx={{ mb: 2 }} />
                                     <TextField select label="Ruolo" name="ruolo" value={registrazioneForm.ruolo}
-                                               onChange={handleChange} fullWidth sx={{mb: 2}}>
+                                        onChange={handleChange} fullWidth sx={{ mb: 2 }}>
                                         <MenuItem value="CISO">CISO</MenuItem>
                                         <MenuItem value="Amministratore di sistema">Amministratore di Sistema</MenuItem>
+                                    </TextField>
+                                    <TextField select label="Genere" name="genere" value={registrazioneForm.genere}
+                                        onChange={handleChange} fullWidth sx={{ mb: 2 }}>
+                                        <MenuItem value="Uomo">Uomo</MenuItem>
+                                        <MenuItem value="Donna">Donna</MenuItem>
+                                        <MenuItem value="Anonimo">Anonimo</MenuItem>
                                     </TextField>
                                     <Button variant="contained" color="warning" type="submit">Registrati</Button>
                                 </form>
                                 {registrazioneSuccess && (
-                                    <Alert severity="success" sx={{mt: 2}}>Registrazione avvenuta con successo!</Alert>
+                                    <Alert severity="success" sx={{ mt: 2 }}>Registrazione avvenuta con successo!</Alert>
                                 )}
-                                {error && <Alert severity="error" sx={{mt: 2}}>{error}</Alert>}
+                                {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
                             </CardContent>
                         </Card>
                     )}
 
-                 {segnalazioniVisibile && ( <SegnalazioneAS token={token} /> )}
+                    {segnalazioniVisibile && (<SegnalazioneAS token={token} />)}
 
                     {utentiVisibile && (
                         <Card sx={{ mb: 3 }}>
