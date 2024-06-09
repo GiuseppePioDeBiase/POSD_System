@@ -3,7 +3,6 @@ import secrets
 from datetime import timedelta
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
-from flask_wtf import CSRFProtect
 
 def create_app():
     app = Flask(__name__)
@@ -12,5 +11,4 @@ def create_app():
     app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=1) # Il token cambia ogni giorno
     CORS(app)
     JWTManager(app)
-    CSRFProtect(app)
     return app
