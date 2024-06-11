@@ -236,7 +236,7 @@ export default function ProfiloUR({token}) {
                                         </Card>
                                     )}
 
-                                    {segnalazioniVisibile && (<StoricoSegnalazioni token={token}/>)}
+                                    {segnalazioniVisibile && (<StoricoSegnalazioni token={token} ruolo={profilo.ruolo}/>)}
                                     {FeedbackVisibile && (<StoricoFeedback token={token}/>)}
                                 </CardContent>
                             </Card>

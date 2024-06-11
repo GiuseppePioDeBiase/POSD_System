@@ -92,21 +92,33 @@ function rowContent(_index, row) {
     );
 }
 
-export default function ReactVirtualizedTable({token}) {
+export default function ReactVirtualizedTable({token,ruolo}) {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
+            let response=null
             try {
-                const response = await fetch('http://localhost:5000/api/storicoutente', {
+                if(ruolo==='Utente'){
+                     response = await fetch('http://localhost:5000/api/storicoutente', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     }
                 });
+                }else {
+                    response = await fetch('http://localhost:5000/api/storicoutente', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                }
+
                 if (!response.ok) {
                     throw new Error('Errore nella richiesta');
                 }
@@ -143,4 +155,5 @@ export default function ReactVirtualizedTable({token}) {
 
 ReactVirtualizedTable.propTypes = {
     token: PropTypes.string.isRequired,
+    ruolo: PropTypes.string.isRequired
 };
