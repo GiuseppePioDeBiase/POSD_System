@@ -1,4 +1,3 @@
-import uuid
 from datetime import datetime, timedelta, timezone
 from bson import Binary
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies
@@ -152,13 +151,12 @@ class Utente:
         return response, 200
 
     @classmethod
-    def get_nome_cognome_ruolo_genere(cls, mail):
+    def get_data_user(cls, mail):
         if not mail:
             return jsonify({"successo": False, "messaggio": "Email non fornita!"}), 400
 
         utente = utenti.find_one({"email": mail})
         if not utente:
-
             return jsonify({"successo": False, "messaggio": "Utente non trovato!"}), 404
 
         return jsonify({
@@ -168,6 +166,7 @@ class Utente:
             "email": utente.get('email'),
             "ruolo": utente.get('ruolo'),
             "genere": utente.get('genere')
+            #aggiungere la foto
         }), 200
 
     @classmethod
@@ -183,12 +182,9 @@ class Utente:
         foto_binario = foto.read()
 
         # Salva il binario nel database MongoDB
-        foto_id = str(uuid.uuid4())
-        utenti.update_one({"email": mail}, {"$set": {"foto": Binary(foto_binario), "foto_id": foto_id}})
+        utenti.update_one({"email": mail}, {"$set": {"foto": Binary(foto_binario)}})
 
-        # Rispondi con il percorso della foto
-        foto_url = f"/foto/{foto_id}"  # Per esempio, un endpoint per servire la foto
-        return jsonify({"successo": True, "messaggio": "Foto caricata con successo!", "foto_url": foto_url}), 200
+        return jsonify({"successo": True, "messaggio": "Foto caricata con successo!"}), 200
 
     @staticmethod
     def refresh_expiring_jwts(response):
