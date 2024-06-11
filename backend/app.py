@@ -3,7 +3,7 @@ from datetime import datetime
 import platform
 import socket
 from backend.config.config import create_app
-from backend.controllers import controllers_bp
+from backend.routes import routes
 
 app = create_app()
 
@@ -32,7 +32,7 @@ def start():
     return jsonify(response)
 
 
-app.register_blueprint(controllers_bp)
+app.register_blueprint(routes)
 
 if __name__ == '__main__':
     app.run(debug=False)

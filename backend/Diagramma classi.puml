@@ -3,7 +3,6 @@ skinparam classAttributeIconSize 0
 
 package "models.pkb" {
     class Pattern {
-        -id: int
         -pattern_name: str
         -strategies: str
         -description: str
@@ -22,7 +21,6 @@ package "models.pkb" {
     }
 
     class PrivacyByDesign {
-        -id: int
         -title: str
         -description: str
 

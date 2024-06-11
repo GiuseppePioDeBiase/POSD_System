@@ -6,8 +6,7 @@ db = conn_db()
 privacyByDesignCollection = db['PrivacyByDesign']  # Collezione PrivacyByDesign
 
 class privacy_by_design:
-    def __init__(self, id, title, description):
-        self.id = id
+    def __init__(self, title, description):
         self.title = title
         self.description = description
 
