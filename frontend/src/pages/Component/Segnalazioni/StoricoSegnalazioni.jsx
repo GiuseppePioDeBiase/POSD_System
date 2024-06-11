@@ -101,6 +101,7 @@ export default function ReactVirtualizedTable({token,ruolo}) {
         const fetchData = async () => {
             let response=null
             try {
+                console.log(ruolo)
                 if(ruolo==='Utente'){
                      response = await fetch('http://localhost:5000/api/storicoutente', {
                     method: 'GET',
@@ -110,7 +111,7 @@ export default function ReactVirtualizedTable({token,ruolo}) {
                     }
                 });
                 }else {
-                    response = await fetch('http://localhost:5000/api/storicoutente', {
+                    response = await fetch('http://localhost:5000/api/storiciso', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

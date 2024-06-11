@@ -118,23 +118,25 @@ export default function ProfiloCISO(props) {
         setAggiungiLicenzaVisibile(false);
         setStoricoSegnalazioniVisibile(false);
     };
-        const toggleStoricoSegnalazioniVisibile = () => {
+    const toggleStoricoSegnalazioniVisibile = () => {
         setStoricoSegnalazioniVisibile(!StoricoSegnalazioniVisibile);
         setModificaProfiloVisibile(false);
         setAggiungiLicenzaVisibile(false);
+        setSegnalazioniVisibile(false  );
     };
-
 
     const toggleAggiungiLicenza = () => {
         setAggiungiLicenzaVisibile(!aggiungiLicenzaVisibile);
         setModificaProfiloVisibile(false);
         setSegnalazioniVisibile(false);
+        setStoricoSegnalazioniVisibile(false);
     };
 
     const toggleModificaProfilo = () => {
         setModificaProfiloVisibile(!modificaProfiloVisibile);
         setAggiungiLicenzaVisibile(false);
         setSegnalazioniVisibile(false);
+        setStoricoSegnalazioniVisibile(false);
     };
 
     const handlePasswordChange = (event) => {
@@ -237,7 +239,7 @@ export default function ProfiloCISO(props) {
     };
 
     const getWelcomeMessage = () => {
-        console.log('Genere:', profilo.genere); // Debugging line
+
         if (profilo.genere) {
             switch (profilo.genere) {
                 case 'Uomo':
@@ -392,7 +394,7 @@ export default function ProfiloCISO(props) {
                                     )}
 
                                     {segnalazioniVisibile && <SegnalazioneCISO token={props.token} />}
-                                    {StoricoSegnalazioniVisibile && <StoricoSegnalazioni token={props.token} />}
+                                    {StoricoSegnalazioniVisibile && <StoricoSegnalazioni token={props.token}  ruolo={profilo.ruolo}/>}
                                     {aggiungiLicenzaVisibile && (
                                         <Box>
                                             {file && (
