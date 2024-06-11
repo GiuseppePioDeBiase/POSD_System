@@ -5,6 +5,7 @@ from backend.config.db import conn_db
 db = conn_db()
 privacyByDesignCollection = db['PrivacyByDesign']  # Collezione PrivacyByDesign
 
+
 class privacy_by_design:
     def __init__(self, title, description):
         self.title = title
