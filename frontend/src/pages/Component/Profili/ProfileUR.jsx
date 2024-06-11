@@ -5,23 +5,25 @@ import {
     Grid,
     Card,
     CardContent,
-    CardMedia,
     Typography,
     TextField,
     Button,
     Avatar,
     Box,
-    Alert, MenuItem
+    Alert
 } from '@mui/material';
 import StoricoSegnalazioni from "../Segnalazioni/StoricoSegnalazioni.jsx";
-
+import StoricoFeedback from "../PagineMenu/Feedback/StoricoFeedback.jsx"
 export default function ProfiloUR({token}) {
     const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
+    const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
+    const [FeedbackVisibile, setFeedbackVisibile] = useState(false);
     const [password, setPassword] = useState('');
     const [confermaPassword, setConfermaPassword] = useState('');
-    const [profilo, setProfilo] = useState({nome: '', cognome: '', email: '', ruolo: '', genere: ''});
+    const [profilo, setProfilo] = useState(
+        {nome: '', cognome: '', email: '', ruolo: '', genere: ''});
     const [error, setError] = useState('');
-    const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
+
     const [avatar, setAvatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
 
     useEffect(() => {
@@ -57,11 +59,18 @@ export default function ProfiloUR({token}) {
     const toggleModificaProfilo = () => {
         setModificaProfiloVisibile(!modificaProfiloVisibile);
         setSegnalazioniVisibile(false);
+        setFeedbackVisibile(false);
     };
 
     const toggleSegnalazioniVisibile = () => {
         setSegnalazioniVisibile(!segnalazioniVisibile);
         setModificaProfiloVisibile(false);
+        setFeedbackVisibile(false);
+    };
+        const toggleFeedbackVisibile = () => {
+        setFeedbackVisibile(!FeedbackVisibile);
+        setModificaProfiloVisibile(false);
+        setSegnalazioniVisibile(false);
     };
 
     const handlePasswordChange = (event) => {
@@ -137,10 +146,14 @@ export default function ProfiloUR({token}) {
                                         sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
                                     Segnalazioni
                                 </Button>
+                                  <Button variant="contained" color="warning" onClick={toggleFeedbackVisibile} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
+                                    Feedback
+                                </Button>
                                 <Button variant="contained" color="warning" onClick={toggleModificaProfilo}
                                         sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
                                     Modifica profilo
                                 </Button>
+
                             </Box>
                         </CardContent>
                     </Card>
@@ -224,7 +237,7 @@ export default function ProfiloUR({token}) {
                                     )}
 
                                     {segnalazioniVisibile && (<StoricoSegnalazioni token={token}/>)}
-
+                                    {FeedbackVisibile && (<StoricoFeedback token={token}/>)}
                                 </CardContent>
                             </Card>
                         </Grid>

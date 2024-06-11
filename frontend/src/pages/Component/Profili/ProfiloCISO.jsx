@@ -3,6 +3,7 @@ import { Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typ
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SegnalazioneCISO from "../Segnalazioni/SegnalazioneCISO.jsx";
+import StoricoSegnalazioni from "../Segnalazioni/StoricoSegnalazioni.jsx"
 import axios from "axios";
 
 function base64ToBlob(base64Data, contentType) {
@@ -25,13 +26,20 @@ function base64ToBlob(base64Data, contentType) {
 export default function ProfiloCISO(props) {
     const navigate = useNavigate();
     const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
-    const [password, setPassword] = useState('');
-    const [confermaPassword, setConfermaPassword] = useState('');
-    const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '', genere: '' });
+    const [StoricoSegnalazioniVisibile, setStoricoSegnalazioniVisibile] = useState(false);
     const [aggiungiLicenzaVisibile, setAggiungiLicenzaVisibile] = useState(false);
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
-    const [file, setFile] = useState({});
+    const [password, setPassword] = useState('');
+    const [confermaPassword, setConfermaPassword] = useState('');
+    const [profilo, setProfilo] = useState(
+        { nome: '',
+            cognome: '',
+            email: '',
+            ruolo: '',
+            genere: '' });
+
     const [status, setStatus] = useState({});
+    const [file, setFile] = useState({});
     const [fileUrl, setFileUrl] = useState(null); // Stato per l'URL del file
     const [licenzaNome, setLicenzaNome] = useState('Nessun file presente'); // Stato per il nome della licenza
     const [avatar, setAvatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
@@ -108,7 +116,14 @@ export default function ProfiloCISO(props) {
         setSegnalazioniVisibile(!segnalazioniVisibile);
         setModificaProfiloVisibile(false);
         setAggiungiLicenzaVisibile(false);
+        setStoricoSegnalazioniVisibile(false);
     };
+        const toggleStoricoSegnalazioniVisibile = () => {
+        setStoricoSegnalazioniVisibile(!StoricoSegnalazioniVisibile);
+        setModificaProfiloVisibile(false);
+        setAggiungiLicenzaVisibile(false);
+    };
+
 
     const toggleAggiungiLicenza = () => {
         setAggiungiLicenzaVisibile(!aggiungiLicenzaVisibile);
@@ -256,9 +271,6 @@ export default function ProfiloCISO(props) {
                                     style={{ display: 'none' }}
                                 />
                             </Box>
-                            <Typography variant="h5" sx={{ mb: 2 }}>
-                                Bentornato <strong>{profilo.nome}</strong>
-                            </Typography>
                             <Typography variant="h6" gutterBottom>{getWelcomeMessage()}</Typography>
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
                             <Typography variant="subtitle1">{profilo.ruolo}</Typography>
@@ -268,6 +280,9 @@ export default function ProfiloCISO(props) {
                                 </Button>
                                 <Button variant="contained" color="warning" onClick={toggleSegnalazioniVisibile} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
                                     Segnalazioni
+                                </Button>
+                                <Button variant="contained" color="warning" onClick={toggleStoricoSegnalazioniVisibile} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
+                                    Storico Segnalazioni
                                 </Button>
                                 <Button variant="contained" color="warning" onClick={toggleModificaProfilo} sx={{ width: '100%', maxWidth: '300px' }}>
                                     Modifica profilo
@@ -377,7 +392,7 @@ export default function ProfiloCISO(props) {
                                     )}
 
                                     {segnalazioniVisibile && <SegnalazioneCISO token={props.token} />}
-
+                                    {StoricoSegnalazioniVisibile && <StoricoSegnalazioni token={props.token} />}
                                     {aggiungiLicenzaVisibile && (
                                         <Box>
                                             {file && (

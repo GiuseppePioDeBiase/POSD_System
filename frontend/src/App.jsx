@@ -6,7 +6,7 @@ import {BrowserRouter as Router, Routes, Route, useNavigate, Navigate} from 'rea
 import NavBar from './pages/Component/Navbar/NavBar.jsx';
 import Searchbar from './pages/Component/Searchbar/Searchbar.jsx';
 import Home from './pages/Component/PagineMenu/Home.jsx';
-import Feedback from "./pages/Component/PagineMenu/Feedback.jsx";
+import Feedback from "./pages/Component/PagineMenu/Feedback/Feedback.jsx";
 import Contatti from "./pages/Component/PagineMenu/Contatti/Contatti.jsx";
 import NotFound from "./pages/Component/PagineMenu/NotFound/NotFound.jsx";
 import Login from "./pages/Component/PagineMenu/Accesso/Login.jsx";
