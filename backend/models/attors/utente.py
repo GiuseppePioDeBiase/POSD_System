@@ -1,7 +1,9 @@
 from datetime import datetime, timedelta, timezone
+from io import BytesIO
+
 from bson import Binary
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies
-from flask import request, jsonify, json
+from flask import request, jsonify, json, send_file
 from werkzeug.security import generate_password_hash, check_password_hash
 from backend.config.db import conn_db
 import regex
@@ -159,6 +161,10 @@ class Utente:
         if not utente:
             return jsonify({"successo": False, "messaggio": "Utente non trovato!"}), 404
 
+        foto_profilo = None
+        if 'foto_profilo' in utente:
+            foto_profilo = send_file(BytesIO(utente['foto_profilo']))
+
         return jsonify({
             "successo": True,
             "nome": utente.get('nome'),
@@ -166,7 +172,7 @@ class Utente:
             "email": utente.get('email'),
             "ruolo": utente.get('ruolo'),
             "genere": utente.get('genere'),
-            #aggiungere la foto
+            "foto_profilo": foto_profilo
         }), 200
 
     @classmethod
@@ -182,9 +188,10 @@ class Utente:
         foto_binario = foto.read()
 
         # Salva il binario nel database MongoDB
-        utenti.update_one({"email": mail}, {"$set": {"foto": Binary(foto_binario)}})
+        utenti.update_one({"email": mail}, {"$set": {"foto_profilo": Binary(foto_binario)}})
 
         return jsonify({"successo": True, "messaggio": "Foto caricata con successo!"}), 200
+
 
     @staticmethod
     def refresh_expiring_jwts(response):
