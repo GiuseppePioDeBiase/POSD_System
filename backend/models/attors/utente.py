@@ -166,7 +166,6 @@ class Utente:
             "email": utente.get('email'),
             "ruolo": utente.get('ruolo'),
             "genere": utente.get('genere'),
-            "nome_file": utente.get('nome_file'),
             #aggiungere la foto
         }), 200
 

@@ -74,7 +74,7 @@ export default function ProfiloCISO(props) {
 
     const fetchLicenza = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/licenza', {
+            const response = await fetch('http://localhost:5000/api/recuperalicenza', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -91,10 +91,8 @@ export default function ProfiloCISO(props) {
             const disposition = response.headers.get('Content-Disposition');
             const nomeFile = disposition ? disposition.split('filename=')[1] : 'licenza.pdf';
 
-            // Crea un oggetto URL per il blob della risposta
+            // Pulsante per scaricare
             const url = URL.createObjectURL(await response.blob());
-
-            // Aggiorna lo stato con l'URL del file e il nome del file
             setFileUrl(url);
             setLicenzaNome(nomeFile);
         } catch (error) {
