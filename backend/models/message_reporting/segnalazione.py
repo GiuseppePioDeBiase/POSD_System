@@ -61,7 +61,7 @@ class Segnalazione(BaseMessage):
 
         id_ciso = utenti.find_one({"email": mail}, {"_id": True})
 
-        segnalazione['id_ciso'] = str(id_ciso['_id']) if id_ciso else None
+        segnalazione['id_ciso'] = ObjectId(id_ciso['_id']) if id_ciso else None
         segnalazione['data_ora_modifica'] = data_ora_modifica
         segnalazione['stato'] = "ACCETTATO" if stato else "RIFIUTATO"
         collection = segnalazioniAccettate if stato else segnalazioniRifiutate
@@ -79,7 +79,8 @@ class Segnalazione(BaseMessage):
 
     @classmethod
     def getSegnalazioniAccettate(cls):
-        collection = segnalazioniAccettate.find({}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True, 'id_ciso': True, "_id": False})
+        collection = segnalazioniAccettate.find({}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                     'id_ciso': True, "_id": False})
         return jsonify(list(collection))
 
     @classmethod
@@ -103,6 +104,39 @@ class Segnalazione(BaseMessage):
             return jsonify({"error": f"Database error: {str(e)}"}), 500
 
         # Combine results
+        storico = []
+        storico.extend(accettate)
+        storico.extend(rifiutate)
+
+        return jsonify(storico)
+
+    @classmethod
+    def storicoCiso(cls, mail):
+        try:
+            # Verifica se le collezioni esistono
+            if 'Segnalazioni accettate' not in db.list_collection_names():
+                return jsonify({"error": "Collezione 'Segnalazioni accettate' non esiste"}), 500
+
+            if 'Segnalazioni rifiutate' not in db.list_collection_names():
+                return jsonify({"error": "Collezione 'Segnalazioni rifiutate' non esiste"}), 500
+
+            # Trova l'ID del CISO basato sulla mail
+            ciso = utenti.find_one({"email": mail}, {"_id": True})
+            if not ciso:
+                return jsonify({"error": "CISO non trovato"}), 404
+
+            # Cerca le segnalazioni accettate e rifiutate dal CISO
+            accettate = list(segnalazioniAccettate.find({"id_ciso": ciso['_id']},
+                                                        {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                         "_id": False, "stato": True, "mail": True}))
+            rifiutate = list(segnalazioniRifiutate.find({"id_ciso": ciso['_id']},
+                                                        {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                         "_id": False, "stato": True, "mail": True}))
+
+        except PyMongoError as e:
+            return jsonify({"error": f"Database error: {str(e)}"}), 500
+
+        # Combina i risultati
         storico = []
         storico.extend(accettate)
         storico.extend(rifiutate)
