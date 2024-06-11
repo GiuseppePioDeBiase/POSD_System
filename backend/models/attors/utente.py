@@ -160,8 +160,8 @@ class Utente:
         if not utente:
             return jsonify({"successo": False, "messaggio": "Utente non trovato!"}), 404
 
-        foto_profilo_base64 = base64.b64encode(utente['foto_profilo']).decode(
-            'utf-8') if 'foto_profilo' in utente else None
+        foto_profilo_base64 = base64.b64encode(utente['foto_profilo']).decode('utf-8') \
+            if 'foto_profilo' in utente else None
 
         return jsonify({
             "successo": True,
