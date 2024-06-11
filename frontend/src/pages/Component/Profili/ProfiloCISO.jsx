@@ -42,7 +42,7 @@ export default function ProfiloCISO(props) {
     const [status, setStatus] = useState({});
     const [fileUrl, setFileUrl] = useState(null); // Stato per l'URL del file
     const [licenzaNome, setLicenzaNome] = useState('Nessun file presente'); // Stato per il nome della licenza
-    const [avatar, setAvatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
+    const [avatar, setAvatar] = useState(profilo.avatar);
 
     useEffect(() => {
         const fetchProfilo = async () => {
@@ -96,11 +96,13 @@ export default function ProfiloCISO(props) {
             }
 
             // Ottieni il nome del file dalla intestazione 'Content-Disposition'
-            const disposition = profilo.nome_file
-            const nomeFile = disposition ? disposition.split('filename=')[1].replace(/"/g, '') : 'licenza.pdf';
+            const disposition = response.headers.get('Content-Disposition');
+            const nomeFile = disposition ? disposition.split('filename=')[1] : 'licenza.pdf';
 
-            // Pulsante per scaricare
+            // Crea un oggetto URL per il blob della risposta
             const url = URL.createObjectURL(await response.blob());
+
+            // Aggiorna lo stato con l'URL del file e il nome del file
             setFileUrl(url);
             setLicenzaNome(nomeFile);
         } catch (error) {
