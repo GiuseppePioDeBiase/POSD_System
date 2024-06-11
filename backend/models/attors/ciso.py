@@ -35,16 +35,14 @@ class Ciso(Utente):
     @classmethod
     def recupera_licenza(cls, mail):
         try:
-            user = utenti.find_one({"email": mail}, {"licenza": True, "nome_file": True})
+            user = utenti.find_one({"email": mail}, {"licenza": True})
             if not user or 'licenza' not in user:
                 return jsonify({"successo": False, "messaggio": "Licenza non trovata!"}), 404
 
             licenza_binario = user['licenza']
-            nome_file = user['nome_file']
             return send_file(
                 io.BytesIO(licenza_binario),
                 as_attachment=True,
-                download_name=nome_file
             ), 200
         except Exception as e:
             return jsonify({"successo": False, "messaggio": str(e)}), 500
