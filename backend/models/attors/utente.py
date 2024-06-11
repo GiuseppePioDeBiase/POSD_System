@@ -1,9 +1,8 @@
+import base64
 from datetime import datetime, timedelta, timezone
-from io import BytesIO
-
 from bson import Binary
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies
-from flask import request, jsonify, json, send_file
+from flask import request, jsonify, json
 from werkzeug.security import generate_password_hash, check_password_hash
 from backend.config.db import conn_db
 import regex
@@ -161,9 +160,8 @@ class Utente:
         if not utente:
             return jsonify({"successo": False, "messaggio": "Utente non trovato!"}), 404
 
-        foto_profilo = None
-        if 'foto_profilo' in utente:
-            foto_profilo = send_file(BytesIO(utente['foto_profilo']))
+        foto_profilo_base64 = base64.b64encode(utente['foto_profilo']).decode(
+            'utf-8') if 'foto_profilo' in utente else None
 
         return jsonify({
             "successo": True,
@@ -172,7 +170,7 @@ class Utente:
             "email": utente.get('email'),
             "ruolo": utente.get('ruolo'),
             "genere": utente.get('genere'),
-            "foto_profilo": foto_profilo
+            "foto_profilo": foto_profilo_base64
         }), 200
 
     @classmethod
