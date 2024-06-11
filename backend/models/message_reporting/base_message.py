@@ -4,18 +4,20 @@ from flask import request
 
 
 class BaseMessage:
-    def __init__(self, oggetto, messaggio):
+    def __init__(self, oggetto, messaggio, mail):
         self.oggetto = oggetto
         self.messaggio = messaggio
         self.data_ora = datetime.now().strftime("%A %d-%m-%Y - %H:%M:%S")
         self.ip_pubblico = request.remote_addr
+        self.mail = mail
 
     def to_json(self):
         return {
             "oggetto": self.oggetto,
             "messaggio": self.messaggio,
             "data_ora": self.data_ora,
-            "ip_pubblico": self.ip_pubblico
+            "ip_pubblico": self.ip_pubblico,
+            "mail": self.mail
         }
 
     @classmethod

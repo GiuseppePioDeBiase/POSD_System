@@ -7,11 +7,11 @@ feedbackCollection = db['Feedback']
 
 
 class Feedback(BaseMessage):
-    def __init__(self, oggetto, messaggio):
-        super().__init__(oggetto, messaggio)
+    def __init__(self, oggetto, messaggio, mail):
+        super().__init__(oggetto, messaggio, mail)
 
     @classmethod
-    def insertFeedback(cls):
+    def insertFeedback(cls): # Inserire la mail quando viene rilasciato un feedback
         dati = request.json
 
         if not cls.validate(dati.get('oggetto', ''), dati.get('messaggio', '')):

@@ -15,8 +15,7 @@ segnalazioniRifiutate = db['Segnalazioni rifiutate']
 
 class Segnalazione(BaseMessage):
     def __init__(self, oggetto, messaggio, mail):
-        super().__init__(oggetto, messaggio)
-        self.mail = mail
+        super().__init__(oggetto, messaggio, mail)
 
     @classmethod
     def insertSegnalazione(cls, mail):
@@ -84,7 +83,7 @@ class Segnalazione(BaseMessage):
         return jsonify(list(collection))
 
     @classmethod
-    def storicoUtente(cls, email):
+    def storicoUtente(cls, mail):
 
         try:
             if 'Segnalazioni accettate' not in db.list_collection_names():
@@ -93,10 +92,10 @@ class Segnalazione(BaseMessage):
             if 'Segnalazioni rifiutate' not in db.list_collection_names():
                 return jsonify({"error": "Collezione 'Segnalazioni rifiutate' non esiste"}), 500
 
-            accettate = list(segnalazioniAccettate.find({"mail": email},
+            accettate = list(segnalazioniAccettate.find({"mail": mail},
                                                         {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
                                                          "_id": False, "stato": True}))
-            rifiutate = list(segnalazioniRifiutate.find({"mail": email},
+            rifiutate = list(segnalazioniRifiutate.find({"mail": mail},
                                                         {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
                                                          "_id": False, "stato": True}))
 

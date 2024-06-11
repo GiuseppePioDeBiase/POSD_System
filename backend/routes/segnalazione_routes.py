@@ -26,4 +26,4 @@ def get_all_segnalazioni_accettate():
 @segnalazione_bp.route('/api/storicoutente', methods=['GET'])
 @jwt_required()
 def get_storico_utente():
-    return Segnalazione.storicoUtente(email=get_jwt_identity())
+    return Segnalazione.storicoUtente(mail=get_jwt_identity())
