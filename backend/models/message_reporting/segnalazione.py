@@ -38,15 +38,21 @@ class Segnalazione(BaseMessage):
 
     @classmethod
     def getAllSegnalazioni(cls, mail):
-
         ciso = utenti.find_one({"email": mail})
         if not ciso or ciso['ruolo'] != Ruolo.CISO.value:
             return jsonify({"successo": False,
-                            "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le "
-                                         "segnalazioni."}), 403
+                            "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le segnalazioni."}), 403
 
-        collection = segnalazioneCollection.find({}, {'data_ora': False, "ip_pubblico": False, "_id": False})
-        return cls.convert_object_ids(collection)
+        # Retrieve the documents from the collection
+        collection = segnalazioneCollection.find({}, {'data_ora': False, "ip_pubblico": False})
+
+        # conversion obj in string
+        segnalazioni = []
+        for segnalazione in collection:
+            segnalazione['_id'] = str(segnalazione['_id'])
+            segnalazioni.append(segnalazione)
+
+        return jsonify(segnalazioni)
 
     @classmethod
     def statusSegnalazioneCiso(cls, mail):
