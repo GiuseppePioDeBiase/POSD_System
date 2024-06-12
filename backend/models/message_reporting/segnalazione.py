@@ -102,41 +102,12 @@ class Segnalazione(BaseMessage):
         return cls.convert_object_ids(collection, "id_ciso")
 
     @classmethod
-    def storicoUtente(cls, mail):
-        if not cls.collections_exist(['Segnalazioni accettate', 'Segnalazioni rifiutate']):
-            return jsonify({"error": "Una delle collezioni non esiste"}), 500
-
-        try:
-            utente = utenti.find_one({"email": mail})
-            if not utente or utente['ruolo'] != Ruolo.UTENTE.value:
-                return jsonify({"successo": False,
-                                "messaggio": "L'utente non esiste o non ha i privilegi necessari per visualizzare le "
-                                             "segnalazioni."}), 403
-
-            accettate = list(segnalazioniAccettate.find({"mail": mail},
-                                                        {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
-                                                         "_id": False, "stato": True, "id_ciso": True}))
-            rifiutate = list(segnalazioniRifiutate.find({"mail": mail},
-                                                        {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
-                                                         "_id": False, "stato": True, "id_ciso": True}))
-        except PyMongoError as e:
-            return jsonify({"error": f"Database error: {str(e)}"}), 500
-
-        storico = cls.convert_object_ids(accettate + rifiutate, "id_ciso")
-        return jsonify(storico)
-
-    @classmethod
     def storicoCiso(cls, mail):
-
-        if not cls.collections_exist(['Segnalazioni accettate', 'Segnalazioni rifiutate']):
-            return jsonify({"error": "Una delle collezioni non esiste"}), 500
-
         try:
             ciso = utenti.find_one({"email": mail})
             if not ciso or ciso['ruolo'] != Ruolo.CISO.value:
                 return jsonify({"successo": False,
-                                "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le "
-                                             "segnalazioni."}), 403
+                                "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le segnalazioni."}), 403
 
             accettate = list(segnalazioniAccettate.find({"id_ciso": ciso['_id']},
                                                         {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
@@ -150,16 +121,32 @@ class Segnalazione(BaseMessage):
         storico = cls.convert_object_ids(accettate + rifiutate)
         return jsonify(storico)
 
-    @staticmethod
-    def convert_object_ids(collection, id_field="id_ciso"):
-        result = []
-        for document in collection:
-            if id_field in document:
-                document[id_field] = str(document[id_field])
-            result.append(document)
-        return jsonify(result)
+    @classmethod
+    def storicoUtente(cls, mail):
+        try:
+            utente = utenti.find_one({"email": mail})
+            if not utente or utente['ruolo'] != Ruolo.UTENTE.value:
+                return jsonify({"successo": False,
+                                "messaggio": "L'utente non esiste o non ha i privilegi necessari per visualizzare le segnalazioni."}), 403
+
+            accettate = list(segnalazioniAccettate.find({"mail": mail},
+                                                        {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                         "_id": False, "stato": True, "id_ciso": True}))
+            rifiutate = list(segnalazioniRifiutate.find({"mail": mail},
+                                                        {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                         "_id": False, "stato": True, "id_ciso": True}))
+        except PyMongoError as e:
+            return jsonify({"error": f"Database error: {str(e)}"}), 500
+
+        storico = cls.convert_object_ids(accettate + rifiutate, "id_ciso")
+        return jsonify(storico)
 
     @staticmethod
-    def collections_exist(collection_names):
-        existing_collections = db.list_collection_names()
-        return all(name in existing_collections for name in collection_names)
+    def convert_object_ids(collection, id_field="id_ciso"):
+            result = []
+            for document in collection:
+                if id_field in document:
+                    document[id_field] = str(document[id_field])
+                result.append(document)
+            return result
+
