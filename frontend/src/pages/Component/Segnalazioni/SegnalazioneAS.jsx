@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Table from '@mui/material/Table';
@@ -8,144 +8,114 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {TableVirtuoso} from 'react-virtuoso';
-import {useNavigate} from "react-router-dom";
+import Tooltip from '@mui/material/Tooltip';
+import { useNavigate } from 'react-router-dom';
 
 const columns = [
-    {
-        width: 30,
-        label: 'ID CISO',
-        dataKey: 'id_ciso',
-    },
-    {
-        width: 10,
-        label: 'Oggetto',
-        dataKey: 'oggetto',
-    },
-    {
-        width: 10,
-        label: 'Messaggio',
-        dataKey: 'messaggio',
-    },
-    {
-        width: 35,
-        label: 'Data modifica',
-        dataKey: 'data_ora_modifica',
-    }
+  { width: 40, label: 'ID CISO', dataKey: 'id_ciso' },
+  { width: 50, label: 'Oggetto', dataKey: 'oggetto' },
+  { width: 90, label: 'Messaggio', dataKey: 'messaggio' },
+  { width: 90, label: 'Data modifica', dataKey: 'data_ora_modifica' }
 ];
 
-const VirtuosoTableComponents = {
-    Scroller: React.forwardRef((props, ref) => (
-        <TableContainer component={Paper} {...props} ref={ref}/>
-    )),
-    Table: (props) => (
-        <Table {...props} sx={{borderCollapse: 'separate', tableLayout: 'fixed'}}/>
-    ),
-    TableHead,
-    TableRow: ({...props}) => <TableRow {...props} />,
-    TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref}/>),
-};
-
-VirtuosoTableComponents.Scroller.displayName = 'Scroller';
-VirtuosoTableComponents.Table.displayName = 'Table';
-VirtuosoTableComponents.TableHead.displayName = 'TableHead';
-VirtuosoTableComponents.TableRow.displayName = 'TableRow';
-VirtuosoTableComponents.TableBody.displayName = 'TableBody';
-
-VirtuosoTableComponents.TableRow.propTypes = {
-    item: PropTypes.any,
-};
-
-function fixedHeaderContent() {
+function SimpleTable({ rows }) {
   return (
-    <TableRow>
-      {columns.map((column) => (
-        <TableCell
-          key={column.dataKey}
-          variant="head"
-          align={column.numeric ? 'right' : 'left'}
-          style={{ width: column.width }}
-          sx={{
-            backgroundColor: 'background.paper',
-          }}
-        >
-          {column.label}
-        </TableCell>
-      ))}
-    </TableRow>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }}>
+        <TableHead>
+          <TableRow>
+            {columns.map((column) => (
+              <TableCell
+                key={column.dataKey}
+                align="left"
+                style={{ width: column.width }}
+              >
+                {column.label}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row, index) => (
+            <TableRow key={index}>
+              {columns.map((column, colIndex) => (
+                <TableCell
+                  key={colIndex}
+                  style={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: column.width
+                  }}
+                  sx={{padding: '30px'}}
+                >
+                  <Tooltip title={row[column.dataKey]}>
+                    <span>{row[column.dataKey]}</span>
+                  </Tooltip>
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
 
-function rowContent(_index, row, handleCellClick) {
-   return (
-    <React.Fragment>
-      {columns.map((column, colIndex) => (
-        <TableCell
-          onClick={colIndex === 2 ? () => handleCellClick(row) : undefined}
-          style={{
-            cursor: colIndex === 2 ? 'pointer' : 'default',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}
-          sx={{
-            '&:hover': { backgroundColor: colIndex === 2 ? 'rgba(0, 0, 0, 0.08)' : 'transparent' },
-            maxWidth: { xs: '100px', sm: '200px', md: '300px' },
-          }}
-          key={column.dataKey}
-          align={column.numeric ? 'right' : 'left'}
-        >
-          {row[column.dataKey]}
-        </TableCell>
-      ))}
-    </React.Fragment>
-  );
-}
+SimpleTable.propTypes = {
+  rows: PropTypes.array.isRequired,
+  handleCellClick: PropTypes.func.isRequired,
+};
 
-export default function ReactVirtualizedTable({token}) {
-    const [rows, setRows] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+export default function ReactVirtualizedTable({ token }) {
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/api/allsegnalazioniaccettate');
-                setRows(response.data);
-                setLoading(false);
-            } catch (error) {
-                setError(error);
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    const handleCellClick = (row) => {
-        navigate(`/AggiungiSegnalazione/${row._id}`, {state: {messaggio: row.messaggio, oggetto: row.oggetto, token}});
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/allsegnalazioniaccettate', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setRows(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error); // Log any errors
+        setError(error);
+        setLoading(false);
+      }
     };
-    if (loading) return <div>Caricamento...</div>;
-    if (error) return <div>Errore: {error.message}</div>;
+
+    fetchData();
+  }, [token]);
+
+  const handleCellClick = (row) => {
+    navigate(`/segnalazione/${row._id}`, { state: { messaggio: row.messaggio, oggetto: row.oggetto, token } });
+  };
+
+  if (loading) return <div>Caricamento...</div>;
+  if (error) return <div>Errore: {error.message}</div>;
+
+  console.log('Rows:', rows); // Log the rows state to ensure it's correctly set
 
   return (
-    <Paper style={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '1rem' }}>
+    <Paper>
       {rows.length > 0 ? (
-        <TableVirtuoso
-          data={rows}
-          components={VirtuosoTableComponents}
-          fixedHeaderContent={fixedHeaderContent}
-          itemContent={(index, row) => rowContent(index, row, handleCellClick)}
-        />
+        <SimpleTable rows={rows} handleCellClick={handleCellClick} />
       ) : (
-        <div className="flex flex-row justify-center items-center font-bold text-xl" style={{ height: '100%' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
           Nessuna segnalazione
         </div>
       )}
     </Paper>
   );
 }
+
 ReactVirtualizedTable.propTypes = {
-    token: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
 };

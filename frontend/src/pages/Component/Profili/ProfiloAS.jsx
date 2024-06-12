@@ -20,6 +20,7 @@ import UtentiRegistrati from './UtentiRegistrati.jsx';
 const ProfiloAS = ({token}) => {
     const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
     const [aggiungiProfiloVisibile, setAggiungiProfiloVisibile] = useState(false);
+    const [feedbackVisibile,setfeedbackVisibile]=useState(false);
 
     const [profilo, setProfilo] = useState({nome: '', cognome: '', email: '', ruolo: '', genere: ''});
     const [modificaProfiloForm, setModificaProfiloForm] = useState({
@@ -48,6 +49,7 @@ const ProfiloAS = ({token}) => {
         setAggiungiProfiloVisibile(false);
         setSegnalazioniVisibile(false);
         setUtentiVisibile(false);
+        setfeedbackVisibile(false);
         setError('');
     };
 
@@ -56,6 +58,7 @@ const ProfiloAS = ({token}) => {
         setModificaProfiloVisibile(false);
         setAggiungiProfiloVisibile(false);
         setUtentiVisibile(false);
+        setfeedbackVisibile(false);
     };
 
     const toggleAggiungiProfilo = () => {
@@ -63,6 +66,7 @@ const ProfiloAS = ({token}) => {
         setModificaProfiloVisibile(false);
         setSegnalazioniVisibile(false);
         setUtentiVisibile(false);
+        setfeedbackVisibile(false);
         setError('');
     };
 
@@ -71,6 +75,14 @@ const ProfiloAS = ({token}) => {
         setModificaProfiloVisibile(false);
         setSegnalazioniVisibile(false);
         setAggiungiProfiloVisibile(false);
+        setfeedbackVisibile(false);
+    };
+        const togglefeedbackVisibile = () => {
+        setUtentiVisibile(false);
+        setModificaProfiloVisibile(false);
+        setSegnalazioniVisibile(false);
+        setAggiungiProfiloVisibile(false);
+        setfeedbackVisibile(!feedbackVisibile);
     };
 
     const registrami = (event) => {
@@ -218,6 +230,11 @@ const ProfiloAS = ({token}) => {
                                         sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
                                     Visualizza utenti
                                 </Button>
+                                <Button variant="contained" color="warning" onClick={togglefeedbackVisibile}
+                                        sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
+                                    Visualizza feedback
+                                </Button>
+
                             </Box>
                         </CardContent>
                     </Card>

@@ -14,7 +14,7 @@ const Information = ({props, ruolo}) => {
   const [error, setError] = useState('');
 
   const handleBackClick = () => {
-    navigate(`/Full/${encodeURIComponent(pattern.title)}`, { state: { title: pattern.title } });
+    navigate(-1);
   };
 
   const toggleFeedbackForm = () => {
