@@ -41,7 +41,8 @@ class Segnalazione(BaseMessage):
         ciso = utenti.find_one({"email": mail})
         if not ciso or ciso['ruolo'] != Ruolo.CISO.value:
             return jsonify({"successo": False,
-                            "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le segnalazioni."}), 403
+                            "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le "
+                                         "segnalazioni."}), 403
 
         # Retrieve the documents from the collection
         collection = segnalazioneCollection.find({}, {'data_ora': False, "ip_pubblico": False})
