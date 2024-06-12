@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import Card from '../Risultati/Card.jsx'; // Assicurati che il percorso sia corretto
+import Card from '../../GestionePKB/Card.jsx'; // Assicurati che il percorso sia corretto
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);

@@ -12,8 +12,8 @@ import {
     Box,
     Alert
 } from '@mui/material';
-import StoricoSegnalazioni from "../Segnalazioni/StoricoSegnalazioni.jsx";
-import StoricoFeedback from "../PagineMenu/Feedback/StoricoFeedback.jsx"
+import StoricoSegnalazioni from "../GestioneSegnalazione/StoricoSegnalazioni.jsx";
+import StoricoFeedback from "../GestioneFeedback/StoricoFeedback.jsx"
 export default function ProfiloUR({token}) {
     const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);

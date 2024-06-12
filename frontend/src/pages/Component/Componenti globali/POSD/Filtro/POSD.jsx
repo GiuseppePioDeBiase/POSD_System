@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import axios from 'axios';
-import Card from '../../../Risultati/Card.jsx';
+import Card from '../../../GestionePKB/Card.jsx';
 import {useNavigate} from 'react-router-dom';
 import './POSD.css';
 

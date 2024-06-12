@@ -3,8 +3,8 @@ import { Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typ
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from "axios";
-import SegnalazioneCISO from "../Segnalazioni/SegnalazioneCISO.jsx";
-import StoricoSegnalazioni from "../Segnalazioni/StoricoSegnalazioni.jsx"
+import SegnalazioneCISO from "../GestioneSegnalazione/SetSegnalazioni.jsx";
+import StoricoSegnalazioni from "../GestioneSegnalazione/StoricoSegnalazioni.jsx"
 //funzioni CISO
 function base64ToBlob(base64Data, contentType) {
     const byteCharacters = atob(base64Data.split(',')[1]);
@@ -23,7 +23,7 @@ function base64ToBlob(base64Data, contentType) {
     return new Blob(byteArrays, { type: contentType });
 }
 
-export default function ProfiloCISO(props) {
+export default function GestioneCISO(props) {
     const navigate = useNavigate();
     const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
     const [StoricoSegnalazioniVisibile, setStoricoSegnalazioniVisibile] = useState(false);
@@ -432,6 +432,6 @@ export default function ProfiloCISO(props) {
     );
 }
 
-ProfiloCISO.propTypes = {
+GestioneCISO.propTypes = {
     token: PropTypes.string.isRequired
 };

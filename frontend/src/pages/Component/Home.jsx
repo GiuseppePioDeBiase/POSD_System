@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Card from '../Risultati/Card.jsx';
+import Card from './GestionePKB/Card.jsx';
 import axios from 'axios';
 import { Link } from "react-router-dom";
 

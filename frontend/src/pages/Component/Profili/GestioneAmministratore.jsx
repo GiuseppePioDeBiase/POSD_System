@@ -14,10 +14,10 @@ import {
     Alert,
     Box
 } from '@mui/material';
-import SegnalazioneAS from '../Segnalazioni/SegnalazioneAS.jsx';
+import SegnalazioneAS from '../GestioneSegnalazione/SegnalazioniAccettate.jsx';
 import UtentiRegistrati from './UtentiRegistrati.jsx';
 
-const ProfiloAS = ({token}) => {
+const GestioneAmministratore = ({token}) => {
     const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
     const [aggiungiProfiloVisibile, setAggiungiProfiloVisibile] = useState(false);
     const [feedbackVisibile,setfeedbackVisibile]=useState(false);
@@ -375,8 +375,8 @@ const ProfiloAS = ({token}) => {
     );
 };
 
-ProfiloAS.propTypes = {
+GestioneAmministratore.propTypes = {
     token: PropTypes.string.isRequired
 };
 
-export default ProfiloAS;
+export default GestioneAmministratore;

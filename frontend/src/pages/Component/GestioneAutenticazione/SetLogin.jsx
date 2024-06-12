@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function Login(props) {
+function SetLogin(props) {
     const navigate = useNavigate(); // Ottieni la funzione di navigazione
 
      const [loginForm, setloginForm] = useState({
@@ -115,8 +115,8 @@ function Login(props) {
     }
 
 
-Login.propTypes = {
+SetLogin.propTypes = {
     setToken: PropTypes.func.isRequired,
     setRuolo: PropTypes.func.isRequired
 };
-export default Login;
+export default SetLogin;

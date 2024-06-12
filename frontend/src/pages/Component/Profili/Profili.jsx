@@ -1,6 +1,6 @@
-import ProfiloCISO from "./ProfiloCISO.jsx";
-import ProfileUR from "./ProfileUR.jsx";
-import ProfiloAS from "./ProfiloAS.jsx";
+import GestioneCISO from "./GestioneCISO.jsx";
+import ProfileUR from "./GestioneUtente.jsx";
+import GestioneAmministratore from "./GestioneAmministratore.jsx";
 import PropTypes from "prop-types";
 
 function Profili({token, ruolo}) {
@@ -10,9 +10,9 @@ function Profili({token, ruolo}) {
             case 'Utente':
                 return <ProfileUR token={token}/>;
             case 'CISO':
-                return <ProfiloCISO token={token}/>;
+                return <GestioneCISO token={token}/>;
             case 'Amministratore di sistema':
-                return <ProfiloAS token={token}/>;
+                return <GestioneAmministratore token={token}/>;
             default:
                 return <div>Ruolo non riconosciuto</div>;
         }

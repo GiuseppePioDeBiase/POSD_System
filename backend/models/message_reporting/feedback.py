@@ -3,7 +3,7 @@ from flask import jsonify, request
 from backend.config.db import conn_db
 
 db = conn_db()
-feedbackCollection = db['Feedback']
+feedbackCollection = db['InserisciFeedback']
 
 
 class Feedback(BaseMessage):
@@ -15,7 +15,7 @@ class Feedback(BaseMessage):
         dati = request.json
 
         if not cls.validate(dati.get('oggetto', ''), dati.get('messaggio', '')):
-            return jsonify({"successo": False, "messaggio": "Feedback non valido!"}), 400
+            return jsonify({"successo": False, "messaggio": "InserisciFeedback non valido!"}), 400
 
         feedback = cls(
             oggetto=dati['oggetto'],
@@ -23,4 +23,4 @@ class Feedback(BaseMessage):
         )
 
         feedbackCollection.insert_one(feedback.to_json())
-        return jsonify({"successo": True, "messaggio": "Feedback ricevuto!"}), 201
+        return jsonify({"successo": True, "messaggio": "InserisciFeedback ricevuto!"}), 201

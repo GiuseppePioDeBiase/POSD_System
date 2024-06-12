@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
 
-function Feedback() {
+function InserisciFeedback() {
 
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
@@ -82,4 +82,4 @@ function Feedback() {
   );
 }
 
-export default Feedback;
+export default InserisciFeedback;

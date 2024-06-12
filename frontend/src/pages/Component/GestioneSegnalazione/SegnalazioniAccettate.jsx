@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Paper from '@mui/material/Paper';
 import { useNavigate } from 'react-router-dom';
-import SimpleTable from "../SimpleTable.jsx";
+import SimpleTable from "../Componenti globali/SimpleTable.jsx";
 
 export default function ReactVirtualizedTable({ token, ruolo }) {
   const [rows, setRows] = useState([]);

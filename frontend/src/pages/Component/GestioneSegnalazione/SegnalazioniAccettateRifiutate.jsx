@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Box, Typography, Button, TextField, TextareaAutosize } from '@mui/material';
 
-const SceltaSegnalazione = ({ token }) => {
+const SegnalazioniAccettateRifiutate = ({ token }) => {
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -168,8 +168,8 @@ const SceltaSegnalazione = ({ token }) => {
   );
 };
 
-SceltaSegnalazione.propTypes = {
+SegnalazioniAccettateRifiutate.propTypes = {
   token: PropTypes.string.isRequired
 };
 
-export default SceltaSegnalazione;
+export default SegnalazioniAccettateRifiutate;

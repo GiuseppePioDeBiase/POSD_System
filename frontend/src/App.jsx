@@ -1,27 +1,27 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import useToken from "./pages/Component/useToken.jsx";
-import useRuolo from "./pages/Component/PagineMenu/Accesso/useRuolo.jsx";
+import useToken from "./pages/Component/Componenti globali/useToken.jsx";
+import useRuolo from "./pages/Component/Componenti globali/useRuolo.jsx";
 import {BrowserRouter as Router, Routes, Route, useNavigate, Navigate} from 'react-router-dom';
-import NavBar from './pages/Component/Navbar/NavBar.jsx';
-import Searchbar from './pages/Component/Searchbar/Searchbar.jsx';
-import Home from './pages/Component/PagineMenu/Home.jsx';
-import Feedback from "./pages/Component/PagineMenu/Feedback/Feedback.jsx";
-import Contatti from "./pages/Component/PagineMenu/Contatti/Contatti.jsx";
-import NotFound from "./pages/Component/PagineMenu/NotFound/NotFound.jsx";
-import Login from "./pages/Component/PagineMenu/Accesso/Login.jsx";
-import Registrazione from "./pages/Component/PagineMenu/Accesso/Registrazione.jsx";
-import LogOUT from "./pages/Component/PagineMenu/Accesso/LogOUT.jsx";
-import Full from "./pages/Component/Risultati/Full.jsx";
-import Information from "./pages/Component/Risultati/Information.jsx";
-import POSD from './pages/Component/PagineMenu/POSD/Filtro/POSD.jsx';
-import Definizione from './pages/Component/PagineMenu/POSD/Definizione.jsx';
-import Ricerca from "./pages/Component/Searchbar/Ricerca.jsx";
+import NavBar from './pages/Component/Componenti globali/Navbar/NavBar.jsx';
+import Searchbar from './pages/Component/Componenti globali/Searchbar/Searchbar.jsx';
+import Home from './pages/Component/Home.jsx';
+import InserisciFeedback from "./pages/Component/GestioneFeedback/InserisciFeedback.jsx";
+import Contatti from "./pages/Component/Contatti/Contatti.jsx";
+import NotFound from "./pages/Component/Componenti globali/NotFound/NotFound.jsx";
+import SetLogin from "./pages/Component/GestioneAutenticazione/SetLogin.jsx";
+import SetRegistrazione from "./pages/Component/GestioneAutenticazione/SetRegistrazione.jsx";
+import SetLogOUT from "./pages/Component/GestioneAutenticazione/setLogOUT.jsx";
+import Full from "./pages/Component/GestionePKB/Full.jsx";
+import Information from "./pages/Component/GestionePKB/Information.jsx";
+import POSD from './pages/Component/Componenti globali/POSD/Filtro/POSD.jsx';
+import Definizione from './pages/Component/Componenti globali/POSD/Definizione.jsx';
+import Ricerca from "./pages/Component/Componenti globali/Searchbar/Ricerca.jsx";
 import PropTypes from "prop-types";
 import Profili from "./pages/Component/Profili/Profili.jsx";
-import Partecipa from "./pages/Component/PagineMenu/Partecipa.jsx";
-import SceltaSegnalazione from './pages/Component/Segnalazioni/SceltaSegnalazione';
-import AggiungiSegnalazione from "./pages/Component/Segnalazioni/AggiungiSegnalazione.jsx";
+import Partecipa from "./pages/Component/Partecipa.jsx";
+import SegnalazioniAccettateRifiutate from './pages/Component/GestioneSegnalazione/SegnalazioniAccettateRifiutate.jsx';
+import AggiungiSegnalazione from "./pages/Component/GestioneSegnalazione/AggiungiSegnalazione.jsx";
 function App() {
     const [patterns, setPatterns] = useState([]);
     const { token, setToken } = useToken();
@@ -37,7 +37,7 @@ function App() {
     // Componente per route protette in base al token
     const ProtectedRouteToken = ({ children, token }) => {
         if (!token) {
-            return <Navigate to="/Login" />;
+            return <Navigate to="/SetLogin" />;
         }
         return children;
     };
@@ -51,7 +51,7 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
     useEffect(() => {
         let timer;
         if (ruolo !== "Utente") {
-            setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
+            setError('GestioneAutenticazione negato: Non sei autorizzato a visualizzare questo modulo.');
             timer = setInterval(() => {
                 setCountdown((prevCount) => prevCount - 1);
             }, 1000);
@@ -153,17 +153,17 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                 } />
 
 
-                <Route path="/LogOUT" element={<LogOUT setToken={setToken} removeRuolo={setRuolo} />} />
-                <Route path="/Login" element={
+                <Route path="/SetLogOUT" element={<SetLogOUT setToken={setToken} removeRuolo={setRuolo} />} />
+                <Route path="/SetLogin" element={
                     <div>
                         <NavBar token={token} />
-                        <Login setToken={setToken} setRuolo={setRuolo} />
+                        <SetLogin setToken={setToken} setRuolo={setRuolo} />
                     </div>
                 } />
-                <Route path="/Registrazione" element={
+                <Route path="/SetRegistrazione" element={
                     <div>
                         <NavBar token={token} />
-                        <Registrazione setToken={setToken} setRuolo={setRuolo} />
+                        <SetRegistrazione setToken={setToken} setRuolo={setRuolo} />
                     </div>
                 } />
                 <Route path="/Profili" element={
@@ -177,7 +177,7 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                    <Route path="/segnalazione/:id" element={
                     <ProtectedRouteToken token={token}>
                         {ruolo === 'CISO' ? (
-                            <SceltaSegnalazione token={token} />
+                            <SegnalazioniAccettateRifiutate token={token} />
                         ) : (
                             <Navigate to="/" />
                         )}
@@ -204,13 +204,13 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                     </ProtectedRouteToken>
                 } />
 
-                <Route path="/Feedback" element={
+                <Route path="/InserisciFeedback" element={
                     <ProtectedRouteToken token={token}>
                         <ProtectedRouteRuolo ruolo={ruolo}>
                             <div>
                                 <NavBar token={token} ruolo={ruolo} />
                                 <Searchbar />
-                                <Feedback token={token} setToken={setToken} />
+                                <InserisciFeedback token={token} setToken={setToken} />
                             </div>
                         </ProtectedRouteRuolo>
                     </ProtectedRouteToken>

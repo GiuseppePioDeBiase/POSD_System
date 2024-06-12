@@ -60,16 +60,16 @@ function NavBar({token}) {
     { to: "/POSD", icon: "eye-outline", text: "POSD", bg: "#f44336" },
     { to: "/Contatti", icon: "mail-outline", text: "Contatti", bg: "#e91e63" },
     { to: "/Partecipa", icon: "hand-right-outline", text: "Partecipa", bg: "#0fc70f" },
-    { to: "/Feedback", icon: "clipboard-outline", text: "Feedback", bg: "#b145e9" },
+    { to: "/InserisciFeedback", icon: "clipboard-outline", text: "Feedback", bg: "#b145e9" },
   ];
 
    let bottomItems = [];
   if (!token) {
-    bottomItems.push({ to: "/Login", icon: "log-in-outline", text: "Login" });
+    bottomItems.push({ to: "/SetLogin", icon: "log-in-outline", text: "Login" });
   } else {
     bottomItems.push(
       { to: "/Profili", icon: "img", imgSrc: "frontend/public/totti.jpeg", alt: profilo.nome, text: profilo.nome },
-      { to: "/LogOUT", icon: "log-out-outline", text: "Logout" }
+      { to: "/SetLogOUT", icon: "log-out-outline", text: "Logout" }
     );
   }
 

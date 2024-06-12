@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import SegnalazioneUR from '../Segnalazioni/SegnalazioneUR.jsx';
+import SegnalazioneUR from '../GestioneSegnalazione/SegnalazioneUR.jsx';
 import PropTypes from "prop-types";
 
 
@@ -22,7 +22,7 @@ const Information = ({props, ruolo}) => {
       navigate1("/Login")
     }else{
       if (ruolo!=="Utente"){
-        setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
+        setError('GestioneAutenticazione negato: Non sei autorizzato a visualizzare questo modulo.');
       }else{
         setShowFeedbackForm(!showFeedbackForm);
       }

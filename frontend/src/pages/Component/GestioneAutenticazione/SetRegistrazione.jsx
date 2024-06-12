@@ -4,9 +4,12 @@ import {useNavigate, Link} from 'react-router-dom';
 import PropTypes from "prop-types";
 
 
-function Registrazione(props) {
+function SetRegistrazione(props) {
+
     const navigate = useNavigate();
+
     const [error, setError] = useState(''); // Correctly define setError state
+
 
     const [RegistrazioneForm, setRegistrazioneForm] = useState({
         nome: '',
@@ -187,9 +190,9 @@ function Registrazione(props) {
                                 </div>
                                 {error && <div
                                     className="text-red-500 text-sm mt-4 text-center">{error}</div>} {/* Center align error message */}
-                                <Link to="/Login"
+                                <Link to="/setLogin"
                                       className="block text-center text-gray-600 underline mt-4"> {/* Adjust the margin */}
-                                    Torna alla pagina di Login
+                                    Torna alla pagina di setLogin
                                 </Link>
                             </div>
                         </div>
@@ -200,8 +203,8 @@ function Registrazione(props) {
     );
 }
 
-Registrazione.propTypes = {
+SetRegistrazione.propTypes = {
     setToken: PropTypes.func.isRequired,
     setRuolo: PropTypes.func.isRequired
 };
-export default Registrazione;
+export default SetRegistrazione;
