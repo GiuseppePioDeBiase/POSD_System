@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Card, CardContent, Container, Grid,  Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import {  handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from './Profili';
 import PropTypes from 'prop-types';
 import axios from "axios";
 import SegnalazioneCISO from "../Segnalazioni/SegnalazioneCISO.jsx";
 import StoricoSegnalazioni from "../Segnalazioni/StoricoSegnalazioni.jsx"
-//funzioni CISO
+
 function base64ToBlob(base64Data, contentType) {
     const byteCharacters = atob(base64Data.split(',')[1]);
     const byteArrays = [];
@@ -25,26 +26,20 @@ function base64ToBlob(base64Data, contentType) {
 
 export default function ProfiloCISO(props) {
     const navigate = useNavigate();
-    const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
     const [StoricoSegnalazioniVisibile, setStoricoSegnalazioniVisibile] = useState(false);
     const [aggiungiLicenzaVisibile, setAggiungiLicenzaVisibile] = useState(false);
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
-    const [password, setPassword] = useState('');
-    const [confermaPassword, setConfermaPassword] = useState('');
-    const [profilo, setProfilo] = useState(
-        { nome: '',
-            cognome: '',
-            email: '',
-            ruolo: '',
-            genere: '' });
-
-    const [status, setStatus] = useState({});
+    const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '', genere: '' });
+    const [ setStatus] = useState({});
     const [file, setFile] = useState({});
     const [fileUrl, setFileUrl] = useState(null); // Stato per l'URL del file
     const [licenzaNome, setLicenzaNome] = useState('Nessun file presente'); // Stato per il nome della licenza
     const [avatar, setAvatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
 
-    useEffect(() => {
+
+
+
+              useEffect(() => {
         const fetchProfilo = async () => {
             if (!props.token) {
                 console.error("Token non disponibile");
@@ -114,47 +109,23 @@ export default function ProfiloCISO(props) {
 
     const toggleSegnalazioniVisibile = () => {
         setSegnalazioniVisibile(!segnalazioniVisibile);
-        setModificaProfiloVisibile(false);
         setAggiungiLicenzaVisibile(false);
         setStoricoSegnalazioniVisibile(false);
     };
     const toggleStoricoSegnalazioniVisibile = () => {
         setStoricoSegnalazioniVisibile(!StoricoSegnalazioniVisibile);
-        setModificaProfiloVisibile(false);
         setAggiungiLicenzaVisibile(false);
         setSegnalazioniVisibile(false  );
     };
 
     const toggleAggiungiLicenza = () => {
         setAggiungiLicenzaVisibile(!aggiungiLicenzaVisibile);
-        setModificaProfiloVisibile(false);
         setSegnalazioniVisibile(false);
         setStoricoSegnalazioniVisibile(false);
     };
 
-    const toggleModificaProfilo = () => {
-        setModificaProfiloVisibile(!modificaProfiloVisibile);
-        setAggiungiLicenzaVisibile(false);
-        setSegnalazioniVisibile(false);
-        setStoricoSegnalazioniVisibile(false);
-    };
 
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-    };
 
-    const handleConfermaPasswordChange = (event) => {
-        setConfermaPassword(event.target.value);
-    };
-
-    const handleSubmit = () => {
-        if (password !== confermaPassword) {
-            alert("Le password non corrispondono!");
-            return;
-        }
-        navigate(0);
-        // Add logic to submit profile changes
-    };
 
     const handleFileUpload = async () => {
         if (!validateFILE()) {
@@ -215,20 +186,8 @@ export default function ProfiloCISO(props) {
         link.click();
     };
 
-    const handleAvatarClick = () => {
-        document.getElementById('avatarInput').click();
-    };
 
-    const handleAvatarChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setAvatar(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
+
     const validateFILE = () => {
         if (!file) {
             setStatus('Il file è vuoto');
@@ -238,21 +197,6 @@ export default function ProfiloCISO(props) {
         return true;
     };
 
-    const getWelcomeMessage = () => {
-
-        if (profilo.genere) {
-            switch (profilo.genere) {
-                case 'Uomo':
-                    return 'Bentornato';
-                case 'Donna':
-                    return 'Bentornata';
-                default:
-                    return 'Bentornatə';
-            }
-        } else {
-            return 'Bentornatə'; // Fallback in caso di genere non definito
-        }
-    };
 
     return (
         <Container sx={{ py: 5 }}>
@@ -269,7 +213,7 @@ export default function ProfiloCISO(props) {
                                     id="avatarInput"
                                     type="file"
                                     accept="image/*"
-                                    onChange={handleAvatarChange}
+                                     onChange={handleAvatarChange(setAvatar)}
                                     style={{ display: 'none' }}
                                 />
                             </Box>
@@ -286,9 +230,6 @@ export default function ProfiloCISO(props) {
                                 <Button variant="contained" color="warning" onClick={toggleStoricoSegnalazioniVisibile} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
                                     Storico Segnalazioni
                                 </Button>
-                                <Button variant="contained" color="warning" onClick={toggleModificaProfilo} sx={{ width: '100%', maxWidth: '300px' }}>
-                                    Modifica profilo
-                                </Button>
                             </Box>
                         </CardContent>
                         <Avatar
@@ -302,60 +243,7 @@ export default function ProfiloCISO(props) {
                     <Card sx={{ mb: 4 }}>
                         <CardContent>
                             <Grid container spacing={2}>
-                                <Grid item xs={12} md={3}>
-                                    <Typography variant="subtitle1">Nome</Typography>
-                                </Grid>
-                                <Grid item xs={12} md={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.nome}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr />
-                                </Grid>
-                                <Grid item xs={12} md={3}>
-                                    <Typography variant="subtitle1">Cognome</Typography>
-                                </Grid>
-                                <Grid item xs={12} md={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.cognome}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr />
-                                </Grid>
-                                <Grid item xs={12} md={3}>
-                                    <Typography variant="subtitle1">Email</Typography>
-                                </Grid>
-                                <Grid item xs={12} md={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.email}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr />
-                                </Grid>
-                                <Grid item xs={12} md={3}>
-                                    <Typography variant="subtitle1">Ruolo</Typography>
-                                </Grid>
-                                <Grid item xs={12} md={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.ruolo}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr />
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <Typography variant="subtitle1">Genere</Typography>
-                                </Grid>
-                                <Grid item xs={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.genere}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr />
-                                </Grid>
-                                <Grid item xs={12} md={3}>
-                                    <Typography variant="subtitle1">Licenza</Typography>
-                                </Grid>
-                                <Grid item xs={12} md={9}>
-                                    <Typography variant="body1" color="text.secondary">{licenzaNome}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr />
-                                </Grid>
+                                {renderDettagliProfilo(profilo)}
                             </Grid>
                         </CardContent>
                     </Card>
@@ -364,34 +252,6 @@ export default function ProfiloCISO(props) {
                         <Grid item xs={12}>
                             <Card sx={{ mb: 4 }}>
                                 <CardContent>
-                                    {modificaProfiloVisibile && (
-                                        <Box>
-                                            <TextField
-                                                label="Password"
-                                                type="password"
-                                                variant="outlined"
-                                                fullWidth
-                                                sx={{ mb: 3 }}
-                                                onChange={handlePasswordChange}
-                                            />
-                                            <TextField
-                                                label="Conferma Password"
-                                                type="password"
-                                                variant="outlined"
-                                                fullWidth
-                                                sx={{ mb: 3 }}
-                                                onChange={handleConfermaPasswordChange}
-                                            />
-                                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                                <Button variant="contained" color="secondary" onClick={toggleModificaProfilo} sx={{ mr: 2 }}>
-                                                    Annulla
-                                                </Button>
-                                                <Button variant="contained" color="success" onClick={handleSubmit}>
-                                                    Conferma modifiche
-                                                </Button>
-                                            </Box>
-                                        </Box>
-                                    )}
 
                                     {segnalazioniVisibile && <SegnalazioneCISO token={props.token} />}
                                     {StoricoSegnalazioniVisibile && <StoricoSegnalazioni token={props.token}  ruolo={profilo.ruolo}/>}

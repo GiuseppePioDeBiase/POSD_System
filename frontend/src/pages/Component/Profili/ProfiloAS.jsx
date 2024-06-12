@@ -1,61 +1,25 @@
-import {useState, useEffect} from 'react';
+import {useState} from "react";
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import {
-    Container,
-    Grid,
-    Card,
-    CardContent,
-    Typography,
-    TextField,
-    Button,
-    Avatar,
-    MenuItem,
-    Alert,
-    Box
-} from '@mui/material';
+import {Container, Grid, Card, CardContent, Typography, TextField, Button, Avatar, MenuItem, Alert, Box} from '@mui/material';
+import { useFetchProfile, handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from './Profili';
 import SegnalazioneAS from '../Segnalazioni/SegnalazioneAS.jsx';
 import UtentiRegistrati from './UtentiRegistrati.jsx';
 
-const ProfiloAS = ({token}) => {
-    const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
+export default function ProfiloAS({ token }) {
     const [aggiungiProfiloVisibile, setAggiungiProfiloVisibile] = useState(false);
     const [feedbackVisibile,setfeedbackVisibile]=useState(false);
-
-    const [profilo, setProfilo] = useState({nome: '', cognome: '', email: '', ruolo: '', genere: ''});
-    const [modificaProfiloForm, setModificaProfiloForm] = useState({
-        nome: '',
-        cognome: '',
-        email: '',
-        password: '',
-        genere: ''
-    });
-    const [registrazioneForm, setRegistrazioneForm] = useState({
-        nome: '',
-        cognome: '',
-        email: '',
-        password: '',
-        ruolo: 'CISO',
-        genere: ''
-    });
+    const { profilo, error, setError } = useFetchProfile(token);
+    const [registrazioneForm, setRegistrazioneForm] = useState({nome: '', cognome: '', email: '', password: '', ruolo: '', genere: ''});
     const [registrazioneSuccess, setRegistrazioneSuccess] = useState(false);
-    const [error, setError] = useState('');
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
     const [utentiVisibile, setUtentiVisibile] = useState(false);
     const [avatar, setAvatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
 
-    const toggleModificaProfilo = () => {
-        setModificaProfiloVisibile(!modificaProfiloVisibile);
-        setAggiungiProfiloVisibile(false);
-        setSegnalazioniVisibile(false);
-        setUtentiVisibile(false);
-        setfeedbackVisibile(false);
-        setError('');
-    };
+
 
     const toggleSegnalazioniApprovate = () => {
         setSegnalazioniVisibile(!segnalazioniVisibile);
-        setModificaProfiloVisibile(false);
         setAggiungiProfiloVisibile(false);
         setUtentiVisibile(false);
         setfeedbackVisibile(false);
@@ -63,7 +27,6 @@ const ProfiloAS = ({token}) => {
 
     const toggleAggiungiProfilo = () => {
         setAggiungiProfiloVisibile(!aggiungiProfiloVisibile);
-        setModificaProfiloVisibile(false);
         setSegnalazioniVisibile(false);
         setUtentiVisibile(false);
         setfeedbackVisibile(false);
@@ -72,14 +35,12 @@ const ProfiloAS = ({token}) => {
 
     const toggleUtentiVisibili = () => {
         setUtentiVisibile(!utentiVisibile);
-        setModificaProfiloVisibile(false);
         setSegnalazioniVisibile(false);
         setAggiungiProfiloVisibile(false);
         setfeedbackVisibile(false);
     };
         const togglefeedbackVisibile = () => {
         setUtentiVisibile(false);
-        setModificaProfiloVisibile(false);
         setSegnalazioniVisibile(false);
         setAggiungiProfiloVisibile(false);
         setfeedbackVisibile(!feedbackVisibile);
@@ -90,7 +51,7 @@ const ProfiloAS = ({token}) => {
         axios.post('http://127.0.0.1:5000/api/registrazione', registrazioneForm)
             .then(() => {
                 setRegistrazioneSuccess(true);
-                setRegistrazioneForm({nome: '', cognome: '', email: '', password: '', ruolo: 'CISO', genere: ''});
+                setRegistrazioneForm({nome: '', cognome: '', email: '', password: '', ruolo: '', genere: ''});
                 setError('');
             })
             .catch((error) => {
@@ -101,95 +62,17 @@ const ProfiloAS = ({token}) => {
             });
     };
 
-    const handleAvatarClick = () => {
-        document.getElementById('avatarInput').click();
-    };
 
-    const handleAvatarChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setAvatar(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
+
 
     const handleChange = (event) => {
         const {value, name} = event.target;
         setRegistrazioneForm((prevNote) => ({...prevNote, [name]: value}));
     };
 
-    const handleModificaProfiloChange = (event) => {
-        const {value, name} = event.target;
-        setModificaProfiloForm((prevNote) => ({...prevNote, [name]: value}));
-    };
 
-    const aggiornaProfilo = (event) => {
-        event.preventDefault();
-        if (!token) {
-            console.error('Token non disponibile');
-            return;
-        }
-        axios.put('http://127.0.0.1:5000/api/profilo', modificaProfiloForm, {
-            headers: {Authorization: `Bearer ${token}`, 'Content-Type': 'application/json'}
-        })
-            .then((response) => {
-                setProfilo(response.data);
-                toggleModificaProfilo();
-            })
-            .catch((error) => {
-                console.error('Errore durante l\'aggiornamento del profilo:', error);
-                setError('Errore durante l\'aggiornamento del profilo');
-            });
-    };
 
-    useEffect(() => {
-        const fetchProfilo = async () => {
-            if (!token) {
-                console.error('Token non disponibile');
-                return;
-            }
 
-            try {
-                const response = await fetch('http://localhost:5000/api/profilo', {
-                    method: 'GET',
-                    headers: {Authorization: `Bearer ${token}`, 'Content-Type': 'application/json'},
-                });
-                const data = await response.json();
-                console.log('Dati del profilo:', data);
-                setProfilo(data);
-                setModificaProfiloForm({
-                    nome: data.nome,
-                    cognome: data.cognome,
-                    email: data.email,
-                    password: '',
-                    genere: data.genere
-                });
-            } catch (error) {
-                console.error('Errore durante il recupero del profilo:', error);
-                setError('Errore durante il recupero del profilo');
-            }
-        };
-
-        fetchProfilo();
-    }, [token]);
-
-    const getWelcomeMessage = () => {
-        if (profilo.genere) {
-            switch (profilo.genere) {
-                case 'Uomo':
-                    return 'Bentornato';
-                case 'Donna':
-                    return 'Bentornata';
-                default:
-                    return 'Bentornatə';
-            }
-        } else {
-            return 'Bentornatə';
-        }
-    };
 
     return (
         <Container sx={{py: 5}}>
@@ -206,7 +89,7 @@ const ProfiloAS = ({token}) => {
                                     id="avatarInput"
                                     type="file"
                                     accept="image/*"
-                                    onChange={handleAvatarChange}
+                                    onChange={handleAvatarChange(setAvatar)}
                                     style={{ display: 'none' }}
                                 />
                             </Box>
@@ -217,10 +100,6 @@ const ProfiloAS = ({token}) => {
                                 <Button variant="contained" color="warning" onClick={toggleSegnalazioniApprovate}
                                         sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
                                     Segnalazioni
-                                </Button>
-                                <Button variant="contained" color="warning" onClick={toggleModificaProfilo}
-                                        sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
-                                    Modifica profilo
                                 </Button>
                                 <Button variant="contained" color="warning" onClick={toggleAggiungiProfilo}
                                         sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
@@ -234,9 +113,13 @@ const ProfiloAS = ({token}) => {
                                         sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
                                     Visualizza feedback
                                 </Button>
-
                             </Box>
                         </CardContent>
+                        <Avatar
+                            src="/logo.png"
+                            alt="logo"
+                            sx={{ width: 50, height: 50, mx: 'auto', my: 2 }}
+                        />
                     </Card>
                 </Grid>
 
@@ -244,48 +127,7 @@ const ProfiloAS = ({token}) => {
                     <Card sx={{mb: 4}}>
                         <CardContent>
                             <Grid container spacing={2}>
-                                <Grid item xs={3}>
-                                    <Typography variant="subtitle1">Nome</Typography>
-                                </Grid>
-                                <Grid item xs={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.nome}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr/>
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <Typography variant="subtitle1">Cognome</Typography>
-                                </Grid>
-                                <Grid item xs={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.cognome}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr/>
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <Typography variant="subtitle1">Email</Typography>
-                                </Grid>
-                                <Grid item xs={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.email}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr/>
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <Typography variant="subtitle1">Ruolo</Typography>
-                                </Grid>
-                                <Grid item xs={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.ruolo}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr/>
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <Typography variant="subtitle1">Genere</Typography>
-                                </Grid>
-                                <Grid item xs={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.genere}</Typography>
-                                </Grid>
+                                {renderDettagliProfilo(profilo)}
                             </Grid>
                         </CardContent>
                     </Card>
@@ -294,31 +136,6 @@ const ProfiloAS = ({token}) => {
                         <Grid item xs={12}>
                             <Card sx={{mb: 4}}>
                                 <CardContent>
-                                    {modificaProfiloVisibile && (
-                                        <Card sx={{mb: 3}}>
-                                            <CardContent>
-                                                <Typography variant="h6">Modifica Profilo</Typography>
-                                                <TextField label="Nome" name="nome" value={modificaProfiloForm.nome}
-                                                           onChange={handleModificaProfiloChange} fullWidth
-                                                           sx={{mb: 2}}/>
-                                                <TextField label="Cognome" name="cognome"
-                                                           value={modificaProfiloForm.cognome}
-                                                           onChange={handleModificaProfiloChange} fullWidth
-                                                           sx={{mb: 2}}/>
-                                                <TextField label="Email" name="email" value={modificaProfiloForm.email}
-                                                           onChange={handleModificaProfiloChange} fullWidth
-                                                           sx={{mb: 2}}/>
-                                                <TextField label="Password" name="password" type="password"
-                                                           value={modificaProfiloForm.password}
-                                                           onChange={handleModificaProfiloChange}
-                                                           fullWidth sx={{mb: 2}}/>
-                                                <Button variant="contained" color="warning" onClick={aggiornaProfilo}>Salva
-                                                    Modifiche</Button>
-                                                {error && <Alert severity="error" sx={{mt: 2}}>{error}</Alert>}
-                                            </CardContent>
-                                        </Card>
-                                    )}
-
                                     {aggiungiProfiloVisibile && (
                                         <Card sx={{mb: 3}}>
                                             <CardContent>
@@ -336,12 +153,18 @@ const ProfiloAS = ({token}) => {
                                                                value={registrazioneForm.password}
                                                                onChange={handleChange}
                                                                fullWidth sx={{mb: 2}}/>
+                                                    <TextField select label="genere" name="genere"
+                                                               value={registrazioneForm.genere}
+                                                               onChange={handleChange} fullWidth sx={{mb: 2}}>
+                                                        <MenuItem value="Uomo">Uomo</MenuItem>
+                                                        <MenuItem value="Donna">Donna</MenuItem>
+                                                        <MenuItem value="Anonimo">Anonimo</MenuItem>
+                                                    </TextField>
                                                     <TextField select label="Ruolo" name="ruolo"
                                                                value={registrazioneForm.ruolo}
                                                                onChange={handleChange} fullWidth sx={{mb: 2}}>
                                                         <MenuItem value="CISO">CISO</MenuItem>
-                                                        <MenuItem value="Amministratore di sistema">Amministratore di
-                                                            Sistema</MenuItem>
+                                                        <MenuItem value="Amministratore di sistema">Amministratore di Sistema</MenuItem>
                                                     </TextField>
                                                     <Button variant="contained" color="warning"
                                                             type="submit">Registrati</Button>
@@ -373,10 +196,9 @@ const ProfiloAS = ({token}) => {
             </Grid>
         </Container>
     );
-};
+}
 
 ProfiloAS.propTypes = {
     token: PropTypes.string.isRequired
 };
 
-export default ProfiloAS;
