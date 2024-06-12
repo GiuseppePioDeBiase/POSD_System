@@ -95,15 +95,22 @@ class Segnalazione(BaseMessage):
 
             accettate = list(segnalazioniAccettate.find({"mail": mail},
                                                         {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
-                                                         "_id": False, "stato": True}))
+                                                         "_id": False, "stato": True, "id_ciso": True}))
             rifiutate = list(segnalazioniRifiutate.find({"mail": mail},
                                                         {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
-                                                         "_id": False, "stato": True}))
+                                                         "_id": False, "stato": True, "id_ciso": True}))
 
         except PyMongoError as e:
             return jsonify({"error": f"Database error: {str(e)}"}), 500
 
-        # Combine results
+        def convert_id_ciso_to_str(records):
+            for record in records:
+                record['id_ciso'] = str(record['id_ciso'])
+            return records
+
+        accettate = convert_id_ciso_to_str(accettate)
+        rifiutate = convert_id_ciso_to_str(rifiutate)
+
         storico = []
         storico.extend(accettate)
         storico.extend(rifiutate)
