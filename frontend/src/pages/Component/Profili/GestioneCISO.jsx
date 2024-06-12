@@ -216,20 +216,6 @@ export default function ProfiloCISO(props) {
         link.click();
     };
 
-    const handleAvatarClick = () => {
-        document.getElementById('avatarInput').click();
-    };
-
-    const handleAvatarChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setAvatar(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
     const validateFILE = () => {
         if (!file) {
             setStatus('Il file è vuoto');
@@ -237,22 +223,6 @@ export default function ProfiloCISO(props) {
         }
         setStatus(null);
         return true;
-    };
-
-    const getWelcomeMessage = () => {
-
-        if (profilo.genere) {
-            switch (profilo.genere) {
-                case 'Uomo':
-                    return 'Bentornato';
-                case 'Donna':
-                    return 'Bentornata';
-                default:
-                    return 'Bentornatə';
-            }
-        } else {
-            return 'Bentornatə'; // Fallback in caso di genere non definito
-        }
     };
 
     return (
@@ -270,7 +240,7 @@ export default function ProfiloCISO(props) {
                                     id="avatarInput"
                                     type="file"
                                     accept="image/*"
-                                    onChange={handleAvatarChange}
+                                    onChange={handleAvatarChange(setAvatar)}
                                     style={{ display: 'none' }}
                                 />
                             </Box>
@@ -303,51 +273,7 @@ export default function ProfiloCISO(props) {
                     <Card sx={{ mb: 4 }}>
                         <CardContent>
                             <Grid container spacing={2}>
-                                <Grid item xs={12} md={3}>
-                                    <Typography variant="subtitle1">Nome</Typography>
-                                </Grid>
-                                <Grid item xs={12} md={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.nome}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr />
-                                </Grid>
-                                <Grid item xs={12} md={3}>
-                                    <Typography variant="subtitle1">Cognome</Typography>
-                                </Grid>
-                                <Grid item xs={12} md={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.cognome}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr />
-                                </Grid>
-                                <Grid item xs={12} md={3}>
-                                    <Typography variant="subtitle1">Email</Typography>
-                                </Grid>
-                                <Grid item xs={12} md={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.email}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr />
-                                </Grid>
-                                <Grid item xs={12} md={3}>
-                                    <Typography variant="subtitle1">Ruolo</Typography>
-                                </Grid>
-                                <Grid item xs={12} md={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.ruolo}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr />
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <Typography variant="subtitle1">Genere</Typography>
-                                </Grid>
-                                <Grid item xs={9}>
-                                    <Typography variant="body1" color="text.secondary">{profilo.genere}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr />
-                                </Grid>
+                                {renderDettagliProfilo(profilo)}
                                 <Grid item xs={12} md={3}>
                                     <Typography variant="subtitle1">Licenza</Typography>
                                 </Grid>

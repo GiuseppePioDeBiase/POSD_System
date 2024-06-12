@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import PropTypes from 'prop-types';
 import {
     Container,
@@ -157,6 +157,6 @@ export default function GestioneUtente({ token }) {
 
 }
 
-ProfiloUR.propTypes = {
+GestioneUtente.propTypes = {
     token: PropTypes.string.isRequired
 };
