@@ -20,6 +20,13 @@ class Segnalazione(BaseMessage):
 
     @classmethod
     def insertSegnalazione(cls, mail):
+
+        utente = utenti.find_one({"email": mail})
+        if not utente or utente['ruolo'] != Ruolo.UTENTE.value:
+            return jsonify({"successo": False,
+                            "messaggio": "L'utente non esiste o non ha i privilegi necessari per visualizzare le "
+                                         "segnalazioni."}), 403
+
         dati = request.json
 
         if not cls.validate(dati.get('oggetto', ''), dati.get('messaggio', '')):
@@ -30,12 +37,26 @@ class Segnalazione(BaseMessage):
         return jsonify({"successo": True, "messaggio": "Segnalazione ricevuta!"}), 201
 
     @classmethod
-    def getAllSegnalazioni(cls):
+    def getAllSegnalazioni(cls, mail):
+
+        ciso = utenti.find_one({"email": mail})
+        if not ciso or ciso['ruolo'] != Ruolo.CISO.value:
+            return jsonify({"successo": False,
+                            "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le "
+                                         "segnalazioni."}), 403
+
         collection = segnalazioneCollection.find({}, {'data_ora': False, "ip_pubblico": False})
         return cls.convert_object_ids(collection)
 
     @classmethod
-    def statusSegnalazione(cls, mail):
+    def statusSegnalazioneCiso(cls, mail):
+
+        ciso = utenti.find_one({"email": mail})
+        if not ciso or ciso['ruolo'] != Ruolo.CISO.value:
+            return jsonify({"successo": False,
+                            "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le "
+                                         "segnalazioni."}), 403
+
         dati = request.json
         stato = dati.get('stato')
         if stato is None or not isinstance(stato, bool):
@@ -72,9 +93,12 @@ class Segnalazione(BaseMessage):
     def getSegnalazioniAccettateAmministratore(cls, mail):
         amministratore = utenti.find_one({"email": mail})
         if not amministratore or amministratore['ruolo'] != Ruolo.AMMINISTRATORE_DI_SISTEMA.value:
-            return jsonify({"successo": False, "messaggio": "L'amministratore non esiste o non ha i privilegi necessari per visualizzare le segnalazioni."}), 403
+            return jsonify({"successo": False,
+                            "messaggio": "L'amministratore non esiste o non ha i privilegi necessari per visualizzare "
+                                         "le segnalazioni."}), 403
 
-        collection = segnalazioniAccettate.find({}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True, 'id_ciso': True, "_id": False})
+        collection = segnalazioniAccettate.find({}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                     'id_ciso': True, "_id": False})
         return cls.convert_object_ids(collection, "id_ciso")
 
     @classmethod
@@ -83,8 +107,18 @@ class Segnalazione(BaseMessage):
             return jsonify({"error": "Una delle collezioni non esiste"}), 500
 
         try:
-            accettate = list(segnalazioniAccettate.find({"mail": mail}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True, "_id": False, "stato": True, "id_ciso": True}))
-            rifiutate = list(segnalazioniRifiutate.find({"mail": mail}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True, "_id": False, "stato": True, "id_ciso": True}))
+            utente = utenti.find_one({"email": mail})
+            if not utente or utente['ruolo'] != Ruolo.UTENTE.value:
+                return jsonify({"successo": False,
+                                "messaggio": "L'utente non esiste o non ha i privilegi necessari per visualizzare le "
+                                             "segnalazioni."}), 403
+
+            accettate = list(segnalazioniAccettate.find({"mail": mail},
+                                                        {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                         "_id": False, "stato": True, "id_ciso": True}))
+            rifiutate = list(segnalazioniRifiutate.find({"mail": mail},
+                                                        {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                         "_id": False, "stato": True, "id_ciso": True}))
         except PyMongoError as e:
             return jsonify({"error": f"Database error: {str(e)}"}), 500
 
@@ -93,16 +127,23 @@ class Segnalazione(BaseMessage):
 
     @classmethod
     def storicoCiso(cls, mail):
+
         if not cls.collections_exist(['Segnalazioni accettate', 'Segnalazioni rifiutate']):
             return jsonify({"error": "Una delle collezioni non esiste"}), 500
 
         try:
-            ciso = utenti.find_one({"email": mail}, {"_id": True})
-            if not ciso:
-                return jsonify({"error": "CISO non trovato"}), 404
+            ciso = utenti.find_one({"email": mail})
+            if not ciso or ciso['ruolo'] != Ruolo.CISO.value:
+                return jsonify({"successo": False,
+                                "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le "
+                                             "segnalazioni."}), 403
 
-            accettate = list(segnalazioniAccettate.find({"id_ciso": ciso['_id']}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True, "_id": False, "stato": True, "mail": True}))
-            rifiutate = list(segnalazioniRifiutate.find({"id_ciso": ciso['_id']}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True, "_id": False, "stato": True, "mail": True}))
+            accettate = list(segnalazioniAccettate.find({"id_ciso": ciso['_id']},
+                                                        {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                         "_id": False, "stato": True, "mail": True}))
+            rifiutate = list(segnalazioniRifiutate.find({"id_ciso": ciso['_id']},
+                                                        {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                         "_id": False, "stato": True, "mail": True}))
         except PyMongoError as e:
             return jsonify({"error": f"Database error: {str(e)}"}), 500
 
