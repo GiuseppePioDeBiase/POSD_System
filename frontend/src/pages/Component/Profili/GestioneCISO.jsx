@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import {  handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from './Profili';
 import PropTypes from 'prop-types';
 import axios from "axios";
 import SegnalazioneCISO from "../GestioneSegnalazione/SetSegnalazioni.jsx";
@@ -23,7 +24,7 @@ function base64ToBlob(base64Data, contentType) {
     return new Blob(byteArrays, { type: contentType });
 }
 
-export default function GestioneCISO(props) {
+export default function ProfiloCISO(props) {
     const navigate = useNavigate();
     const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
     const [StoricoSegnalazioniVisibile, setStoricoSegnalazioniVisibile] = useState(false);
@@ -432,6 +433,6 @@ export default function GestioneCISO(props) {
     );
 }
 
-GestioneCISO.propTypes = {
+ProfiloCISO.propTypes = {
     token: PropTypes.string.isRequired
 };
