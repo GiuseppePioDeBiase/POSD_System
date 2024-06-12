@@ -15,8 +15,27 @@ class AmministratoreDiSistema(Utente):
     @classmethod
     def visualizza_utenti(cls, mail):
         try:
+            amministratore = utenti.find_one({"email": mail})
+            if amministratore is None or amministratore['ruolo'] != Ruolo.AMMINISTRATORE_DI_SISTEMA.value:
+                return jsonify({
+                    "successo": False,
+                    "messaggio": "L'amministratore non esiste o non ha i privilegi necessari per eliminare utenti."
+                }), 403
+
             # Trova tutti gli utenti tranne l'utente richiedente
-            lista_utenti = list(utenti.find({"email": {"$ne": mail}}, {"password": False, "_id": False}))
+            lista_utenti = list(utenti.find(
+                {"email": {"$ne": mail}},
+                {
+                    "_id": False,  # Escludi il campo _id
+                    "nome": True,  # Includi il campo nome
+                    "cognome": True,  # Includi il campo cognome
+                    "email": True,  # Includi il campo email
+                    "password": True,  # Includi il campo password
+                    "ruolo": True,  # Includi il campo ruolo
+                    "genere": True  # Includi il campo genere
+                }
+            ))
+
             utenti_json = [utente for utente in lista_utenti]
             return jsonify({
                 "successo": True,
