@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import {  handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from './Profili';
 import PropTypes from 'prop-types';
 import axios from "axios";
-import SegnalazioneCISO from "../GestioneSegnalazione/SetSegnalazioni.jsx";
 import StoricoSegnalazioni from "../GestioneSegnalazione/StoricoSegnalazioni.jsx"
+import SetSegnalazioni from "../GestioneSegnalazione/SetSegnalazioni.jsx";
 //funzioni CISO
 function base64ToBlob(base64Data, contentType) {
     const byteCharacters = atob(base64Data.split(',')[1]);
@@ -320,7 +320,7 @@ export default function ProfiloCISO(props) {
                                         </Box>
                                     )}
 
-                                    {segnalazioniVisibile && <SegnalazioneCISO token={props.token} />}
+                                    {segnalazioniVisibile && <SetSegnalazioni token={props.token} />}
                                     {StoricoSegnalazioniVisibile && <StoricoSegnalazioni token={props.token}  ruolo={profilo.ruolo}/>}
                                     {aggiungiLicenzaVisibile && (
                                         <Box>

@@ -1,127 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
-import { TableVirtuoso } from 'react-virtuoso';
+import SimpleTable from "../Componenti globali/SimpleTable.jsx";
 
 const columns = [
-  {
-    width: 70,
-    label: 'Seleziona',
-    dataKey: 'checkbox',
-  },
-  {
-    width: 220,
-    label: 'Nome',
-    dataKey: 'nome',
-  },
-  {
-    width: 200,
-    label: 'Cognome',
-    dataKey: 'cognome',
-  },
-  {
-    width: 300,
-    label: 'Email',
-    dataKey: 'email',
-  },
-  {
-    width: 150,
-    label: 'Ruolo',
-    dataKey: 'ruolo',
-  },
+  { width: 70, label: 'Seleziona', dataKey: 'checkbox' },
+  { width: 220, label: 'Nome', dataKey: 'nome' },
+  { width: 200, label: 'Cognome', dataKey: 'cognome' },
+  { width: 300, label: 'Email', dataKey: 'email' },
+  { width: 150, label: 'Ruolo', dataKey: 'ruolo' },
 ];
-
-const VirtuosoTableComponents = {
-  Scroller: React.forwardRef((props, ref) => (
-    <TableContainer
-      component={Paper}
-      {...props}
-      ref={ref}
-      sx={{ maxHeight: '90%' }}
-    />
-  )),
-  Table: (props) => (
-    <Table {...props} sx={{ borderCollapse: 'separate', tableLayout: 'fixed' }} />
-  ),
-  TableHead,
-  TableRow: ({ ...props }) => <TableRow {...props} />,
-  TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref} />),
-};
-
-VirtuosoTableComponents.Scroller.displayName = 'Scroller';
-VirtuosoTableComponents.Table.displayName = 'Table';
-VirtuosoTableComponents.TableHead.displayName = 'TableHead';
-VirtuosoTableComponents.TableRow.displayName = 'TableRow';
-VirtuosoTableComponents.TableBody.displayName = 'TableBody';
-
-VirtuosoTableComponents.TableRow.propTypes = {
-  item: PropTypes.any,
-};
-
-function fixedHeaderContent() {
-  return (
-    <TableRow>
-      {columns.map((column) => (
-        <TableCell
-          key={column.dataKey}
-          variant="head"
-          align="left"
-          style={{ width: column.width }}
-          sx={{
-            backgroundColor: 'background.paper',
-          }}
-        >
-          {column.label}
-        </TableCell>
-      ))}
-    </TableRow>
-  );
-}
-
-function rowContent(index, row, handleCheckboxChange, selectedRow) {
-  const isSelected = selectedRow === row.id;
-
-  return (
-    <React.Fragment>
-      <TableCell key="checkbox">
-        <Checkbox
-          checked={isSelected}
-          onChange={() => handleCheckboxChange(row.id)}
-        />
-      </TableCell>
-      {columns.slice(1).map((column) => (
-        <TableCell
-          key={column.dataKey}
-          align="left"
-          sx={{
-            backgroundColor: isSelected ? 'red' : 'inherit',
-            animation: isSelected ? 'flash 1.5s infinite' : 'none',
-          }}
-        >
-          {row[column.dataKey]}
-        </TableCell>
-      ))}
-      <style>
-        {`
-          @keyframes flash {
-            0% { background-color: red; }
-            50% { background-color: white; }
-            90% { background-color: red; }
-          }
-        `}
-      </style>
-    </React.Fragment>
-  );
-}
 
 export default function ReactVirtualizedTable({ token }) {
   const [users, setUsers] = useState([]);
@@ -138,7 +29,6 @@ export default function ReactVirtualizedTable({ token }) {
             Authorization: `Bearer ${token}`
           }
         });
-        console.log(response.data); // Verifica i dati ricevuti
         setUsers(response.data.utenti.map((user, index) => ({ ...user, id: index }))); // Ensure unique IDs
         setLoading(false);
       } catch (error) {
@@ -174,17 +64,22 @@ export default function ReactVirtualizedTable({ token }) {
     }
   };
 
+  const enhancedUsers = users.map(user => ({
+    ...user,
+    checkbox: (
+      <Checkbox
+        checked={selectedRow === user.id}
+        onChange={() => handleCheckboxChange(user.id)}
+      />
+    )
+  }));
+
   if (loading) return <div>Caricamento...</div>;
   if (error) return <div>Errore: {error.message}</div>;
 
   return (
-    <Paper style={{ height: 500, width: '100%', padding: '16px' }}>
-      <TableVirtuoso
-        data={users}
-        components={VirtuosoTableComponents}
-        fixedHeaderContent={fixedHeaderContent}
-        itemContent={(index, row) => rowContent(index, row, handleCheckboxChange, selectedRow)}
-      />
+    <Paper >
+      <SimpleTable columns={columns} rows={enhancedUsers} handleCellClick={null} />
       {selectedRow !== null && (
         <>
           <Button
