@@ -8,6 +8,8 @@ from backend.models.attors.ruolo import Ruolo
 from backend.models.message_reporting.segnalazione import segnalazioneCollection, segnalazioniAccettate, \
     segnalazioniRifiutate
 
+message_error = "Il ciso non esiste o non ha i privilegi necessari per visualizzare le segnalazioni."
+
 
 class Ciso(Utente):
     def __init__(self, nome, cognome, email, password, genere):
@@ -56,8 +58,7 @@ class Ciso(Utente):
         ciso = utenti.find_one({"email": mail})
         if not ciso or ciso['ruolo'] != Ruolo.CISO.value:
             return jsonify({"successo": False,
-                            "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le "
-                                         "segnalazioni."}), 403
+                            "messaggio": ""}), 403
 
         # Retrieve the documents from the collection
         collection = segnalazioneCollection.find({}, {'data_ora': False, "ip_pubblico": False})
@@ -76,8 +77,7 @@ class Ciso(Utente):
         ciso = utenti.find_one({"email": mail})
         if not ciso or ciso['ruolo'] != Ruolo.CISO.value:
             return jsonify({"successo": False,
-                            "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le "
-                                         "segnalazioni."}), 403
+                            "messaggio": message_error}), 403
 
         dati = request.json
         stato = dati.get('stato')
@@ -113,8 +113,7 @@ class Ciso(Utente):
 
             if not ciso or ciso['ruolo'] != Ruolo.CISO.value:
                 return jsonify({"successo": False,
-                                "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le "
-                                             "segnalazioni."}), 403
+                                "messaggio": message_error}), 403
 
             accettate = list(segnalazioniAccettate.find({"id_ciso": ciso['_id']},
                                                         {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
@@ -127,4 +126,3 @@ class Ciso(Utente):
 
         storico = cls.convert_object_ids(accettate + rifiutate)
         return jsonify(storico)
-

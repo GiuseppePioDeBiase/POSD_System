@@ -192,7 +192,7 @@ class Utente:
         return jsonify({"successo": True, "messaggio": "Foto caricata con successo!"}), 200
 
     @classmethod
-    def storicoUtente(cls, mail):
+    def storico_utente(cls, mail):
         try:
             utente = utenti.find_one({"email": mail})
             if not utente or utente['ruolo'] != Ruolo.UTENTE.value:
