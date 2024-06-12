@@ -1,4 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import axios from 'axios';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,155 +8,126 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {TableVirtuoso} from 'react-virtuoso';
-import PropTypes from 'prop-types';
+import Tooltip from '@mui/material/Tooltip';
+import { useNavigate } from 'react-router-dom';
 
 const columns = [
-    {
-        width: 10,
-        label: 'Stato',
-        dataKey: 'stato',
-    },
-    {
-        width: 40   ,
-        label: 'Oggetto',
-        dataKey: 'oggetto',
-    },
-    {
-        width: 90,
-        label: 'Messaggio',
-        dataKey: 'messaggio',
-    },
-    {
-        width: 20,
-        label: 'Data',
-        dataKey: 'data_ora_modifica',
-    },
+  { width: 40, label: 'Stato', dataKey: 'stato' },
+  { width: 50, label: 'Oggetto', dataKey: 'oggetto' },
+  { width: 90, label: 'Messaggio', dataKey: 'messaggio' },
+  { width: 90, label: 'Data modifica', dataKey: 'data_ora_modifica' }
 ];
 
-const VirtuosoTableComponents = {
-    Scroller: React.forwardRef((props, ref) => (
-        <TableContainer component={Paper} {...props} ref={ref}/>
-    )),
-    Table: (props) => (
-        <Table {...props} sx={{borderCollapse: 'separate', tableLayout: 'fixed'}}/>
-    ),
-    TableHead,
-    TableRow: ({...props}) => <TableRow {...props} />,
-    TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref}/>),
-};
-
-VirtuosoTableComponents.Scroller.displayName = 'Scroller';
-VirtuosoTableComponents.Table.displayName = 'Table';
-VirtuosoTableComponents.TableHead.displayName = 'TableHead';
-VirtuosoTableComponents.TableRow.displayName = 'TableRow';
-VirtuosoTableComponents.TableBody.displayName = 'TableBody';
-
-VirtuosoTableComponents.TableRow.propTypes = {
-    item: PropTypes.any,
-};
-
-function fixedHeaderContent() {
-    return (
-       <TableRow>
+function SimpleTable({ rows }) {
+  return (
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }}>
+        <TableHead>
+          <TableRow>
             {columns.map((column) => (
-                <TableCell
-                    key={column.dataKey}
-                    variant="head"
-                    align={column.numeric ? 'right' : 'left'}
-                    style={{width: column.width}}
-                    sx={{
-                        backgroundColor: 'background.paper',
-                    }}
-                >
-                    {column.label}
-                </TableCell>
+              <TableCell
+                key={column.dataKey}
+                align="left"
+                style={{ width: column.width }}
+              >
+                {column.label}
+              </TableCell>
             ))}
-        </TableRow>
-    );
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row, index) => (
+            <TableRow key={index}>
+              {columns.map((column, colIndex) => (
+                <TableCell
+                  key={colIndex}
+                  style={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: column.width
+                  }}
+                  sx={{padding: '30px'}}
+                >
+                  <Tooltip title={row[column.dataKey]}>
+                    <span>{row[column.dataKey]}</span>
+                  </Tooltip>
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 }
 
-function rowContent(_index, row) {
-    return (
-        <React.Fragment>
-            {columns.map((column) => (
-                <TableCell
-                    sx={{'&:hover': {backgroundColor: 'transparent'}}}
-                    key={column.dataKey}
-                    align={column.numeric ? 'right' : 'left'}
-                    style={{overflow: 'hidden',
-                        textOverflow: 'ellipsis'}}
-                >
-                    {row[column.dataKey]}
-                </TableCell>
-            ))}
-        </React.Fragment>
-    );
-}
+SimpleTable.propTypes = {
+  rows: PropTypes.array.isRequired,
+  handleCellClick: PropTypes.func.isRequired,
+};
 
-export default function ReactVirtualizedTable({token,ruolo}) {
-    const [rows, setRows] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+export default function ReactVirtualizedTable({ token,ruolo }) {
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            let response=null
-            try {
-                console.log(ruolo)
-                if(ruolo==='Utente'){
-                     response = await fetch('http://localhost:5000/api/storicoutente', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                }else {
-                    response = await fetch('http://localhost:5000/api/storiciso', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                }
+  useEffect(() => {
+    const fetchData = async () => {
+        let response=null
+      try {
+          if(ruolo==='Utente'){
+                response = await axios.get('http://localhost:5000/api/storicoutente', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+          }else{
+                 response = await axios.get('http://localhost:5000/api/storiciso', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+          }
 
-                if (!response.ok) {
-                    throw new Error('Errore nella richiesta');
-                }
-                const data = await response.json();
-                setRows(data);
-                setLoading(false);
-            } catch (error) {
-                setError(error);
-                setLoading(false);
-            }
-        };
+        setRows(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error); // Log any errors
+        setError(error);
+        setLoading(false);
+      }
+    };
 
-        fetchData();
-    }, [token]);
+    fetchData();
+  }, [token]);
 
-    if (loading) return <div>Caricamento...</div>;
-    if (error) return <div>Errore: {error.message}</div>;
+  const handleCellClick = (row) => {
+    navigate(`/segnalazione/${row._id}`, { state: { messaggio: row.messaggio, oggetto: row.oggetto, token } });
+  };
 
-    return (
-        <Paper style={{height: 400, width: '100%'}}>
-         {rows.length > 0 ? (
-        <TableVirtuoso
-          data={rows}
-          components={VirtuosoTableComponents}
-          fixedHeaderContent={fixedHeaderContent}
-          itemContent={(index, row) => rowContent(index, row)}
-        />
+  if (loading) return <div>Caricamento...</div>;
+  if (error) return <div>Errore: {error.message}</div>;
+
+  console.log('Rows:', rows); // Log the rows state to ensure it's correctly set
+
+  return (
+    <Paper>
+      {rows.length > 0 ? (
+        <SimpleTable rows={rows} handleCellClick={handleCellClick} />
       ) : (
-        <div className="flex flex-row justify-content-center font-bold text-xl">Nessun dato</div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          Nessuna segnalazione
+        </div>
       )}
-        </Paper>
-    );
+    </Paper>
+  );
 }
 
 ReactVirtualizedTable.propTypes = {
-    token: PropTypes.string.isRequired,
-    ruolo: PropTypes.string.isRequired
+  token: PropTypes.string.isRequired,
+  ruolo: PropTypes.string.isRequired
 };

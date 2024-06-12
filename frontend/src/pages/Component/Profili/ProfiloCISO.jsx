@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import axios from "axios";
 import SegnalazioneCISO from "../Segnalazioni/SegnalazioneCISO.jsx";
 import StoricoSegnalazioni from "../Segnalazioni/StoricoSegnalazioni.jsx"
-import axios from "axios";
-
+//funzioni CISO
 function base64ToBlob(base64Data, contentType) {
     const byteCharacters = atob(base64Data.split(',')[1]);
     const byteArrays = [];
