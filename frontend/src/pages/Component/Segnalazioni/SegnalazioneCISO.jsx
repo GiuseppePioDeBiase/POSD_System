@@ -79,7 +79,12 @@ export default function ReactVirtualizedTable({ token }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/allsegnalazioni');
+          const response = await axios.get('http://localhost:5000/api/allsegnalazioni', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
         setRows(response.data);
         setLoading(false);
       } catch (error) {
