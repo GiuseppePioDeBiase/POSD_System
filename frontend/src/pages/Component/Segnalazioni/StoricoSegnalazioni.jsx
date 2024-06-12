@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+// eslint-disable-next-line no-unused-vars
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Table from '@mui/material/Table';
@@ -63,11 +64,10 @@ function SimpleTable({ rows }) {
 }
 
 SimpleTable.propTypes = {
-  rows: PropTypes.array.isRequired,
-  handleCellClick: PropTypes.func.isRequired,
+  rows: PropTypes.array.isRequired
 };
 
-export default function ReactVirtualizedTable({ token,ruolo }) {
+export default function ReactVirtualizedTable({ token, ruolo }) {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -75,24 +75,23 @@ export default function ReactVirtualizedTable({ token,ruolo }) {
 
   useEffect(() => {
     const fetchData = async () => {
-        let response=null
+      let response = null;
       try {
-          if(ruolo==='Utente'){
-                response = await axios.get('http://localhost:5000/api/storicoutente', {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        });
-          }else{
-                 response = await axios.get('http://localhost:5000/api/storiciso', {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        });
-          }
-
+        if (ruolo === 'Utente') {
+          response = await axios.get('http://localhost:5000/api/storicoutente', {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
+          });
+        } else {
+          response = await axios.get('http://localhost:5000/api/storicociso', {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
+          });
+        }
         setRows(response.data);
         setLoading(false);
       } catch (error) {

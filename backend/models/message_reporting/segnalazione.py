@@ -45,7 +45,7 @@ class Segnalazione(BaseMessage):
                             "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le "
                                          "segnalazioni."}), 403
 
-        collection = segnalazioneCollection.find({}, {'data_ora': False, "ip_pubblico": False})
+        collection = segnalazioneCollection.find({}, {'data_ora': False, "ip_pubblico": False, "_id": False})
         return cls.convert_object_ids(collection)
 
     @classmethod
@@ -105,9 +105,11 @@ class Segnalazione(BaseMessage):
     def storicoCiso(cls, mail):
         try:
             ciso = utenti.find_one({"email": mail})
+
             if not ciso or ciso['ruolo'] != Ruolo.CISO.value:
                 return jsonify({"successo": False,
-                                "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le segnalazioni."}), 403
+                                "messaggio": "Il ciso non esiste o non ha i privilegi necessari per visualizzare le "
+                                             "segnalazioni."}), 403
 
             accettate = list(segnalazioniAccettate.find({"id_ciso": ciso['_id']},
                                                         {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
@@ -143,10 +145,9 @@ class Segnalazione(BaseMessage):
 
     @staticmethod
     def convert_object_ids(collection, id_field="id_ciso"):
-            result = []
-            for document in collection:
-                if id_field in document:
-                    document[id_field] = str(document[id_field])
-                result.append(document)
-            return result
-
+        result = []
+        for document in collection:
+            if id_field in document:
+                document[id_field] = str(document[id_field])
+            result.append(document)
+        return result

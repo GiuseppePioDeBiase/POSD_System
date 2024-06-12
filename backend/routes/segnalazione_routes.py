@@ -30,7 +30,7 @@ def get_all_segnalazioni_accettate_amministratore():
 def get_storico_utente():
     return Segnalazione.storicoUtente(mail=get_jwt_identity())
 
-@segnalazione_bp.route('/api/storiciso', methods=['GET'])
+@segnalazione_bp.route('/api/storicociso', methods=['GET'])
 @jwt_required()
-def get_storiciso():
-    return Segnalazione.storicoUtente(mail=get_jwt_identity())
+def get_storico_ciso():
+    return Segnalazione.storicoCiso(mail=get_jwt_identity())
