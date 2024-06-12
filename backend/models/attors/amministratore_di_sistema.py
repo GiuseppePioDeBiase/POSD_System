@@ -3,6 +3,7 @@ from flask import jsonify, request
 from backend.config.db import conn_db
 from backend.models.attors.utente import Utente, utenti
 from backend.models.attors.ruolo import Ruolo
+from backend.models.message_reporting.segnalazione import segnalazioniAccettate
 
 db = conn_db()  # Connessione al database MongoDB
 utenti_eliminati = db['Utenti eliminati']  # Nome della collezione
@@ -88,3 +89,15 @@ class AmministratoreDiSistema(Utente):
                 "successo": False,
                 "messaggio": f"Errore durante l'eliminazione dell'utente: {str(e)}"
             }), 500
+
+    @classmethod
+    def getSegnalazioniAccettateAmministratore(cls, mail):
+        amministratore = utenti.find_one({"email": mail})
+        if not amministratore or amministratore['ruolo'] != Ruolo.AMMINISTRATORE_DI_SISTEMA.value:
+            return jsonify({"successo": False,
+                            "messaggio": "L'amministratore non esiste o non ha i privilegi necessari per visualizzare "
+                                         "le segnalazioni."}), 403
+
+        collection = segnalazioniAccettate.find({}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                     'id_ciso': True, "_id": False})
+        return cls.convert_object_ids(collection, "id_ciso")

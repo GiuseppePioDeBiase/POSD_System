@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, timezone
 from bson import Binary
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies
 from flask import request, jsonify, json
+from pymongo.errors import PyMongoError
 from werkzeug.security import generate_password_hash, check_password_hash
 from backend.config.db import conn_db
 import regex
@@ -190,6 +191,28 @@ class Utente:
 
         return jsonify({"successo": True, "messaggio": "Foto caricata con successo!"}), 200
 
+    @classmethod
+    def storicoUtente(cls, mail):
+        try:
+            utente = utenti.find_one({"email": mail})
+            if not utente or utente['ruolo'] != Ruolo.UTENTE.value:
+                return jsonify({"successo": False,
+                                "messaggio": "L'utente non esiste o non ha i privilegi necessari per visualizzare le "
+                                             "segnalazioni."}), 403
+
+            from backend.models.message_reporting.segnalazione import segnalazioniAccettate
+            accettate = list(segnalazioniAccettate.find({"mail": mail},
+                                                        {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                         "_id": False, "stato": True, "id_ciso": True}))
+            from backend.models.message_reporting.segnalazione import segnalazioniRifiutate
+            rifiutate = list(segnalazioniRifiutate.find({"mail": mail},
+                                                        {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                         "_id": False, "stato": True, "id_ciso": True}))
+        except PyMongoError as e:
+            return jsonify({"error": f"Database error: {str(e)}"}), 500
+
+        storico = cls.convert_object_ids(accettate + rifiutate, "id_ciso")
+        return jsonify(storico)
 
     @staticmethod
     def refresh_expiring_jwts(response):
@@ -206,3 +229,12 @@ class Utente:
             return response
         except (RuntimeError, KeyError):
             return response
+
+    @staticmethod
+    def convert_object_ids(collection, id_field="id_ciso"):
+        result = []
+        for document in collection:
+            if id_field in document:
+                document[id_field] = str(document[id_field])
+            result.append(document)
+        return result

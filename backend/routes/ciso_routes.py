@@ -13,3 +13,16 @@ def carica_licenza():
 @jwt_required()
 def recupera_licenza():
     return Ciso.recupera_licenza(mail=get_jwt_identity())
+@ciso_bp.route('/api/allsegnalazioni', methods=['GET'])
+@jwt_required()
+def get_all_segnalazioni():
+    return Ciso.getAllSegnalazioni(mail=get_jwt_identity())
+@ciso_bp.route('/api/updatesegnalazione', methods=['POST'])
+@jwt_required()
+def status_segnalazione():
+    return Ciso.statusSegnalazioneCiso(mail=get_jwt_identity())
+
+@ciso_bp.route('/api/storicociso', methods=['GET'])
+@jwt_required()
+def get_storico_ciso():
+    return Ciso.storicoCiso(mail=get_jwt_identity())
