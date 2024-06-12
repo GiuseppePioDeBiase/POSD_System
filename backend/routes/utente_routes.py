@@ -29,3 +29,8 @@ def logout_user():
 @jwt_required()
 def carica_foto():
     return Utente.carica_foto(mail=get_jwt_identity())
+
+@utente_bp.route('/api/storicoutente', methods=['GET'])
+@jwt_required()
+def get_storico_utente():
+    return Utente.storico_utente(mail=get_jwt_identity())

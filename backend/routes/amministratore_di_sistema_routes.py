@@ -13,3 +13,8 @@ def all_utenti():
 @jwt_required()
 def elimina_utente(mail_utente):
     return AmministratoreDiSistema.elimina_utente(mail_amministratore=get_jwt_identity(), mail_utente=mail_utente)
+
+@amministratore_bp.route('/api/allsegnalazioniaccettate', methods=['GET'])
+@jwt_required()
+def get_all_segnalazioni_accettate_amministratore():
+    return AmministratoreDiSistema.getSegnalazioniAccettateAmministratore(mail=get_jwt_identity())

@@ -3,6 +3,7 @@ from flask import jsonify, request
 from backend.config.db import conn_db
 from backend.models.attors.utente import Utente, utenti
 from backend.models.attors.ruolo import Ruolo
+from backend.models.message_reporting.segnalazione import segnalazioniAccettate
 
 db = conn_db()  # Connessione al database MongoDB
 utenti_eliminati = db['Utenti eliminati']  # Nome della collezione
@@ -15,8 +16,27 @@ class AmministratoreDiSistema(Utente):
     @classmethod
     def visualizza_utenti(cls, mail):
         try:
+            amministratore = utenti.find_one({"email": mail})
+            if amministratore is None or amministratore['ruolo'] != Ruolo.AMMINISTRATORE_DI_SISTEMA.value:
+                return jsonify({
+                    "successo": False,
+                    "messaggio": "L'amministratore non esiste o non ha i privilegi necessari per eliminare utenti."
+                }), 403
+
             # Trova tutti gli utenti tranne l'utente richiedente
-            lista_utenti = list(utenti.find({"email": {"$ne": mail}}, {"password": False, "_id": False}))
+            lista_utenti = list(utenti.find(
+                {"email": {"$ne": mail}},
+                {
+                    "_id": False,  # Escludi il campo _id
+                    "nome": True,  # Includi il campo nome
+                    "cognome": True,  # Includi il campo cognome
+                    "email": True,  # Includi il campo email
+                    "password": True,  # Includi il campo password
+                    "ruolo": True,  # Includi il campo ruolo
+                    "genere": True  # Includi il campo genere
+                }
+            ))
+
             utenti_json = [utente for utente in lista_utenti]
             return jsonify({
                 "successo": True,
@@ -69,3 +89,15 @@ class AmministratoreDiSistema(Utente):
                 "successo": False,
                 "messaggio": f"Errore durante l'eliminazione dell'utente: {str(e)}"
             }), 500
+
+    @classmethod
+    def getSegnalazioniAccettateAmministratore(cls, mail):
+        amministratore = utenti.find_one({"email": mail})
+        if not amministratore or amministratore['ruolo'] != Ruolo.AMMINISTRATORE_DI_SISTEMA.value:
+            return jsonify({"successo": False,
+                            "messaggio": "L'amministratore non esiste o non ha i privilegi necessari per visualizzare "
+                                         "le segnalazioni."}), 403
+
+        collection = segnalazioniAccettate.find({}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
+                                                     'id_ciso': True, "_id": False})
+        return cls.convert_object_ids(collection, "id_ciso")
