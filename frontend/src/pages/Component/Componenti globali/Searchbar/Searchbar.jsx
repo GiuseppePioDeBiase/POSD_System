@@ -1,5 +1,5 @@
-import {useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Searchbar.css'; // Import CSS styles
 
 function Searchbar() {
@@ -11,7 +11,7 @@ function Searchbar() {
     };
 
     const handleKeyDown = (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
+        if (event.key === 'Enter') {
             handleSearch();
         }
     };
@@ -21,7 +21,7 @@ function Searchbar() {
             <div className="input-group input-group-lg col-sm-8 col-md-6 col-lg-4 mx-auto">
                 <div className="input-group-prepend">
                     <Link to="/" className="input-group-text logo">
-                        <img src="logo.png" alt="Logo"/>
+                        <img src="logo.png" alt="Logo" />
                     </Link>
                 </div>
                 <input
@@ -29,14 +29,13 @@ function Searchbar() {
                     className="form-control"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                    onKeyDown={handleKeyDown}
                 />
                 <div className="input-group-append">
                     <button
                         type="button"
                         className="input-group-text searchbar"
                         onClick={handleSearch}
-                        onKeyDown={handleKeyDown}
                     >
                         <ion-icon name="search-outline"></ion-icon>
                     </button>

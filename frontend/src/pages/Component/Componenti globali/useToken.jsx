@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
 function useToken() {
     const getToken = () => sessionStorage.getItem('token');
@@ -15,9 +15,9 @@ function useToken() {
     };
 
     return {
-        token,
-        setToken,
-        removeToken
+        token: token, // destrutturo il valore di stato 'token'
+        setToken: setToken, // destrutturo la funzione setter 'setToken'
+        removeToken: removeToken
     };
 }
 

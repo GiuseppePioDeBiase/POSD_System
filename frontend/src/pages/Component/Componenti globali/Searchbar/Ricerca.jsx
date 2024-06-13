@@ -1,6 +1,6 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import {useLocation} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Card from '../../GestionePKB/Card.jsx'; // Assicurati che il percorso sia corretto
 
 function useQuery() {
@@ -43,8 +43,8 @@ function Ricerca() {
                 <p>Nessun risultato trovato</p>
             ) : (
                 <div className="flex flex-wrap -mx-2">
-                    {patterns.map((pattern, index) => (
-                        <div key={index} className="px-2 py-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+                    {patterns.map((pattern) => (
+                        <div key={pattern.id} className="px-2 py-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
                             <Card
                                 title={pattern.name}
                                 description={pattern.description}
