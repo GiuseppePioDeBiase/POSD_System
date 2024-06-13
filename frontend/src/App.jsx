@@ -6,7 +6,7 @@ import {BrowserRouter as Router, Routes, Route, useNavigate, Navigate} from 'rea
 import NavBar from './pages/Component/Componenti globali/Navbar/NavBar.jsx';
 import Searchbar from './pages/Component/Componenti globali/Searchbar/Searchbar.jsx';
 import Home from './pages/Component/Home.jsx';
-import InserisciFeedback from "./pages/Component/GestioneFeedback/InserisciFeedback.jsx";
+import Feedback from "./pages/Component/GestioneFeedback/Feedback.jsx";
 import Contatti from "./pages/Component/Contatti/Contatti.jsx";
 import NotFound from "./pages/Component/Componenti globali/NotFound/NotFound.jsx";
 import Login from "./pages/Component/GestioneAutenticazione/Login.jsx";
@@ -44,13 +44,13 @@ function App() {
     // Funzione reinderizzamento e caricamento 5 secondi ricordati che c'è il css in App.css ti segno da dove a dove
 const ProtectedRouteRuolo = ({ children, ruolo }) => {
     const navigate = useNavigate();
-    const [countdown, setCountdown] = useState(5); // Countdown di 5 secondi
+    const [countdown, setCountdown] = useState(3); // Countdown di 3 secondi
     const [error, setError] = useState('');
 
     useEffect(() => {
         let timer;
         if (ruolo !== "Utente") {
-            setError('GestioneAutenticazione negato: Non sei autorizzato a visualizzare questo modulo.');
+            setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
             timer = setInterval(() => {
                 setCountdown((prevCount) => prevCount - 1);
             }, 1000);
@@ -58,7 +58,7 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
             // Reindirizza dopo 5 secondi
             setTimeout(() => {
                 navigate('/');
-            }, 5000);
+            }, 3000);
         }
         return () => clearInterval(timer);
     }, [ruolo, navigate]);
@@ -191,13 +191,13 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                         )}
                     </ProtectedRouteToken>
                 } />
-                <Route path="/InserisciFeedback" element={
+                <Route path="/Feedback" element={
                     <ProtectedRouteToken token={token}>
                         <ProtectedRouteRuolo ruolo={ruolo}>
                             <div>
                                 <NavBar token={token} ruolo={ruolo} />
                                 <Searchbar />
-                                <InserisciFeedback token={token} setToken={setToken} />
+                                <Feedback token={token} setToken={setToken} />
                             </div>
                         </ProtectedRouteRuolo>
                     </ProtectedRouteToken>

@@ -59,7 +59,7 @@ function NavBar({token}) {
     { to: "/", icon: "home-outline", text: "Home", bg: "#ffa117" },
     { to: "/POSD", icon: "eye-outline", text: "POSD", bg: "#f44336" },
     { to: "/Contatti", icon: "mail-outline", text: "Contatti", bg: "#e91e63" },
-    { to: "/InserisciFeedback", icon: "clipboard-outline", text: "Feedback", bg: "#b145e9" },
+    { to: "/Feedback", icon: "clipboard-outline", text: "Feedback", bg: "#b145e9" },
   ];
 
    let bottomItems = [];
