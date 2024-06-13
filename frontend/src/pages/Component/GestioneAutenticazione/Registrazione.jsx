@@ -4,7 +4,7 @@ import {useNavigate, Link} from 'react-router-dom';
 import PropTypes from "prop-types";
 
 
-function SetRegistrazione(props) {
+function Registrazione(props) {
 
     const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ function SetRegistrazione(props) {
         event.preventDefault();
         axios({
             method: 'POST',
-            url: 'http://127.0.0.1:5000/api/registrazione', // Registration endpoint
+            url: 'http://127.0.0.1:5000/api/registrazione',
             data: {
                 nome: RegistrazioneForm.nome,
                 cognome: RegistrazioneForm.cognome,
@@ -34,8 +34,8 @@ function SetRegistrazione(props) {
             }
         })
             .then((response) => {
-                props.setRuolo(response.data.ruolo); // Set role using the useRuolo hook
-                props.setToken(response.data.token); // Set token using the prop
+                props.setRuolo(response.data.ruolo);
+                props.setToken(response.data.token);
                 setError(''); // Reset error
 
                 navigate("/Profili")
@@ -161,7 +161,7 @@ function SetRegistrazione(props) {
                                         value={RegistrazioneForm.genere}
                                     >
                                         <option value="" disabled hidden>Seleziona il genere</option>
-                                        <option value="Maschio">Uomo</option>
+                                        <option value="Uomo">Uomo</option>
                                         <option value="Donna">Donna</option>
                                         <option value="Anonimo">Anonimo</option>
                                     </select>
@@ -190,9 +190,9 @@ function SetRegistrazione(props) {
                                 </div>
                                 {error && <div
                                     className="text-red-500 text-sm mt-4 text-center">{error}</div>} {/* Center align error message */}
-                                <Link to="/setLogin"
+                                <Link to="/Login"
                                       className="block text-center text-gray-600 underline mt-4"> {/* Adjust the margin */}
-                                    Torna alla pagina di setLogin
+                                    Torna alla pagina di Login
                                 </Link>
                             </div>
                         </div>
@@ -203,8 +203,8 @@ function SetRegistrazione(props) {
     );
 }
 
-SetRegistrazione.propTypes = {
+Registrazione.propTypes = {
     setToken: PropTypes.func.isRequired,
     setRuolo: PropTypes.func.isRequired
 };
-export default SetRegistrazione;
+export default Registrazione;

@@ -1,19 +1,24 @@
 import { useState } from 'react';
 import axios from 'axios';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import PropTypes from "prop-types";
 
-function InserisciFeedback() {
-
+function Feedback({token}) {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
-  const [status, setStatus] = useState(null);
+  const [status, setStatus] = useState('');
+  const [showStatus, setShowStatus] = useState(false);
+  const [responseData, setResponseData] = useState(null); // New state variable
   const navigate = useNavigate();
+
   const validateForm = () => {
     if (subject.trim() === '' || message.trim() === '') {
       setStatus('Oggetto e messaggio non possono essere vuoti!');
+      setShowStatus(true);
       return false;
     }
-    setStatus(null);
+    setStatus('');
+    setShowStatus(false);
     return true;
   };
 
@@ -26,11 +31,18 @@ function InserisciFeedback() {
       const response = await axios.post('http://localhost:5000/api/feedback', {
         oggetto: subject,
         messaggio: message
-      });
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        }});
       setStatus(response.data.message);
+      setResponseData(response.data.message)
+      setShowStatus(true);
       navigate(0);
     } catch (error) {
       setStatus('Errore nell\'invio del feedback');
+      setShowStatus(true);
     }
   };
 
@@ -40,7 +52,7 @@ function InserisciFeedback() {
         <div className="p-6 sm:p-8">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-900 text-center mb-4">Feedback</h2>
           <p className="text-lg text-gray-600 text-center mb-6">
-            Lascia un feedback sulla tua personale esperienza sul sito PrivacyByDesing!
+            Lascia un feedback sulla tua personale esperienza sul sito POSD System!
           </p>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -66,6 +78,13 @@ function InserisciFeedback() {
                 required
               ></textarea>
             </div>
+            {responseData && (
+              <div className="mb-4">
+                <pre className="bg-gray-100 p-4 rounded text-gray-700">
+                  {setResponseData}
+                </pre>
+              </div>
+            )}
             <div className="flex justify-center items-center">
               <button
                 type="submit"
@@ -75,11 +94,15 @@ function InserisciFeedback() {
               </button>
             </div>
           </form>
-          {status && <p className="mt-4 text-lg text-center">{status}</p>}
+          {showStatus && <p className="mt-4 text-lg text-center">{status}</p>}
         </div>
       </div>
     </div>
   );
 }
 
-export default InserisciFeedback;
+Feedback.propTypes = {
+  token: PropTypes.string.isRequired,
+};
+
+export default Feedback;

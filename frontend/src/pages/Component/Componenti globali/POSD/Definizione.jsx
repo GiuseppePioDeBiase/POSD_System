@@ -19,12 +19,11 @@ const Definizione = ({props , ruolo}) => {
       navigate1("/Login")
     }else{
       if (ruolo!=="Utente"){
-        setError('GestioneAutenticazione negato: Non sei autorizzato a visualizzare questo modulo.');
+        setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
       }else{
         setShowFeedbackForm(!showFeedbackForm);
       }
     }
-    
   };
 
   return (

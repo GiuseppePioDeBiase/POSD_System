@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Card, CardContent, Container, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import {  handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from './Profili';
 import PropTypes from 'prop-types';
@@ -26,20 +26,13 @@ function base64ToBlob(base64Data, contentType) {
 
 export default function ProfiloCISO(props) {
     const navigate = useNavigate();
-    const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
+
     const [StoricoSegnalazioniVisibile, setStoricoSegnalazioniVisibile] = useState(false);
     const [aggiungiLicenzaVisibile, setAggiungiLicenzaVisibile] = useState(false);
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
-    const [password, setPassword] = useState('');
-    const [confermaPassword, setConfermaPassword] = useState('');
-    const [profilo, setProfilo] = useState(
-        { nome: '',
-            cognome: '',
-            email: '',
-            ruolo: '',
-            genere: '' });
 
-    const [status, setStatus] = useState({});
+    const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '', genere: '' });
+    const [ setStatus] = useState({});
     const [file, setFile] = useState({});
     const [fileUrl, setFileUrl] = useState(null); // Stato per l'URL del file
     const [licenzaNome, setLicenzaNome] = useState('Nessun file presente'); // Stato per il nome della licenza
@@ -115,47 +108,26 @@ export default function ProfiloCISO(props) {
 
     const SegnalazioniAccettateRifiutate = () => {
         setSegnalazioniVisibile(!segnalazioniVisibile);
-        setModificaProfiloVisibile(false);
         setAggiungiLicenzaVisibile(false);
         setStoricoSegnalazioniVisibile(false);
     };
     const Storico = () => {
         setStoricoSegnalazioniVisibile(!StoricoSegnalazioniVisibile);
-        setModificaProfiloVisibile(false);
         setAggiungiLicenzaVisibile(false);
         setSegnalazioniVisibile(false  );
     };
 
     const InserisciLicenza = () => {
         setAggiungiLicenzaVisibile(!aggiungiLicenzaVisibile);
-        setModificaProfiloVisibile(false);
         setSegnalazioniVisibile(false);
         setStoricoSegnalazioniVisibile(false);
     };
 
-    const toggleModificaProfilo = () => {
-        setModificaProfiloVisibile(!modificaProfiloVisibile);
-        setAggiungiLicenzaVisibile(false);
-        setSegnalazioniVisibile(false);
-        setStoricoSegnalazioniVisibile(false);
-    };
 
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-    };
 
-    const handleConfermaPasswordChange = (event) => {
-        setConfermaPassword(event.target.value);
-    };
 
-    const handleSubmit = () => {
-        if (password !== confermaPassword) {
-            alert("Le password non corrispondono!");
-            return;
-        }
-        navigate(0);
-        // Add logic to submit profile changes
-    };
+
+
 
     const handleFileUpload = async () => {
         if (!validateFILE()) {
@@ -244,7 +216,7 @@ export default function ProfiloCISO(props) {
                                     style={{ display: 'none' }}
                                 />
                             </Box>
-                            <Typography variant="h6" gutterBottom>{getWelcomeMessage()}</Typography>
+                            <Typography variant="h6" gutterBottom>{getWelcomeMessage(profilo.genere)}</Typography>
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
                             <Typography variant="subtitle1">{profilo.ruolo}</Typography>
                             <Box sx={{ mt: 5, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -256,9 +228,6 @@ export default function ProfiloCISO(props) {
                                 </Button>
                                 <Button variant="contained" color="warning" onClick={Storico} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
                                     Storico Segnalazioni
-                                </Button>
-                                <Button variant="contained" color="warning" onClick={toggleModificaProfilo} sx={{ width: '100%', maxWidth: '300px' }}>
-                                    Modifica profilo
                                 </Button>
                             </Box>
                         </CardContent>
@@ -274,6 +243,9 @@ export default function ProfiloCISO(props) {
                         <CardContent>
                             <Grid container spacing={2}>
                                 {renderDettagliProfilo(profilo)}
+                                <Grid item xs={12}>
+                                <hr />
+                                </Grid>
                                 <Grid item xs={12} md={3}>
                                     <Typography variant="subtitle1">Licenza</Typography>
                                 </Grid>
@@ -281,7 +253,7 @@ export default function ProfiloCISO(props) {
                                     <Typography variant="body1" color="text.secondary">{licenzaNome}</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <hr />
+                                    <hr/>
                                 </Grid>
                             </Grid>
                         </CardContent>
@@ -291,34 +263,6 @@ export default function ProfiloCISO(props) {
                         <Grid item xs={12}>
                             <Card sx={{ mb: 4 }}>
                                 <CardContent>
-                                    {modificaProfiloVisibile && (
-                                        <Box>
-                                            <TextField
-                                                label="Password"
-                                                type="password"
-                                                variant="outlined"
-                                                fullWidth
-                                                sx={{ mb: 3 }}
-                                                onChange={handlePasswordChange}
-                                            />
-                                            <TextField
-                                                label="Conferma Password"
-                                                type="password"
-                                                variant="outlined"
-                                                fullWidth
-                                                sx={{ mb: 3 }}
-                                                onChange={handleConfermaPasswordChange}
-                                            />
-                                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                                <Button variant="contained" color="secondary" onClick={toggleModificaProfilo} sx={{ mr: 2 }}>
-                                                    Annulla
-                                                </Button>
-                                                <Button variant="contained" color="success" onClick={handleSubmit}>
-                                                    Conferma modifiche
-                                                </Button>
-                                            </Box>
-                                        </Box>
-                                    )}
 
                                     {segnalazioniVisibile && <SetSegnalazioni token={props.token} />}
                                     {StoricoSegnalazioniVisibile && <StoricoSegnalazioni token={props.token}  ruolo={profilo.ruolo}/>}

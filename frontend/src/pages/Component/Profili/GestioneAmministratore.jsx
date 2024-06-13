@@ -1,23 +1,13 @@
 import {useState} from "react";
 import axios from 'axios';
 import PropTypes from 'prop-types';
+
+import {Container, Grid, Card, CardContent, Typography, TextField, Button, Avatar, MenuItem, Alert, Box
+} from '@mui/material';
 import SegnalazioniAccettate from '../GestioneSegnalazione/SegnalazioniAccettate.jsx';
 import UtentiRegistrati from './UtentiRegistrati.jsx';
-import { useFetchProfile, handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from './Profili';
-import {
-    Container,
-    Grid,
-    Card,
-    CardContent,
-    Typography,
-    TextField,
-    Button,
-    Avatar,
-    MenuItem,
-    Alert,
-    Box
-} from '@mui/material';
 
+import { useFetchProfile, handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from './Profili';
 
 export default function GestioneAmministratore({ token }) {
     const [aggiungiProfiloVisibile, setAggiungiProfiloVisibile] = useState(false);
@@ -102,7 +92,7 @@ export default function GestioneAmministratore({ token }) {
                                     style={{ display: 'none' }}
                                 />
                             </Box>
-                            <Typography variant="h6" gutterBottom>{getWelcomeMessage()}</Typography>
+                           <Typography variant="h6" gutterBottom>{getWelcomeMessage(profilo.genere)}</Typography>
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
                             <Typography variant="subtitle1">{profilo.ruolo}</Typography>
                             <Box sx={{mt: 5, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>

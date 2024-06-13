@@ -1,68 +1,25 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-    Container,
-    Grid,
-    Card,
-    CardContent,
-    Typography,
-    TextField,
-    Button,
-    Avatar,
-    Box,
-    Alert
-} from '@mui/material';
-import { useFetchProfile, handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from './Profili';
+import {Container,Grid, Card, CardContent, Typography, Button, Avatar, Box} from '@mui/material';
+import { useFetchProfile, handleAvatarChange, getWelcomeMessage, renderDettagliProfilo, handleAvatarClick } from './Profili';
 import StoricoSegnalazioni from "../GestioneSegnalazione/StoricoSegnalazioni.jsx";
-import StoricoFeedback from "../GestioneFeedback/StoricoFeedback.jsx"
-
-
+import StoricoFeedback from "../GestioneFeedback/StoricoFeedback.jsx";
 
 export default function GestioneUtente({ token }) {
-    const { profilo, error, setError } = useFetchProfile(token);
-    const [modificaProfiloVisibile, setModificaProfiloVisibile] = useState(false);
+    const { profilo} = useFetchProfile(token);
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
-    const [FeedbackVisibile, setFeedbackVisibile] = useState(false);
-    const [password, setPassword] = useState('');
-    const [confermaPassword, setConfermaPassword] = useState('');
+    const [feedbackVisibile, setFeedbackVisibile] = useState(false);
     const [avatar, setAvatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
 
-    const toggleModificaProfilo = () => {
-        setModificaProfiloVisibile(!modificaProfiloVisibile);
-        setSegnalazioniVisibile(false);
-        setFeedbackVisibile(false);
-    };
-
-    const Storico = () => {
+    const toggleSegnalazioniVisibile = () => {
         setSegnalazioniVisibile(!segnalazioniVisibile);
-        setModificaProfiloVisibile(false);
         setFeedbackVisibile(false);
     };
 
     const toggleFeedbackVisibile = () => {
-        setFeedbackVisibile(!FeedbackVisibile);
-        setModificaProfiloVisibile(false);
+        setFeedbackVisibile(!feedbackVisibile);
         setSegnalazioniVisibile(false);
     };
-
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-    };
-
-    const handleConfermaPasswordChange = (event) => {
-        setConfermaPassword(event.target.value);
-    };
-
-    const handleSubmit = () => {
-        if (password !== confermaPassword) {
-            setError("Le password non corrispondono!");
-            return;
-        }
-
-        // Qui inserisci la logica per inviare le modifiche del profilo
-    };
-
-
 
     return (
         <Container sx={{ py: 5 }}>
@@ -87,16 +44,13 @@ export default function GestioneUtente({ token }) {
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
                             <Typography variant="subtitle1">{profilo.ruolo}</Typography>
                             <Box sx={{ mt: 5, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <Button variant="contained" color="warning" onClick={Storico}
+                                <Button variant="contained" color="warning" onClick={toggleSegnalazioniVisibile}
                                     sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
                                     Segnalazioni
                                 </Button>
-                                <Button variant="contained" color="warning" onClick={toggleFeedbackVisibile} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
-                                    Feedback
-                                </Button>
-                                <Button variant="contained" color="warning" onClick={toggleModificaProfilo}
+                                <Button variant="contained" color="warning" onClick={toggleFeedbackVisibile}
                                     sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
-                                    Modifica profilo
+                                    Feedback
                                 </Button>
                             </Box>
                         </CardContent>
@@ -121,31 +75,8 @@ export default function GestioneUtente({ token }) {
                         <Grid item xs={12}>
                             <Card sx={{ mb: 4 }}>
                                 <CardContent>
-                                    {modificaProfiloVisibile && (
-                                        <Card sx={{ mb: 3 }}>
-                                            <CardContent>
-                                                <Typography variant="h6">Modifica Profilo</Typography>
-                                                <TextField label="Nome" name="nome" value={profilo.nome} fullWidth
-                                                    sx={{ mb: 2 }} />
-                                                <TextField label="Cognome" name="cognome" value={profilo.cognome}
-                                                    fullWidth sx={{ mb: 2 }} />
-                                                <TextField label="Email" name="email" value={profilo.email} fullWidth
-                                                    sx={{ mb: 2 }} />
-                                                <TextField label="Password" name="password" type="password"
-                                                    value={password} onChange={handlePasswordChange} fullWidth
-                                                    sx={{ mb: 2 }} />
-                                                <TextField label="Conferma password" name="confermaPassword" type="password"
-                                                    value={confermaPassword} onChange={handleConfermaPasswordChange} fullWidth
-                                                    sx={{ mb: 2 }} />
-                                                <Button variant="contained" color="warning" onClick={handleSubmit}>Salva
-                                                    Modifiche</Button>
-                                                {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-                                            </CardContent>
-                                        </Card>
-                                    )}
-
                                     {segnalazioniVisibile && (<StoricoSegnalazioni token={token} ruolo={profilo.ruolo} />)}
-                                    {FeedbackVisibile && (<StoricoFeedback token={token} />)}
+                                    {feedbackVisibile && (<StoricoFeedback token={token} />)}
                                 </CardContent>
                             </Card>
                         </Grid>
@@ -154,7 +85,6 @@ export default function GestioneUtente({ token }) {
             </Grid>
         </Container>
     );
-
 }
 
 GestioneUtente.propTypes = {
