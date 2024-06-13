@@ -1,9 +1,9 @@
 import  { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
-import GestioneCISO from "./GestioneCISO.jsx";
-import ProfileUR from "./GestioneUtente.jsx";
-import GestioneAmministratore from "./GestioneAmministratore.jsx";
+import GestioneCISO from "./GestioCISO/GestioneCISO.jsx";
+import ProfileUR from "./GestioneUtenteRegistrato/GestioneUtente.jsx";
+import GestioneAmministratore from "./GestioneAmministratore/GestioneAmministratore.jsx";
 
 export function useFetchProfile(token) {
   const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '', genere: '' });
@@ -125,7 +125,7 @@ export function renderDettagliProfilo(profilo) {
     </>
   );
 }
-function Profili({ token, ruolo }) {
+function GestioneProfili({ token, ruolo }) {
   const { profilo, error } = useFetchProfile(token);
 
 
@@ -146,10 +146,10 @@ function Profili({ token, ruolo }) {
   }
 }
 
-Profili.propTypes = {
+GestioneProfili.propTypes = {
   ruolo: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired
 };
 
 
-export default Profili;
+export default GestioneProfili;

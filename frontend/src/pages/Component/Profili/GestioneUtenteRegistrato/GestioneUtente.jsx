@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import {Container,Grid, Card, CardContent, Typography, Button, Avatar, Box} from '@mui/material';
-import { useFetchProfile, handleAvatarChange, getWelcomeMessage, renderDettagliProfilo, handleAvatarClick } from './Profili';
-import StoricoSegnalazioni from "../GestioneSegnalazione/StoricoSegnalazioni.jsx";
-import StoricoFeedback from "../Feedback/StoricoFeedback.jsx";
+import { useFetchProfile, handleAvatarChange, getWelcomeMessage, renderDettagliProfilo, handleAvatarClick } from '../GestioneProfili.jsx';
+import StoricoSegnalazioni from "../../GestioneSegnalazione/StoricoSegnalazioni.jsx";
+import StoricoFeedback from "../../Feedback/StoricoFeedback.jsx";
 
 export default function GestioneUtente({ token }) {
     const { profilo} = useFetchProfile(token);

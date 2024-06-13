@@ -13,22 +13,10 @@ function GestioneFeedback({token}) {
   const [formSubmitted, setFormSubmitted] = useState(false); // Stato per controllare se il form è stato inviato
   const navigate = useNavigate();
 
-  const validateForm = () => {
-    if (subject.trim() === '' || message.trim() === '') {
-      setStatus('Oggetto e messaggio non possono essere vuoti!');
-      setShowStatus(true);
-      return false;
-    }
-    setStatus('');
-    setShowStatus(false);
-    return true;
-  };
+
   const InserisciFeedback = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
     try {
       const response = await axios.post('http://localhost:5000/api/feedback', {
         oggetto: subject,

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Avatar, Box, Button, Card, CardContent, Container, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import {  handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from './Profili';
+import {  handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from '../GestioneProfili.jsx';
 import PropTypes from 'prop-types';
 import axios from "axios";
-import StoricoSegnalazioni from "../GestioneSegnalazione/StoricoSegnalazioni.jsx"
-import SetSegnalazioni from "../GestioneSegnalazione/SetSegnalazioni.jsx";
+import StoricoSegnalazioni from "../../GestioneSegnalazione/StoricoSegnalazioni.jsx"
+import SetSegnalazioni from "./SetSegnalazioni.jsx";
 //funzioni CISO
 function base64ToBlob(base64Data, contentType) {
     const byteCharacters = atob(base64Data.split(',')[1]);

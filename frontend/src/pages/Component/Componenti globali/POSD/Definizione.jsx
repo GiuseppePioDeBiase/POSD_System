@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import SegnalazioneUR from '../../GestioneSegnalazione/SegnalazioneUR.jsx';
+import InserisciSegnalazione from '../../GestioneSegnalazione/InserisciSegnalazione.jsx';
 import PropTypes from "prop-types";
 
 const Definizione = ({props , ruolo}) => {
@@ -48,7 +48,7 @@ const Definizione = ({props , ruolo}) => {
         </div>
       )}
       {error && <p className="text-center font-bold" style={{ color: 'red' }}>{error}</p>}
-      {showFeedbackForm && <SegnalazioneUR onClose={toggleFeedbackForm}  titolo={pattern.Pattern} token={props}/>}
+      {showFeedbackForm && <InserisciSegnalazione onClose={toggleFeedbackForm} titolo={pattern.Pattern} token={props}/>}
 
       <div className="bg-white shadow-md rounded-lg p-4 mb-4">
         <div className="mt-4">

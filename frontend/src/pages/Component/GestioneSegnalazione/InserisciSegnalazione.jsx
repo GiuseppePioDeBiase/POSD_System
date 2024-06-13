@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
 
-const SegnalazioneUR = ({ token, titolo }) => {
+const InserisciSegnalazione = ({ token, titolo }) => {
   const subject = "Segnalazione per il pattern: " + titolo;
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState(null);
@@ -84,9 +84,9 @@ const handleSubmit = async (e) => {
   );
 };
 
-SegnalazioneUR.propTypes = {
+InserisciSegnalazione.propTypes = {
   token: PropTypes.string.isRequired,
   titolo: PropTypes.string.isRequired
 };
 
-export default SegnalazioneUR;
+export default InserisciSegnalazione;

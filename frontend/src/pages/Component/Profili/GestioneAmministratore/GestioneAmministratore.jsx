@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import {Container, Grid, Card, CardContent, Typography, TextField, Button, Avatar, MenuItem, Alert, Box
 } from '@mui/material';
-import SegnalazioniAccettate from '../GestioneSegnalazione/SegnalazioniAccettate.jsx';
+import SegnalazioniAccettate from './SegnalazioniAccettate.jsx';
 import UtentiRegistrati from './UtentiRegistrati.jsx';
-import { useFetchProfile, handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from './Profili';
+import { useFetchProfile, handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from '../GestioneProfili.jsx';
 
 export default function GestioneAmministratore({ token }) {
     const [aggiungiProfiloVisibile, setAggiungiProfiloVisibile] = useState(false);
@@ -183,7 +183,7 @@ export default function GestioneAmministratore({ token }) {
                                         <Card sx={{mb: 3}}>
                                             <CardContent>
                                                 <Typography variant="h6">Lista Utenti Registrati</Typography>
-                                                <UtentiRegistrati token={token}/>
+                                                    <UtentiRegistrati token={token}/>
                                             </CardContent>
                                         </Card>
                                     )}

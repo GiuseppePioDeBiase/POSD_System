@@ -18,9 +18,9 @@ import POSD from './pages/Component/Componenti globali/POSD/Filtro/POSD.jsx';
 import Definizione from './pages/Component/Componenti globali/POSD/Definizione.jsx';
 import Ricerca from "./pages/Component/Componenti globali/Searchbar/Ricerca.jsx";
 import PropTypes from "prop-types";
-import Profili from "./pages/Component/Profili/Profili.jsx";
-import SegnalazioniAccettateRifiutate from './pages/Component/GestioneSegnalazione/SegnalazioniAccettateRifiutate.jsx';
-import AggiungiSegnalazione from "./pages/Component/GestioneSegnalazione/AggiungiSegnalazione.jsx";
+import GestioneProfili from "./pages/Component/Profili/GestioneProfili.jsx";
+import SegnalazioniAccettateRifiutate from './pages/Component/Profili/GestioCISO/SegnalazioniAccettateRifiutate.jsx';
+import AggiungiSegnalazione from "./pages/Component/GestioneSegnalazione/InserisciSegnalazione.jsx";
 function App() {
     const [patterns, setPatterns] = useState([]);
     const { token, setToken } = useToken();
@@ -169,7 +169,7 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                     <ProtectedRouteToken token={token}>
                         <div>
                             <NavBar token={token} />
-                            <Profili token={token} ruolo={ruolo} />
+                            <GestioneProfili token={token} ruolo={ruolo} />
                         </div>
                     </ProtectedRouteToken>
                 } />
@@ -187,7 +187,7 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                         {ruolo === 'Amministratore di sistema' ? (
                             <AggiungiSegnalazione token={token} />
                         ) : (
-                            <Navigate to="/Profili" />
+                            <Navigate to="/GestioneProfili" />
                         )}
                     </ProtectedRouteToken>
                 } />
