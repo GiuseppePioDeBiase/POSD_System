@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import {useNavigate} from "react-router-dom";
 
 const SegnalazioneUR = ({ token, titolo }) => {
   const subject = "Segnalazione per il pattern: " + titolo;
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState(null);
-  const navigate=useNavigate();
+
   const validateForm = () => {
     if (message.trim() === '') {
       setStatus('Il messaggio non può essere vuoto!');
@@ -33,7 +32,6 @@ const handleSubmit = async (e) => {
         }
       });
       setStatus(response.data.messaggio);
-      navigate(0);
     } catch (error) {
       if (error.response) {
         setStatus(error.response.data.messaggio || 'Errore nell\'invio del feedback');
