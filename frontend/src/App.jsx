@@ -14,7 +14,7 @@ import GestioneRegistrazione from "./pages/Component/GestioneAutenticazione/Gest
 import GestioneLogout from "./pages/Component/GestioneAutenticazione/GestioneLogout.jsx";
 import Full from "./pages/Component/GestionePKB/Full.jsx";
 import Information from "./pages/Component/GestionePKB/Information.jsx";
-import POSD from './pages/Component/Componenti globali/POSD/Filtro/POSD.jsx';
+import Posd from './pages/Component/Componenti globali/POSD/Filtro/POSD.jsx';
 import Definizione from './pages/Component/Componenti globali/POSD/Definizione.jsx';
 import Ricerca from "./pages/Component/Componenti globali/Searchbar/Ricerca.jsx";
 import PropTypes from "prop-types";
@@ -130,7 +130,7 @@ function App() {
                     <div>
                         <NavBar token={token}/>
                         <Searchbar/>
-                        <POSD/>
+                        <Posd/>
                     </div>
                 }/>
                 <Route path="/ricerca" element={

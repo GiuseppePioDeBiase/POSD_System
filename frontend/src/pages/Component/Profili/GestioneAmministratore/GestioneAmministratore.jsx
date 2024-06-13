@@ -17,7 +17,8 @@ import {
 
 export default function GestioneAmministratore({token}) {
     const [aggiungiProfiloVisibile, setAggiungiProfiloVisibile] = useState(false);
-    const [feedbackVisibile, setfeedbackVisibile] = useState(false);
+    const [feedbackVisibile, setFeedbackVisibile] = useState(false);
+
     const {profilo, error, setError} = useFetchProfile(token);
     const [registrazioneForm, setRegistrazioneForm] = useState({
         nome: '',
@@ -37,14 +38,14 @@ export default function GestioneAmministratore({token}) {
         setSegnalazioniVisibile(!segnalazioniVisibile);
         setAggiungiProfiloVisibile(false);
         setUtentiVisibile(false);
-        setfeedbackVisibile(false);
+        setFeedbackVisibile(false);
     };
 
     const RegistraUtenti = () => {
         setAggiungiProfiloVisibile(!aggiungiProfiloVisibile);
         setSegnalazioniVisibile(false);
         setUtentiVisibile(false);
-        setfeedbackVisibile(false);
+        setFeedbackVisibile(false);
         setError('');
     };
 
@@ -52,13 +53,13 @@ export default function GestioneAmministratore({token}) {
         setUtentiVisibile(!utentiVisibile);
         setSegnalazioniVisibile(false);
         setAggiungiProfiloVisibile(false);
-        setfeedbackVisibile(false);
+        setFeedbackVisibile(false);
     };
     const togglefeedbackVisibile = () => {
         setUtentiVisibile(false);
         setSegnalazioniVisibile(false);
         setAggiungiProfiloVisibile(false);
-        setfeedbackVisibile(!feedbackVisibile);
+        setFeedbackVisibile(!feedbackVisibile);
     };
 
     const registrami = (event) => {

@@ -8,7 +8,7 @@ function GestioneRegistrazione(props) {
 
     const navigate = useNavigate();
     const [error, setError] = useState(''); // Correctly define setError state
-    const [RegistrazioneForm, setRegistrazioneForm] = useState({
+    const [registrazioneForm, setRegistrazioneForm] = useState({
         nome: '',
         cognome: '',
         email: '',
@@ -23,11 +23,11 @@ function GestioneRegistrazione(props) {
             method: 'POST',
             url: 'http://127.0.0.1:5000/api/registrazione',
             data: {
-                nome: RegistrazioneForm.nome,
-                cognome: RegistrazioneForm.cognome,
-                email: RegistrazioneForm.email,
-                genere: RegistrazioneForm.genere,
-                password: RegistrazioneForm.password
+                nome: registrazioneForm.nome,
+                cognome: registrazioneForm.cognome,
+                email: registrazioneForm.email,
+                genere: registrazioneForm.genere,
+                password: registrazioneForm.password
             }
         })
             .then((response) => {
@@ -72,7 +72,7 @@ function GestioneRegistrazione(props) {
                                         name="nome"
                                         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600 mb-2"
                                         placeholder="Nome"
-                                        value={RegistrazioneForm.nome}
+                                        value={registrazioneForm.nome}
                                     />
                                     <label
                                         htmlFor="nome"
@@ -90,7 +90,7 @@ function GestioneRegistrazione(props) {
                                         name="cognome"
                                         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600 mb-2"
                                         placeholder="Cognome"
-                                        value={RegistrazioneForm.cognome}
+                                        value={registrazioneForm.cognome}
                                     />
                                     <label
                                         htmlFor="cognome"
@@ -107,7 +107,7 @@ function GestioneRegistrazione(props) {
                                         name="email"
                                         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600 mb-2"
                                         placeholder="Email"
-                                        value={RegistrazioneForm.email}
+                                        value={registrazioneForm.email}
                                     />
                                     <label
                                         htmlFor="email"
@@ -124,7 +124,7 @@ function GestioneRegistrazione(props) {
                                         name="password"
                                         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600 mb-2"
                                         placeholder="Password"
-                                        value={RegistrazioneForm.password}
+                                        value={registrazioneForm.password}
                                     />
                                     <label
                                         htmlFor="password"
@@ -141,7 +141,7 @@ function GestioneRegistrazione(props) {
                                         name="confirmPassword"
                                         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600 mb-2"
                                         placeholder="Conferma Password"
-                                        value={RegistrazioneForm.confirmPassword}
+                                        value={registrazioneForm.confirmPassword}
                                     />
                                     <label
                                         htmlFor="confirmPassword"
@@ -155,7 +155,7 @@ function GestioneRegistrazione(props) {
                                         onChange={handleChange}
                                         name="genere"
                                         className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                                        value={RegistrazioneForm.genere}
+                                        value={registrazioneForm.genere}
                                     >
                                         <option value="" disabled hidden>Seleziona il genere</option>
                                         <option value="Uomo">Uomo</option>
