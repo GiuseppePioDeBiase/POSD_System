@@ -18,15 +18,18 @@ const Information = ({props, ruolo}) => {
 
     const toggleFeedbackForm = () => {
         if (!props) {
-            navigate1("/Login")
-        } else {
-            if (ruolo !== "Utente") {
-                setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
-            } else {
-                setShowFeedbackForm(!showFeedbackForm);
-            }
+            navigate1("/Login");
+            return;
         }
+
+        if (ruolo !== "Utente") {
+            setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
+            return;
+        }
+
+        setShowFeedbackForm(!showFeedbackForm);
     };
+
 
     return (
         <div className="max-w-7xl mx-auto p-4">

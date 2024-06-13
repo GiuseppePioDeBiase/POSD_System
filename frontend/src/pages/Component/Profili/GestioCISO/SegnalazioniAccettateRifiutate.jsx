@@ -50,7 +50,7 @@ const SegnalazioniAccettateRifiutate = ({token}) => {
             navigate(-1);
         } catch (error) {
             console.error("Risposta errore:", error.response); // Log per debugging
-            if (error.response && error.response.data.messaggio) {
+            if (error.response?.data?.messaggio) {
                 setStatus(error.response.data.messaggio);
             } else {
                 setStatus('Si è verificato un errore durante l\'elaborazione della richiesta.');
@@ -83,7 +83,7 @@ const SegnalazioniAccettateRifiutate = ({token}) => {
             navigate('/Profili');
         } catch (error) {
             console.error("Risposta errore:", error.response); // Log per debugging
-            if (error.response && error.response.data.messaggio) {
+            if (error.response?.data?.messaggio) {
                 setStatus(error.response.data.messaggio);
             } else {
                 setStatus('Si è verificato un errore durante l\'elaborazione della richiesta.');

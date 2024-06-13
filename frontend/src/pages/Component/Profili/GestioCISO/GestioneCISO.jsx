@@ -149,7 +149,7 @@ export default function ProfiloCISO(props) {
             navigate(0);
         } catch (error) {
             console.error("Risposta errore:", error.response);
-            if (error.response && error.response.data && error.response.data.messaggio) {
+            if (error.response?.data?.messaggio) {
                 setStatus(error.response.data.messaggio);
             } else {
                 setStatus('Si è verificato un errore durante l\'elaborazione della richiesta.');
