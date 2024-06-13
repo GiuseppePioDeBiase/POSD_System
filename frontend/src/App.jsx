@@ -36,7 +36,7 @@ function App() {
     // Componente per route protette in base al token
     const ProtectedRouteToken = ({ children, token }) => {
         if (!token) {
-            return <Navigate to="/GestioneLogin" />;
+            return <Navigate to="/Login" />;
         }
         return children;
     };
