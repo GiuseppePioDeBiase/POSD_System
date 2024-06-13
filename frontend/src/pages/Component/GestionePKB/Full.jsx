@@ -46,9 +46,9 @@ const Full = () => {
                 </div>
             )}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {patternDetails.map((pattern, index) => (
+                {patternDetails.map((pattern) => (
                     <Card
-                        key={index}
+                        key={pattern.Pattern} // Use a unique identifier for the key
                         title={pattern.Pattern}
                         description={pattern['Description Pattern']}
                         className="w-auto h-auto"

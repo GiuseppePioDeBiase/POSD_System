@@ -59,17 +59,16 @@ function POSD() {
     };
 
     const applyFilter = (pattern) => {
-    const { mvc, strategy, isoPhase, article, cwe, owasp } = selectedFilters;
-    return (
-        (!mvc || pattern['Collocazione MVC']?.includes(mvc)) &&
-        (!strategy || pattern['Strategies']?.includes(strategy)) &&
-        (!isoPhase || pattern['ISO 9241-210 Phase']?.includes(isoPhase)) &&
-        (!article || pattern['Article GDPR Compliance with the Pattern']?.includes(article)) &&
-        (!cwe || pattern['CWE Top 25 Most Dangerous Software Weaknesses OWASP Categories Associated']?.includes(cwe)) &&
-        (!owasp || pattern['OWASP Top Ten Categories']?.includes(owasp))
-    );
-};
-
+        const { mvc, strategy, isoPhase, article, cwe, owasp } = selectedFilters;
+        return (
+            (!mvc || pattern['Collocazione MVC']?.includes(mvc)) &&
+            (!strategy || pattern['Strategies']?.includes(strategy)) &&
+            (!isoPhase || pattern['ISO 9241-210 Phase']?.includes(isoPhase)) &&
+            (!article || pattern['Article GDPR Compliance with the Pattern']?.includes(article)) &&
+            (!cwe || pattern['CWE Top 25 Most Dangerous Software Weaknesses OWASP Categories Associated']?.includes(cwe)) &&
+            (!owasp || pattern['OWASP Top Ten Categories']?.includes(owasp))
+        );
+    };
 
     const filteredPatterns = patterns.filter(applyFilter);
 
@@ -178,9 +177,9 @@ function POSD() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-5 gap-6 mt-4">
-                {filteredPatterns.map((pattern, index) => (
+                {filteredPatterns.map((pattern) => (
                     <Card
-                        key={index}
+                        key={pattern.id}
                         strategies={pattern['Strategies']}
                         title={pattern['Pattern']}
                         description={pattern['Description Pattern']}

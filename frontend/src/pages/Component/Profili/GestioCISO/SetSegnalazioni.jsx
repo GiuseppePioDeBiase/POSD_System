@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Table from '@mui/material/Table';
@@ -11,16 +11,9 @@ import Paper from '@mui/material/Paper';
 import { useNavigate } from 'react-router-dom';
 
 const columns = [
-  { width: 20,
-    label: 'Email',
-    dataKey: 'mail' },
-
-  { width: 50,
-    label: 'Oggetto',
-    dataKey: 'oggetto' },
-  { width: 90,
-    label: 'Messaggio',
-    dataKey: 'messaggio' },
+  { width: 20, label: 'Email', dataKey: 'mail' },
+  { width: 50, label: 'Oggetto', dataKey: 'oggetto' },
+  { width: 90, label: 'Messaggio', dataKey: 'messaggio' },
 ];
 
 function SimpleTable({ rows, handleCellClick }) {
@@ -41,14 +34,14 @@ function SimpleTable({ rows, handleCellClick }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, index) => (
-            <TableRow key={index}>
-              {columns.map((column, colIndex) => (
+          {rows.map((row) => (
+            <TableRow key={row._id}>
+              {columns.map((column) => (
                 <TableCell
-                  key={colIndex}
-                  onClick={colIndex === 2 ? () => handleCellClick(row) : undefined}
+                  key={column.dataKey}
+                  onClick={column.dataKey === 'messaggio' ? () => handleCellClick(row) : undefined}
                   style={{
-                    cursor: colIndex === 2 ? 'pointer' : 'default',
+                    cursor: column.dataKey === 'messaggio' ? 'pointer' : 'default',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -79,13 +72,12 @@ export default function ReactVirtualizedTable({ token }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-         const response = await axios.get('http://localhost:5000/api/allsegnalazioni', {
-
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+        const response = await axios.get('http://localhost:5000/api/allsegnalazioni', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
         setRows(response.data);
         setLoading(false);
       } catch (error) {
@@ -96,7 +88,7 @@ export default function ReactVirtualizedTable({ token }) {
     };
 
     fetchData();
-  }, []);
+  }, [token]);
 
   const handleCellClick = (row) => {
     navigate(`/segnalazione/${row._id}`, { state: { messaggio: row.messaggio, oggetto: row.oggetto, token } });
@@ -108,7 +100,7 @@ export default function ReactVirtualizedTable({ token }) {
   console.log('Rows:', rows); // Log the rows state to ensure it's correctly set
 
   return (
-    <Paper  >
+    <Paper>
       {rows.length > 0 ? (
         <SimpleTable rows={rows} handleCellClick={handleCellClick} />
       ) : (

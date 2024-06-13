@@ -4,41 +4,40 @@ import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function GestioneLogin(props) {
-     const navigate = useNavigate();
-     const [loginForm, setloginForm] = useState({email: '', password: ''});
-     const [error, setError] = useState(''); // Aggiungi lo stato per memorizzare l'errore
-    function setLogin(event) {
+    const navigate = useNavigate();
+    const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+    const [error, setError] = useState('');
+
+    const setLogin = (event) => {
         event.preventDefault();
         axios({
             method: 'POST',
             url: 'http://127.0.0.1:5000/api/login',
             data: {
                 email: loginForm.email,
-                password: loginForm.password
-            }
+                password: loginForm.password,
+            },
         })
-        .then((response) => {
-            props.setRuolo(response.data.ruolo);
-            props.setToken(response.data.token);
-            setError('');
+            .then((response) => {
+                props.setRuolo(response.data.ruolo);
+                props.setToken(response.data.token);
+                setError('');
+                navigate('/Profili');
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setError(error.response.data.messaggio);
+                }
+            });
+    };
 
-            navigate('/Profili');
-        })
-    .catch((error) => {
-        if (error.response) {
-            setError(error.response.data.messaggio);
-        }
-    });
-
-}
-
-    function handleChange(event) {
-        const { value, name } = event.target;
-        setloginForm((prevNote) => ({
-            ...prevNote,
-            [name]: value
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setLoginForm((prevForm) => ({
+            ...prevForm,
+            [name]: value,
         }));
-    }
+    };
 
     return (
         <div className="min-h-screen py-6 flex flex-col justify-center sm:py-12">
@@ -85,7 +84,7 @@ function GestioneLogin(props) {
                                         Password
                                     </label>
                                 </div>
-                                {error && <div className="text-red-500 text-sm">{error}</div>} {/* Renderizza il messaggio di errore */}
+                                {error && <div className="text-red-500 text-sm">{error}</div>}
                                 <div className="flex justify-between mt-4">
                                     <Link to="/Registrazione">
                                         <button className="bg-cyan-500 text-white rounded-md px-1 py-2">
@@ -106,11 +105,11 @@ function GestioneLogin(props) {
             </div>
         </div>
     );
-    }
-
+}
 
 GestioneLogin.propTypes = {
     setToken: PropTypes.func.isRequired,
-    setRuolo: PropTypes.func.isRequired
+    setRuolo: PropTypes.func.isRequired,
 };
+
 export default GestioneLogin;

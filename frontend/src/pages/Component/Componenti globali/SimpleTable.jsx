@@ -26,11 +26,11 @@ function SimpleTable({ columns, rows, handleCellClick }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, index) => (
-            <TableRow key={index}>
-              {columns.map((column, colIndex) => (
+          {rows.map((row) => (
+            <TableRow key={row.id}>
+              {columns.map((column) => (
                 <TableCell
-                  key={colIndex}
+                  key={`${row.id}-${column.dataKey}`}
                   style={{
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
@@ -62,7 +62,11 @@ SimpleTable.propTypes = {
       clickable: PropTypes.bool // Optional: Whether the column should be clickable
     })
   ).isRequired,
-  rows: PropTypes.array.isRequired,
+  rows: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, // Ensure each row has a unique identifier
+    })
+  ).isRequired,
   handleCellClick: PropTypes.func // Optional: Function to handle cell clicks
 };
 
