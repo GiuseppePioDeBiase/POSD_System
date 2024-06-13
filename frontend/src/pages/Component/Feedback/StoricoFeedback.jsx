@@ -16,7 +16,7 @@ const columns = [
         dataKey: 'stato',
     },
     {
-        width: 40   ,
+        width: 40,
         label: 'Oggetto',
         dataKey: 'oggetto',
     },
@@ -56,7 +56,7 @@ VirtuosoTableComponents.TableRow.propTypes = {
 
 function fixedHeaderContent() {
     return (
-       <TableRow>
+        <TableRow>
             {columns.map((column) => (
                 <TableCell
                     key={column.dataKey}
@@ -82,8 +82,10 @@ function rowContent(_index, row) {
                     sx={{'&:hover': {backgroundColor: 'transparent'}}}
                     key={column.dataKey}
                     align={column.numeric ? 'right' : 'left'}
-                    style={{overflow: 'hidden',
-                        textOverflow: 'ellipsis'}}
+                    style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
+                    }}
                 >
                     {row[column.dataKey]}
                 </TableCell>
@@ -127,16 +129,16 @@ export default function ReactVirtualizedTable({token}) {
 
     return (
         <Paper style={{height: 400, width: '100%'}}>
-         {rows.length > 0 ? (
-        <TableVirtuoso
-          data={rows}
-          components={VirtuosoTableComponents}
-          fixedHeaderContent={fixedHeaderContent}
-          itemContent={(index, row) => rowContent(index, row)}
-        />
-      ) : (
-        <div className="flex flex-row justify-content-center font-bold text-xl">Nessun dato</div>
-      )}
+            {rows.length > 0 ? (
+                <TableVirtuoso
+                    data={rows}
+                    components={VirtuosoTableComponents}
+                    fixedHeaderContent={fixedHeaderContent}
+                    itemContent={(index, row) => rowContent(index, row)}
+                />
+            ) : (
+                <div className="flex flex-row justify-content-center font-bold text-xl">Nessun dato</div>
+            )}
         </Paper>
     );
 }

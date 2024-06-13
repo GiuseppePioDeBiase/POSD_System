@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {useState, useEffect} from 'react';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import Card from './Card.jsx';
 
 const Full = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { title } = location.state || {};
+    const {title} = location.state || {};
     const [patternDetails, setPatternDetails] = useState([]);
     const [error, setError] = useState(null);
 
@@ -26,7 +26,7 @@ const Full = () => {
     }, [title]);
 
     const handleCardClick = (pattern) => {
-        navigate(`/Information/${pattern.Pattern}`, { state: { ...pattern, title } });
+        navigate(`/Information/${pattern.Pattern}`, {state: {...pattern, title}});
     };
 
     if (error) {

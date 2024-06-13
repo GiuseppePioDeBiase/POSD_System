@@ -1,17 +1,19 @@
 /* Aggiungi queste regole di stile al tuo foglio di stile CSS */
 
-@media (max-width: 767px) { /* per dispositivi mobili */
-  .input-group {
-    width: 70%; /* Utilizza il 70% della larghezza disponibile */
-    max-width: 300px; /* Imposta una larghezza massima per evitare che diventi troppo larga */
-    margin: 20px auto 0; /* Centra la barra di ricerca e aggiunge 20px di spazio sopra */
-  }
+@media (max-width: 767px) {
+    /* per dispositivi mobili */
+    .input-group {
+        width: 70%; /* Utilizza il 70% della larghezza disponibile */
+        max-width: 300px; /* Imposta una larghezza massima per evitare che diventi troppo larga */
+        margin: 20px auto 0; /* Centra la barra di ricerca e aggiunge 20px di spazio sopra */
+    }
 }
 
-@media (min-width: 768px) and (max-width: 1024px) { /* per iPad */
-  .input-group {
-    width: 90%; /* Utilizza il 90% della larghezza disponibile */
-    max-width: 400px; /* Imposta una larghezza massima */
-    margin: 20px auto 0; /* Centra la barra di ricerca e aggiunge 20px di spazio sopra */
-  }
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* per iPad */
+    .input-group {
+        width: 90%; /* Utilizza il 90% della larghezza disponibile */
+        max-width: 400px; /* Imposta una larghezza massima */
+        margin: 20px auto 0; /* Centra la barra di ricerca e aggiunge 20px di spazio sopra */
+    }
 }

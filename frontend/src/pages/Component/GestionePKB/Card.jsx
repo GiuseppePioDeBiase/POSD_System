@@ -1,15 +1,14 @@
-
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
-const Card = ({ title, description, className, onClick }) => {
+const Card = ({title, description, className, onClick}) => {
     const navigate = useNavigate();
 
     const handleCardClick = () => {
         if (onClick) {
             onClick();
         } else {
-            navigate(`/Full/${title}`, { state: { title, description } });
+            navigate(`/Full/${title}`, {state: {title, description}});
         }
     };
 

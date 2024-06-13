@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
-function Caricamento({ onTimeout }) {
+function Caricamento({onTimeout}) {
     const [secondsLeft, setSecondsLeft] = useState(2);
 
     useEffect(() => {

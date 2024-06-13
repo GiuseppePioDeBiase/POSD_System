@@ -1,8 +1,8 @@
 import './App.css';
-import { useState, useEffect, useCallback } from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import useToken from "./pages/Component/Componenti globali/useToken.jsx";
 import useRuolo from "./pages/Component/Componenti globali/useRuolo.jsx";
-import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, useNavigate, Navigate} from 'react-router-dom';
 import NavBar from './pages/Component/Componenti globali/Navbar/NavBar.jsx';
 import Searchbar from './pages/Component/Componenti globali/Searchbar/Searchbar.jsx';
 import Home from './pages/Component/Home.jsx';
@@ -22,14 +22,14 @@ import GestioneProfili from "./pages/Component/Profili/GestioneProfili.jsx";
 import SegnalazioniAccettateRifiutate from './pages/Component/Profili/GestioCISO/SegnalazioniAccettateRifiutate.jsx';
 import AggiungiSegnalazione from "./pages/Component/GestioneSegnalazione/InserisciSegnalazione.jsx";
 
-const ProtectedRouteToken = ({ children, token }) => {
+const ProtectedRouteToken = ({children, token}) => {
     if (!token) {
-        return <Navigate to="/Login" />;
+        return <Navigate to="/Login"/>;
     }
     return children;
 };
 
-const ProtectedRouteRuolo = ({ children, ruolo }) => {
+const ProtectedRouteRuolo = ({children, ruolo}) => {
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [countdown, setCountdown] = useState(3);
@@ -37,7 +37,7 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
     const handleAccessDenied = useCallback(() => {
         setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
         const timer = setInterval(() => {
-            setCountdown(prevCount => prevCount - 1);
+            setCountdown(prevCount => prevCount - 0.5);
         }, 1000);
 
         setTimeout(() => {
@@ -60,7 +60,8 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                     <div className="text-center p-6 rounded">
                         <div className="text-2xl font-bold mb-4">{error}</div>
                         <div className="text-xl mb-4">Ritorno alla home tra {countdown} secondi...</div>
-                        <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+                        <div
+                            className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
                     </div>
                 </div>
             ) : (
@@ -82,8 +83,8 @@ ProtectedRouteRuolo.propTypes = {
 
 function App() {
     const [patterns, setPatterns] = useState([]);
-    const { token, setToken } = useToken();
-    const { ruolo, setRuolo } = useRuolo();
+    const {token, setToken} = useToken();
+    const {ruolo, setRuolo} = useRuolo();
 
     useEffect(() => {
         setPatterns([]);
@@ -94,111 +95,111 @@ function App() {
             <Routes>
                 <Route path="/" element={
                     <div>
-                        <NavBar token={token} />
+                        <NavBar token={token}/>
                         <div className='flex items-center'>
-                            <Searchbar />
+                            <Searchbar/>
                         </div>
-                        <Home />
+                        <Home/>
                     </div>
-                } />
+                }/>
                 <Route path="/Full/:title" element={
                     <div>
-                        <NavBar token={token} />
+                        <NavBar token={token}/>
                         <div className='flex items-center'>
-                            <Searchbar />
+                            <Searchbar/>
                         </div>
-                        <Full patterns={patterns} />
+                        <Full patterns={patterns}/>
                     </div>
-                } />
+                }/>
                 <Route path="/Information/:title" element={
                     <div>
-                        <NavBar token={token} />
+                        <NavBar token={token}/>
                         <div className='flex items-center'>
-                            <Searchbar />
+                            <Searchbar/>
                         </div>
-                        <Information props={token} ruolo={ruolo} />
+                        <Information props={token} ruolo={ruolo}/>
                     </div>
-                } />
+                }/>
                 <Route path="/Contatti" element={
                     <div>
-                        <NavBar token={token} />
-                        <Contatti />
+                        <NavBar token={token}/>
+                        <Contatti/>
                     </div>
-                } />
+                }/>
                 <Route path="/POSD" element={
                     <div>
-                        <NavBar token={token} />
-                        <Searchbar />
-                        <POSD />
+                        <NavBar token={token}/>
+                        <Searchbar/>
+                        <POSD/>
                     </div>
-                } />
+                }/>
                 <Route path="/ricerca" element={
                     <div>
-                        <NavBar token={token} />
-                        <Ricerca />
+                        <NavBar token={token}/>
+                        <Ricerca/>
                     </div>
-                } />
+                }/>
                 <Route path="/Definizione/:title" element={
                     <div>
-                        <NavBar token={token} />
+                        <NavBar token={token}/>
                         <div className='flex items-center'>
-                            <Searchbar />
+                            <Searchbar/>
                         </div>
-                        <Definizione ruolo={ruolo} props={token} />
+                        <Definizione ruolo={ruolo} props={token}/>
                     </div>
-                } />
+                }/>
 
-                <Route path="/Logout" element={<GestioneLogout setToken={setToken} removeRuolo={setRuolo} />} />
+                <Route path="/Logout" element={<GestioneLogout setToken={setToken} removeRuolo={setRuolo}/>}/>
                 <Route path="/Login" element={
                     <div>
-                        <NavBar token={token} />
-                        <GestioneLogin setToken={setToken} setRuolo={setRuolo} />
+                        <NavBar token={token}/>
+                        <GestioneLogin setToken={setToken} setRuolo={setRuolo}/>
                     </div>
-                } />
+                }/>
                 <Route path="/Registrazione" element={
                     <div>
-                        <NavBar token={token} />
-                        <GestioneRegistrazione setToken={setToken} setRuolo={setRuolo} />
+                        <NavBar token={token}/>
+                        <GestioneRegistrazione setToken={setToken} setRuolo={setRuolo}/>
                     </div>
-                } />
+                }/>
                 <Route path="/Profili" element={
                     <ProtectedRouteToken token={token}>
                         <div>
-                            <NavBar token={token} />
-                            <GestioneProfili token={token} ruolo={ruolo} />
+                            <NavBar token={token}/>
+                            <GestioneProfili token={token} ruolo={ruolo}/>
                         </div>
                     </ProtectedRouteToken>
-                } />
+                }/>
                 <Route path="/segnalazione/:id" element={
                     <ProtectedRouteToken token={token}>
                         {ruolo === 'CISO' ? (
-                            <SegnalazioniAccettateRifiutate token={token} />
+                            <SegnalazioniAccettateRifiutate token={token}/>
                         ) : (
-                            <Navigate to="/" />
+                            <Navigate to="/"/>
                         )}
                     </ProtectedRouteToken>
-                } />
+                }/>
                 <Route path="/AggiungiSegnalazione/:id" element={
                     <ProtectedRouteToken token={token}>
                         {ruolo === 'Amministratore di sistema' ? (
-                            <AggiungiSegnalazione token={token} />
+                            <AggiungiSegnalazione token={token}/>
                         ) : (
-                            <Navigate to="/GestioneProfili" />
+                            <Navigate to="/GestioneProfili"/>
                         )}
                     </ProtectedRouteToken>
-                } />
+                }/>
                 <Route path="/Feedback" element={
                     <ProtectedRouteToken token={token}>
                         <ProtectedRouteRuolo ruolo={ruolo}>
                             <div>
-                                <NavBar token={token} ruolo={ruolo} />
-                                <Searchbar />
-                                <GestioneFeedback token={token} setToken={setToken} />
+                                <NavBar token={token} ruolo={ruolo}/>
+                                <Searchbar/>
+                                <GestioneFeedback token={token} setToken={setToken}/>
                             </div>
                         </ProtectedRouteRuolo>
                     </ProtectedRouteToken>
-                } />
-                <Route path="*" element={<NotFound />} />
+                }/>
+                <Route path="*" element={<NotFound/>}/>
             </Routes>
         </Router>
     );

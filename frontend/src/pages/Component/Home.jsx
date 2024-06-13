@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import Card from './GestionePKB/Card.jsx';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 function Home() {
     const [error, setError] = useState(null);
@@ -21,7 +21,7 @@ function Home() {
     }, []);
 
     if (error) {
-        return <Link to="/Error" />;
+        return <Link to="/Error"/>;
     }
 
     return (

@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
-import { Avatar, Box, Button, Card, CardContent, Container, Grid, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import {  handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from '../GestioneProfili.jsx';
+import {useEffect, useState} from 'react';
+import {Avatar, Box, Button, Card, CardContent, Container, Grid, Typography} from '@mui/material';
+import {useNavigate} from 'react-router-dom';
+import {handleAvatarChange, getWelcomeMessage, renderDettagliProfilo, handleAvatarClick} from '../GestioneProfili.jsx';
 import PropTypes from 'prop-types';
 import axios from "axios";
 import StoricoSegnalazioni from "../../GestioneSegnalazione/StoricoSegnalazioni.jsx"
 import SetSegnalazioni from "./SetSegnalazioni.jsx";
+
 //funzioni CISO
 function base64ToBlob(base64Data, contentType) {
     const byteCharacters = atob(base64Data.split(',')[1]);
@@ -21,7 +22,7 @@ function base64ToBlob(base64Data, contentType) {
         byteArrays.push(byteArray);
     }
 
-    return new Blob(byteArrays, { type: contentType });
+    return new Blob(byteArrays, {type: contentType});
 }
 
 export default function ProfiloCISO(props) {
@@ -31,8 +32,8 @@ export default function ProfiloCISO(props) {
     const [aggiungiLicenzaVisibile, setAggiungiLicenzaVisibile] = useState(false);
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
 
-    const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '', genere: '' });
-    const [ setStatus] = useState({});
+    const [profilo, setProfilo] = useState({nome: '', cognome: '', email: '', ruolo: '', genere: ''});
+    const [setStatus] = useState({});
     const [file, setFile] = useState({});
     const [fileUrl, setFileUrl] = useState(null); // Stato per l'URL del file
     const [licenzaNome, setLicenzaNome] = useState('Nessun file presente'); // Stato per il nome della licenza
@@ -114,21 +115,14 @@ export default function ProfiloCISO(props) {
     const Storico = () => {
         setStoricoSegnalazioniVisibile(!StoricoSegnalazioniVisibile);
         setAggiungiLicenzaVisibile(false);
-        setSegnalazioniVisibile(false  );
+        setSegnalazioniVisibile(false);
     };
 
-  const InserisciLicenza = () => {
-    setAggiungiLicenzaVisibile(!aggiungiLicenzaVisibile);
-    setSegnalazioniVisibile(false);
-    setStoricoSegnalazioniVisibile(false);
-};
-
-
-
-
-
-
-
+    const InserisciLicenza = () => {
+        setAggiungiLicenzaVisibile(!aggiungiLicenzaVisibile);
+        setSegnalazioniVisibile(false);
+        setStoricoSegnalazioniVisibile(false);
+    };
 
     const handleFileUpload = async () => {
         if (!validateFILE()) {
@@ -164,7 +158,7 @@ export default function ProfiloCISO(props) {
     };
 
     const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
+        const selectedFile = event.target.files[0];
         const allowedExtensions = [".cer", ".crt", ".pem", ".p12", ".pfx", ".der", ".p7b", ".p7c", ".key", ".pdf"];
 
         // Estrai l'estensione del file
@@ -199,11 +193,11 @@ export default function ProfiloCISO(props) {
     };
 
     return (
-        <Container sx={{ py: 5 }}>
+        <Container sx={{py: 5}}>
             <Grid container spacing={4}>
                 <Grid item xs={12} md={4}>
-                    <Card sx={{ mb: 4, mx: { xs: 0, md: 5 } }}>
-                        <CardContent sx={{ textAlign: 'center' }}>
+                    <Card sx={{mb: 4, mx: {xs: 0, md: 5}}}>
+                        <CardContent sx={{textAlign: 'center'}}>
                             <Box onClick={handleAvatarClick} sx={{cursor: 'pointer'}}>
                                 <Avatar
                                     src={avatar}
@@ -220,15 +214,18 @@ export default function ProfiloCISO(props) {
                             <Typography variant="h6" gutterBottom>{getWelcomeMessage(profilo.genere)}</Typography>
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
                             <Typography variant="subtitle1">{profilo.ruolo}</Typography>
-                            <Box sx={{ mt: 5, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <Button variant="contained" color="warning" onClick={InserisciLicenza} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
+                            <Box sx={{mt: 5, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                                <Button variant="contained" color="warning" onClick={InserisciLicenza}
+                                        sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
                                     Licenza
                                 </Button>
 
-                                <Button variant="contained" color="warning" onClick={SegnalazioniAccettateRifiutate} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
+                                <Button variant="contained" color="warning" onClick={SegnalazioniAccettateRifiutate}
+                                        sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
                                     Segnalazioni
                                 </Button>
-                                <Button variant="contained" color="warning" onClick={Storico} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
+                                <Button variant="contained" color="warning" onClick={Storico}
+                                        sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
                                     Storico Segnalazioni
                                 </Button>
                             </Box>
@@ -236,17 +233,17 @@ export default function ProfiloCISO(props) {
                         <Avatar
                             src="/logo.png"
                             alt="logo"
-                            sx={{ width: 50, height: 50, mx: 'auto', my: 2 }}
+                            sx={{width: 50, height: 50, mx: 'auto', my: 2}}
                         />
                     </Card>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                    <Card sx={{ mb: 4 }}>
+                    <Card sx={{mb: 4}}>
                         <CardContent>
                             <Grid container spacing={2}>
                                 {renderDettagliProfilo(profilo)}
                                 <Grid item xs={12}>
-                                <hr />
+                                    <hr/>
                                 </Grid>
                                 <Grid item xs={12} md={3}>
                                     <Typography variant="subtitle1">Licenza</Typography>
@@ -263,18 +260,21 @@ export default function ProfiloCISO(props) {
 
                     <Grid container>
                         <Grid item xs={12}>
-                            <Card sx={{ mb: 4 }}>
+                            <Card sx={{mb: 4}}>
                                 <CardContent>
 
-                                    {segnalazioniVisibile && <SetSegnalazioni token={props.token} />}
-                                    {StoricoSegnalazioniVisibile && <StoricoSegnalazioni token={props.token}  ruolo={profilo.ruolo}/>}
+                                    {segnalazioniVisibile && <SetSegnalazioni token={props.token}/>}
+                                    {StoricoSegnalazioniVisibile &&
+                                        <StoricoSegnalazioni token={props.token} ruolo={profilo.ruolo}/>}
                                     {aggiungiLicenzaVisibile && (
                                         <Box>
                                             {file && (
                                                 <Box mt={2}>
-                                                    <Typography variant="subtitle2">Nome file: {licenzaNome}</Typography>
+                                                    <Typography variant="subtitle2">Nome
+                                                        file: {licenzaNome}</Typography>
                                                     {fileUrl && (
-                                                        <Button variant="contained" color="primary" onClick={handleFileDownload} sx={{ mt: 1 }}>
+                                                        <Button variant="contained" color="primary"
+                                                                onClick={handleFileDownload} sx={{mt: 1}}>
                                                             Scarica Licenza
                                                         </Button>
                                                     )}
@@ -283,10 +283,11 @@ export default function ProfiloCISO(props) {
                                             <input
                                                 type="file"
                                                 onChange={handleFileChange}
-                                                style={{ display: 'block', marginBottom: '0.5%', marginTop: "5%" }}
+                                                style={{display: 'block', marginBottom: '0.5%', marginTop: "5%"}}
                                             />
-                                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                                <Button variant="contained" color="secondary" onClick={InserisciLicenza} sx={{ mr: 2 }}>
+                                            <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                                                <Button variant="contained" color="secondary" onClick={InserisciLicenza}
+                                                        sx={{mr: 2}}>
                                                     Annulla
                                                 </Button>
                                                 <Button variant="contained" color="success" onClick={handleFileUpload}>

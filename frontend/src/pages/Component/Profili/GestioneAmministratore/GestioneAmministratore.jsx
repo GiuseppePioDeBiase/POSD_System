@@ -2,22 +2,35 @@ import {useState} from "react";
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
-import {Container, Grid, Card, CardContent, Typography, TextField, Button, Avatar, MenuItem, Alert, Box
+import {
+    Container, Grid, Card, CardContent, Typography, TextField, Button, Avatar, MenuItem, Alert, Box
 } from '@mui/material';
 import SegnalazioniAccettate from './SegnalazioniAccettate.jsx';
 import UtentiRegistrati from './UtentiRegistrati.jsx';
-import { useFetchProfile, handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from '../GestioneProfili.jsx';
+import {
+    useFetchProfile,
+    handleAvatarChange,
+    getWelcomeMessage,
+    renderDettagliProfilo,
+    handleAvatarClick
+} from '../GestioneProfili.jsx';
 
-export default function GestioneAmministratore({ token }) {
+export default function GestioneAmministratore({token}) {
     const [aggiungiProfiloVisibile, setAggiungiProfiloVisibile] = useState(false);
-    const [feedbackVisibile,setfeedbackVisibile]=useState(false);
-    const { profilo, error, setError } = useFetchProfile(token);
-    const [registrazioneForm, setRegistrazioneForm] = useState({nome: '', cognome: '', email: '', password: '', ruolo: '', genere: ''});
+    const [feedbackVisibile, setfeedbackVisibile] = useState(false);
+    const {profilo, error, setError} = useFetchProfile(token);
+    const [registrazioneForm, setRegistrazioneForm] = useState({
+        nome: '',
+        cognome: '',
+        email: '',
+        password: '',
+        ruolo: '',
+        genere: ''
+    });
     const [registrazioneSuccess, setRegistrazioneSuccess] = useState(false);
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
     const [utentiVisibile, setUtentiVisibile] = useState(false);
     const [avatar, setAvatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
-
 
 
     const Segnalazioniaccettate = () => {
@@ -41,7 +54,7 @@ export default function GestioneAmministratore({ token }) {
         setAggiungiProfiloVisibile(false);
         setfeedbackVisibile(false);
     };
-        const togglefeedbackVisibile = () => {
+    const togglefeedbackVisibile = () => {
         setUtentiVisibile(false);
         setSegnalazioniVisibile(false);
         setAggiungiProfiloVisibile(false);
@@ -65,8 +78,6 @@ export default function GestioneAmministratore({ token }) {
     };
 
 
-
-
     const handleChange = (event) => {
         const {value, name} = event.target;
         setRegistrazioneForm((prevNote) => ({...prevNote, [name]: value}));
@@ -78,20 +89,20 @@ export default function GestioneAmministratore({ token }) {
                 <Grid item lg={4} xs={12}>
                     <Card sx={{mb: 4, mx: {xs: 0, md: 5}}}>
                         <CardContent sx={{textAlign: 'center'}}>
-                              <Box onClick={handleAvatarClick} sx={{ cursor: 'pointer' }}>
+                            <Box onClick={handleAvatarClick} sx={{cursor: 'pointer'}}>
                                 <Avatar
                                     src={avatar}
-                                    sx={{ width: 150, height: 150, mx: 'auto', mb: 4 }}
+                                    sx={{width: 150, height: 150, mx: 'auto', mb: 4}}
                                 />
                                 <input
                                     id="avatarInput"
                                     type="file"
                                     accept="image/*"
                                     onChange={handleAvatarChange(setAvatar)}
-                                    style={{ display: 'none' }}
+                                    style={{display: 'none'}}
                                 />
                             </Box>
-                           <Typography variant="h6" gutterBottom>{getWelcomeMessage(profilo.genere)}</Typography>
+                            <Typography variant="h6" gutterBottom>{getWelcomeMessage(profilo.genere)}</Typography>
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
                             <Typography variant="subtitle1">{profilo.ruolo}</Typography>
                             <Box sx={{mt: 5, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
@@ -116,7 +127,7 @@ export default function GestioneAmministratore({ token }) {
                         <Avatar
                             src="/logo.png"
                             alt="logo"
-                            sx={{ width: 50, height: 50, mx: 'auto', my: 2 }}
+                            sx={{width: 50, height: 50, mx: 'auto', my: 2}}
                         />
                     </Card>
                 </Grid>
@@ -134,7 +145,8 @@ export default function GestioneAmministratore({ token }) {
                         <Grid item xs={12}>
                             <Card sx={{mb: 4}}>
                                 <CardContent>
-                                    {segnalazioniVisibile && (<SegnalazioniAccettate token={token} ruolo={profilo.ruolo}/>)}
+                                    {segnalazioniVisibile && (
+                                        <SegnalazioniAccettate token={token} ruolo={profilo.ruolo}/>)}
                                     {aggiungiProfiloVisibile && (
                                         <Card sx={{mb: 3}}>
                                             <CardContent>
@@ -163,7 +175,8 @@ export default function GestioneAmministratore({ token }) {
                                                                value={registrazioneForm.ruolo}
                                                                onChange={handleChange} fullWidth sx={{mb: 2}}>
                                                         <MenuItem value="CISO">CISO</MenuItem>
-                                                        <MenuItem value="Amministratore di sistema">Amministratore di Sistema</MenuItem>
+                                                        <MenuItem value="Amministratore di sistema">Amministratore di
+                                                            Sistema</MenuItem>
                                                     </TextField>
                                                     <Button variant="contained" color="warning"
                                                             type="submit">Registrati</Button>
@@ -178,12 +191,11 @@ export default function GestioneAmministratore({ token }) {
                                     )}
 
 
-
                                     {utentiVisibile && (
                                         <Card sx={{mb: 3}}>
                                             <CardContent>
                                                 <Typography variant="h6">Lista Utenti Registrati</Typography>
-                                                    <UtentiRegistrati token={token}/>
+                                                <UtentiRegistrati token={token}/>
                                             </CardContent>
                                         </Card>
                                     )}
@@ -200,5 +212,3 @@ export default function GestioneAmministratore({ token }) {
 GestioneAmministratore.propTypes = {
     token: PropTypes.string.isRequired
 };
-
-

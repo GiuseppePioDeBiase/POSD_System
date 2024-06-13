@@ -8,7 +8,14 @@ function GestioneRegistrazione(props) {
 
     const navigate = useNavigate();
     const [error, setError] = useState(''); // Correctly define setError state
-    const [RegistrazioneForm, setRegistrazioneForm] = useState({nome: '', cognome: '', email: '', genere: '', password: '', confirmPassword: ''});
+    const [RegistrazioneForm, setRegistrazioneForm] = useState({
+        nome: '',
+        cognome: '',
+        email: '',
+        genere: '',
+        password: '',
+        confirmPassword: ''
+    });
 
     function SetRegistrazione(event) {
         event.preventDefault();
