@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function Login(props) {
+function GestioneLogin(props) {
     const navigate = useNavigate(); // Ottieni la funzione di navigazione
 
      const [loginForm, setloginForm] = useState({
@@ -11,7 +11,7 @@ function Login(props) {
         password: ''
     });
      const [error, setError] = useState(''); // Aggiungi lo stato per memorizzare l'errore
-       function logMeIn(event) {
+       function setLogin(event) {
     event.preventDefault();
 
     axios({
@@ -93,14 +93,14 @@ function Login(props) {
                                 </div>
                                 {error && <div className="text-red-500 text-sm">{error}</div>} {/* Renderizza il messaggio di errore */}
                                 <div className="flex justify-between mt-4">
-                                    <Link to="/Registrazione">
+                                    <Link to="/GestioneRegistrazione">
                                         <button className="bg-cyan-500 text-white rounded-md px-1 py-2">
                                             Non sei ancora registrato?
                                         </button>
                                     </Link>
                                     <button
                                         className="bg-cyan-500 text-white rounded-md px-4 py-2"
-                                        onClick={logMeIn}
+                                        onClick={setLogin}
                                     >
                                         Accedi
                                     </button>
@@ -115,8 +115,8 @@ function Login(props) {
     }
 
 
-Login.propTypes = {
+GestioneLogin.propTypes = {
     setToken: PropTypes.func.isRequired,
     setRuolo: PropTypes.func.isRequired
 };
-export default Login;
+export default GestioneLogin;

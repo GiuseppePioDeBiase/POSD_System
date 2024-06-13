@@ -148,7 +148,7 @@ class Utente:
 
     @classmethod
     def logout(cls):
-        response = jsonify({"msg": "Logout eseguito con successo!"})
+        response = jsonify({"msg": "GestioneLogout eseguito con successo!"})
         unset_jwt_cookies(response)
         return response, 200
 

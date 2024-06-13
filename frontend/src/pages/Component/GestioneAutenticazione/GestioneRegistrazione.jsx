@@ -4,7 +4,7 @@ import {useNavigate, Link} from 'react-router-dom';
 import PropTypes from "prop-types";
 
 
-function Registrazione(props) {
+function GestioneRegistrazione(props) {
 
     const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ function Registrazione(props) {
         confirmPassword: ''
     });
 
-    function registrami(event) {
+    function SetRegistrazione(event) {
         event.preventDefault();
         axios({
             method: 'POST',
@@ -182,7 +182,7 @@ function Registrazione(props) {
 
                                 <div className="relative flex justify-center"> {/* Center the button */}
                                     <button
-                                        onClick={registrami}
+                                        onClick={SetRegistrazione}
                                         className="bg-blue-500 text-white rounded-md px-4 py-2 mt-4"
                                     >
                                         Registrati
@@ -190,9 +190,9 @@ function Registrazione(props) {
                                 </div>
                                 {error && <div
                                     className="text-red-500 text-sm mt-4 text-center">{error}</div>} {/* Center align error message */}
-                                <Link to="/Login"
+                                <Link to="/GestioneLogin"
                                       className="block text-center text-gray-600 underline mt-4"> {/* Adjust the margin */}
-                                    Torna alla pagina di Login
+                                    Torna alla pagina di GestioneLogin
                                 </Link>
                             </div>
                         </div>
@@ -203,8 +203,8 @@ function Registrazione(props) {
     );
 }
 
-Registrazione.propTypes = {
+GestioneRegistrazione.propTypes = {
     setToken: PropTypes.func.isRequired,
     setRuolo: PropTypes.func.isRequired
 };
-export default Registrazione;
+export default GestioneRegistrazione;

@@ -6,12 +6,12 @@ import {BrowserRouter as Router, Routes, Route, useNavigate, Navigate} from 'rea
 import NavBar from './pages/Component/Componenti globali/Navbar/NavBar.jsx';
 import Searchbar from './pages/Component/Componenti globali/Searchbar/Searchbar.jsx';
 import Home from './pages/Component/Home.jsx';
-import Feedback from "./pages/Component/GestioneFeedback/Feedback.jsx";
+import GestioneFeedback from "./pages/Component/Feedback/GestioneFeedback.jsx";
 import Contatti from "./pages/Component/Contatti/Contatti.jsx";
 import NotFound from "./pages/Component/Componenti globali/NotFound/NotFound.jsx";
-import Login from "./pages/Component/GestioneAutenticazione/Login.jsx";
-import Registrazione from "./pages/Component/GestioneAutenticazione/Registrazione.jsx";
-import Logout from "./pages/Component/GestioneAutenticazione/Logout.jsx";
+import GestioneLogin from "./pages/Component/GestioneAutenticazione/GestioneLogin.jsx";
+import GestioneRegistrazione from "./pages/Component/GestioneAutenticazione/GestioneRegistrazione.jsx";
+import GestioneLogout from "./pages/Component/GestioneAutenticazione/GestioneLogout.jsx";
 import Full from "./pages/Component/GestionePKB/Full.jsx";
 import Information from "./pages/Component/GestionePKB/Information.jsx";
 import POSD from './pages/Component/Componenti globali/POSD/Filtro/POSD.jsx';
@@ -36,7 +36,7 @@ function App() {
     // Componente per route protette in base al token
     const ProtectedRouteToken = ({ children, token }) => {
         if (!token) {
-            return <Navigate to="/Login" />;
+            return <Navigate to="/GestioneLogin" />;
         }
         return children;
     };
@@ -152,17 +152,17 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                 } />
 
 
-                <Route path="/Logout" element={<Logout setToken={setToken} removeRuolo={setRuolo} />} />
+                <Route path="/Logout" element={<GestioneLogout setToken={setToken} removeRuolo={setRuolo} />} />
                 <Route path="/Login" element={
                     <div>
                         <NavBar token={token} />
-                        <Login setToken={setToken} setRuolo={setRuolo} />
+                        <GestioneLogin setToken={setToken} setRuolo={setRuolo} />
                     </div>
                 } />
                 <Route path="/Registrazione" element={
                     <div>
                         <NavBar token={token} />
-                        <Registrazione setToken={setToken} setRuolo={setRuolo} />
+                        <GestioneRegistrazione setToken={setToken} setRuolo={setRuolo} />
                     </div>
                 } />
                 <Route path="/Profili" element={
@@ -197,7 +197,7 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                             <div>
                                 <NavBar token={token} ruolo={ruolo} />
                                 <Searchbar />
-                                <Feedback token={token} setToken={setToken} />
+                                <GestioneFeedback token={token} setToken={setToken} />
                             </div>
                         </ProtectedRouteRuolo>
                     </ProtectedRouteToken>

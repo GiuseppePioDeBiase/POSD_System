@@ -6,7 +6,6 @@ import {Container, Grid, Card, CardContent, Typography, TextField, Button, Avata
 } from '@mui/material';
 import SegnalazioniAccettate from '../GestioneSegnalazione/SegnalazioniAccettate.jsx';
 import UtentiRegistrati from './UtentiRegistrati.jsx';
-
 import { useFetchProfile, handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from './Profili';
 
 export default function GestioneAmministratore({ token }) {
@@ -21,7 +20,7 @@ export default function GestioneAmministratore({ token }) {
 
 
 
-    const SegnalazioniAccettate = () => {
+    const Segnalazioniaccettate = () => {
         setSegnalazioniVisibile(!segnalazioniVisibile);
         setAggiungiProfiloVisibile(false);
         setUtentiVisibile(false);
@@ -96,7 +95,7 @@ export default function GestioneAmministratore({ token }) {
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
                             <Typography variant="subtitle1">{profilo.ruolo}</Typography>
                             <Box sx={{mt: 5, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                                <Button variant="contained" color="warning" onClick={SegnalazioniAccettate}
+                                <Button variant="contained" color="warning" onClick={Segnalazioniaccettate}
                                         sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
                                     Segnalazioni
                                 </Button>
@@ -135,6 +134,7 @@ export default function GestioneAmministratore({ token }) {
                         <Grid item xs={12}>
                             <Card sx={{mb: 4}}>
                                 <CardContent>
+                                    {segnalazioniVisibile && (<SegnalazioniAccettate token={token} ruolo={profilo.ruolo}/>)}
                                     {aggiungiProfiloVisibile && (
                                         <Card sx={{mb: 3}}>
                                             <CardContent>
@@ -177,7 +177,7 @@ export default function GestioneAmministratore({ token }) {
                                         </Card>
                                     )}
 
-                                    {segnalazioniVisibile && (<SegnalazioniAccettate token={token} ruolo={profilo.ruolo}/>)}
+
 
                                     {utentiVisibile && (
                                         <Card sx={{mb: 3}}>

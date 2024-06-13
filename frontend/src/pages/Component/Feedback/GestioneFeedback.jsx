@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from "prop-types";
 
-function Feedback({token}) {
+function GestioneFeedback({token}) {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
@@ -22,7 +22,7 @@ function Feedback({token}) {
     return true;
   };
 
-  const handleSubmit = async (e) => {
+  const InserisciFeedback = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
@@ -54,7 +54,7 @@ function Feedback({token}) {
           <p className="text-lg text-gray-600 text-center mb-6">
             Lascia un feedback sulla tua personale esperienza sul sito POSD System!
           </p>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={InserisciFeedback}>
             <div className="mb-4">
               <label htmlFor="subject" className="text-lg text-gray-600">Oggetto</label>
               <input
@@ -101,8 +101,8 @@ function Feedback({token}) {
   );
 }
 
-Feedback.propTypes = {
+GestioneFeedback.propTypes = {
   token: PropTypes.string.isRequired,
 };
 
-export default Feedback;
+export default GestioneFeedback;
