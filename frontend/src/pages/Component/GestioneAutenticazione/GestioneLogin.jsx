@@ -93,7 +93,7 @@ function GestioneLogin(props) {
                                 </div>
                                 {error && <div className="text-red-500 text-sm">{error}</div>} {/* Renderizza il messaggio di errore */}
                                 <div className="flex justify-between mt-4">
-                                    <Link to="/GestioneRegistrazione">
+                                    <Link to="/Registrazione">
                                         <button className="bg-cyan-500 text-white rounded-md px-1 py-2">
                                             Non sei ancora registrato?
                                         </button>

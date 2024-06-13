@@ -40,6 +40,7 @@ function GestioneFeedback({token}) {
         }
       });
       setResponseData(response.data.messaggio); // Imposta il messaggio di risposta dal server
+
       setFormSubmitted(true); // Imposta che il form è stato inviato con successo
       // navigate(0); // Non navigare automaticamente, lascia che l'utente decida di andare via
     } catch (error) {

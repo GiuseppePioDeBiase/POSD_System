@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 
 const SegnalazioneUR = ({ token, titolo }) => {
   const subject = "Segnalazione per il pattern: " + titolo;
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState(null);
-
+  const navigate=useNavigate()
   const validateForm = () => {
     if (message.trim() === '') {
       setStatus('Il messaggio non può essere vuoto!');
@@ -31,6 +32,7 @@ const handleSubmit = async (e) => {
           'Authorization': `Bearer ${token}`,
         }
       });
+      navigate(0)
       setStatus(response.data.messaggio);
     } catch (error) {
       if (error.response) {

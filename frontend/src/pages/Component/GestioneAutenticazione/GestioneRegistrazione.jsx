@@ -190,7 +190,7 @@ function GestioneRegistrazione(props) {
                                 </div>
                                 {error && <div
                                     className="text-red-500 text-sm mt-4 text-center">{error}</div>} {/* Center align error message */}
-                                <Link to="/GestioneLogin"
+                                <Link to="/Login"
                                       className="block text-center text-gray-600 underline mt-4"> {/* Adjust the margin */}
                                     Torna alla pagina di GestioneLogin
                                 </Link>
