@@ -117,11 +117,12 @@ export default function ProfiloCISO(props) {
         setSegnalazioniVisibile(false  );
     };
 
-    const InserisciLicenza = () => {
-        setAggiungiLicenzaVisibile(!aggiungiLicenzaVisibile);
-        setSegnalazioniVisibile(false);
-        setStoricoSegnalazioniVisibile(false);
-    };
+  const InserisciLicenza = () => {
+    setAggiungiLicenzaVisibile(!aggiungiLicenzaVisibile);
+    setSegnalazioniVisibile(false);
+    setStoricoSegnalazioniVisibile(false);
+};
+
 
 
 
@@ -163,7 +164,7 @@ export default function ProfiloCISO(props) {
     };
 
     const handleFileChange = (event) => {
-        const selectedFile = event.target.files[0];
+    const selectedFile = event.target.files[0];
         const allowedExtensions = [".cer", ".crt", ".pem", ".p12", ".pfx", ".der", ".p7b", ".p7c", ".key", ".pdf"];
 
         // Estrai l'estensione del file
@@ -203,17 +204,17 @@ export default function ProfiloCISO(props) {
                 <Grid item xs={12} md={4}>
                     <Card sx={{ mb: 4, mx: { xs: 0, md: 5 } }}>
                         <CardContent sx={{ textAlign: 'center' }}>
-                              <Box onClick={handleAvatarClick} sx={{ cursor: 'pointer' }}>
+                            <Box onClick={handleAvatarClick} sx={{cursor: 'pointer'}}>
                                 <Avatar
                                     src={avatar}
-                                    sx={{ width: 150, height: 150, mx: 'auto', mb: 4 }}
+                                    sx={{width: 150, height: 150, mx: 'auto', mb: 4}}
                                 />
                                 <input
                                     id="avatarInput"
                                     type="file"
                                     accept="image/*"
-                                    onChange={handleAvatarChange(setAvatar)}
-                                    style={{ display: 'none' }}
+                                    onChange={(e) => handleAvatarChange(e, setAvatar)}
+                                    style={{display: 'none'}}
                                 />
                             </Box>
                             <Typography variant="h6" gutterBottom>{getWelcomeMessage(profilo.genere)}</Typography>
@@ -223,6 +224,7 @@ export default function ProfiloCISO(props) {
                                 <Button variant="contained" color="warning" onClick={InserisciLicenza} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
                                     Licenza
                                 </Button>
+
                                 <Button variant="contained" color="warning" onClick={SegnalazioniAccettateRifiutate} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
                                     Segnalazioni
                                 </Button>

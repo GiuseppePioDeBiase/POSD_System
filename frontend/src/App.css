@@ -15,7 +15,7 @@ h1 {
   text-align: center;
 }
 p{
-  --clr: #00000;
+  color: black;
 }
 :root {
   --clr: #e4f1fe;
@@ -28,7 +28,7 @@ body {
 }
 
 
-/* Da qui */
+
 .loader {
     border-radius: 50%;
     width: 30px;

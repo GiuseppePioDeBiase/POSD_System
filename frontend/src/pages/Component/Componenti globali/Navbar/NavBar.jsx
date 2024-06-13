@@ -1,21 +1,20 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import './NavBar.css';
 import PropTypes from "prop-types";
 
-
-function NavBar({token}) {
+function NavBar({ token }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState(0);
-  const [profilo, setProfilo] = useState({ nome: '', cognome: ''});
+  const [profilo, setProfilo] = useState({ nome: '', cognome: '' });
+
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
   };
 
   useEffect(() => {
     const fetchProfilo = async () => {
-     if (!token) {
-
+      if (!token) {
         return;
       }
 
@@ -23,7 +22,7 @@ function NavBar({token}) {
         const response = await fetch('http://localhost:5000/api/profilo', {
           method: 'GET',
           headers: {
-            'Content-Type': 'application/json',//nell'intestazione di una richiesta HTTP indica al server che il corpo della richiesta è formattato come JSON
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           }
         });
@@ -39,7 +38,7 @@ function NavBar({token}) {
       }
     };
 
-       fetchProfilo();
+    fetchProfilo();
   }, [token]);
 
   const handleMenuItemClick = (index) => {
@@ -62,7 +61,7 @@ function NavBar({token}) {
     { to: "/Feedback", icon: "clipboard-outline", text: "Feedback", bg: "#b145e9" },
   ];
 
-   let bottomItems = [];
+  let bottomItems = [];
   if (!token) {
     bottomItems.push({ to: "/Login", icon: "log-in-outline", text: "Login" });
   } else {
@@ -72,10 +71,13 @@ function NavBar({token}) {
     );
   }
 
-
   return (
     <>
-      <div className={`menuToggle ${menuOpen ? 'active' : ''}`} onClick={handleMenuToggle}></div>
+      <button
+        className={`menuToggle ${menuOpen ? 'active' : ''}`}
+        onClick={handleMenuToggle}
+        aria-pressed={menuOpen}
+      ></button>
       <div className={`sidebar ${menuOpen ? 'active' : ''}`}>
         <ul className="relative h-screen">
           <li className="logo bg-transparent pointer-events-none select-none">
@@ -84,35 +86,48 @@ function NavBar({token}) {
           <div className="Menulist">
             {menuItems.map((item, index) => (
               <li
-                key={index}
+                key={`${item.to}-${index}`}
                 style={{ '--bg': item.bg }}
                 className={activeMenuItem === index ? 'active' : ''}
-                onClick={() => handleMenuItemClick(index)}
               >
-                <Link to={item.to} className="flex items-center">
-                  <div className="icon flex justify-center items-center min-w-16 h-20">
-                    <ion-icon name={item.icon}></ion-icon>
-                  </div>
-                  <div className="text text-lg">{item.text}</div>
-                </Link>
+                <button
+                  onClick={() => handleMenuItemClick(index)}
+                  className="flex items-center w-full text-left"
+                >
+                  <Link to={item.to} className="flex items-center w-full text-left">
+                    <div className="icon flex justify-center items-center min-w-16 h-20">
+                      <ion-icon name={item.icon}></ion-icon>
+                    </div>
+                    <div className="text text-lg">{item.text}</div>
+                  </Link>
+                </button>
               </li>
             ))}
           </div>
           <div className="bottom absolute bottom-0 w-full">
             {bottomItems.map((item, index) => (
-              <li key={index} className="bottom-item" style={{ '--bg': '#100' }} onClick={handleBottomItemClick}>
-                <Link to={item.to} className="flex items-center">
-                  <div className="icon flex justify-center items-center min-w-16 h-20">
-                    {item.icon === "img" ? (
-                      <div className="imgBx w-10 h-10 rounded-full overflow-hidden">
-                        <img src={item.imgSrc} alt={item.alt} className="w-full h-full object-cover" />
-                      </div>
-                    ) : (
-                      <ion-icon name={item.icon}></ion-icon>
-                    )}
-                  </div>
-                  <div className="text text-lg">{item.text}</div>
-                </Link>
+              <li
+                key={`${item.to}-${index}`}
+                className="bottom-item"
+                style={{ '--bg': '#100' }}
+              >
+                <button
+                  onClick={handleBottomItemClick}
+                  className="flex items-center w-full text-left"
+                >
+                  <Link to={item.to} className="flex items-center w-full text-left">
+                    <div className="icon flex justify-center items-center min-w-16 h-20">
+                      {item.icon === "img" ? (
+                        <div className="imgBx w-10 h-10 rounded-full overflow-hidden">
+                          <img src={item.imgSrc} alt={item.alt} className="w-full h-full object-cover" />
+                        </div>
+                      ) : (
+                        <ion-icon name={item.icon}></ion-icon>
+                      )}
+                    </div>
+                    <div className="text text-lg">{item.text}</div>
+                  </Link>
+                </button>
               </li>
             ))}
           </div>
@@ -121,6 +136,7 @@ function NavBar({token}) {
     </>
   );
 }
+
 NavBar.propTypes = {
   token: PropTypes.string.isRequired,
 };

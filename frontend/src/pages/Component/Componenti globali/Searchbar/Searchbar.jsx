@@ -1,6 +1,6 @@
-import  { useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
-import './Searchbar.css'; // Importa lo stile CSS
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './Searchbar.css'; // Import CSS styles
 
 function Searchbar() {
   const [query, setQuery] = useState('');
@@ -10,11 +10,17 @@ function Searchbar() {
     navigate(`/ricerca?query=${query}`);
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      handleSearch();
+    }
+  };
+
   return (
     <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
       <div className="input-group input-group-lg col-sm-8 col-md-6 col-lg-4 mx-auto">
         <div className="input-group-prepend">
-          <Link to={"/"} className="input-group-text logo">
+          <Link to="/" className="input-group-text logo">
             <img src="logo.png" alt="Logo" />
           </Link>
         </div>
@@ -26,9 +32,14 @@ function Searchbar() {
           onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
         />
         <div className="input-group-append">
-          <span className="input-group-text searchbar" onClick={handleSearch}>
+          <button
+            type="button"
+            className="input-group-text searchbar"
+            onClick={handleSearch}
+            onKeyDown={handleKeyDown}
+          >
             <ion-icon name="search-outline"></ion-icon>
-          </span>
+          </button>
         </div>
       </div>
     </div>

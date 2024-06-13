@@ -3,26 +3,24 @@ import { useState } from 'react';
 import InserisciSegnalazione from '../../GestioneSegnalazione/InserisciSegnalazione.jsx';
 import PropTypes from "prop-types";
 
-const Definizione = ({props , ruolo}) => {
+const Definizione = ({props, ruolo}) => {
   const location = useLocation();
   const pattern = location.state || {};
   const navigate = useNavigate();
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
-  const navigate1 = useNavigate();
-   const [error, setError] = useState('');
+  const [error, setError] = useState('');
+
   const handleBackClick = () => {
     navigate("/POSD");
   };
-    console.log(ruolo)
+
   const toggleFeedbackForm = () => {
-    if(!props){
-      navigate1("/Login")
-    }else{
-      if (ruolo!=="Utente"){
-        setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
-      }else{
-        setShowFeedbackForm(!showFeedbackForm);
-      }
+    if (!props) {
+      navigate("/Login");
+    } else if (ruolo !== "Utente") {
+      setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
+    } else {
+      setShowFeedbackForm(!showFeedbackForm);
     }
   };
 
@@ -48,7 +46,7 @@ const Definizione = ({props , ruolo}) => {
         </div>
       )}
       {error && <p className="text-center font-bold" style={{ color: 'red' }}>{error}</p>}
-      {showFeedbackForm && <InserisciSegnalazione onClose={toggleFeedbackForm} titolo={pattern.Pattern} token={props}/>}
+      {showFeedbackForm && <InserisciSegnalazione onClose={toggleFeedbackForm} titolo={pattern.Pattern} token={props} />}
 
       <div className="bg-white shadow-md rounded-lg p-4 mb-4">
         <div className="mt-4">
@@ -67,8 +65,10 @@ const Definizione = ({props , ruolo}) => {
     </div>
   );
 };
+
 Definizione.propTypes = {
-    props: PropTypes.string.isRequired,
-    ruolo: PropTypes.string.isRequired
+  props: PropTypes.string.isRequired,
+  ruolo: PropTypes.string.isRequired
 };
+
 export default Definizione;

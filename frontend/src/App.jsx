@@ -1,8 +1,8 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import useToken from "./pages/Component/Componenti globali/useToken.jsx";
 import useRuolo from "./pages/Component/Componenti globali/useRuolo.jsx";
-import {BrowserRouter as Router, Routes, Route, useNavigate, Navigate} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import NavBar from './pages/Component/Componenti globali/Navbar/NavBar.jsx';
 import Searchbar from './pages/Component/Componenti globali/Searchbar/Searchbar.jsx';
 import Home from './pages/Component/Home.jsx';
@@ -21,76 +21,73 @@ import PropTypes from "prop-types";
 import GestioneProfili from "./pages/Component/Profili/GestioneProfili.jsx";
 import SegnalazioniAccettateRifiutate from './pages/Component/Profili/GestioCISO/SegnalazioniAccettateRifiutate.jsx';
 import AggiungiSegnalazione from "./pages/Component/GestioneSegnalazione/InserisciSegnalazione.jsx";
-function App() {
-    const [patterns, setPatterns] = useState([]);
-    const { token, setToken } = useToken();
-    const { ruolo, setRuolo } = useRuolo();
-    const [error] = useState('');
 
-    // Inizializzazione patterns
-    useEffect(() => {
-        const initialPatterns = [];
-        setPatterns(initialPatterns);
-    }, []);
+const ProtectedRouteToken = ({ children, token }) => {
+    if (!token) {
+        return <Navigate to="/Login" />;
+    }
+    return children;
+};
 
-    // Componente per route protette in base al token
-    const ProtectedRouteToken = ({ children, token }) => {
-        if (!token) {
-            return <Navigate to="/Login" />;
-        }
-        return children;
-    };
-
-    // Funzione reinderizzamento e caricamento 5 secondi ricordati che c'è il css in App.css ti segno da dove a dove
 const ProtectedRouteRuolo = ({ children, ruolo }) => {
     const navigate = useNavigate();
-    const [countdown, setCountdown] = useState(3); // Countdown di 3 secondi
     const [error, setError] = useState('');
+    const [countdown, setCountdown] = useState(3);
+
+    const handleAccessDenied = useCallback(() => {
+        setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
+        const timer = setInterval(() => {
+            setCountdown(prevCount => prevCount - 1);
+        }, 1000);
+
+        setTimeout(() => {
+            navigate('/');
+        }, 3000);
+
+        return () => clearInterval(timer);
+    }, [navigate]);
 
     useEffect(() => {
-        let timer;
         if (ruolo !== "Utente") {
-            setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
-            timer = setInterval(() => {
-                setCountdown((prevCount) => prevCount - 1);
-            }, 1000);
-
-            // Reindirizza dopo 5 secondi
-            setTimeout(() => {
-                navigate('/');
-            }, 3000);
+            handleAccessDenied();
         }
-        return () => clearInterval(timer);
-    }, [ruolo, navigate]);
+    }, [ruolo, handleAccessDenied]);
 
     return (
         <>
-            {error && (
-                <div className="fixed inset-0 flex justify-center items-center  bg-opacity-75 z-50">
-                    <div className="text-center  p-6 rounded ">
+            {error ? (
+                <div className="fixed inset-0 flex justify-center items-center bg-opacity-75 z-50">
+                    <div className="text-center p-6 rounded">
                         <div className="text-2xl font-bold mb-4">{error}</div>
                         <div className="text-xl mb-4">Ritorno alla home tra {countdown} secondi...</div>
                         <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
                     </div>
                 </div>
+            ) : (
+                children
             )}
-            {!error && children}
         </>
     );
 };
 
-// Fine funzione
+ProtectedRouteToken.propTypes = {
+    children: PropTypes.node.isRequired,
+    token: PropTypes.string,
+};
 
+ProtectedRouteRuolo.propTypes = {
+    children: PropTypes.node.isRequired,
+    ruolo: PropTypes.string,
+};
 
-    ProtectedRouteToken.propTypes = {
-        children: PropTypes.node.isRequired,
-        token: PropTypes.string,
-    };
+function App() {
+    const [patterns, setPatterns] = useState([]);
+    const { token, setToken } = useToken();
+    const { ruolo, setRuolo } = useRuolo();
 
-    ProtectedRouteRuolo.propTypes = {
-        children: PropTypes.node.isRequired,
-        ruolo: PropTypes.string,
-    };
+    useEffect(() => {
+        setPatterns([]);
+    }, []);
 
     return (
         <Router>
@@ -151,7 +148,6 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                     </div>
                 } />
 
-
                 <Route path="/Logout" element={<GestioneLogout setToken={setToken} removeRuolo={setRuolo} />} />
                 <Route path="/Login" element={
                     <div>
@@ -173,7 +169,7 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                         </div>
                     </ProtectedRouteToken>
                 } />
-                   <Route path="/segnalazione/:id" element={
+                <Route path="/segnalazione/:id" element={
                     <ProtectedRouteToken token={token}>
                         {ruolo === 'CISO' ? (
                             <SegnalazioniAccettateRifiutate token={token} />
@@ -182,7 +178,7 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                         )}
                     </ProtectedRouteToken>
                 } />
-                     <Route path="/AggiungiSegnalazione/:id" element={
+                <Route path="/AggiungiSegnalazione/:id" element={
                     <ProtectedRouteToken token={token}>
                         {ruolo === 'Amministratore di sistema' ? (
                             <AggiungiSegnalazione token={token} />
@@ -204,7 +200,6 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                 } />
                 <Route path="*" element={<NotFound />} />
             </Routes>
-            {error && <div className="error">{error}</div>}
         </Router>
     );
 }
