@@ -11,7 +11,7 @@ export default function GestioneUtente({ token }) {
     const [feedbackVisibile, setFeedbackVisibile] = useState(false);
     const [avatar, setAvatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
 
-    const toggleSegnalazioniVisibile = () => {
+    const Storico = () => {
         setSegnalazioniVisibile(!segnalazioniVisibile);
         setFeedbackVisibile(false);
     };
@@ -44,7 +44,7 @@ export default function GestioneUtente({ token }) {
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
                             <Typography variant="subtitle1">{profilo.ruolo}</Typography>
                             <Box sx={{ mt: 5, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <Button variant="contained" color="warning" onClick={toggleSegnalazioniVisibile}
+                                <Button variant="contained" color="warning" onClick={Storico}
                                     sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
                                     Segnalazioni
                                 </Button>
