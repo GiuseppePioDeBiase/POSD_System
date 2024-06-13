@@ -2,7 +2,7 @@ import  { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function SetLogOUT({ setToken, removeRuolo }) {
+function Logout({ setToken, removeRuolo }) {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,9 +26,9 @@ function SetLogOUT({ setToken, removeRuolo }) {
     );
 }
 
-SetLogOUT.propTypes = {
+Logout.propTypes = {
     setToken: PropTypes.func.isRequired,
     removeRuolo: PropTypes.func.isRequired,
 };
 
-export default SetLogOUT;
+export default Logout;

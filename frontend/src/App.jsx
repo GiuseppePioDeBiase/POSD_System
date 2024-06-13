@@ -9,9 +9,9 @@ import Home from './pages/Component/Home.jsx';
 import InserisciFeedback from "./pages/Component/GestioneFeedback/InserisciFeedback.jsx";
 import Contatti from "./pages/Component/Contatti/Contatti.jsx";
 import NotFound from "./pages/Component/Componenti globali/NotFound/NotFound.jsx";
-import SetLogin from "./pages/Component/GestioneAutenticazione/SetLogin.jsx";
-import SetRegistrazione from "./pages/Component/GestioneAutenticazione/SetRegistrazione.jsx";
-import SetLogOUT from "./pages/Component/GestioneAutenticazione/setLogOUT.jsx";
+import Login from "./pages/Component/GestioneAutenticazione/Login.jsx";
+import Registrazione from "./pages/Component/GestioneAutenticazione/Registrazione.jsx";
+import Logout from "./pages/Component/GestioneAutenticazione/Logout.jsx";
 import Full from "./pages/Component/GestionePKB/Full.jsx";
 import Information from "./pages/Component/GestionePKB/Information.jsx";
 import POSD from './pages/Component/Componenti globali/POSD/Filtro/POSD.jsx';
@@ -19,7 +19,6 @@ import Definizione from './pages/Component/Componenti globali/POSD/Definizione.j
 import Ricerca from "./pages/Component/Componenti globali/Searchbar/Ricerca.jsx";
 import PropTypes from "prop-types";
 import Profili from "./pages/Component/Profili/Profili.jsx";
-import Partecipa from "./pages/Component/Partecipa.jsx";
 import SegnalazioniAccettateRifiutate from './pages/Component/GestioneSegnalazione/SegnalazioniAccettateRifiutate.jsx';
 import AggiungiSegnalazione from "./pages/Component/GestioneSegnalazione/AggiungiSegnalazione.jsx";
 function App() {
@@ -37,7 +36,7 @@ function App() {
     // Componente per route protette in base al token
     const ProtectedRouteToken = ({ children, token }) => {
         if (!token) {
-            return <Navigate to="/SetLogin" />;
+            return <Navigate to="/Login" />;
         }
         return children;
     };
@@ -153,17 +152,17 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                 } />
 
 
-                <Route path="/SetLogOUT" element={<SetLogOUT setToken={setToken} removeRuolo={setRuolo} />} />
-                <Route path="/SetLogin" element={
+                <Route path="/Logout" element={<Logout setToken={setToken} removeRuolo={setRuolo} />} />
+                <Route path="/Login" element={
                     <div>
                         <NavBar token={token} />
-                        <SetLogin setToken={setToken} setRuolo={setRuolo} />
+                        <Login setToken={setToken} setRuolo={setRuolo} />
                     </div>
                 } />
-                <Route path="/SetRegistrazione" element={
+                <Route path="/Registrazione" element={
                     <div>
                         <NavBar token={token} />
-                        <SetRegistrazione setToken={setToken} setRuolo={setRuolo} />
+                        <Registrazione setToken={setToken} setRuolo={setRuolo} />
                     </div>
                 } />
                 <Route path="/Profili" element={
@@ -192,18 +191,6 @@ const ProtectedRouteRuolo = ({ children, ruolo }) => {
                         )}
                     </ProtectedRouteToken>
                 } />
-                <Route path="/Partecipa" element={
-                    <ProtectedRouteToken token={token}>
-                        <ProtectedRouteRuolo ruolo={ruolo}>
-                            <div>
-                                <NavBar token={token} />
-                                <Searchbar />
-                                <Partecipa token={token} ruolo={ruolo} />
-                            </div>
-                        </ProtectedRouteRuolo>
-                    </ProtectedRouteToken>
-                } />
-
                 <Route path="/InserisciFeedback" element={
                     <ProtectedRouteToken token={token}>
                         <ProtectedRouteRuolo ruolo={ruolo}>
