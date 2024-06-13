@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
+import PropTypes from "prop-types";
 
-function Feedback() {
+
+function Feedback({ token}) {
 
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
@@ -25,7 +27,13 @@ function Feedback() {
     try {
       const response = await axios.post('http://localhost:5000/api/feedback', {
         oggetto: subject,
-        messaggio: message
+        messaggio: message,
+
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        }
       });
       setStatus(response.data.message);
       navigate(0);
@@ -81,5 +89,10 @@ function Feedback() {
     </div>
   );
 }
+
+Feedback.propTypes = {
+  token: PropTypes.string.isRequired,
+};
+
 
 export default Feedback;
