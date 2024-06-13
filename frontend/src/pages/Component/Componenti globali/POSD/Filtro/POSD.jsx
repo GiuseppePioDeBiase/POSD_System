@@ -59,11 +59,7 @@ function POSD() {
     };
 
     const applyFilter = (pattern) => {
-<<<<<<< Updated upstream
-        const { mvc, strategy, isoPhase, article, cwe, owasp } = selectedFilters;
-=======
         const {mvc, strategy, isoPhase, article, cwe, owasp} = selectedFilters;
->>>>>>> Stashed changes
         return (
             (!mvc || pattern['Collocazione MVC']?.includes(mvc)) &&
             (!strategy || pattern['Strategies']?.includes(strategy)) &&
@@ -73,10 +69,6 @@ function POSD() {
             (!owasp || pattern['OWASP Top Ten Categories']?.includes(owasp))
         );
     };
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
     const filteredPatterns = patterns.filter(applyFilter);
 

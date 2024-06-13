@@ -5,16 +5,10 @@ import PropTypes from 'prop-types';
 
 function GestioneLogin(props) {
     const navigate = useNavigate();
-<<<<<<< Updated upstream
-    const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+    const [loginForm, setLoginForm] = useState({email: '', password: ''});
     const [error, setError] = useState('');
 
     const setLogin = (event) => {
-=======
-    const [loginForm, setloginForm] = useState({email: '', password: ''});
-    const [error, setError] = useState(''); // Aggiungi lo stato per memorizzare l'errore
-    function setLogin(event) {
->>>>>>> Stashed changes
         event.preventDefault();
         axios({
             method: 'POST',
@@ -28,7 +22,6 @@ function GestioneLogin(props) {
                 props.setRuolo(response.data.ruolo);
                 props.setToken(response.data.token);
                 setError('');
-<<<<<<< Updated upstream
                 navigate('/Profili');
             })
             .catch((error) => {
@@ -39,28 +32,10 @@ function GestioneLogin(props) {
     };
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         setLoginForm((prevForm) => ({
             ...prevForm,
             [name]: value,
-=======
-
-                navigate('/Profili');
-            })
-            .catch((error) => {
-                if (error.response) {
-                    setError(error.response.data.messaggio);
-                }
-            });
-
-    }
-
-    function handleChange(event) {
-        const {value, name} = event.target;
-        setloginForm((prevNote) => ({
-            ...prevNote,
-            [name]: value
->>>>>>> Stashed changes
         }));
     };
 
@@ -110,12 +85,7 @@ function GestioneLogin(props) {
                                         Password
                                     </label>
                                 </div>
-<<<<<<< Updated upstream
                                 {error && <div className="text-red-500 text-sm">{error}</div>}
-=======
-                                {error && <div
-                                    className="text-red-500 text-sm">{error}</div>} {/* Renderizza il messaggio di errore */}
->>>>>>> Stashed changes
                                 <div className="flex justify-between mt-4">
                                     <Link to="/Registrazione">
                                         <button className="bg-cyan-500 text-white rounded-md px-1 py-2">
@@ -137,10 +107,6 @@ function GestioneLogin(props) {
         </div>
     );
 }
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
 GestioneLogin.propTypes = {
     setToken: PropTypes.func.isRequired,
