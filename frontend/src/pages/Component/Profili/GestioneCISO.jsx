@@ -46,7 +46,7 @@ export default function ProfiloCISO(props) {
     const [avatar, setAvatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
 
     useEffect(() => {
-        const fetchProfilo = async () => {
+        const DatiAnagrafici = async () => {
             if (!props.token) {
                 console.error("Token non disponibile");
                 return;
@@ -77,11 +77,11 @@ export default function ProfiloCISO(props) {
             }
         };
 
-        fetchProfilo();
+        DatiAnagrafici();
     }, [props.token]);
 
 
-    const fetchLicenza = async () => {
+    const ScaricaLicenza = async () => {
         try {
             const response = await fetch('http://localhost:5000/api/recuperalicenza', {
                 method: 'GET',
@@ -110,23 +110,23 @@ export default function ProfiloCISO(props) {
     };
 
     useEffect(() => {
-        fetchLicenza();
+        ScaricaLicenza();
     }, []);
 
-    const toggleSegnalazioniVisibile = () => {
+    const SegnalazioniAccettateRifiutate = () => {
         setSegnalazioniVisibile(!segnalazioniVisibile);
         setModificaProfiloVisibile(false);
         setAggiungiLicenzaVisibile(false);
         setStoricoSegnalazioniVisibile(false);
     };
-    const toggleStoricoSegnalazioniVisibile = () => {
+    const Storico = () => {
         setStoricoSegnalazioniVisibile(!StoricoSegnalazioniVisibile);
         setModificaProfiloVisibile(false);
         setAggiungiLicenzaVisibile(false);
         setSegnalazioniVisibile(false  );
     };
 
-    const toggleAggiungiLicenza = () => {
+    const InserisciLicenza = () => {
         setAggiungiLicenzaVisibile(!aggiungiLicenzaVisibile);
         setModificaProfiloVisibile(false);
         setSegnalazioniVisibile(false);
@@ -248,13 +248,13 @@ export default function ProfiloCISO(props) {
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
                             <Typography variant="subtitle1">{profilo.ruolo}</Typography>
                             <Box sx={{ mt: 5, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <Button variant="contained" color="warning" onClick={toggleAggiungiLicenza} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
+                                <Button variant="contained" color="warning" onClick={InserisciLicenza} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
                                     Licenza
                                 </Button>
-                                <Button variant="contained" color="warning" onClick={toggleSegnalazioniVisibile} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
+                                <Button variant="contained" color="warning" onClick={SegnalazioniAccettateRifiutate} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
                                     Segnalazioni
                                 </Button>
-                                <Button variant="contained" color="warning" onClick={toggleStoricoSegnalazioniVisibile} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
+                                <Button variant="contained" color="warning" onClick={Storico} sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
                                     Storico Segnalazioni
                                 </Button>
                                 <Button variant="contained" color="warning" onClick={toggleModificaProfilo} sx={{ width: '100%', maxWidth: '300px' }}>
@@ -340,7 +340,7 @@ export default function ProfiloCISO(props) {
                                                 style={{ display: 'block', marginBottom: '0.5%', marginTop: "5%" }}
                                             />
                                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                                <Button variant="contained" color="secondary" onClick={toggleAggiungiLicenza} sx={{ mr: 2 }}>
+                                                <Button variant="contained" color="secondary" onClick={InserisciLicenza} sx={{ mr: 2 }}>
                                                     Annulla
                                                 </Button>
                                                 <Button variant="contained" color="success" onClick={handleFileUpload}>

@@ -33,7 +33,7 @@ export default function GestioneUtente({ token }) {
         setFeedbackVisibile(false);
     };
 
-    const toggleSegnalazioniVisibile = () => {
+    const Storico = () => {
         setSegnalazioniVisibile(!segnalazioniVisibile);
         setModificaProfiloVisibile(false);
         setFeedbackVisibile(false);
@@ -87,7 +87,7 @@ export default function GestioneUtente({ token }) {
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
                             <Typography variant="subtitle1">{profilo.ruolo}</Typography>
                             <Box sx={{ mt: 5, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <Button variant="contained" color="warning" onClick={toggleSegnalazioniVisibile}
+                                <Button variant="contained" color="warning" onClick={Storico}
                                     sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
                                     Segnalazioni
                                 </Button>

@@ -1,7 +1,9 @@
 import {useState} from "react";
 import axios from 'axios';
 import PropTypes from 'prop-types';
-
+import SegnalazioniAccettate from '../GestioneSegnalazione/SegnalazioniAccettate.jsx';
+import UtentiRegistrati from './UtentiRegistrati.jsx';
+import { useFetchProfile, handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from './Profili';
 import {
     Container,
     Grid,
@@ -15,10 +17,7 @@ import {
     Alert,
     Box
 } from '@mui/material';
-import SegnalazioniAccettate from '../GestioneSegnalazione/SegnalazioniAccettate.jsx';
-import UtentiRegistrati from './UtentiRegistrati.jsx';
 
-import { useFetchProfile, handleAvatarChange, getWelcomeMessage, renderDettagliProfilo,handleAvatarClick } from './Profili';
 
 export default function GestioneAmministratore({ token }) {
     const [aggiungiProfiloVisibile, setAggiungiProfiloVisibile] = useState(false);
@@ -32,14 +31,14 @@ export default function GestioneAmministratore({ token }) {
 
 
 
-    const toggleSegnalazioniApprovate = () => {
+    const SegnalazioniAccettate = () => {
         setSegnalazioniVisibile(!segnalazioniVisibile);
         setAggiungiProfiloVisibile(false);
         setUtentiVisibile(false);
         setfeedbackVisibile(false);
     };
 
-    const toggleAggiungiProfilo = () => {
+    const RegistraUtenti = () => {
         setAggiungiProfiloVisibile(!aggiungiProfiloVisibile);
         setSegnalazioniVisibile(false);
         setUtentiVisibile(false);
@@ -47,7 +46,7 @@ export default function GestioneAmministratore({ token }) {
         setError('');
     };
 
-    const toggleUtentiVisibili = () => {
+    const ElencoUtenti = () => {
         setUtentiVisibile(!utentiVisibile);
         setSegnalazioniVisibile(false);
         setAggiungiProfiloVisibile(false);
@@ -107,15 +106,15 @@ export default function GestioneAmministratore({ token }) {
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
                             <Typography variant="subtitle1">{profilo.ruolo}</Typography>
                             <Box sx={{mt: 5, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                                <Button variant="contained" color="warning" onClick={toggleSegnalazioniApprovate}
+                                <Button variant="contained" color="warning" onClick={SegnalazioniAccettate}
                                         sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
                                     Segnalazioni
                                 </Button>
-                                <Button variant="contained" color="warning" onClick={toggleAggiungiProfilo}
+                                <Button variant="contained" color="warning" onClick={RegistraUtenti}
                                         sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
                                     Aggiungi profilo
                                 </Button>
-                                <Button variant="contained" color="warning" onClick={toggleUtentiVisibili}
+                                <Button variant="contained" color="warning" onClick={ElencoUtenti}
                                         sx={{mb: 2, width: '100%', maxWidth: '300px'}}>
                                     Visualizza utenti
                                 </Button>
