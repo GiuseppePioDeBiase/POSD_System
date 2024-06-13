@@ -4,7 +4,7 @@ from flask import jsonify, request
 from backend.config.db import conn_db
 
 db = conn_db()
-feedbackCollection = db['InserisciFeedback']
+feedbackCollection = db['Feedback']
 
 
 class Feedback(BaseMessage):
