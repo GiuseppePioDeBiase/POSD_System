@@ -1,6 +1,5 @@
 import  { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import PropTypes from "prop-types";
 
 function GestioneFeedback({token}) {
@@ -11,11 +10,12 @@ function GestioneFeedback({token}) {
   const [showStatus, setShowStatus] = useState(false);
   const [responseData, setResponseData] = useState(null); // Stato per la risposta dal server
   const [formSubmitted, setFormSubmitted] = useState(false); // Stato per controllare se il form è stato inviato
-  const navigate = useNavigate();
+
 
 
   const InserisciFeedback = async (e) => {
     e.preventDefault();
+
 
     try {
       const response = await axios.post('http://localhost:5000/api/feedback', {

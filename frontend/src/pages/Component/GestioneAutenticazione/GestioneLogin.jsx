@@ -4,31 +4,26 @@ import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function GestioneLogin(props) {
-    const navigate = useNavigate(); // Ottieni la funzione di navigazione
-
-     const [loginForm, setloginForm] = useState({
-        email: '',
-        password: ''
-    });
+     const navigate = useNavigate();
+     const [loginForm, setloginForm] = useState({email: '', password: ''});
      const [error, setError] = useState(''); // Aggiungi lo stato per memorizzare l'errore
-       function setLogin(event) {
-    event.preventDefault();
+    function setLogin(event) {
+        event.preventDefault();
+        axios({
+            method: 'POST',
+            url: 'http://127.0.0.1:5000/api/login',
+            data: {
+                email: loginForm.email,
+                password: loginForm.password
+            }
+        })
+        .then((response) => {
+            props.setRuolo(response.data.ruolo);
+            props.setToken(response.data.token);
+            setError('');
 
-    axios({
-        method: 'POST',
-        url: 'http://127.0.0.1:5000/api/login',
-        data: {
-            email: loginForm.email,
-            password: loginForm.password
-        }
-    })
-    .then((response) => {
-        props.setRuolo(response.data.ruolo); // Set role using the useRuolo hook
-        props.setToken(response.data.token); // Set token using the prop
-        setError(''); // Reset error
-
-        navigate('/Profili'); // Redirect to the profile page
-    })
+            navigate('/Profili');
+        })
     .catch((error) => {
         if (error.response) {
             setError(error.response.data.messaggio);
@@ -48,7 +43,6 @@ function GestioneLogin(props) {
     return (
         <div className="min-h-screen py-6 flex flex-col justify-center sm:py-12">
             <div className="relative py-3 w-full sm:max-w-xl sm:mx-auto">
-                {/* Ingrandisci il modulo di login */}
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
                 <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
                     <div className="max-w-md mx-auto">
