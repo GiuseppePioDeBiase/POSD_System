@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import axios from 'axios';
 import Card from '../../../GestionePKB/Card.jsx';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './POSD.css';
 
@@ -55,11 +55,15 @@ function POSD() {
     };
 
     const handleCardClick = (pattern) => {
-        navigate(`/Definizione/${encodeURIComponent(pattern['Pattern'])}`, { state: { ...pattern } });
+        navigate(`/Definizione/${encodeURIComponent(pattern['Pattern'])}`, {state: {...pattern}});
     };
 
     const applyFilter = (pattern) => {
+<<<<<<< Updated upstream
         const { mvc, strategy, isoPhase, article, cwe, owasp } = selectedFilters;
+=======
+        const {mvc, strategy, isoPhase, article, cwe, owasp} = selectedFilters;
+>>>>>>> Stashed changes
         return (
             (!mvc || pattern['Collocazione MVC']?.includes(mvc)) &&
             (!strategy || pattern['Strategies']?.includes(strategy)) &&
@@ -69,6 +73,10 @@ function POSD() {
             (!owasp || pattern['OWASP Top Ten Categories']?.includes(owasp))
         );
     };
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
     const filteredPatterns = patterns.filter(applyFilter);
 
@@ -200,7 +208,7 @@ function POSD() {
     );
 }
 
-function Dropdown({ label, isOpen, onToggle, children }) {
+function Dropdown({label, isOpen, onToggle, children}) {
     return (
         <div className="sec-center">
             <input

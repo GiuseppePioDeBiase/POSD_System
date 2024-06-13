@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function GestioneLogin(props) {
     const navigate = useNavigate();
+<<<<<<< Updated upstream
     const [loginForm, setLoginForm] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
 
     const setLogin = (event) => {
+=======
+    const [loginForm, setloginForm] = useState({email: '', password: ''});
+    const [error, setError] = useState(''); // Aggiungi lo stato per memorizzare l'errore
+    function setLogin(event) {
+>>>>>>> Stashed changes
         event.preventDefault();
         axios({
             method: 'POST',
@@ -22,6 +28,7 @@ function GestioneLogin(props) {
                 props.setRuolo(response.data.ruolo);
                 props.setToken(response.data.token);
                 setError('');
+<<<<<<< Updated upstream
                 navigate('/Profili');
             })
             .catch((error) => {
@@ -36,13 +43,32 @@ function GestioneLogin(props) {
         setLoginForm((prevForm) => ({
             ...prevForm,
             [name]: value,
+=======
+
+                navigate('/Profili');
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setError(error.response.data.messaggio);
+                }
+            });
+
+    }
+
+    function handleChange(event) {
+        const {value, name} = event.target;
+        setloginForm((prevNote) => ({
+            ...prevNote,
+            [name]: value
+>>>>>>> Stashed changes
         }));
     };
 
     return (
         <div className="min-h-screen py-6 flex flex-col justify-center sm:py-12">
             <div className="relative py-3 w-full sm:max-w-xl sm:mx-auto">
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+                <div
+                    className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
                 <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
                     <div className="max-w-md mx-auto">
                         <div>
@@ -84,7 +110,12 @@ function GestioneLogin(props) {
                                         Password
                                     </label>
                                 </div>
+<<<<<<< Updated upstream
                                 {error && <div className="text-red-500 text-sm">{error}</div>}
+=======
+                                {error && <div
+                                    className="text-red-500 text-sm">{error}</div>} {/* Renderizza il messaggio di errore */}
+>>>>>>> Stashed changes
                                 <div className="flex justify-between mt-4">
                                     <Link to="/Registrazione">
                                         <button className="bg-cyan-500 text-white rounded-md px-1 py-2">
@@ -106,6 +137,10 @@ function GestioneLogin(props) {
         </div>
     );
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
 GestioneLogin.propTypes = {
     setToken: PropTypes.func.isRequired,
