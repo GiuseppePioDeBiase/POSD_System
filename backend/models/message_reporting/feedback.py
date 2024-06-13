@@ -9,8 +9,7 @@ feedbackCollection = db['Feedback']
 
 class Feedback(BaseMessage):
     def __init__(self, oggetto, messaggio, mail):
-        super().__init__(oggetto, messaggio)
-        self.mail = mail
+        super().__init__(oggetto, messaggio, mail)
 
     @classmethod
     def insertFeedback(cls, mail):
@@ -34,10 +33,3 @@ class Feedback(BaseMessage):
 
         feedbackCollection.insert_one(feedback.to_json())
         return jsonify({"successo": True, "messaggio": "Feedback ricevuto!"}), 201
-
-    def to_json(self):
-        return {
-            'oggetto': self.oggetto,
-            'messaggio': self.messaggio,
-            'mail': self.mail
-        }

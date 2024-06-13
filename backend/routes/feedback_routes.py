@@ -1,6 +1,5 @@
 from flask import Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
-
 from backend.models.message_reporting.feedback import Feedback
 
 feedback_bp = Blueprint('feedback_bp', __name__)
