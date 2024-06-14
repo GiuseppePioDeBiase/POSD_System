@@ -40,4 +40,10 @@ def carica_foto():
 @utente_bp.route('/api/storicoutente', methods=['GET'])
 @jwt_required()
 def get_storico_utente():
-    return Utente.storico_utente(mail=get_jwt_identity())
+    return Utente.storico_segnalazioni_utente(mail=get_jwt_identity())
+
+
+@utente_bp.route('/api/feedbackutente', methods=['GET'])
+@jwt_required()
+def get_feedback_utente():
+    return Utente.storico_feedback_utente(mail=get_jwt_identity())
