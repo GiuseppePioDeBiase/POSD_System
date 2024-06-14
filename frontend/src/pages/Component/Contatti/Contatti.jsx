@@ -12,7 +12,7 @@ function Contatti() {
                      style={{visibility: 'visible', animationDelay: '0.2s', animationName: 'fadeInUp'}}>
                     {/* Team Thumb */}
                     <div className="advisor_thumb">
-                        <img src="Lorenzo.jpg" alt="Lorenzo Calabrese"/>
+                        <img src="Lorenzo1.jpg" alt="Lorenzo Calabrese"/>
                     </div>
                     {/* Team Details */}
                     <div className="single_advisor_details_info">
@@ -25,12 +25,12 @@ function Contatti() {
                      style={{visibility: 'visible', animationDelay: '0.3s', animationName: 'fadeInUp'}}>
                     {/* Team Thumb */}
                     <div className="advisor_thumb">
-                        <img src="Kekko.jpg" alt="Francesco Conforti"/>
+                        <img src="Kekko1.jpg" alt="Francesco Conforti"/>
                     </div>
                     {/* Team Details */}
                     <div className="single_advisor_details_info">
                         <h6>Francesco Conforti</h6>
-                        <p className="designation">Backend nel tempo libero, gestisco le cacate che produciamo!</p>
+                        <p className="designation">Backend</p>
                     </div>
                 </div>
                 {/* Single Advisor */}
@@ -38,7 +38,7 @@ function Contatti() {
                      style={{visibility: 'visible', animationDelay: '0.4s', animationName: 'fadeInUp'}}>
                     {/* Team Thumb */}
                     <div className="advisor_thumb">
-                        <img src="peppe.png" alt="Giuseppe Pio De Biase"/>
+                        <img src="Peppe.jpeg" alt="Giuseppe Pio De Biase"/>
                     </div>
                     {/* Team Details */}
                     <div className="single_advisor_details_info">
