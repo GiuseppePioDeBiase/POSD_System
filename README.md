@@ -8,6 +8,13 @@ Sviluppo di un’applicazione web che integri ogni elemento della PRIVACY KNOWLE
 
 ➤ Supportare le aziende nella definizione di processi compliance al GDPR
 
+## Prerequisiti
+Assicurati di avere i seguenti prerequisiti installati sulla tua macchina prima di procedere con l'installazione:
+
+- MongoDB [Installazione](dump%2FREADME.md)
+- Python 
+- Browser web
+
 ## Installazione
 
 ### Backend (Flask/Python)
