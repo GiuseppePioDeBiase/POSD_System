@@ -9,12 +9,13 @@ import Paper from '@mui/material/Paper';
 import {TableVirtuoso} from 'react-virtuoso';
 import PropTypes from 'prop-types';
 import axios from "axios";
+import {useHistory} from 'react-router-dom';
 
 const columns = [
     {
-        width: 10,
-        label: 'Stato',
-        dataKey: 'stato',
+        width: 40,
+        label: 'Email',
+        dataKey: 'mail',
     },
     {
         width: 40,
@@ -22,14 +23,9 @@ const columns = [
         dataKey: 'oggetto',
     },
     {
-        width: 90,
+        width: 40,
         label: 'Messaggio',
         dataKey: 'messaggio',
-    },
-    {
-        width: 20,
-        label: 'Data',
-        dataKey: 'data_ora_modifica',
     },
 ];
 
@@ -75,7 +71,7 @@ function fixedHeaderContent() {
     );
 }
 
-function rowContent(_index, row) {
+function rowContent(_index, row, history) {
     return (
         <React.Fragment>
             {columns.map((column) => (
@@ -88,46 +84,54 @@ function rowContent(_index, row) {
                         textOverflow: 'ellipsis'
                     }}
                 >
-                    {row[column.dataKey]}
+                    {column.dataKey === 'messaggio' ? (
+                        <a href="#" onClick={() => history.push(`/message/${row.id}`)}>
+                            {row[column.dataKey]}
+                        </a>
+                    ) : (
+                        row[column.dataKey]
+                    )}
                 </TableCell>
             ))}
         </React.Fragment>
     );
 }
 
-export default function ReactVirtualizedTable({token,ruolo}) {
+export default function ReactVirtualizedTable({token, ruolo}) {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const history = useHistory();
 
     useEffect(() => {
-      const fetchData = async () => {
-    let endpoint;
+        const fetchData = async () => {
+            let endpoint;
 
-    switch (ruolo) {
-        case 'CISO':
-            endpoint = 'storicociso';
-            break;
-        case 'Utente':
-        default:
-            endpoint = 'storicoutente';
-            break;
-    }
-
-    try {
-        const response = await axios.get(`http://localhost:5000/api/${endpoint}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+            switch (ruolo) {
+                case 'CISO':
+                    endpoint = 'allsegnalazioni';
+                    break;
+                case 'Amministratore di sistema':
+                default:
+                    endpoint = 'allsegnalazioniaccettate';
+                    break;
             }
-        });
-        setRows(response.data);
-        setLoading(false);
-    } catch (error) {
-        console.error('Errore durante il recupero dei dati:', error);
-        setLoading(false);
-    }
-};
+
+            try {
+                const response = await axios.get(`http://localhost:5000/api/${endpoint}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setRows(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Errore durante il recupero dei dati:', error);
+                setLoading(false);
+                setError(error);
+            }
+        };
         fetchData();
     }, [ruolo, token]);
 
@@ -141,7 +145,7 @@ export default function ReactVirtualizedTable({token,ruolo}) {
                     data={rows}
                     components={VirtuosoTableComponents}
                     fixedHeaderContent={fixedHeaderContent}
-                    itemContent={(index, row) => rowContent(index, row)}
+                    itemContent={(index, row) => rowContent(index, row, history)}
                 />
             ) : (
                 <div className="flex flex-row justify-content-center font-bold text-xl">Nessun dato</div>
