@@ -32,7 +32,7 @@ const Card = ({title, description, className, onClick}) => {
             onKeyDown={handleKeyDown}
         >
             <h1 className="text-xl">{title || 'No Title Provided'}</h1>
-            {description && <p className="mt-2 h-auto">{truncateText(description, 200)}</p>}
+            {description && <p className="mt-2 h-auto">{truncateText(description, 250)}</p>}
         </button>
     );
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import StoricoFeedback from "../../Componenti globali/Storico.jsx";
+import StoricoFeedback from "../../Feedback/StoricoFeedback.jsx"
 import {
     Container, Grid, Card, CardContent, Typography, TextField, Button, Avatar, MenuItem, Alert, Box
 } from '@mui/material';

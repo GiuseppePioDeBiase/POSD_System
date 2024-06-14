@@ -14,11 +14,6 @@ import axios from "axios";
 const columns = [
     {
         width: 40,
-        label: 'Email',
-        dataKey: 'mail',
-    },
-    {
-        width: 40,
         label: 'Oggetto',
         dataKey: 'oggetto',
     },
@@ -27,11 +22,11 @@ const columns = [
         label: 'Messaggio',
         dataKey: 'messaggio',
     },
-    {
+      {
         width: 40,
-        label: 'Data modifica',
-        dataKey: 'data_ora_modifica',
-    }
+        label: 'Data e Ora',
+        dataKey: 'data_ora',
+    },
 ];
 const columnsUR = [
     {
@@ -75,7 +70,7 @@ VirtuosoTableComponents.TableRow.propTypes = {
 };
 
 function fixedHeaderContent(ruolo) {
-    const scelta = ruolo === 'Amministratore di sistema' ? columns : columnsUR;
+    const scelta = ruolo === 'Utente' ? columnsUR : columns;
     return (
         <TableRow>
             {scelta.map((column) => (
@@ -96,8 +91,8 @@ function fixedHeaderContent(ruolo) {
 }
 
 function rowContent(_index, row, ruolo) {
-    console.log("Row",row)
-    const scelta = ruolo === 'Amministratore di sistema' ? columns : columnsUR;
+
+    const scelta = ruolo === 'Utente' ? columnsUR : columns;
     return (
         <React.Fragment>
             {scelta.map((column) => (
@@ -131,7 +126,6 @@ export default function ReactVirtualizedTable({token, ruolo}) {
                     endpoint = 'feedbackutente';
                     break;
                 case 'Amministratore di sistema':
-                default:
                     endpoint = 'allfeedback';
                     break;
             }
@@ -144,7 +138,6 @@ export default function ReactVirtualizedTable({token, ruolo}) {
                     }
                 });
                 setRows(response.data);
-                console.log(response.data)
                 setLoading(false);
             } catch (error) {
                 console.error('Errore durante il recupero dei dati:', error);
