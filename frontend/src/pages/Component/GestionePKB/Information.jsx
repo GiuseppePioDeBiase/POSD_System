@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PatternDetail from '../PatternDetail';
 
-const Information = ({props}) => {
+const Information = ({props,ruolo}) => {
 
     const location = useLocation();
     const pattern = location.state || {};
@@ -28,7 +28,7 @@ const Information = ({props}) => {
         <PatternDetail
             pattern={pattern}
             props={props}
-
+            ruolo={ruolo}
             handleBackClick={handleBackClick}
             toggleFeedbackForm={toggleFeedbackForm} // Passa la funzione come prop
         />

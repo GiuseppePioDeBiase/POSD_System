@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PatternDetail from '../../PatternDetail';
 
-const Definizione = ({props}) => {
+const Definizione = ({props,ruolo}) => {
+    const navigate = useNavigate();
+    if(ruolo !== 'Utente'){
+        navigate('/')
+    }
     const location = useLocation();
     const pattern = location.state || {};
-    const navigate = useNavigate();
+
     const [showFeedbackForm, setShowFeedbackForm] = useState(false);
     const [ setError] = useState('');
 
@@ -27,7 +31,7 @@ const Definizione = ({props}) => {
         <PatternDetail
             pattern={pattern}
             props={props}
-
+            ruolo={ruolo}
             handleBackClick={handleBackClick}
             toggleFeedbackForm={toggleFeedbackForm} // Passa la funzione come prop
         />
@@ -35,7 +39,8 @@ const Definizione = ({props}) => {
 };
 
 Definizione.propTypes = {
-    props: PropTypes.string.isRequired
+    props: PropTypes.string.isRequired,
+    ruolo: PropTypes.string.isRequired
 };
 
 export default Definizione;
