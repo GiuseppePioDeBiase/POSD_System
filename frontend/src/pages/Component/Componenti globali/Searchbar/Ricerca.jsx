@@ -33,7 +33,7 @@ function Ricerca() {
 
 
     useEffect(() => {
-        console.log('Stato dei patterns aggiornato:', patterns); // Log the updated state
+        console.log('Stato dei Patterns aggiornato:', patterns); // Log the updated state
     }, [patterns]);
 
     return (

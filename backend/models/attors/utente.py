@@ -192,7 +192,7 @@ class Utente:
         return jsonify({"successo": True, "messaggio": "Foto caricata con successo!"}), 200
 
     @classmethod
-    def storico_utente(cls, mail):
+    def storico_segnalazioni_utente(cls, mail):
         try:
             utente = utenti.find_one({"email": mail})
             if not utente or utente['ruolo'] != Ruolo.UTENTE.value:
@@ -212,6 +212,24 @@ class Utente:
             return jsonify({"error": f"Database error: {str(e)}"}), 500
 
         storico = cls.convert_object_ids(accettate + rifiutate, "id_ciso")
+        return jsonify(storico)
+
+    @classmethod
+    def storico_feedback_utente(cls, mail):
+        try:
+            utente = utenti.find_one({"email": mail})
+            if not utente or utente['ruolo'] != Ruolo.UTENTE.value:
+                return jsonify({"successo": False,
+                                "messaggio": "L'utente non esiste o non ha i privilegi necessari per visualizzare i "
+                                             "feedback."}), 403
+
+            from backend.models.message_reporting.feedback import feedbackCollection
+            storico = list(feedbackCollection.find({"mail": mail},
+                                                   {'oggetto': True, 'messaggio': True, 'data_ora': True,
+                                                    "_id": False}))
+
+        except PyMongoError as e:
+            return jsonify({"error": f"Database error: {str(e)}"}), 500
         return jsonify(storico)
 
     @staticmethod
