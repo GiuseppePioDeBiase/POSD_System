@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PatternDetail from '../PatternDetail';
 
-const Information = ({ props, ruolo }) => {
+const Information = ({props}) => {
+
     const location = useLocation();
     const pattern = location.state || {};
     const navigate = useNavigate();
@@ -20,12 +21,6 @@ const Information = ({ props, ruolo }) => {
             navigate('/Login');
             return;
         }
-
-        if (ruolo !== 'Utente') {
-            setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
-            return;
-        }
-
         setShowFeedbackForm(!showFeedbackForm);
     };
 
@@ -41,8 +36,8 @@ const Information = ({ props, ruolo }) => {
 };
 
 Information.propTypes = {
-    props: PropTypes.string.isRequired,
-    ruolo: PropTypes.string.isRequired,
+    props: PropTypes.string.isRequired
+
 };
 
 export default Information;

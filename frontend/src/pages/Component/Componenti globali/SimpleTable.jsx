@@ -7,49 +7,74 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
+import React from "react"; // Import Box for scrolling
 
-function SimpleTable({columns, rows, handleCellClick}) {
+const VirtuosoTableComponents = {
+    Scroller: React.forwardRef((props, ref) => (
+        <TableContainer component={Paper} {...props} ref={ref}/>
+    )),
+    Table: (props) => (
+        <Table {...props} sx={{borderCollapse: 'separate', tableLayout: 'fixed'}}/>
+    ),
+    TableHead,
+    TableRow: ({...props}) => <TableRow {...props} />,
+    TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref}/>),
+};
+
+VirtuosoTableComponents.Scroller.displayName = 'Scroller';
+VirtuosoTableComponents.Table.displayName = 'Table';
+VirtuosoTableComponents.TableHead.displayName = 'TableHead';
+VirtuosoTableComponents.TableRow.displayName = 'TableRow';
+VirtuosoTableComponents.TableBody.displayName = 'TableBody';
+
+VirtuosoTableComponents.TableRow.propTypes = {
+    item: PropTypes.any,
+};
+function SimpleTable({ columns, rows, handleCellClick }) {
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{minWidth: 650}}>
-                <TableHead>
-                    <TableRow>
-                        {columns.map((column) => (
-                            <TableCell
-                                key={column.dataKey}
-                                align="left"
-                                style={{width: column.width}}
-                            >
-                                {column.label}
-                            </TableCell>
-                        ))}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.id}>
+        <Box sx={{ overflowX: 'auto' }}>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }}>
+                    <TableHead>
+                        <TableRow>
                             {columns.map((column) => (
                                 <TableCell
-                                    key={`${row.id}-${column.dataKey}`}
-                                    style={{
-                                        whiteSpace: 'nowrap',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                        maxWidth: column.width,
-                                        padding: '30px'
-                                    }}
-                                    onClick={column.clickable ? () => handleCellClick(row) : undefined}
+                                    key={column.dataKey}
+                                    align="left"
+                                    style={{ width: column.width }}
                                 >
-                                    <Tooltip title={row[column.dataKey]}>
-                                        <span>{row[column.dataKey]}</span>
-                                    </Tooltip>
+                                    {column.label}
                                 </TableCell>
                             ))}
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row) => (
+                            <TableRow key={row.id}>
+                                {columns.map((column) => (
+                                    <TableCell
+                                        key={`${row.id}-${column.dataKey}`}
+                                        style={{
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            maxWidth: column.width,
+                                            padding: '30px'
+                                        }}
+                                        onClick={column.clickable ? () => handleCellClick(row) : undefined}
+                                    >
+                                        <Tooltip title={row[column.dataKey]}>
+                                            <span>{row[column.dataKey]}</span>
+                                        </Tooltip>
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
     );
 }
 
@@ -69,5 +94,4 @@ SimpleTable.propTypes = {
     ).isRequired,
     handleCellClick: PropTypes.func // Optional: Function to handle cell clicks
 };
-
 export default SimpleTable;

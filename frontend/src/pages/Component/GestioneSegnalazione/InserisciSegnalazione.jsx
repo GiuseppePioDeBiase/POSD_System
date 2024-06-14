@@ -36,7 +36,7 @@ const InserisciSegnalazione = ({token, titolo}) => {
             setStatus(response.data.messaggio);
         } catch (error) {
             if (error.response) {
-                setStatus(error.response.data.messaggio || 'Errore nell\'invio del feedback');
+                setStatus(error.response.data.messaggio || 'Errore nell\'invio della segnalazione');
             } else {
                 setStatus('Errore di connessione. Riprova più tardi.');
             }

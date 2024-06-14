@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {TableVirtuoso} from 'react-virtuoso';
 import PropTypes from 'prop-types';
+import axios from "axios";
 
 const columns = [
     {
@@ -94,35 +95,41 @@ function rowContent(_index, row) {
     );
 }
 
-export default function ReactVirtualizedTable({token}) {
+export default function ReactVirtualizedTable({token,ruolo}) {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/storicoutente', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                if (!response.ok) {
-                    throw new Error('Errore nella richiesta');
-                }
-                const data = await response.json();
-                setRows(data);
-                setLoading(false);
-            } catch (error) {
-                setError(error);
-                setLoading(false);
-            }
-        };
+      const fetchData = async () => {
+    let endpoint;
 
+    switch (ruolo) {
+        case 'CISO':
+            endpoint = 'storicociso';
+            break;
+        case 'Amministratore di sistema':
+        default:
+            endpoint = 'allfeedback';
+            break;
+    }
+
+    try {
+        const response = await axios.get(`http://localhost:5000/api/${endpoint}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        setRows(response.data);
+        setLoading(false);
+    } catch (error) {
+        console.error('Errore durante il recupero dei dati:', error);
+        setLoading(false);
+    }
+};
         fetchData();
-    }, [token]);
+    }, [ruolo, token]);
 
     if (loading) return <div>Caricamento...</div>;
     if (error) return <div>Errore: {error.message}</div>;
@@ -145,4 +152,5 @@ export default function ReactVirtualizedTable({token}) {
 
 ReactVirtualizedTable.propTypes = {
     token: PropTypes.string.isRequired,
+    ruolo: PropTypes.string.isRequired
 };

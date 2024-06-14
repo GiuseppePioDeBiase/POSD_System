@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PatternDetail from '../../PatternDetail';
 
-const Definizione = ({ props, ruolo }) => {
+const Definizione = ({props}) => {
     const location = useLocation();
     const pattern = location.state || {};
     const navigate = useNavigate();
@@ -16,10 +16,9 @@ const Definizione = ({ props, ruolo }) => {
 
     const toggleFeedbackForm = () => {
         if (!props) {
-            navigate('/Login');
-        } else if (ruolo !== 'Utente') {
-            setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
-        } else {
+            navigate("/Login");
+        }
+        else {
             setShowFeedbackForm(!showFeedbackForm);
         }
     };
@@ -36,8 +35,7 @@ const Definizione = ({ props, ruolo }) => {
 };
 
 Definizione.propTypes = {
-    props: PropTypes.string.isRequired,
-    ruolo: PropTypes.string.isRequired,
+    props: PropTypes.string.isRequired
 };
 
 export default Definizione;

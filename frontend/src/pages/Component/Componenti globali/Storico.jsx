@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Paper from '@mui/material/Paper';
 import {useNavigate} from 'react-router-dom';
-import SimpleTable from '../Componenti globali/SimpleTable.jsx';
+import SimpleTable from './SimpleTable.jsx';
 
 export default function ReactVirtualizedTable({token, ruolo}) {
     const [rows, setRows] = useState([]);
@@ -18,9 +18,6 @@ const fetchData = async () => {
     switch (ruolo) {
         case 'CISO':
             endpoint = 'storicociso';
-            break;
-        case 'Amministratore di sistema':
-            endpoint = 'allfeedback';
             break;
         case 'Utente':
         default:

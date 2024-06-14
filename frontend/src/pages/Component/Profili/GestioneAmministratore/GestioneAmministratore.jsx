@@ -1,7 +1,7 @@
 import {useState} from "react";
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import StoricoSegnalazioni from "../../GestioneSegnalazione/Storico.jsx";
+import StoricoFeedback from "../../Componenti globali/Storico.jsx";
 import {
     Container, Grid, Card, CardContent, Typography, TextField, Button, Avatar, MenuItem, Alert, Box
 } from '@mui/material';
@@ -201,7 +201,7 @@ export default function GestioneAmministratore({token}) {
                                 {feedbackVisibile && (
                                     <Card>
                                         <Typography variant="h6" style={{textAlign:'center'}}>Feedback</Typography>
-                                        <StoricoSegnalazioni ruolo={profilo.ruolo} token={token}/>
+                                        <StoricoFeedback ruolo={profilo.ruolo} token={token}/>
                                     </Card>
                                 )}
 
