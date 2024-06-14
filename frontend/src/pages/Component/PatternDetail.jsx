@@ -1,6 +1,24 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import InserisciSegnalazione from './GestioneSegnalazione/InserisciSegnalazione.jsx';
+
+const Modal = ({ message, onClose }) => {
+    return (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded shadow-md">
+                <p>{message}</p>
+                <button onClick={onClose} className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">
+                    Chiudi
+                </button>
+            </div>
+        </div>
+    );
+};
+
+Modal.propTypes = {
+    message: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+};
 
 const PatternDetail = ({ pattern, props, handleBackClick }) => {
     const [showFeedbackForm, setShowFeedbackForm] = useState(false);
@@ -9,12 +27,15 @@ const PatternDetail = ({ pattern, props, handleBackClick }) => {
 
     const toggleFeedbackForm = () => {
         if (!props) {
-            // Esempio di navigazione o gestione dell'accesso in caso di props non definite
+            showAccessPopup();
             return;
         }
+        setShowFeedbackForm(!showFeedbackForm);
+    };
 
-
-        setShowFeedbackForm(!showFeedbackForm);  // Inverti lo stato di visualizzazione del form
+    const showAccessPopup = () => {
+        setError('Devi prima accedere alla piattaforma per lasciare una segnalazione');
+        setShowError(true);
     };
 
     return (
@@ -30,7 +51,7 @@ const PatternDetail = ({ pattern, props, handleBackClick }) => {
                         </button>
                         <h1 className="text-2xl font-bold text-center flex-grow">{pattern.Pattern}</h1>
                         <button
-                            onClick={toggleFeedbackForm}  // Gestisci il click per aprire/chiudere il form
+                            onClick={toggleFeedbackForm}
                             className="text-black font-bold bg-transparent border-none"
                         >
                             Segnala
@@ -38,8 +59,7 @@ const PatternDetail = ({ pattern, props, handleBackClick }) => {
                     </div>
                 </div>
             )}
-            {showError && <p className="text-center font-bold" style={{ color: 'red' }}>{error}</p>}
-            {/* Mostra il form solo se showFeedbackForm è true */}
+            {showError && <Modal message={error} onClose={() => setShowError(false)} />}
             {showFeedbackForm && (
                 <InserisciSegnalazione onClose={() => setShowFeedbackForm(false)} token={props} titolo={pattern.Pattern} />
             )}
@@ -50,13 +70,10 @@ const PatternDetail = ({ pattern, props, handleBackClick }) => {
                     <p><strong>Context:</strong> {pattern['Context Pattern']}</p>
                     <p><strong>Collocazione MVC:</strong> {pattern['Collocazione MVC']}</p>
                     <p><strong>ISO 9241-210 Phase:</strong> {pattern['ISO 9241-210 Phase']}</p>
-                    <p><strong>Article GDPR Compliance with the
-                        Pattern:</strong> {pattern['Article GDPR Compliance with the Pattern']}</p>
+                    <p><strong>Article GDPR Compliance with the Pattern:</strong> {pattern['Article GDPR Compliance with the Pattern']}</p>
                     <p><strong>Privacy By Design Principles:</strong> {pattern['Privacy By Design Principles']}</p>
                     <p><strong>OWASP Top Ten Categories:</strong> {pattern['OWASP Top Ten Categories']}</p>
-                    <p><strong>CWE Top 25 Most Dangerous Software
-                        Weaknesses:</strong> {pattern['CWE Top 25 Most Dangerous Software Weaknesses OWASP Categories Associated']}
-                    </p>
+                    <p><strong>CWE Top 25 Most Dangerous Software Weaknesses:</strong> {pattern['CWE Top 25 Most Dangerous Software Weaknesses OWASP Categories Associated']}</p>
                     <p><strong>Examples:</strong> {pattern.Examples}</p>
                 </div>
             </div>
