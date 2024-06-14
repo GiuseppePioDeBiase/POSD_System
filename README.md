@@ -39,7 +39,6 @@ Assicurati di avere i seguenti prerequisiti installati sulla tua macchina prima 
 
 ### IDE Utilizzati
 <code><img alt="PyCharm" width="40px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/PyCharm_Icon.svg/1024px-PyCharm_Icon.svg.png"/></code>
-<code><img alt="Visual Studio Code" width="40px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/2048px-Visual_Studio_Code_1.35_icon.svg.png"/></code>
 <code><img alt="mongoDB" width="60px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/2560px-MongoDB_Logo.svg.png"/></code>
 
 ### Frameworks
