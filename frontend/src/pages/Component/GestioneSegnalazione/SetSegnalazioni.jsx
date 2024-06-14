@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import { TableVirtuoso } from 'react-virtuoso';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import {Link} from "react-router-dom";
 
 const columns = [
     {
@@ -32,11 +33,6 @@ const columnsAS = [
         width: 40,
         label: 'ID CISO',
         dataKey: 'id_ciso',
-    },
-    {
-        width: 40,
-        label: 'Email',
-        dataKey: 'mail',
     },
     {
         width: 40,
@@ -111,10 +107,10 @@ function rowContent(_index, row, ruolo) {
                         textOverflow: 'ellipsis'
                     }}
                 >
-                    {column.dataKey === 'messaggio' ? (
-                        <a href="#" onClick={() => alert(row[column.dataKey])}>
+                   {column.dataKey === 'messaggio' ? (
+                        <Link to={`/segnalazione/${row._id}`} state={{ messaggio: row.messaggio, id: row._id }}>
                             {row[column.dataKey]}
-                        </a>
+                        </Link>
                     ) : (
                         row[column.dataKey]
                     )}

@@ -5,7 +5,7 @@ import StoricoFeedback from "../../Componenti globali/Storico.jsx";
 import {
     Container, Grid, Card, CardContent, Typography, TextField, Button, Avatar, MenuItem, Alert, Box
 } from '@mui/material';
-import SegnalazioniAccettate from './SegnalazioniAccettate.jsx';
+
 import UtentiRegistrati from './UtentiRegistrati.jsx';
 import {
     useFetchProfile,
