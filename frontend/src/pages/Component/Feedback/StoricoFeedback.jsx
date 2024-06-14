@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,15 +6,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {TableVirtuoso} from 'react-virtuoso';
+import { TableVirtuoso } from 'react-virtuoso';
 import PropTypes from 'prop-types';
-import axios from "axios";
+import axios from 'axios';
+import {Link} from "react-router-dom";
 
 const columns = [
     {
-        width: 10,
-        label: 'Stato',
-        dataKey: 'stato',
+        width: 40,
+        label: 'Email',
+        dataKey: 'mail',
     },
     {
         width: 40,
@@ -22,27 +23,39 @@ const columns = [
         dataKey: 'oggetto',
     },
     {
-        width: 90,
+        width: 40,
         label: 'Messaggio',
         dataKey: 'messaggio',
     },
     {
-        width: 20,
-        label: 'Data',
+        width: 40,
+        label: 'Data modifica',
         dataKey: 'data_ora_modifica',
-    },
+    }
 ];
+const columnsUR = [
+    {
+        width: 40,
+        label: 'Oggetto',
+        dataKey: 'oggetto',
+    },
+    {
+        width: 40,
+        label: 'Messaggio',
+        dataKey: 'messaggio',
+    },
 
+];
 const VirtuosoTableComponents = {
     Scroller: React.forwardRef((props, ref) => (
-        <TableContainer component={Paper} {...props} ref={ref}/>
+        <TableContainer component={Paper} {...props} ref={ref} />
     )),
     Table: (props) => (
-        <Table {...props} sx={{borderCollapse: 'separate', tableLayout: 'fixed'}}/>
+        <Table {...props} sx={{ borderCollapse: 'separate', tableLayout: 'fixed' }} />
     ),
     TableHead,
-    TableRow: ({...props}) => <TableRow {...props} />,
-    TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref}/>),
+    TableRow: ({ ...props }) => <TableRow {...props} />,
+    TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref} />),
 };
 
 VirtuosoTableComponents.Scroller.displayName = 'Scroller';
@@ -55,15 +68,16 @@ VirtuosoTableComponents.TableRow.propTypes = {
     item: PropTypes.any,
 };
 
-function fixedHeaderContent() {
+function fixedHeaderContent(ruolo) {
+    const scelta = ruolo === 'CISO' ? columns : columnsUR;
     return (
         <TableRow>
-            {columns.map((column) => (
+            {scelta.map((column) => (
                 <TableCell
                     key={column.dataKey}
                     variant="head"
                     align={column.numeric ? 'right' : 'left'}
-                    style={{width: column.width}}
+                    style={{ width: column.width }}
                     sx={{
                         backgroundColor: 'background.paper',
                     }}
@@ -75,12 +89,13 @@ function fixedHeaderContent() {
     );
 }
 
-function rowContent(_index, row) {
+function rowContent(_index, row, ruolo) {
+    const scelta = ruolo === 'Amministratore di sistema' ? columns : columnsUR;
     return (
         <React.Fragment>
-            {columns.map((column) => (
+            {scelta.map((column) => (
                 <TableCell
-                    sx={{'&:hover': {backgroundColor: 'transparent'}}}
+                    sx={{ '&:hover': { backgroundColor: 'transparent' } }}
                     key={column.dataKey}
                     align={column.numeric ? 'right' : 'left'}
                     style={{
@@ -88,46 +103,53 @@ function rowContent(_index, row) {
                         textOverflow: 'ellipsis'
                     }}
                 >
-                    {row[column.dataKey]}
+                   {column.dataKey === 'messaggio' ? (
+                        <Link to={`/segnalazione/${row._id}`} state={{ messaggio: row.messaggio, id: row._id }}>
+                            {row[column.dataKey]}
+                        </Link>
+                    ) : (
+                        row[column.dataKey]
+                    )}
                 </TableCell>
             ))}
         </React.Fragment>
     );
 }
 
-export default function ReactVirtualizedTable({token,ruolo}) {
+export default function ReactVirtualizedTable({ token, ruolo }) {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-      const fetchData = async () => {
-    let endpoint;
+        const fetchData = async () => {
+            let endpoint;
 
-    switch (ruolo) {
-        case 'CISO':
-            endpoint = 'storicociso';
-            break;
-        case 'Amministratore di sistema':
-        default:
-            endpoint = 'allfeedback';
-            break;
-    }
-
-    try {
-        const response = await axios.get(`http://localhost:5000/api/${endpoint}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+            switch (ruolo) {
+                case 'Utente':
+                    endpoint = 'feedbackutente';
+                    break;
+                case 'Amministratore di sistema':
+                default:
+                    endpoint = 'allfeedback';
+                    break;
             }
-        });
-        setRows(response.data);
-        setLoading(false);
-    } catch (error) {
-        console.error('Errore durante il recupero dei dati:', error);
-        setLoading(false);
-    }
-};
+
+            try {
+                const response = await axios.get(`http://localhost:5000/api/${endpoint}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setRows(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Errore durante il recupero dei dati:', error);
+                setLoading(false);
+                setError(error);
+            }
+        };
         fetchData();
     }, [ruolo, token]);
 
@@ -135,13 +157,13 @@ export default function ReactVirtualizedTable({token,ruolo}) {
     if (error) return <div>Errore: {error.message}</div>;
 
     return (
-        <Paper style={{height: 400, width: '100%'}}>
+        <Paper style={{ height: 400, width: '100%' }}>
             {rows.length > 0 ? (
                 <TableVirtuoso
                     data={rows}
                     components={VirtuosoTableComponents}
-                    fixedHeaderContent={fixedHeaderContent}
-                    itemContent={(index, row) => rowContent(index, row)}
+                    fixedHeaderContent={() => fixedHeaderContent(ruolo)}
+                    itemContent={(index, row) => rowContent(index, row, ruolo)}
                 />
             ) : (
                 <div className="flex flex-row justify-content-center font-bold text-xl">Nessun dato</div>

@@ -66,7 +66,7 @@ function NavBar({token}) {
         bottomItems.push({to: "/Login", icon: "log-in-outline", text: "Login"});
     } else {
         bottomItems.push(
-            {to: "/Profili", icon: "img", imgSrc: "frontend/public/totti.jpeg", alt: profilo.nome, text: profilo.nome},
+            {to: "/Profili", icon: "img", imgSrc: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp", alt: profilo.nome, text: profilo.nome},
             {to: "/Logout", icon: "log-out-outline", text: "Logout"}
         );
     }
