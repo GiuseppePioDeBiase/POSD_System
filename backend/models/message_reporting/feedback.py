@@ -1,4 +1,3 @@
-from backend.models.attors.ruolo import Ruolo
 from backend.models.message_reporting.base_message import BaseMessage
 from flask import jsonify, request
 from backend.config.db import conn_db
@@ -13,13 +12,6 @@ class Feedback(BaseMessage):
 
     @classmethod
     def insertFeedback(cls, mail):
-        from backend.models.attors.utente import utenti
-        utente = utenti.find_one({"email": mail})
-        if not utente or utente['ruolo'] != Ruolo.UTENTE.value:
-            return jsonify({"successo": False,
-                            "messaggio": "L'utente non esiste o non ha i privilegi necessari per visualizzare le "
-                                         "segnalazioni."}), 403
-
         dati = request.json
 
         if not cls.validate(dati.get('oggetto', ''), dati.get('messaggio', '')):
