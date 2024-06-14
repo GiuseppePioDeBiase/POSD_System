@@ -11,7 +11,7 @@ Sviluppo di un’applicazione web che integri ogni elemento della PRIVACY KNOWLE
 ## Prerequisiti
 Assicurati di avere i seguenti prerequisiti installati sulla tua macchina prima di procedere con l'installazione:
 
-- MongoDB [Installazione](dump%2FREADME.md)
+- MongoDB [Installazione]([README.md](dump%5B14-06-2024%5D%2FREADME.md))
 - Python 
 - Browser web
 
