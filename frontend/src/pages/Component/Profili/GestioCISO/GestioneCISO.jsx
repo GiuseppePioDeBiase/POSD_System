@@ -33,8 +33,8 @@ export default function ProfiloCISO(props) {
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
 
     const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '', genere: '' });
-    const [setStatus] = useState({});
-    const [file, setFile] = useState({});
+    const [status, setStatus] = useState(''); // Correctly initialized status state
+    const [file, setFile] = useState(null);
     const [fileUrl, setFileUrl] = useState(null); // Stato per l'URL del file
     const [licenzaNome, setLicenzaNome] = useState('Nessun file presente'); // Stato per il nome della licenza
     const [avatar, setAvatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
@@ -173,6 +173,7 @@ export default function ProfiloCISO(props) {
 
         // Se l'estensione è valida, imposta il file nello stato
         setFile(selectedFile);
+        setLicenzaNome(selectedFile.name); // Update the licenzaNome state to show the file name
     };
 
     const handleFileDownload = () => {
