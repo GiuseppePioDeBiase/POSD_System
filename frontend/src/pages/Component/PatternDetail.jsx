@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import PropTypes from 'prop-types';
 import InserisciSegnalazione from './GestioneSegnalazione/InserisciSegnalazione.jsx';
 
-const PatternDetail = ({ pattern, props, ruolo, handleBackClick }) => {
+const PatternDetail = ({ pattern, props, handleBackClick }) => {
     const [showFeedbackForm, setShowFeedbackForm] = useState(false);
     const [error, setError] = useState('');
     const [showError, setShowError] = useState(false);
@@ -13,11 +13,6 @@ const PatternDetail = ({ pattern, props, ruolo, handleBackClick }) => {
             return;
         }
 
-        if (ruolo !== 'Utente') {
-            setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
-            setShowError(true);
-            return;
-        }
 
         setShowFeedbackForm(!showFeedbackForm);  // Inverti lo stato di visualizzazione del form
     };

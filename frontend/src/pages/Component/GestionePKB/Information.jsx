@@ -28,7 +28,7 @@ const Information = ({props}) => {
         <PatternDetail
             pattern={pattern}
             props={props}
-            ruolo={ruolo}
+
             handleBackClick={handleBackClick}
             toggleFeedbackForm={toggleFeedbackForm} // Passa la funzione come prop
         />
@@ -36,7 +36,8 @@ const Information = ({props}) => {
 };
 
 Information.propTypes = {
-    props: PropTypes.string.isRequired
+    props: PropTypes.string.isRequired,
+    ruolo: PropTypes.string.isRequired
 
 };
 

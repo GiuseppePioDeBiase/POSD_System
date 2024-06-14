@@ -27,7 +27,7 @@ const Definizione = ({props}) => {
         <PatternDetail
             pattern={pattern}
             props={props}
-            ruolo={ruolo}
+
             handleBackClick={handleBackClick}
             toggleFeedbackForm={toggleFeedbackForm} // Passa la funzione come prop
         />
