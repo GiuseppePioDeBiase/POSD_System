@@ -34,6 +34,9 @@ Assicurati di avere i seguenti prerequisiti installati sulla tua macchina prima 
 2. Installa le dipendenze: `npm install`.
 3. Avvia il server di sviluppo: `npm start dev`.
 
+### Credenziali primo accesso come Amministratore
+<img src="Primoaccesso.png" alt="">
+
 ### IDE Utilizzati
 <code><img alt="PyCharm" width="40px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/PyCharm_Icon.svg/1024px-PyCharm_Icon.svg.png"/></code>
 <code><img alt="Visual Studio Code" width="40px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/2048px-Visual_Studio_Code_1.35_icon.svg.png"/></code>

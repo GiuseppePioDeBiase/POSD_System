@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,8 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso } from 'react-virtuoso';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-import {Link} from "react-router-dom";
+import axios from "axios";
 
 const columns = [
     {
@@ -69,7 +68,7 @@ VirtuosoTableComponents.TableRow.propTypes = {
 };
 
 function fixedHeaderContent(ruolo) {
-    const scelta = ruolo === 'CISO' ? columns : columnsUR;
+    const scelta = ruolo === 'Amministratore di sistema' ? columns : columnsUR;
     return (
         <TableRow>
             {scelta.map((column) => (
@@ -103,20 +102,13 @@ function rowContent(_index, row, ruolo) {
                         textOverflow: 'ellipsis'
                     }}
                 >
-                   {column.dataKey === 'messaggio' ? (
-                        <Link to={`/segnalazione/${row._id}`} state={{ messaggio: row.messaggio, id: row._id }}>
-                            {row[column.dataKey]}
-                        </Link>
-                    ) : (
-                        row[column.dataKey]
-                    )}
                 </TableCell>
             ))}
         </React.Fragment>
     );
 }
 
-export default function ReactVirtualizedTable({ token, ruolo }) {
+export default function ReactVirtualizedTable({token, ruolo}) {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
