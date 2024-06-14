@@ -101,3 +101,33 @@ class AmministratoreDiSistema(Utente):
         collection = segnalazioniAccettate.find({}, {'oggetto': True, 'messaggio': True, 'data_ora_modifica': True,
                                                      'id_ciso': True, "_id": False})
         return cls.convert_object_ids(collection, "id_ciso")
+
+    @classmethod
+    def getAllFeedbackUtenti(cls, mail):
+        amministratore = utenti.find_one({"email": mail})
+        if not amministratore or amministratore['ruolo'] != Ruolo.AMMINISTRATORE_DI_SISTEMA.value:
+            return jsonify({"successo": False,
+                            "messaggio": "L'amministratore non esiste o non ha i privilegi necessari per visualizzare "
+                                         "le segnalazioni."}), 403
+
+        try:
+            from backend.models.message_reporting.feedback import feedbackCollection
+
+            feedback_utenti = feedbackCollection.find({}, {
+                "_id": False,
+                "oggetto": True,
+                "messaggio": True,
+                "data_ora": True,
+                "mail": True
+            })
+
+            return jsonify({
+                "successo": True,
+                "feedback": list(feedback_utenti)
+            }), 200
+
+        except Exception as e:
+            return jsonify({
+                "successo": False,
+                "messaggio": f"Errore durante il recupero dei feedback degli utenti: {str(e)}"
+            }), 500
