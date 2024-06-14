@@ -10,6 +10,7 @@ import { TableVirtuoso } from 'react-virtuoso';
 import PropTypes from 'prop-types';
 import axios from "axios";
 
+
 const columns = [
     {
         width: 40,
@@ -43,6 +44,12 @@ const columnsUR = [
         label: 'Messaggio',
         dataKey: 'messaggio',
     },
+      {
+        width: 40,
+        label: 'Data e Ora',
+        dataKey: 'data_ora',
+    },
+
 
 ];
 const VirtuosoTableComponents = {
@@ -89,6 +96,7 @@ function fixedHeaderContent(ruolo) {
 }
 
 function rowContent(_index, row, ruolo) {
+    console.log("Row",row)
     const scelta = ruolo === 'Amministratore di sistema' ? columns : columnsUR;
     return (
         <React.Fragment>
@@ -102,6 +110,7 @@ function rowContent(_index, row, ruolo) {
                         textOverflow: 'ellipsis'
                     }}
                 >
+                    {row[column.dataKey]}
                 </TableCell>
             ))}
         </React.Fragment>
@@ -135,6 +144,7 @@ export default function ReactVirtualizedTable({token, ruolo}) {
                     }
                 });
                 setRows(response.data);
+                console.log(response.data)
                 setLoading(false);
             } catch (error) {
                 console.error('Errore durante il recupero dei dati:', error);
