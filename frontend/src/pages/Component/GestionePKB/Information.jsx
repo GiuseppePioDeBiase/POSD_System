@@ -3,7 +3,7 @@ import {useState} from 'react';
 import InserisciSegnalazione from '../GestioneSegnalazione/InserisciSegnalazione.jsx';
 import PropTypes from "prop-types";
 
-const Information = ({props, ruolo}) => {
+const Information = ({props}) => {
 
     const location = useLocation();
     const pattern = location.state || {};
@@ -21,12 +21,6 @@ const Information = ({props, ruolo}) => {
             navigate1("/Login");
             return;
         }
-
-        if (ruolo !== "Utente") {
-            setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
-            return;
-        }
-
         setShowFeedbackForm(!showFeedbackForm);
     };
 
@@ -78,8 +72,7 @@ const Information = ({props, ruolo}) => {
 
 };
 Information.propTypes = {
-    props: PropTypes.string.isRequired,
-    ruolo: PropTypes.string.isRequired
+    props: PropTypes.string.isRequired
 
 };
 export default Information;

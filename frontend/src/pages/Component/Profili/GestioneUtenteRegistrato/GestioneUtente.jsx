@@ -8,7 +8,7 @@ import {
     renderDettagliProfilo,
     handleAvatarClick
 } from '../GestioneProfili.jsx';
-import StoricoSegnalazioni from "../../GestioneSegnalazione/Storico.jsx";
+import StoricoSegnalazioni from "../../Componenti globali/Storico.jsx";
 import StoricoFeedback from "../../Feedback/StoricoFeedback.jsx";
 
 export default function GestioneUtente({token}) {
@@ -83,7 +83,7 @@ export default function GestioneUtente({token}) {
                                 <CardContent>
                                     {segnalazioniVisibile && (
                                         <StoricoSegnalazioni token={token} ruolo={profilo.ruolo}/>)}
-                                    {feedbackVisibile && (<StoricoFeedback token={token}/>)}
+                                    {feedbackVisibile && (<StoricoFeedback token={token} ruolo={profilo.ruolo}/>)}
                                 </CardContent>
                             </Card>
                         </Grid>
