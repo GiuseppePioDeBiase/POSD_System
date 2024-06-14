@@ -1,8 +1,8 @@
 import './App.css';
-import {useState, useEffect, useCallback} from 'react';
+import {useState, useEffect} from 'react';
 import useToken from "./pages/Component/Componenti globali/useToken.jsx";
 import useRuolo from "./pages/Component/Componenti globali/useRuolo.jsx";
-import {BrowserRouter as Router, Routes, Route, useNavigate, Navigate} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import NavBar from './pages/Component/Componenti globali/Navbar/NavBar.jsx';
 import Searchbar from './pages/Component/Componenti globali/Searchbar/Searchbar.jsx';
 import Home from './pages/Component/Home.jsx';
@@ -29,57 +29,12 @@ const ProtectedRouteToken = ({children, token}) => {
     return children;
 };
 
-const ProtectedRouteRuolo = ({children, ruolo}) => {
-    const navigate = useNavigate();
-    const [error, setError] = useState('');
-    const [countdown, setCountdown] = useState(3);
-
-    const handleAccessDenied = useCallback(() => {
-        setError('Accesso negato: Non sei autorizzato a visualizzare questo modulo.');
-        const timer = setInterval(() => {
-            setCountdown(prevCount => prevCount - 0.5);
-        }, 1000);
-
-        setTimeout(() => {
-            navigate('/');
-        }, 3000);
-
-        return () => clearInterval(timer);
-    }, [navigate]);
-
-    useEffect(() => {
-        if (ruolo !== "Utente") {
-            handleAccessDenied();
-        }
-    }, [ruolo, handleAccessDenied]);
-
-    return (
-        <>
-            {error ? (
-                <div className="fixed inset-0 flex justify-center items-center bg-opacity-75 z-50">
-                    <div className="text-center p-6 rounded">
-                        <div className="text-2xl font-bold mb-4">{error}</div>
-                        <div className="text-xl mb-4">Ritorno alla home tra {countdown} secondi...</div>
-                        <div
-                            className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
-                    </div>
-                </div>
-            ) : (
-                children
-            )}
-        </>
-    );
-};
 
 ProtectedRouteToken.propTypes = {
     children: PropTypes.node.isRequired,
     token: PropTypes.string,
 };
 
-ProtectedRouteRuolo.propTypes = {
-    children: PropTypes.node.isRequired,
-    ruolo: PropTypes.string,
-};
 
 function App() {
     const [patterns, setPatterns] = useState([]);
@@ -190,13 +145,12 @@ function App() {
                 }/>
                 <Route path="/Feedback" element={
                     <ProtectedRouteToken token={token}>
-                        <ProtectedRouteRuolo ruolo={ruolo}>
+
                             <div>
                                 <NavBar token={token} ruolo={ruolo}/>
                                 <Searchbar/>
                                 <GestioneFeedback token={token} setToken={setToken}/>
                             </div>
-                        </ProtectedRouteRuolo>
                     </ProtectedRouteToken>
                 }/>
                 <Route path="*" element={<NotFound/>}/>

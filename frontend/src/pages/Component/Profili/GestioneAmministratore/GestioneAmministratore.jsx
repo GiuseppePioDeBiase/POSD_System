@@ -1,7 +1,7 @@
 import {useState} from "react";
 import axios from 'axios';
 import PropTypes from 'prop-types';
-
+import StoricoSegnalazioni from "../../GestioneSegnalazione/Storico.jsx";
 import {
     Container, Grid, Card, CardContent, Typography, TextField, Button, Avatar, MenuItem, Alert, Box
 } from '@mui/material';
@@ -145,7 +145,7 @@ export default function GestioneAmministratore({token}) {
                     <Grid container>
                         <Grid item xs={12}>
                             <Card sx={{mb: 4}}>
-                                <CardContent>
+
                                     {segnalazioniVisibile && (
                                         <SegnalazioniAccettate token={token} ruolo={profilo.ruolo}/>)}
                                     {aggiungiProfiloVisibile && (
@@ -193,14 +193,18 @@ export default function GestioneAmministratore({token}) {
 
 
                                     {utentiVisibile && (
-                                        <Card sx={{mb: 3}}>
-                                            <CardContent>
-                                                <Typography variant="h6">Lista Utenti Registrati</Typography>
+                                        <Card>
+                                                <Typography variant="h6" style={{textAlign:'center'}}>Lista Utenti Registrati</Typography>
                                                 <UtentiRegistrati token={token}/>
-                                            </CardContent>
                                         </Card>
                                     )}
-                                </CardContent>
+                                {feedbackVisibile && (
+                                    <Card>
+                                        <Typography variant="h6" style={{textAlign:'center'}}>Feedback</Typography>
+                                        <StoricoSegnalazioni ruolo={profilo.ruolo} token={token}/>
+                                    </Card>
+                                )}
+
                             </Card>
                         </Grid>
                     </Grid>
