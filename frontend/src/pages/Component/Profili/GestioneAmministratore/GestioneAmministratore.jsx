@@ -14,6 +14,7 @@ import {
     renderDettagliProfilo,
     handleAvatarClick
 } from '../GestioneProfili.jsx';
+import SetSegnalazioni from "../../GestioneSegnalazione/SetSegnalazioni.jsx";
 
 export default function GestioneAmministratore({token}) {
     const [aggiungiProfiloVisibile, setAggiungiProfiloVisibile] = useState(false);
@@ -146,8 +147,8 @@ export default function GestioneAmministratore({token}) {
                         <Grid item xs={12}>
                             <Card sx={{mb: 4}}>
 
-                                    {segnalazioniVisibile && (
-                                        <SegnalazioniAccettate token={token} ruolo={profilo.ruolo}/>)}
+                                    {segnalazioniVisibile &&
+                                         <SetSegnalazioni token={token}  ruolo={profilo.ruolo}/>}
                                     {aggiungiProfiloVisibile && (
                                         <Card sx={{mb: 3}}>
                                             <CardContent>

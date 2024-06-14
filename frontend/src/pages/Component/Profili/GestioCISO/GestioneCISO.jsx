@@ -5,7 +5,7 @@ import { handleAvatarChange, getWelcomeMessage, renderDettagliProfilo, handleAva
 import PropTypes from 'prop-types';
 import axios from "axios";
 import StoricoSegnalazioni from "../../Componenti globali/Storico.jsx"
-import SetSegnalazioni from "./SetSegnalazioni.jsx";
+import SetSegnalazioni from "../../GestioneSegnalazione/SetSegnalazioni.jsx";
 
 //funzioni CISO
 function base64ToBlob(base64Data, contentType) {
@@ -263,13 +263,13 @@ export default function ProfiloCISO(props) {
                             <Card sx={{ mb: 4 }}>
                                 <CardContent>
 
-                                    {segnalazioniVisibile && <SetSegnalazioni token={props.token} />}
+                                    {segnalazioniVisibile && (<SetSegnalazioni token={props.token}  ruolo={profilo.ruolo}/>)}
                                     {storicoSegnalazioniVisibile &&
                                         <StoricoSegnalazioni token={props.token} ruolo={profilo.ruolo} />}
                                     {aggiungiLicenzaVisibile && (
                                         <Box>
                                             {file && (
-                                                <Box mt={2}>
+                                                      <Box mt={2}>
                                                     <Typography variant="subtitle2">Nome
                                                         file: {licenzaNome}</Typography>
                                                     {fileUrl && (

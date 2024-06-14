@@ -10,27 +10,6 @@ import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import React from "react"; // Import Box for scrolling
 
-const VirtuosoTableComponents = {
-    Scroller: React.forwardRef((props, ref) => (
-        <TableContainer component={Paper} {...props} ref={ref}/>
-    )),
-    Table: (props) => (
-        <Table {...props} sx={{borderCollapse: 'separate', tableLayout: 'fixed'}}/>
-    ),
-    TableHead,
-    TableRow: ({...props}) => <TableRow {...props} />,
-    TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref}/>),
-};
-
-VirtuosoTableComponents.Scroller.displayName = 'Scroller';
-VirtuosoTableComponents.Table.displayName = 'Table';
-VirtuosoTableComponents.TableHead.displayName = 'TableHead';
-VirtuosoTableComponents.TableRow.displayName = 'TableRow';
-VirtuosoTableComponents.TableBody.displayName = 'TableBody';
-
-VirtuosoTableComponents.TableRow.propTypes = {
-    item: PropTypes.any,
-};
 function SimpleTable({ columns, rows, handleCellClick }) {
     return (
         <Box sx={{ overflowX: 'auto' }}>

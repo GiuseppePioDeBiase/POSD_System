@@ -12,9 +12,9 @@ import axios from "axios";
 
 const columns = [
     {
-        width: 10,
-        label: 'Stato',
-        dataKey: 'stato',
+        width: 40,
+        label: 'Email',
+        dataKey: 'mail',
     },
     {
         width: 40,
@@ -22,14 +22,9 @@ const columns = [
         dataKey: 'oggetto',
     },
     {
-        width: 90,
+        width: 40,
         label: 'Messaggio',
         dataKey: 'messaggio',
-    },
-    {
-        width: 20,
-        label: 'Data',
-        dataKey: 'data_ora_modifica',
     },
 ];
 
@@ -88,46 +83,53 @@ function rowContent(_index, row) {
                         textOverflow: 'ellipsis'
                     }}
                 >
-                    {row[column.dataKey]}
+                    {column.dataKey === 'messaggio' ? (
+                        <a href="#" onClick={() => alert(row[column.dataKey])}>
+                            {row[column.dataKey]}
+                        </a>
+                    ) : (
+                        row[column.dataKey]
+                    )}
                 </TableCell>
             ))}
         </React.Fragment>
     );
 }
 
-export default function ReactVirtualizedTable({token,ruolo}) {
+export default function ReactVirtualizedTable({token, ruolo}) {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-      const fetchData = async () => {
-    let endpoint;
+        const fetchData = async () => {
+            let endpoint;
 
-    switch (ruolo) {
-        case 'CISO':
-            endpoint = 'storicociso';
-            break;
-        case 'Utente':
-        default:
-            endpoint = 'storicoutente';
-            break;
-    }
-
-    try {
-        const response = await axios.get(`http://localhost:5000/api/${endpoint}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+            switch (ruolo) {
+                case 'CISO':
+                    endpoint = 'allsegnalazioni';
+                    break;
+                case 'Amministratore di sistema':
+                default:
+                    endpoint = 'allsegnalazioniaccettate';
+                    break;
             }
-        });
-        setRows(response.data);
-        setLoading(false);
-    } catch (error) {
-        console.error('Errore durante il recupero dei dati:', error);
-        setLoading(false);
-    }
-};
+
+            try {
+                const response = await axios.get(`http://localhost:5000/api/${endpoint}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setRows(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Errore durante il recupero dei dati:', error);
+                setLoading(false);
+                setError(error);
+            }
+        };
         fetchData();
     }, [ruolo, token]);
 
