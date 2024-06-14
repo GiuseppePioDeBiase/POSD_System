@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,9 +6,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {TableVirtuoso} from 'react-virtuoso';
+import { TableVirtuoso } from 'react-virtuoso';
 import PropTypes from 'prop-types';
-import axios from "axios";
+import axios from 'axios';
 
 const columns = [
     {
@@ -27,17 +27,43 @@ const columns = [
         dataKey: 'messaggio',
     },
 ];
-
+const columnsAS = [
+    {
+        width: 40,
+        label: 'ID CISO',
+        dataKey: 'id_ciso',
+    },
+    {
+        width: 40,
+        label: 'Email',
+        dataKey: 'mail',
+    },
+    {
+        width: 40,
+        label: 'Oggetto',
+        dataKey: 'oggetto',
+    },
+    {
+        width: 40,
+        label: 'Messaggio',
+        dataKey: 'messaggio',
+    },
+    {
+        width: 40,
+        label: 'Data modifica',
+        dataKey: 'data_ora_modifica',
+    }
+];
 const VirtuosoTableComponents = {
     Scroller: React.forwardRef((props, ref) => (
-        <TableContainer component={Paper} {...props} ref={ref}/>
+        <TableContainer component={Paper} {...props} ref={ref} />
     )),
     Table: (props) => (
-        <Table {...props} sx={{borderCollapse: 'separate', tableLayout: 'fixed'}}/>
+        <Table {...props} sx={{ borderCollapse: 'separate', tableLayout: 'fixed' }} />
     ),
     TableHead,
-    TableRow: ({...props}) => <TableRow {...props} />,
-    TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref}/>),
+    TableRow: ({ ...props }) => <TableRow {...props} />,
+    TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref} />),
 };
 
 VirtuosoTableComponents.Scroller.displayName = 'Scroller';
@@ -50,15 +76,16 @@ VirtuosoTableComponents.TableRow.propTypes = {
     item: PropTypes.any,
 };
 
-function fixedHeaderContent() {
+function fixedHeaderContent(ruolo) {
+    const scelta = ruolo === 'CISO' ? columns : columnsAS;
     return (
         <TableRow>
-            {columns.map((column) => (
+            {scelta.map((column) => (
                 <TableCell
                     key={column.dataKey}
                     variant="head"
                     align={column.numeric ? 'right' : 'left'}
-                    style={{width: column.width}}
+                    style={{ width: column.width }}
                     sx={{
                         backgroundColor: 'background.paper',
                     }}
@@ -70,12 +97,13 @@ function fixedHeaderContent() {
     );
 }
 
-function rowContent(_index, row) {
+function rowContent(_index, row, ruolo) {
+    const scelta = ruolo === 'CISO' ? columns : columnsAS;
     return (
         <React.Fragment>
-            {columns.map((column) => (
+            {scelta.map((column) => (
                 <TableCell
-                    sx={{'&:hover': {backgroundColor: 'transparent'}}}
+                    sx={{ '&:hover': { backgroundColor: 'transparent' } }}
                     key={column.dataKey}
                     align={column.numeric ? 'right' : 'left'}
                     style={{
@@ -96,7 +124,7 @@ function rowContent(_index, row) {
     );
 }
 
-export default function ReactVirtualizedTable({token, ruolo}) {
+export default function ReactVirtualizedTable({ token, ruolo }) {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -137,13 +165,13 @@ export default function ReactVirtualizedTable({token, ruolo}) {
     if (error) return <div>Errore: {error.message}</div>;
 
     return (
-        <Paper style={{height: 400, width: '100%'}}>
+        <Paper style={{ height: 400, width: '100%' }}>
             {rows.length > 0 ? (
                 <TableVirtuoso
                     data={rows}
                     components={VirtuosoTableComponents}
-                    fixedHeaderContent={fixedHeaderContent}
-                    itemContent={(index, row) => rowContent(index, row)}
+                    fixedHeaderContent={() => fixedHeaderContent(ruolo)}
+                    itemContent={(index, row) => rowContent(index, row, ruolo)}
                 />
             ) : (
                 <div className="flex flex-row justify-content-center font-bold text-xl">Nessun dato</div>
