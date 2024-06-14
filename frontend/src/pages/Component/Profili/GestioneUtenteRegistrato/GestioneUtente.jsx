@@ -8,7 +8,7 @@ import {
     renderDettagliProfilo,
     handleAvatarClick
 } from '../GestioneProfili.jsx';
-import StoricoSegnalazioni from "../../GestioneSegnalazione/StoricoSegnalazioni.jsx";
+import StoricoSegnalazioni from "../../GestioneSegnalazione/Storico.jsx";
 import StoricoFeedback from "../../Feedback/StoricoFeedback.jsx";
 
 export default function GestioneUtente({token}) {

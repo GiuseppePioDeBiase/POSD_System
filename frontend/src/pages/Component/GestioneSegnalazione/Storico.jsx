@@ -12,24 +12,37 @@ export default function ReactVirtualizedTable({token, ruolo}) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
+const fetchData = async () => {
+    let endpoint;
 
-                const endpoint = ruolo === 'Utente' ? 'storicoutente' : 'storicociso';
-                const response = await axios.get(`http://localhost:5000/api/${endpoint}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                setRows(response.data);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching data:', error); // Log any errors
-                setError(error);
-                setLoading(false);
+    switch (ruolo) {
+        case 'CISO':
+            endpoint = 'storicociso';
+            break;
+        case 'Amministratore di sistema':
+            endpoint = 'allfeedback';
+            break;
+        case 'Utente':
+        default:
+            endpoint = 'storicoutente';
+            break;
+    }
+
+    try {
+        const response = await axios.get(`http://localhost:5000/api/${endpoint}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
-        };
+        });
+        setRows(response.data);
+        setLoading(false);
+    } catch (error) {
+        console.error('Errore durante il recupero dei dati:', error);
+        setLoading(false);
+    }
+};
+
 
         fetchData();
     }, [token, ruolo]);

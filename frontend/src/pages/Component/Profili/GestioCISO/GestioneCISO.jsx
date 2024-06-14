@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { handleAvatarChange, getWelcomeMessage, renderDettagliProfilo, handleAvatarClick } from '../GestioneProfili.jsx';
 import PropTypes from 'prop-types';
 import axios from "axios";
-import StoricoSegnalazioni from "../../GestioneSegnalazione/StoricoSegnalazioni.jsx";
+
+import StoricoSegnalazioni from "../../GestioneSegnalazione/Storico.jsx"
 import SetSegnalazioni from "./SetSegnalazioni.jsx";
 
 //funzioni CISO
