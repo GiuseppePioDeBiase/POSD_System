@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import {TableVirtuoso} from 'react-virtuoso';
 import PropTypes from 'prop-types';
 import axios from "axios";
+import {Row} from "react-bootstrap";
 
 const columns = [
     {
@@ -95,39 +96,39 @@ function rowContent(_index, row) {
     );
 }
 
-export default function ReactVirtualizedTable({token,ruolo}) {
+export default function ReactVirtualizedTable({token, ruolo}) {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-      const fetchData = async () => {
-    let endpoint;
+        const fetchData = async () => {
+            let endpoint;
 
-    switch (ruolo) {
-        case 'CISO':
-            endpoint = 'storicociso';
-            break;
-        case 'Amministratore di sistema':
-        default:
-            endpoint = 'allfeedback';
-            break;
-    }
-
-    try {
-        const response = await axios.get(`http://localhost:5000/api/${endpoint}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+            switch (ruolo) {
+                case 'CISO':
+                    endpoint = 'storicociso';
+                    break;
+                case 'Amministratore di sistema':
+                default:
+                    endpoint = 'feedbackutente';
+                    break;
             }
-        });
-        setRows(response.data);
-        setLoading(false);
-    } catch (error) {
-        console.error('Errore durante il recupero dei dati:', error);
-        setLoading(false);
-    }
-};
+
+            try {
+                const response = await axios.get(`http://localhost:5000/api/${endpoint}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setRows(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Errore durante il recupero dei dati:', error);
+                setLoading(false);
+            }
+        };
         fetchData();
     }, [ruolo, token]);
 
