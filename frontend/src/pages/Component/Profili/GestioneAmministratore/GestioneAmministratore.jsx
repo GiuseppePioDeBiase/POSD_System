@@ -20,7 +20,7 @@ export default function GestioneAmministratore({ token }) {
     const [aggiungiProfiloVisibile, setAggiungiProfiloVisibile] = useState(false);
     const [feedbackVisibile, setFeedbackVisibile] = useState(false);
 
-    const { profilo, error: fetchProfileError } = useFetchProfile(token);
+    const { profilo } = useFetchProfile(token);
     const [error, setError] = useState('');
     const [registrazioneForm, setRegistrazioneForm] = useState({
         nome: '',
@@ -200,10 +200,11 @@ export default function GestioneAmministratore({ token }) {
                                 )}
 
                                 {utentiVisibile && (
-                                    <Card>
-                                        <Typography variant="h6" style={{ textAlign: 'center' }}>Lista Utenti Registrati</Typography>
-                                        <UtentiRegistrati token={token} />
-                                    </Card>
+                                    <Card style={{ height: '480px' }}>
+    <Typography variant="h6" style={{ textAlign: 'center' }}>Lista Utenti Registrati</Typography>
+    <UtentiRegistrati token={token} />
+</Card>
+
                                 )}
                                 {feedbackVisibile && (
                                     <Card>
