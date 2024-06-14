@@ -9,7 +9,6 @@ import Paper from '@mui/material/Paper';
 import {TableVirtuoso} from 'react-virtuoso';
 import PropTypes from 'prop-types';
 import axios from "axios";
-import {useHistory} from 'react-router-dom';
 
 const columns = [
     {
@@ -71,7 +70,7 @@ function fixedHeaderContent() {
     );
 }
 
-function rowContent(_index, row, history) {
+function rowContent(_index, row) {
     return (
         <React.Fragment>
             {columns.map((column) => (
@@ -85,7 +84,7 @@ function rowContent(_index, row, history) {
                     }}
                 >
                     {column.dataKey === 'messaggio' ? (
-                        <a href="#" onClick={() => history.push(`/message/${row.id}`)}>
+                        <a href="#" onClick={() => alert(row[column.dataKey])}>
                             {row[column.dataKey]}
                         </a>
                     ) : (
@@ -101,7 +100,6 @@ export default function ReactVirtualizedTable({token, ruolo}) {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const history = useHistory();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -145,7 +143,7 @@ export default function ReactVirtualizedTable({token, ruolo}) {
                     data={rows}
                     components={VirtuosoTableComponents}
                     fixedHeaderContent={fixedHeaderContent}
-                    itemContent={(index, row) => rowContent(index, row, history)}
+                    itemContent={(index, row) => rowContent(index, row)}
                 />
             ) : (
                 <div className="flex flex-row justify-content-center font-bold text-xl">Nessun dato</div>
