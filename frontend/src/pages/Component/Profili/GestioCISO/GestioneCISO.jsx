@@ -262,7 +262,6 @@ export default function ProfiloCISO(props) {
                         <Grid item xs={12}>
                             <Card sx={{ mb: 4 }}>
                                 <CardContent>
-
                                     {segnalazioniVisibile && (<SetSegnalazioni token={props.token} ruolo={profilo.ruolo} />)}
                                     {storicoSegnalazioniVisibile &&
                                         <StoricoSegnalazioni token={props.token} ruolo={profilo.ruolo} />}

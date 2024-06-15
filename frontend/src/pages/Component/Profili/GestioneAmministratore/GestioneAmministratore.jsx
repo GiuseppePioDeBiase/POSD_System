@@ -152,17 +152,13 @@ export default function GestioneAmministratore({token}) {
 
                     <Grid container>
                         <Grid item xs={12}>
-                            <Card sx={{mb: 4}}>
+                            <Card sx={{mb: 3}}>
                                 <CardContent>
                                     {segnalazioniVisibile &&
-                                    <Card>
-                                        <Typography variant="h6" style={{textAlign: 'center'}}>Segnalazioni</Typography>
                                         <SetSegnalazioni token={token} ruolo={profilo.ruolo}/>
-                                    </Card>}
+                                    }
                                 </CardContent>
                                 {aggiungiProfiloVisibile && (
-
-
                                         <CardContent>
                                             <Typography variant="h6">Aggiungi Profilo</Typography>
                                             <form onSubmit={registrami}>
@@ -211,7 +207,6 @@ export default function GestioneAmministratore({token}) {
                                         <StoricoFeedback ruolo={profilo?.ruolo} token={token}/>
                                 )}
                                     </CardContent>
-
                             </Card>
                         </Grid>
                     </Grid>
