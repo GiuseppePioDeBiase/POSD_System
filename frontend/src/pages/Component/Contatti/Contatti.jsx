@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import "./Contatti.css";
 
 function Contatti() {
@@ -16,7 +15,12 @@ function Contatti() {
                     </div>
                     {/* Team Details */}
                     <div className="single_advisor_details_info">
-                        <h6>Lorenzo Calabrese</h6>
+                        <div className="flex items-center justify-between">
+                            <h6>Lorenzo Calabrese</h6>
+                            <p className="email">
+                                <a href="mailto:l.calabrese28@studenti.uniba.it" className="email-link">l.calabrese28@studenti.uniba.it</a>
+                            </p>
+                        </div>
                         <p className="designation">Frontend</p>
                     </div>
                 </div>
@@ -29,7 +33,12 @@ function Contatti() {
                     </div>
                     {/* Team Details */}
                     <div className="single_advisor_details_info">
-                        <h6>Francesco Conforti</h6>
+                        <div className="flex items-center justify-between">
+                            <h6>Francesco Conforti</h6>
+                            <p className="email">
+                                <a href="mailto:f.conforti09@studenti.uniba.it" className="email-link">f.conforti09@studenti.uniba.it</a>
+                            </p>
+                        </div>
                         <p className="designation">Backend</p>
                     </div>
                 </div>
@@ -42,7 +51,12 @@ function Contatti() {
                     </div>
                     {/* Team Details */}
                     <div className="single_advisor_details_info">
-                        <h6>Giuseppe Pio Debiase</h6>
+                        <div className="flex items-center justify-between">
+                            <h6>Giuseppe Pio De Biase</h6>
+                            <p className="email">
+                                <a href="mailto:g.debiase5@studenti.uniba.it" className="email-link">g.debiase5@studenti.uniba.it</a>
+                            </p>
+                        </div>
                         <p className="designation">Frontend</p>
                     </div>
                 </div>

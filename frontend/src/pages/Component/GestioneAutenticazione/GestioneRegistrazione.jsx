@@ -1,8 +1,7 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import {useNavigate, Link} from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import PropTypes from "prop-types";
-
 
 function GestioneRegistrazione(props) {
 
@@ -19,6 +18,13 @@ function GestioneRegistrazione(props) {
 
     function SetRegistrazione(event) {
         event.preventDefault();
+
+        // Validate the 'genere' field
+        if (!registrazioneForm.genere) {
+            setError('Il genere è obbligatorio');
+            return;
+        }
+
         axios({
             method: 'POST',
             url: 'http://127.0.0.1:5000/api/registrazione',
@@ -35,7 +41,7 @@ function GestioneRegistrazione(props) {
                 props.setToken(response.data.token);
                 setError(''); // Reset error
 
-                navigate("/Profili")
+                navigate("/Profili");
             })
             .catch((error) => {
                 if (error.response) {
@@ -45,7 +51,7 @@ function GestioneRegistrazione(props) {
     }
 
     function handleChange(event) {
-        const {value, name} = event.target;
+        const { value, name } = event.target;
         setRegistrazioneForm((prevNote) => ({
             ...prevNote,
             [name]: value
@@ -204,4 +210,5 @@ GestioneRegistrazione.propTypes = {
     setToken: PropTypes.func.isRequired,
     setRuolo: PropTypes.func.isRequired
 };
+
 export default GestioneRegistrazione;

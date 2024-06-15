@@ -98,7 +98,7 @@ function rowContent(_index, row) {
 export default function ReactVirtualizedTable({token,ruolo}) {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error] = useState(null);
 
     useEffect(() => {
       const fetchData = async () => {

@@ -85,7 +85,7 @@ function fixedHeaderContent() {
                         backgroundColor: 'background.paper',
                         cursor: 'pointer', // Aggiungi il puntatore al passaggio del mouse
                     }}
-                    onClick={() => handleSort(column.dataKey)}
+
                 >
                     {column.label}
                 </TableCell>
