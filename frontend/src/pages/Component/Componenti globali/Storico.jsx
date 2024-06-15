@@ -97,15 +97,11 @@ function rowContent(_index, row) {
   );
 }
 
-
 export default function ReactVirtualizedTable({ token, ruolo }) {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedRoles, setSelectedRoles] = useState([]);
-  const [orderBy, setOrderBy] = useState('data_ora_modifica'); // Campo su cui ordinare di default
-  const [order, setOrder] = useState('asc'); // Direzione di default
-
 
   const handleRoleCheckboxChange = (role) => {
     if (selectedRoles.includes(role)) {
@@ -114,43 +110,6 @@ export default function ReactVirtualizedTable({ token, ruolo }) {
       setSelectedRoles([...selectedRoles, role]);
     }
   };
-
-  const handleSort = (field) => {
-    const isAsc = orderBy === field && order === 'asc';
-    const newOrder = isAsc ? 'desc' : 'asc';
-    setOrder(newOrder);
-    setOrderBy(field);
-    sortData(field, newOrder);
-  };
-
-const sortData = (field, direction) => {
-  const sortedData = [...rows].sort((a, b) => {
-    let comparison = 0;
-    if (field === 'data_ora_modifica') {
-      const dateA = new Date(a[field]);
-      const dateB = new Date(b[field]);
-      comparison = dateA - dateB;
-    } else {
-      const fieldA = a[field] ? a[field].toUpperCase() : '';
-      const fieldB = b[field] ? b[field].toUpperCase() : '';
-      if (fieldA > fieldB) {
-        comparison = 1;
-      } else if (fieldA < fieldB) {
-        comparison = -1;
-      }
-    }
-    return direction === 'asc' ? comparison : -comparison;
-  });
-
-  // Converting the dates back to strings
-  const convertedData = sortedData.map(row => ({
-    ...row,
-    data_ora_modifica: new Date(row.data_ora_modifica).toISOString()
-  }));
-
-  setRows(convertedData);
-};
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -191,7 +150,8 @@ const sortData = (field, direction) => {
   const filteredRows = rows.filter((row) => selectedRoles.length === 0 || selectedRoles.includes(row.stato));
 
   return (
-    <Paper style={{ height: 400, width: '100%' }}>
+    <Paper style={{ height: '405px', width: '100%' }}>
+      <div className="flex items-center justify-center w-full">
       <Checkbox
         checked={selectedRoles.includes('ACCETTATO')}
         onChange={() => handleRoleCheckboxChange('ACCETTATO')}
@@ -202,13 +162,7 @@ const sortData = (field, direction) => {
         onChange={() => handleRoleCheckboxChange('RIFIUTATO')}
       />{' '}
       RIFIUTATO
-      <Button
-        variant="contained"
-        onClick={() => handleSort(orderBy)}
-        style={{ marginLeft: '16px' }}
-      >
-        Ordina per {orderBy} {order === 'asc' ? '↓' : '↑'}
-      </Button>
+        </div>
       {filteredRows.length > 0 ? (
         <TableVirtuoso
           data={filteredRows}
