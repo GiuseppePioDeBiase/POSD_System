@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Avatar, Box, Button, Card, CardContent, Container, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { handleAvatarChange, getWelcomeMessage, renderDettagliProfilo, handleAvatarClick } from '../GestioneProfili.jsx';
+import {
+    getWelcomeMessage,
+    renderDettagliProfilo,
+   /*handleAvatarChange, handleAvatarClick */}
+    from '../GestioneProfili.jsx';
 import PropTypes from 'prop-types';
 import axios from "axios";
 import StoricoSegnalazioni from "../../Componenti globali/Storico.jsx"
@@ -198,18 +202,12 @@ export default function ProfiloCISO(props) {
                 <Grid item xs={12} md={4}>
                     <Card sx={{ mb: 4, mx: { xs: 0, md: 5 } }}>
                         <CardContent sx={{ textAlign: 'center' }}>
-                            <Box onClick={handleAvatarClick} sx={{ cursor: 'pointer' }}>
+                            <Box >
                                 <Avatar
                                     src={avatar}
                                     sx={{ width: 150, height: 150, mx: 'auto', mb: 4 }}
                                 />
-                                <input
-                                    id="avatarInput"
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={(e) => handleAvatarChange(e, setAvatar)}
-                                    style={{ display: 'none' }}
-                                />
+
                             </Box>
                             <Typography variant="h6" gutterBottom>{getWelcomeMessage(profilo.genere)}</Typography>
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>

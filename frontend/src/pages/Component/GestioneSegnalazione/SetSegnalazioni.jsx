@@ -107,7 +107,7 @@ function rowContent(_index, row, ruolo) {
                         textOverflow: 'ellipsis'
                     }}
                 >
-                   {column.dataKey === 'messaggio' ? (
+                   {column.dataKey === 'messaggio' && ruolo === 'CISO' ? (
                         <Link to={`/segnalazione/${row._id}`} state={{ messaggio: row.messaggio, id: row._id }}>
                             {row[column.dataKey]}
                         </Link>
