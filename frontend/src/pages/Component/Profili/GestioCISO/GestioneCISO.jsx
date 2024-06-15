@@ -31,18 +31,18 @@ function base64ToBlob(base64Data, contentType) {
 
 export default function ProfiloCISO(props) {
     const navigate = useNavigate();
-    const fileInputRef = useRef(null); // Reference to the file input element
+    const fileInputRef = useRef(null);
 
     const [storicoSegnalazioniVisibile, setStoricoSegnalazioniVisibile] = useState(false);
     const [aggiungiLicenzaVisibile, setAggiungiLicenzaVisibile] = useState(false);
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
 
     const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '', genere: '' });
-    const [status, setStatus] = useState(''); // Correctly initialized status state
+    const [ setStatus] = useState('');
     const [file, setFile] = useState(null);
     const [fileUrl, setFileUrl] = useState(null); // Stato per l'URL del file
     const [licenzaNome, setLicenzaNome] = useState('Nessun file presente'); // Stato per il nome della licenza
-    const [avatar, setAvatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
+    const [avatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
 
     useEffect(() => {
         const DatiAnagrafici = async () => {
@@ -130,7 +130,7 @@ export default function ProfiloCISO(props) {
 
     const handleFileUpload = async () => {
         if (!validateFILE()) {
-            fileInputRef.current.click(); // Trigger the file input click if no file is selected
+            fileInputRef.current.click();
             return;
         }
 
@@ -179,7 +179,7 @@ export default function ProfiloCISO(props) {
 
         // Se l'estensione è valida, imposta il file nello stato
         setFile(selectedFile);
-        setLicenzaNome(selectedFile.name); // Update the licenzaNome state to show the file name
+        setLicenzaNome(selectedFile.name);
     };
 
     const handleFileDownload = () => {
@@ -268,7 +268,7 @@ export default function ProfiloCISO(props) {
                                                 type="file"
                                                 onChange={handleFileChange}
                                                 style={{ display: 'block', marginBottom: '0.5%', marginTop: "5%" }}
-                                                ref={fileInputRef} // Attach the ref to the file input
+                                                ref={fileInputRef}
                                             />
                                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                                 <Button variant="contained" color="secondary" onClick={InserisciLicenza}
