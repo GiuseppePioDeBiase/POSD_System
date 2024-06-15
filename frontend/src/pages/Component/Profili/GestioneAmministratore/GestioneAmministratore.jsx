@@ -9,10 +9,10 @@ import {
 import UtentiRegistrati from './UtentiRegistrati.jsx';
 import {
     useFetchProfile,
-    handleAvatarChange,
+
     getWelcomeMessage,
     renderDettagliProfilo,
-    handleAvatarClick
+   /* handleAvatarClick,handleAvatarChange,*/
 } from '../GestioneProfili.jsx';
 import SetSegnalazioni from "../../GestioneSegnalazione/SetSegnalazioni.jsx";
 
@@ -98,18 +98,12 @@ export default function GestioneAmministratore({token}) {
                 <Grid item lg={4} xs={12}>
                     <Card sx={{mb: 4, mx: {xs: 0, md: 5}}}>
                         <CardContent sx={{textAlign: 'center'}}>
-                            <Box onClick={handleAvatarClick} sx={{cursor: 'pointer'}}>
+                            <Box >
                                 <Avatar
                                     src={avatar}
                                     sx={{width: 150, height: 150, mx: 'auto', mb: 4}}
                                 />
-                                <input
-                                    id="avatarInput"
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleAvatarChange(setAvatar)}
-                                    style={{display: 'none'}}
-                                />
+
                             </Box>
                             <Typography variant="h6" gutterBottom>{getWelcomeMessage(profilo?.genere)}</Typography>
                             <Typography variant="h4" gutterBottom>{profilo?.nome}</Typography>
@@ -150,7 +144,6 @@ export default function GestioneAmministratore({token}) {
                         </CardContent>
                     </Card>
 
-                    <Grid container>
                         <Grid item xs={12}>
                             <Card sx={{mb: 3}}>
                                 <CardContent>
@@ -209,7 +202,7 @@ export default function GestioneAmministratore({token}) {
                                     </CardContent>
                             </Card>
                         </Grid>
-                    </Grid>
+
                 </Grid>
             </Grid>
         </Container>

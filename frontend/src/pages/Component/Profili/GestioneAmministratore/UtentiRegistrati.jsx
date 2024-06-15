@@ -85,7 +85,7 @@ function fixedHeaderContent() {
                         backgroundColor: 'background.paper',
                         cursor: 'pointer', // Aggiungi il puntatore al passaggio del mouse
                     }}
-                    
+
                 >
                     {column.label}
                 </TableCell>

@@ -45,11 +45,11 @@ export function useFetchProfile(token) {
     return {profilo, error, loading};
 }
 
-export const handleAvatarClick = () => {
+/*export const handleAvatarClick = () => {
     document.getElementById('avatarInput').click();
-};
+};*/
 
-export function handleAvatarChange(setAvatar) {
+/*export function handleAvatarChange(setAvatar) {
     return (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -60,7 +60,7 @@ export function handleAvatarChange(setAvatar) {
             reader.readAsDataURL(file);
         }
     };
-}
+}*/
 
 export function getWelcomeMessage(genere) {
     if (genere) {

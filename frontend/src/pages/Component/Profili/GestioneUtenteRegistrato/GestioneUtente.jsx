@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import {Container, Grid, Card, CardContent, Typography, Button, Avatar, Box} from '@mui/material';
 import {
     useFetchProfile,
-    handleAvatarChange,
     getWelcomeMessage,
     renderDettagliProfilo,
-    handleAvatarClick
+    /*handleAvatarClick,handleAvatarChange,*/
 } from '../GestioneProfili.jsx';
 import StoricoSegnalazioni from "../../Componenti globali/Storico.jsx";
 import StoricoFeedback from "../../Feedback/StoricoFeedback.jsx";
@@ -33,18 +32,12 @@ export default function GestioneUtente({token}) {
                 <Grid item lg={4} xs={12}>
                     <Card sx={{mb: 4, mx: {xs: 0, md: 5}}}>
                         <CardContent sx={{textAlign: 'center'}}>
-                            <Box onClick={handleAvatarClick} sx={{cursor: 'pointer'}}>
+                            <Box >
                                 <Avatar
                                     src={avatar}
                                     sx={{width: 150, height: 150, mx: 'auto', mb: 4}}
                                 />
-                                <input
-                                    id="avatarInput"
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleAvatarChange(setAvatar)}
-                                    style={{display: 'none'}}
-                                />
+
                             </Box>
                             <Typography variant="h6" gutterBottom>{getWelcomeMessage(profilo.genere)}</Typography>
                             <Typography variant="h4" gutterBottom>{profilo.nome}</Typography>
