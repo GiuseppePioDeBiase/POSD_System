@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import {
     getWelcomeMessage,
     renderDettagliProfilo,
-   /*handleAvatarChange, handleAvatarClick */}
-    from '../GestioneProfili.jsx';
+    /*handleAvatarChange, handleAvatarClick */
+} from '../GestioneProfili.jsx';
 import PropTypes from 'prop-types';
 import axios from "axios";
-import StoricoSegnalazioni from "../../Componenti globali/Storico.jsx"
+import StoricoSegnalazioni from "../../Componenti globali/Storico.jsx";
 import SetSegnalazioni from "../../GestioneSegnalazione/SetSegnalazioni.jsx";
 
 //funzioni CISO
@@ -38,7 +38,7 @@ export default function ProfiloCISO(props) {
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
 
     const [profilo, setProfilo] = useState({ nome: '', cognome: '', email: '', ruolo: '', genere: '' });
-    const [ setStatus] = useState(''); // Correctly initialized status state
+    const [status, setStatus] = useState(''); // Correctly initialized status state
     const [file, setFile] = useState(null);
     const [fileUrl, setFileUrl] = useState(null); // Stato per l'URL del file
     const [licenzaNome, setLicenzaNome] = useState('Nessun file presente'); // Stato per il nome della licenza
@@ -86,20 +86,20 @@ export default function ProfiloCISO(props) {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${props.token}`
-                },
-                responseType: 'blob' // Imposta il tipo di risposta come blob
+                }
             });
 
             if (!response.ok) {
                 throw new Error(`Errore: ${response.status}`);
             }
 
-            // Ottieni il nome del file dalla intestazione 'Content-Disposition'
-            const disposition = profilo.nome_file;
-            const nomeFile = disposition ? disposition.split('filename=')[1].replace(/"/g, '') : 'licenza.pdf';
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
 
             // Pulsante per scaricare
-            const url = URL.createObjectURL(await response.blob());
+            const disposition = response.headers.get('Content-Disposition');
+            const nomeFile = disposition ? disposition.split('filename=')[1].replace(/"/g, '') : 'licenza.pdf';
+
             setFileUrl(url);
             setLicenzaNome(nomeFile);
         } catch (error) {
@@ -146,11 +146,11 @@ export default function ProfiloCISO(props) {
                         'Content-Type': 'multipart/form-data',
                         'Authorization': `Bearer ${props.token}`,
                     },
-                    responseType: 'blob',
                 }
             );
 
             setStatus(response.data.messaggio);
+            // Force page refresh to reload data
             navigate(0);
         } catch (error) {
             console.error("Risposta errore:", error.response);
@@ -186,7 +186,9 @@ export default function ProfiloCISO(props) {
         const link = document.createElement('a');
         link.href = fileUrl;
         link.setAttribute('download', licenzaNome);
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
     };
 
     const validateFILE = () => {
@@ -246,7 +248,7 @@ export default function ProfiloCISO(props) {
                                     <hr />
                                 </Grid>
                                 <Grid item xs={12} md={3}>
-                                      <Typography variant="subtitle1">Licenza</Typography>
+                                    <Typography variant="subtitle1">Licenza</Typography>
                                 </Grid>
                                 <Grid item xs={12} md={9}>
                                     <Typography variant="body1" color="text.secondary">{licenzaNome}</Typography>
@@ -268,7 +270,6 @@ export default function ProfiloCISO(props) {
                                                 type="file"
                                                 onChange={handleFileChange}
                                                 style={{ display: 'block', marginBottom: '0.5%', marginTop: "5%" }}
-
                                             />
                                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                                 <Button variant="contained" color="secondary" onClick={InserisciLicenza}
