@@ -102,6 +102,7 @@ function rowContent(_index, row, ruolo) {
                         textOverflow: 'ellipsis'
                     }}
                 >
+                    {row[column.dataKey]}
                 </TableCell>
             ))}
         </React.Fragment>
