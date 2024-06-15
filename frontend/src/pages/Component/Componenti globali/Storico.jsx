@@ -10,7 +10,7 @@ import { TableVirtuoso } from 'react-virtuoso';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Checkbox from '@mui/material/Checkbox';
-import Button from '@mui/material/Button';
+
 
 const columns = [
   {
@@ -149,32 +149,33 @@ export default function ReactVirtualizedTable({ token, ruolo }) {
 
   const filteredRows = rows.filter((row) => selectedRoles.length === 0 || selectedRoles.includes(row.stato));
 
-  return (
-    <Paper style={{ height: '405px', width: '100%' }}>
-      <div className="flex items-center justify-center w-full">
-      <Checkbox
-        checked={selectedRoles.includes('ACCETTATO')}
-        onChange={() => handleRoleCheckboxChange('ACCETTATO')}
-      />{' '}
-      ACCETTATO
-      <Checkbox
-        checked={selectedRoles.includes('RIFIUTATO')}
-        onChange={() => handleRoleCheckboxChange('RIFIUTATO')}
-      />{' '}
-      RIFIUTATO
+ return (
+  <Paper style={{ height: '405px', width: '100%' }}>
+    {filteredRows.length > 0 ? (
+      <>
+        <div className="flex items-center justify-center w-full">
+          <Checkbox
+            checked={selectedRoles.includes('ACCETTATO')}
+            onChange={() => handleRoleCheckboxChange('ACCETTATO')}
+          /> ACCETTATO
+          <Checkbox
+            checked={selectedRoles.includes('RIFIUTATO')}
+            onChange={() => handleRoleCheckboxChange('RIFIUTATO')}
+          /> RIFIUTATO
         </div>
-      {filteredRows.length > 0 ? (
         <TableVirtuoso
           data={filteredRows}
           components={VirtuosoTableComponents}
           fixedHeaderContent={fixedHeaderContent}
           itemContent={(index, row) => rowContent(index, row)}
         />
-      ) : (
-        <div className="flex flex-row justify-content-center font-bold text-xl">Nessun dato</div>
-      )}
-    </Paper>
-  );
+      </>
+    ) : (
+      <div className="flex flex-row justify-content-center font-bold text-xl">Nessun dato</div>
+    )}
+  </Paper>
+);
+
 }
 
 ReactVirtualizedTable.propTypes = {

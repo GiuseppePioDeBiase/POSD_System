@@ -144,8 +144,11 @@ export default function GestioneAmministratore({token}) {
                     </Card>
 
                     <Card sx={{mb: 3}}>
+
                         {segnalazioniVisibile &&
+                            <CardContent>
                             <SetSegnalazioni token={token} ruolo={profilo.ruolo}/>
+                                 </CardContent>
                         }
                     </Card>
 
@@ -191,13 +194,14 @@ export default function GestioneAmministratore({token}) {
 
                     <Card>
                         {utentiVisibile && <UtentiRegistrati token={token}/>}
-                        {feedbackVisibile && <StoricoFeedback ruolo={profilo?.ruolo} token={token}/>}
+                        {feedbackVisibile &&
+                            <CardContent><StoricoFeedback ruolo={profilo?.ruolo} token={token}/></CardContent>}
                     </Card>
                 </Grid>
             </Grid>
         </Container>
     );
-};
+}
 
 
 GestioneAmministratore.propTypes = {

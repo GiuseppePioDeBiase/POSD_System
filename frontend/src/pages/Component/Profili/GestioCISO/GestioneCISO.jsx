@@ -268,7 +268,7 @@ export default function ProfiloCISO(props) {
                                                 type="file"
                                                 onChange={handleFileChange}
                                                 style={{ display: 'block', marginBottom: '0.5%', marginTop: "5%" }}
-                                                ref={fileInputRef}
+
                                             />
                                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                                 <Button variant="contained" color="secondary" onClick={InserisciLicenza}
@@ -276,7 +276,7 @@ export default function ProfiloCISO(props) {
                                                     Annulla
                                                 </Button>
                                                 <Button variant="contained" color="success" onClick={handleFileUpload}
-                                                    sx={{ mr: 2 }}>
+                                                    sx={{ mr: 2 }} ref={fileInputRef}>
                                                     Carica Licenza
                                                 </Button>
                                                 {fileUrl && (

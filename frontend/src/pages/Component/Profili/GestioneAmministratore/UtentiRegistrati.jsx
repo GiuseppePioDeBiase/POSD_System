@@ -228,27 +228,27 @@ export default function ReactVirtualizedTable({token}) {
     return (
         <Paper style={{height: 400, width: '100%', padding: '16px', overflow: 'auto'}} elevation={0}>
             <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center mr-4">
+
                     <Checkbox
                         checked={selectedRoles.includes('Amministratore di sistema')}
                         onChange={() => handleRoleCheckboxChange('Amministratore di sistema')}
                     />
                     <span className="ml-2">Amministratore di sistema</span>
-                </div>
-                <div className="flex items-center mr-4">
+
+
                     <Checkbox
                         checked={selectedRoles.includes('CISO')}
                         onChange={() => handleRoleCheckboxChange('CISO')}
                     />
                     <span className="ml-2">CISO</span>
-                </div>
-                <div className="flex items-center mr-4">
+
+
                     <Checkbox
                         checked={selectedRoles.includes('Utente')}
                         onChange={() => handleRoleCheckboxChange('Utente')}
                     />
                     <span className="ml-2">Utente</span>
-                </div>
+
                 <Button
                     variant="contained"
                     onClick={() => handleSort(orderBy)}
