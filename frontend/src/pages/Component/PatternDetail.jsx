@@ -11,7 +11,7 @@ const PatternDetail = ({ pattern, props, ruolo, handleBackClick }) => {
     const toggleFeedbackForm = () => {
         if (!props) {
             setShowLoginMessage(true);
-            setTimeout(() => setShowLoginMessage(false), 3000);  // Hide after 3 seconds
+            setTimeout(() => setShowLoginMessage(false), 3000);
             return;
         }
 
@@ -21,7 +21,7 @@ const PatternDetail = ({ pattern, props, ruolo, handleBackClick }) => {
             return;
         }
 
-        setShowFeedbackForm(!showFeedbackForm);  // Toggle the feedback form visibility
+        setShowFeedbackForm(!showFeedbackForm);  // form feedback
     };
 
     return (
@@ -42,7 +42,7 @@ const PatternDetail = ({ pattern, props, ruolo, handleBackClick }) => {
                         </button>
                         <h1 className="text-2xl font-bold text-center flex-grow">{pattern.Pattern}</h1>
                         <button
-                            onClick={toggleFeedbackForm}  // Handle the click to open/close the form
+                            onClick={toggleFeedbackForm}  // Apri chiudi il form
                             className="text-black font-bold bg-transparent border-none"
                         >
                             Segnala

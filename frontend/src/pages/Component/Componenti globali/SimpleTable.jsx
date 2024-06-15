@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
-import React from "react"; // Import Box for scrolling
+import React from "react";
 
 function SimpleTable({ columns, rows, handleCellClick }) {
     return (
@@ -63,14 +63,14 @@ SimpleTable.propTypes = {
             width: PropTypes.number.isRequired,
             label: PropTypes.string.isRequired,
             dataKey: PropTypes.string.isRequired,
-            clickable: PropTypes.bool // Optional: Whether the column should be clickable
+            clickable: PropTypes.bool
         })
     ).isRequired,
     rows: PropTypes.arrayOf(
         PropTypes.shape({
-            id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, // Ensure each row has a unique identifier
+            id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
         })
     ).isRequired,
-    handleCellClick: PropTypes.func // Optional: Function to handle cell clicks
+    handleCellClick: PropTypes.func
 };
 export default SimpleTable;

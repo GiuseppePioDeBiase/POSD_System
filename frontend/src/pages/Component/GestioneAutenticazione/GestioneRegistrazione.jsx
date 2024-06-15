@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 function GestioneRegistrazione(props) {
 
     const navigate = useNavigate();
-    const [error, setError] = useState(''); // Correctly define setError state
+    const [error, setError] = useState('');
     const [registrazioneForm, setRegistrazioneForm] = useState({
         nome: '',
         cognome: '',
@@ -19,7 +19,7 @@ function GestioneRegistrazione(props) {
     function SetRegistrazione(event) {
         event.preventDefault();
 
-        // Validate the 'genere' field
+        // Valida il genere
         if (!registrazioneForm.genere) {
             setError('Il genere è obbligatorio');
             return;
@@ -39,13 +39,13 @@ function GestioneRegistrazione(props) {
             .then((response) => {
                 props.setRuolo(response.data.ruolo);
                 props.setToken(response.data.token);
-                setError(''); // Reset error
+                setError('');
 
                 navigate("/Profili");
             })
             .catch((error) => {
                 if (error.response) {
-                    setError(error.response.data.messaggio); // Set error message from server response
+                    setError(error.response.data.messaggio); // setta un messaggio di errore dal server
                 }
             });
     }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import Card from '../../GestionePKB/Card.jsx'; // Assicurati che il percorso sia corretto
+import Card from '../../GestionePKB/Card.jsx';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -15,8 +15,8 @@ function Ricerca() {
         if (query) {
             const fetchPatterns = async () => {
                 try {
-                    const response = await axios.get(`http://127.0.0.1:5000/api/pattern?query=${query}`);
-                    console.log('API response:', response.data); // Log the response
+                    const response = await axios.get(`http:127.0.0.1:5000/api/pattern?query=${query}`);
+                    console.log('API response:', response.data);
                     if (Array.isArray(response.data)) {
                         setPatterns(response.data);
                     } else {
@@ -33,7 +33,7 @@ function Ricerca() {
 
 
     useEffect(() => {
-        console.log('Stato dei Patterns aggiornato:', patterns); // Log the updated state
+        console.log('Stato dei Patterns aggiornato:', patterns);
     }, [patterns]);
 
     return (

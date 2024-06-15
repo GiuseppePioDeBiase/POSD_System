@@ -33,7 +33,7 @@ export default function GestioneAmministratore({token}) {
     const [registrazioneSuccess, setRegistrazioneSuccess] = useState(false);
     const [segnalazioniVisibile, setSegnalazioniVisibile] = useState(false);
     const [utentiVisibile, setUtentiVisibile] = useState(false);
-    const [avatar, setAvatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
+    const [avatar] = useState('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp');
 
     const Segnalazioniaccettate = () => {
         setSegnalazioniVisibile(!segnalazioniVisibile);

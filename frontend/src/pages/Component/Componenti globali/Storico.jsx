@@ -142,7 +142,7 @@ const sortData = (field, direction) => {
     return direction === 'asc' ? comparison : -comparison;
   });
 
-  // Converting the dates back to strings
+
   const convertedData = sortedData.map(row => ({
     ...row,
     data_ora_modifica: new Date(row.data_ora_modifica).toISOString()

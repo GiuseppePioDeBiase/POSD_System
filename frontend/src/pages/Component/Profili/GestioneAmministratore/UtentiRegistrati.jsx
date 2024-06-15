@@ -138,7 +138,7 @@ export default function ReactVirtualizedTable({token}) {
     const [selectedRoles, setSelectedRoles] = useState([]);
     const [orderBy, setOrderBy] = useState('nome'); // Campo su cui ordinare di default
     const [order, setOrder] = useState('asc'); // Direzione di default
-    const [openDialog, setOpenDialog] = useState(false); // State for dialog
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -149,7 +149,7 @@ export default function ReactVirtualizedTable({token}) {
                     }
                 });
                 console.log(response.data); // Verifica i dati ricevuti
-                setUsers(response.data.utenti.map((user, index) => ({...user, id: index}))); // Ensure unique IDs
+                setUsers(response.data.utenti.map((user, index) => ({...user, id: index})));
                 setLoading(false);
             } catch (error) {
                 setError(error);
@@ -216,7 +216,7 @@ export default function ReactVirtualizedTable({token}) {
         } catch (error) {
             setMessage(error.response?.data?.message || "Errore durante la rimozione dell'utente."); // Imposta il messaggio di errore dal backend
         } finally {
-            setOpenDialog(false); // Close dialog after operation
+            setOpenDialog(false);
         }
     };
 

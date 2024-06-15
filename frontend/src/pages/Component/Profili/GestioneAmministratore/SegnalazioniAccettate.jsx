@@ -21,7 +21,7 @@ export default function ReactVirtualizedTable({token, ruolo}) {
                 setRows(response.data);
                 setLoading(false);
             } catch (error) {
-                console.error('Error fetching data:', error); // Log any errors
+                console.error('Error fetching data:', error);
                 setError(error);
                 setLoading(false);
             }
