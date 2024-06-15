@@ -249,9 +249,6 @@ export default function ProfiloCISO(props) {
                                 <Grid item xs={12} md={9}>
                                     <Typography variant="body1" color="text.secondary">{licenzaNome}</Typography>
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <hr />
-                                </Grid>
                             </Grid>
                         </CardContent>
                     </Card>
