@@ -80,12 +80,11 @@ function fixedHeaderContent() {
                     key={column.dataKey}
                     variant="head"
                     align="left"
-                    style={{ width: column.width }}
+                    style={{width: column.width}}
                     sx={{
                         backgroundColor: 'background.paper',
                         cursor: 'pointer', // Aggiungi il puntatore al passaggio del mouse
                     }}
-
                 >
                     {column.label}
                 </TableCell>
@@ -227,26 +226,37 @@ export default function ReactVirtualizedTable({token}) {
     const filteredUsers = users.filter(user => selectedRoles.length === 0 || selectedRoles.includes(user.ruolo));
 
     return (
-        <Paper style={{height: 400, width: '100%', padding: '16px'}} elevation={0}>
-            <Checkbox
-                checked={selectedRoles.includes('Amministratore di sistema')}
-                onChange={() => handleRoleCheckboxChange('Amministratore di sistema')}
-            /> Amministratore di sistema
-            <Checkbox
-                checked={selectedRoles.includes('CISO')}
-                onChange={() => handleRoleCheckboxChange('CISO')}
-            /> CISO
-            <Checkbox
-                checked={selectedRoles.includes('Utente')}
-                onChange={() => handleRoleCheckboxChange('Utente')}
-            /> Utente
-            <Button
-                variant="contained"
-                onClick={() => handleSort(orderBy)}
-                style={{marginLeft: '16px'}}
-            >
-                Ordina per {orderBy} {order === 'asc' ? '↓' : '↑'}
-            </Button>
+        <Paper style={{height: 400, width: '100%', padding: '16px', overflow: 'auto'}} elevation={0}>
+            <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center mr-4">
+                    <Checkbox
+                        checked={selectedRoles.includes('Amministratore di sistema')}
+                        onChange={() => handleRoleCheckboxChange('Amministratore di sistema')}
+                    />
+                    <span className="ml-2">Amministratore di sistema</span>
+                </div>
+                <div className="flex items-center mr-4">
+                    <Checkbox
+                        checked={selectedRoles.includes('CISO')}
+                        onChange={() => handleRoleCheckboxChange('CISO')}
+                    />
+                    <span className="ml-2">CISO</span>
+                </div>
+                <div className="flex items-center mr-4">
+                    <Checkbox
+                        checked={selectedRoles.includes('Utente')}
+                        onChange={() => handleRoleCheckboxChange('Utente')}
+                    />
+                    <span className="ml-2">Utente</span>
+                </div>
+                <Button
+                    variant="contained"
+                    onClick={() => handleSort(orderBy)}
+                    className="ml-4"
+                >
+                    Ordina per {orderBy} {order === 'asc' ? '↓' : '↑'}
+                </Button>
+            </div>
 
             <TableVirtuoso
                 data={filteredUsers}
@@ -256,27 +266,29 @@ export default function ReactVirtualizedTable({token}) {
             />
 
             {selectedRow !== null && (
-                <>
+                <div className="flex flex-col items-center mt-4">
                     <Button
                         variant="contained"
                         color="error"
                         onClick={() => setOpenDialog(true)}
-                        sx={{mt: 1, mr: 2}}
+                        className="mb-2"
+                        style={{position: 'relative', zIndex: 1}}  // Aggiungi stili per gestire il posizionamento
                     >
                         Rimuovi Profilo
                     </Button>
-                    {message && <div>{message}</div>} {/* Visualizza il messaggio */}
-                </>
+                    {message && <div>{message}</div>}
+                </div>
             )}
 
             <Dialog
                 open={openDialog}
                 onClose={() => setOpenDialog(false)}
             >
-                <DialogTitle>Conferma Eliminazione</DialogTitle>
+                <DialogTitle>Conferma eliminazione</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Sei sicuro di voler eliminare definitivamente questo profilo? Questa azione non può essere annullata.
+                        Sei sicuro di voler eliminare definitivamente questo profilo?<br/>
+                        Questa azione non può essere annullata.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -289,6 +301,7 @@ export default function ReactVirtualizedTable({token}) {
                 </DialogActions>
             </Dialog>
         </Paper>
+
     );
 }
 
