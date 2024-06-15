@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Avatar, Box, Button, Card, CardContent, Container, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -31,6 +31,7 @@ function base64ToBlob(base64Data, contentType) {
 
 export default function ProfiloCISO(props) {
     const navigate = useNavigate();
+    const fileInputRef = useRef(null); // Reference to the file input element
 
     const [storicoSegnalazioniVisibile, setStoricoSegnalazioniVisibile] = useState(false);
     const [aggiungiLicenzaVisibile, setAggiungiLicenzaVisibile] = useState(false);
@@ -129,6 +130,7 @@ export default function ProfiloCISO(props) {
 
     const handleFileUpload = async () => {
         if (!validateFILE()) {
+            fileInputRef.current.click(); // Trigger the file input click if no file is selected
             return;
         }
 
@@ -266,6 +268,7 @@ export default function ProfiloCISO(props) {
                                                 type="file"
                                                 onChange={handleFileChange}
                                                 style={{ display: 'block', marginBottom: '0.5%', marginTop: "5%" }}
+                                                ref={fileInputRef} // Attach the ref to the file input
                                             />
                                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                                 <Button variant="contained" color="secondary" onClick={InserisciLicenza}
