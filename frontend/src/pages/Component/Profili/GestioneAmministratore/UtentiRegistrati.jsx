@@ -284,7 +284,7 @@ export default function ReactVirtualizedTable({token}) {
                 open={openDialog}
                 onClose={() => setOpenDialog(false)}
             >
-                <DialogTitle>Conferma Eliminazione</DialogTitle>
+                <DialogTitle>Conferma eliminazione</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         Sei sicuro di voler eliminare definitivamente questo profilo?<br/>
