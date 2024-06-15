@@ -161,7 +161,8 @@ export default function GestioneAmministratore({token}) {
                                     </Card>}
                                 </CardContent>
                                 {aggiungiProfiloVisibile && (
-                                    <Card sx={{mb: 3}}>
+
+
                                         <CardContent>
                                             <Typography variant="h6">Aggiungi Profilo</Typography>
                                             <form onSubmit={registrami}>
@@ -200,23 +201,16 @@ export default function GestioneAmministratore({token}) {
                                             )}
                                             {error && <Alert severity="error" sx={{mt: 2}}>{error}</Alert>}
                                         </CardContent>
-                                    </Card>
                                 )}
 
                                 {utentiVisibile && (
-                                    <Card style={{height: '480px'}}>
-                                        <Typography variant="h6" style={{textAlign: 'center'}}>Lista Utenti
-                                            Registrati</Typography>
                                         <UtentiRegistrati token={token}/>
-                                    </Card>
-
                                 )}
+                                <CardContent>
                                 {feedbackVisibile && (
-                                    <Card>
-                                        <Typography variant="h6" style={{textAlign: 'center'}}>Feedback</Typography>
                                         <StoricoFeedback ruolo={profilo?.ruolo} token={token}/>
-                                    </Card>
                                 )}
+                                    </CardContent>
 
                             </Card>
                         </Grid>
