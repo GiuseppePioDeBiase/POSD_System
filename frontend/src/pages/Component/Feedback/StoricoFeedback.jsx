@@ -10,12 +10,8 @@ import { TableVirtuoso } from 'react-virtuoso';
 import PropTypes from 'prop-types';
 import axios from "axios";
 
+
 const columns = [
-    {
-        width: 40,
-        label: 'Email',
-        dataKey: 'mail',
-    },
     {
         width: 40,
         label: 'Oggetto',
@@ -26,11 +22,11 @@ const columns = [
         label: 'Messaggio',
         dataKey: 'messaggio',
     },
-    {
+      {
         width: 40,
-        label: 'Data modifica',
-        dataKey: 'data_ora_modifica',
-    }
+        label: 'Data e Ora',
+        dataKey: 'data_ora',
+    },
 ];
 const columnsUR = [
     {
@@ -43,6 +39,12 @@ const columnsUR = [
         label: 'Messaggio',
         dataKey: 'messaggio',
     },
+      {
+        width: 40,
+        label: 'Data e Ora',
+        dataKey: 'data_ora',
+    },
+
 
 ];
 const VirtuosoTableComponents = {
@@ -68,7 +70,7 @@ VirtuosoTableComponents.TableRow.propTypes = {
 };
 
 function fixedHeaderContent(ruolo) {
-    const scelta = ruolo === 'Amministratore di sistema' ? columns : columnsUR;
+    const scelta = ruolo === 'Utente' ? columnsUR : columns;
     return (
         <TableRow>
             {scelta.map((column) => (
@@ -89,7 +91,8 @@ function fixedHeaderContent(ruolo) {
 }
 
 function rowContent(_index, row, ruolo) {
-    const scelta = ruolo === 'Amministratore di sistema' ? columns : columnsUR;
+
+    const scelta = ruolo === 'Utente' ? columnsUR : columns;
     return (
         <React.Fragment>
             {scelta.map((column) => (
@@ -123,7 +126,6 @@ export default function ReactVirtualizedTable({token, ruolo}) {
                     endpoint = 'feedbackutente';
                     break;
                 case 'Amministratore di sistema':
-                default:
                     endpoint = 'allfeedback';
                     break;
             }

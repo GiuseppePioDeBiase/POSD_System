@@ -109,7 +109,6 @@ export default function ReactVirtualizedTable({token,ruolo}) {
             endpoint = 'storicociso';
             break;
         case 'Utente':
-        default:
             endpoint = 'storicoutente';
             break;
     }

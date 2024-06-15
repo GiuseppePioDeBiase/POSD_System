@@ -225,7 +225,7 @@ export default function ProfiloCISO(props) {
                                     Segnalazioni
                                 </Button>
                                 <Button variant="contained" color="warning" onClick={Storico}
-                                    sx={{ mb: 2, width: '100%', maxWidth: '300px' }}>
+                                    sx={{ width: '100%', maxWidth: '300px' }}>
                                     Storico Segnalazioni
                                 </Button>
                             </Box>
@@ -263,23 +263,11 @@ export default function ProfiloCISO(props) {
                             <Card sx={{ mb: 4 }}>
                                 <CardContent>
 
-                                    {segnalazioniVisibile && (<SetSegnalazioni token={props.token}  ruolo={profilo.ruolo}/>)}
+                                    {segnalazioniVisibile && (<SetSegnalazioni token={props.token} ruolo={profilo.ruolo} />)}
                                     {storicoSegnalazioniVisibile &&
                                         <StoricoSegnalazioni token={props.token} ruolo={profilo.ruolo} />}
                                     {aggiungiLicenzaVisibile && (
                                         <Box>
-                                            {file && (
-                                                      <Box mt={2}>
-                                                    <Typography variant="subtitle2">Nome
-                                                        file: {licenzaNome}</Typography>
-                                                    {fileUrl && (
-                                                        <Button variant="contained" color="primary"
-                                                            onClick={handleFileDownload} sx={{ mt: 1 }}>
-                                                            Scarica Licenza
-                                                        </Button>
-                                                    )}
-                                                </Box>
-                                            )}
                                             <input
                                                 type="file"
                                                 onChange={handleFileChange}
@@ -290,9 +278,16 @@ export default function ProfiloCISO(props) {
                                                     sx={{ mr: 2 }}>
                                                     Annulla
                                                 </Button>
-                                                <Button variant="contained" color="success" onClick={handleFileUpload}>
+                                                <Button variant="contained" color="success" onClick={handleFileUpload}
+                                                    sx={{ mr: 2 }}>
                                                     Carica Licenza
                                                 </Button>
+                                                {fileUrl && (
+                                                    <Button variant="contained" color="primary"
+                                                        onClick={handleFileDownload}>
+                                                        Scarica Licenza
+                                                    </Button>
+                                                )}
                                             </Box>
                                         </Box>
                                     )}

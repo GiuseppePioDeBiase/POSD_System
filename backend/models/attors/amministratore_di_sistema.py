@@ -113,18 +113,15 @@ class AmministratoreDiSistema(Utente):
         try:
             from backend.models.message_reporting.feedback import feedbackCollection
 
-            feedback_utenti = feedbackCollection.find({}, {
+            feedback_utenti = list(feedbackCollection.find({}, {
                 "_id": False,
                 "oggetto": True,
                 "messaggio": True,
                 "data_ora": True,
                 "mail": True
-            })
+            }))
 
-            return jsonify({
-                "successo": True,
-                "feedback": list(feedback_utenti)
-            }), 200
+            return jsonify(feedback_utenti), 200
 
         except Exception as e:
             return jsonify({

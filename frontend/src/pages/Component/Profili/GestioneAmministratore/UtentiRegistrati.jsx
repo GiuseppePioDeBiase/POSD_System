@@ -10,6 +10,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import {TableVirtuoso} from 'react-virtuoso';
 
 const columns = [
@@ -68,29 +73,26 @@ VirtuosoTableComponents.TableRow.propTypes = {
 };
 
 function fixedHeaderContent() {
-  return (
-    <TableRow>
-      {columns.map((column) => (
-        <TableCell
-          key={column.dataKey}
-          variant="head"
-          align="left"
-          style={{ width: column.width }}
-          sx={{
-            backgroundColor: 'background.paper',
-            cursor: 'pointer', // Aggiungi il puntatore al passaggio del mouse
-          }}
-
-        >
-          {column.label}
-        </TableCell>
-      ))}
-    </TableRow>
-  );
+    return (
+        <TableRow>
+            {columns.map((column) => (
+                <TableCell
+                    key={column.dataKey}
+                    variant="head"
+                    align="left"
+                    style={{ width: column.width }}
+                    sx={{
+                        backgroundColor: 'background.paper',
+                        cursor: 'pointer', // Aggiungi il puntatore al passaggio del mouse
+                    }}
+                    onClick={() => handleSort(column.dataKey)}
+                >
+                    {column.label}
+                </TableCell>
+            ))}
+        </TableRow>
+    );
 }
-
-
-
 
 function rowContent(index, row, handleCheckboxChange, selectedRow) {
     const isSelected = selectedRow === row.id;
@@ -137,7 +139,7 @@ export default function ReactVirtualizedTable({token}) {
     const [selectedRoles, setSelectedRoles] = useState([]);
     const [orderBy, setOrderBy] = useState('nome'); // Campo su cui ordinare di default
     const [order, setOrder] = useState('asc'); // Direzione di default
-
+    const [openDialog, setOpenDialog] = useState(false); // State for dialog
 
     useEffect(() => {
         const fetchData = async () => {
@@ -158,30 +160,33 @@ export default function ReactVirtualizedTable({token}) {
 
         fetchData();
     }, [token]);
-const sortData = (field, direction) => {
-  const sortedData = [...users].sort((a, b) => {
-    const fieldA = a[field].toUpperCase(); // Ignora maiuscole/minuscole
-    const fieldB = b[field].toUpperCase();
 
-    let comparison = 0;
-    if (fieldA > fieldB) {
-      comparison = 1;
-    } else if (fieldA < fieldB) {
-      comparison = -1;
-    }
+    const sortData = (field, direction) => {
+        const sortedData = [...users].sort((a, b) => {
+            const fieldA = a[field].toUpperCase(); // Ignora maiuscole/minuscole
+            const fieldB = b[field].toUpperCase();
 
-    return direction === 'asc' ? comparison : -comparison;
-  });
+            let comparison = 0;
+            if (fieldA > fieldB) {
+                comparison = 1;
+            } else if (fieldA < fieldB) {
+                comparison = -1;
+            }
 
-  setUsers(sortedData);
-};
-const handleSort = (field) => {
-  const isAsc = orderBy === field && order === 'asc';
-  const newOrder = isAsc ? 'desc' : 'asc';
-  setOrder(newOrder);
-  setOrderBy(field);
-  sortData(field, newOrder);
-};
+            return direction === 'asc' ? comparison : -comparison;
+        });
+
+        setUsers(sortedData);
+    };
+
+    const handleSort = (field) => {
+        const isAsc = orderBy === field && order === 'asc';
+        const newOrder = isAsc ? 'desc' : 'asc';
+        setOrder(newOrder);
+        setOrderBy(field);
+        sortData(field, newOrder);
+    };
+
     const handleCheckboxChange = (id) => {
         setSelectedRow(id === selectedRow ? null : id);
     };
@@ -211,6 +216,8 @@ const handleSort = (field) => {
             setMessage(response.data.message); // Imposta il messaggio dal backend
         } catch (error) {
             setMessage(error.response?.data?.message || "Errore durante la rimozione dell'utente."); // Imposta il messaggio di errore dal backend
+        } finally {
+            setOpenDialog(false); // Close dialog after operation
         }
     };
 
@@ -219,52 +226,70 @@ const handleSort = (field) => {
 
     const filteredUsers = users.filter(user => selectedRoles.length === 0 || selectedRoles.includes(user.ruolo));
 
-   return (
-       <Paper style={{height: 500, width: '100%', padding: '16px'}}>
+    return (
+        <Paper style={{height: 400, width: '100%', padding: '16px'}} elevation={0}>
+            <Checkbox
+                checked={selectedRoles.includes('Amministratore di sistema')}
+                onChange={() => handleRoleCheckboxChange('Amministratore di sistema')}
+            /> Amministratore di sistema
+            <Checkbox
+                checked={selectedRoles.includes('CISO')}
+                onChange={() => handleRoleCheckboxChange('CISO')}
+            /> CISO
+            <Checkbox
+                checked={selectedRoles.includes('Utente')}
+                onChange={() => handleRoleCheckboxChange('Utente')}
+            /> Utente
+            <Button
+                variant="contained"
+                onClick={() => handleSort(orderBy)}
+                style={{marginLeft: '16px'}}
+            >
+                Ordina per {orderBy} {order === 'asc' ? '↓' : '↑'}
+            </Button>
 
-           <Checkbox
-               checked={selectedRoles.includes('Amministratore di sistema')}
-               onChange={() => handleRoleCheckboxChange('Amministratore di sistema')}
-           /> Amministratore di sistema
-           <Checkbox
-               checked={selectedRoles.includes('CISO')}
-               onChange={() => handleRoleCheckboxChange('CISO')}
-           /> CISO
-           <Checkbox
-               checked={selectedRoles.includes('Utente')}
-               onChange={() => handleRoleCheckboxChange('Utente')}
-           /> Utente
-               <Button
-                   variant="contained"
-                   onClick={() => handleSort(orderBy)}
-                   style={{marginLeft: '16px'}}
-               >
-                   Ordina per {orderBy} {order === 'asc' ? '↓' : '↑'}
-               </Button>
+            <TableVirtuoso
+                data={filteredUsers}
+                components={VirtuosoTableComponents}
+                fixedHeaderContent={fixedHeaderContent}
+                itemContent={(index, row) => rowContent(index, row, handleCheckboxChange, selectedRow)}
+            />
 
-           <TableVirtuoso
-               data={filteredUsers}
-               components={VirtuosoTableComponents}
-               fixedHeaderContent={fixedHeaderContent}
-               itemContent={(index, row) => rowContent(index, row, handleCheckboxChange, selectedRow, selectedRoles, handleRoleCheckboxChange)}
-           />
+            {selectedRow !== null && (
+                <>
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => setOpenDialog(true)}
+                        sx={{mt: 1, mr: 2}}
+                    >
+                        Rimuovi Profilo
+                    </Button>
+                    {message && <div>{message}</div>} {/* Visualizza il messaggio */}
+                </>
+            )}
 
-           {selectedRow !== null && (
-               <>
-                   <Button
-                       variant="contained"
-                       color="error"
-                       onClick={handleRemoveProfile}
-                       sx={{mt: 2, mr: 2}}
-                   >
-                       Rimuovi Profilo
-                   </Button>
-                   {message && <div>{message}</div>} {/* Visualizza il messaggio */}
-               </>
-           )}
-       </Paper>
-   );
-
+            <Dialog
+                open={openDialog}
+                onClose={() => setOpenDialog(false)}
+            >
+                <DialogTitle>Conferma Eliminazione</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Sei sicuro di voler eliminare definitivamente questo profilo? Questa azione non può essere annullata.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenDialog(false)} color="primary">
+                        Annulla
+                    </Button>
+                    <Button onClick={handleRemoveProfile} color="error">
+                        Elimina
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </Paper>
+    );
 }
 
 ReactVirtualizedTable.propTypes = {
