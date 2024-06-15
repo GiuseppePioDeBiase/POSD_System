@@ -246,13 +246,10 @@ export default function ProfiloCISO(props) {
                                     <hr />
                                 </Grid>
                                 <Grid item xs={12} md={3}>
-                                    <Typography variant="subtitle1">Licenza</Typography>
+                                      <Typography variant="subtitle1">Licenza</Typography>
                                 </Grid>
                                 <Grid item xs={12} md={9}>
                                     <Typography variant="body1" color="text.secondary">{licenzaNome}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <hr />
                                 </Grid>
                             </Grid>
                         </CardContent>
@@ -262,7 +259,6 @@ export default function ProfiloCISO(props) {
                         <Grid item xs={12}>
                             <Card sx={{ mb: 4 }}>
                                 <CardContent>
-
                                     {segnalazioniVisibile && (<SetSegnalazioni token={props.token} ruolo={profilo.ruolo} />)}
                                     {storicoSegnalazioniVisibile &&
                                         <StoricoSegnalazioni token={props.token} ruolo={profilo.ruolo} />}
