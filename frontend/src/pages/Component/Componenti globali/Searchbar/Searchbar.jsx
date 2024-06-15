@@ -23,7 +23,7 @@ function Searchbar() {
             <div className="input-group input-group-lg col-sm-8 col-md-6 col-lg-4 mx-auto">
                 <div className="input-group-prepend">
                     <Link to="/" className="input-group-text logo">
-                        <img src="logo.png" alt="Logo" />
+                        <img src="/logo.png" alt="Logo" />
                     </Link>
                 </div>
                 <input
