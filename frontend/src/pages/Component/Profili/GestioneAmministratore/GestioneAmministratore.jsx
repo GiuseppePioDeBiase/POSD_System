@@ -103,7 +103,6 @@ export default function GestioneAmministratore({token}) {
                                     src={avatar}
                                     sx={{width: 150, height: 150, mx: 'auto', mb: 4}}
                                 />
-
                             </Box>
                             <Typography variant="h6" gutterBottom>{getWelcomeMessage(profilo?.genere)}</Typography>
                             <Typography variant="h4" gutterBottom>{profilo?.nome}</Typography>
@@ -144,69 +143,62 @@ export default function GestioneAmministratore({token}) {
                         </CardContent>
                     </Card>
 
-                    <Grid item xs={12}>
+                    <Card sx={{mb: 3}}>
+                        {segnalazioniVisibile &&
+                            <SetSegnalazioni token={token} ruolo={profilo.ruolo}/>
+                        }
+                    </Card>
+
+                    {aggiungiProfiloVisibile && (
                         <Card sx={{mb: 3}}>
                             <CardContent>
-                                {segnalazioniVisibile &&
-                                    <SetSegnalazioni token={token} ruolo={profilo.ruolo}/>
-                                }
-                            </CardContent>
-                            {aggiungiProfiloVisibile && (
-                                <CardContent>
-                                    <Typography variant="h6">Aggiungi Profilo</Typography>
-                                    <form onSubmit={registrami}>
-                                        <TextField label="Nome" name="nome" value={registrazioneForm.nome}
-                                                   onChange={handleChange} fullWidth sx={{mb: 2}}/>
-                                        <TextField label="Cognome" name="cognome"
-                                                   value={registrazioneForm.cognome}
-                                                   onChange={handleChange} fullWidth sx={{mb: 2}}/>
-                                        <TextField label="Email" name="email"
-                                                   value={registrazioneForm.email}
-                                                   onChange={handleChange} fullWidth sx={{mb: 2}}/>
-                                        <TextField label="Password" name="password" type="password"
-                                                   value={registrazioneForm.password}
-                                                   onChange={handleChange}
-                                                   fullWidth sx={{mb: 2}}/>
-                                        <TextField select label="Genere" name="genere"
-                                                   value={registrazioneForm.genere}
-                                                   onChange={handleChange} fullWidth sx={{mb: 2}}>
-                                            <MenuItem value="Uomo">Uomo</MenuItem>
-                                            <MenuItem value="Donna">Donna</MenuItem>
-                                            <MenuItem value="Anonimo">Anonimo</MenuItem>
-                                        </TextField>
-                                        <TextField select label="Ruolo" name="ruolo"
-                                                   value={registrazioneForm.ruolo}
-                                                   onChange={handleChange} fullWidth sx={{mb: 2}}>
-                                            <MenuItem value="CISO">CISO</MenuItem>
-                                            <MenuItem value="Amministratore di sistema">Amministratore di
-                                                Sistema</MenuItem>
-                                        </TextField>
-                                        <Button variant="contained" color="warning"
-                                                type="submit">Registrati</Button>
-                                    </form>
-                                    {registrazioneSuccess && (
-                                        <Alert severity="success" sx={{mt: 2}}>Registrazione avvenuta con
-                                            successo!</Alert>
-                                    )}
-                                    {error && <Alert severity="error" sx={{mt: 2}}>{error}</Alert>}
-                                </CardContent>
-                            )}
-
-                            {utentiVisibile && (
-                                <UtentiRegistrati token={token}/>
-                            )}
-                            <CardContent>
-                                {feedbackVisibile && (
-                                    <StoricoFeedback ruolo={profilo?.ruolo} token={token}/>
+                                <Typography variant="h6">Aggiungi Profilo</Typography>
+                                <form onSubmit={registrami}>
+                                    <TextField label="Nome" name="nome" value={registrazioneForm.nome}
+                                               onChange={handleChange} fullWidth sx={{mb: 2}}/>
+                                    <TextField label="Cognome" name="cognome"
+                                               value={registrazioneForm.cognome}
+                                               onChange={handleChange} fullWidth sx={{mb: 2}}/>
+                                    <TextField label="Email" name="email"
+                                               value={registrazioneForm.email}
+                                               onChange={handleChange} fullWidth sx={{mb: 2}}/>
+                                    <TextField label="Password" name="password" type="password"
+                                               value={registrazioneForm.password}
+                                               onChange={handleChange}
+                                               fullWidth sx={{mb: 2}}/>
+                                    <TextField select label="Genere" name="genere"
+                                               value={registrazioneForm.genere}
+                                               onChange={handleChange} fullWidth sx={{mb: 2}}>
+                                        <MenuItem value="Uomo">Uomo</MenuItem>
+                                        <MenuItem value="Donna">Donna</MenuItem>
+                                        <MenuItem value="Anonimo">Anonimo</MenuItem>
+                                    </TextField>
+                                    <TextField select label="Ruolo" name="ruolo"
+                                               value={registrazioneForm.ruolo}
+                                               onChange={handleChange} fullWidth sx={{mb: 2}}>
+                                        <MenuItem value="CISO">CISO</MenuItem>
+                                        <MenuItem value="Amministratore di sistema">Amministratore di Sistema</MenuItem>
+                                    </TextField>
+                                    <Button variant="contained" color="warning" type="submit">Registrati</Button>
+                                </form>
+                                {registrazioneSuccess && (
+                                    <Alert severity="success" sx={{mt: 2}}>Registrazione avvenuta con successo!</Alert>
                                 )}
+                                {error && <Alert severity="error" sx={{mt: 2}}>{error}</Alert>}
                             </CardContent>
                         </Card>
-                    </Grid>
+                    )}
+
+                    <Card>
+                        {utentiVisibile && <UtentiRegistrati token={token}/>}
+                        {feedbackVisibile && <StoricoFeedback ruolo={profilo?.ruolo} token={token}/>}
+                    </Card>
                 </Grid>
             </Grid>
         </Container>
     );
-}
+};
+
 
 GestioneAmministratore.propTypes = {
     token: PropTypes.string.isRequired
