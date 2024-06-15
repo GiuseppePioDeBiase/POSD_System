@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import InserisciSegnalazione from './GestioneSegnalazione/InserisciSegnalazione.jsx';
 
@@ -6,10 +6,12 @@ const PatternDetail = ({ pattern, props, ruolo, handleBackClick }) => {
     const [showFeedbackForm, setShowFeedbackForm] = useState(false);
     const [error, setError] = useState('');
     const [showError, setShowError] = useState(false);
+    const [showLoginMessage, setShowLoginMessage] = useState(false);
 
     const toggleFeedbackForm = () => {
         if (!props) {
-            // Esempio di navigazione o gestione dell'accesso in caso di props non definite
+            setShowLoginMessage(true);
+            setTimeout(() => setShowLoginMessage(false), 3000);  // Hide after 3 seconds
             return;
         }
 
@@ -19,11 +21,16 @@ const PatternDetail = ({ pattern, props, ruolo, handleBackClick }) => {
             return;
         }
 
-        setShowFeedbackForm(!showFeedbackForm);  // Inverti lo stato di visualizzazione del form
+        setShowFeedbackForm(!showFeedbackForm);  // Toggle the feedback form visibility
     };
 
     return (
         <div className="max-w-7xl mx-auto p-4">
+            {showLoginMessage && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span className="block sm:inline">Devi essere registrato e loggato per poter effettuare una segnalazione.</span>
+                </div>
+            )}
             {pattern.Pattern && (
                 <div className="bg-white shadow-md rounded-lg p-4 mb-4">
                     <div className="flex items-center mb-4">
@@ -35,7 +42,7 @@ const PatternDetail = ({ pattern, props, ruolo, handleBackClick }) => {
                         </button>
                         <h1 className="text-2xl font-bold text-center flex-grow">{pattern.Pattern}</h1>
                         <button
-                            onClick={toggleFeedbackForm}  // Gestisci il click per aprire/chiudere il form
+                            onClick={toggleFeedbackForm}  // Handle the click to open/close the form
                             className="text-black font-bold bg-transparent border-none"
                         >
                             Segnala
@@ -44,7 +51,7 @@ const PatternDetail = ({ pattern, props, ruolo, handleBackClick }) => {
                 </div>
             )}
             {showError && <p className="text-center font-bold" style={{ color: 'red' }}>{error}</p>}
-            {/* Mostra il form solo se showFeedbackForm è true */}
+            {/* Show the form only if showFeedbackForm is true */}
             {showFeedbackForm && (
                 <InserisciSegnalazione onClose={() => setShowFeedbackForm(false)} token={props} titolo={pattern.Pattern} />
             )}
