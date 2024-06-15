@@ -97,6 +97,7 @@ function rowContent(_index, row) {
   );
 }
 
+
 export default function ReactVirtualizedTable({ token, ruolo }) {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -104,6 +105,7 @@ export default function ReactVirtualizedTable({ token, ruolo }) {
   const [selectedRoles, setSelectedRoles] = useState([]);
   const [orderBy, setOrderBy] = useState('data_ora_modifica'); // Campo su cui ordinare di default
   const [order, setOrder] = useState('asc'); // Direzione di default
+
 
   const handleRoleCheckboxChange = (role) => {
     if (selectedRoles.includes(role)) {

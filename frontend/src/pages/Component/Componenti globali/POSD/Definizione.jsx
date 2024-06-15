@@ -12,7 +12,7 @@ const Definizione = ({props,ruolo}) => {
     const pattern = location.state || {};
 
     const [showFeedbackForm, setShowFeedbackForm] = useState(false);
-    const [ setError] = useState('');
+
 
     const handleBackClick = () => {
         navigate('/POSD');
